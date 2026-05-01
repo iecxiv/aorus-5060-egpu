@@ -139,12 +139,24 @@ if [[ "$bound_driver" != "nvidia" ]]; then
     exit 5
 fi
 
+# Pre-load nvidia_uvm before any CUDA process can run.
+#
+# Why: cuInit() ensures nvidia_uvm is loaded as part of CUDA initialization.
+# Our compute-only modprobe config has 'install nvidia_uvm /bin/false' to block
+# spurious auto-loads, which means cuInit's modprobe call would fail. A failed
+# cuInit on this stack does not return cleanly - it leaves the device in a
+# partial-init state that has caused delayed kernel panics. Pre-loading here
+# (with --ignore-install to bypass our own block) means cuInit always finds
+# nvidia_uvm already present and never has to invoke modprobe.
+modprobe --ignore-install nvidia_uvm
+
 # Restore the manual override now that we have bound on purpose; this prevents
 # any future udev re-add from auto-binding the device to a different driver.
 set_attr "$gpu_dev/driver_override" aorus_5090_manual
 trap - EXIT
 
 echo "RTX 5090 is bound to the base nvidia driver."
+echo "nvidia_uvm is loaded (pre-staged for CUDA)."
 if [[ "${AORUS_5090_DISABLE_GSP:-0}" == "1" ]]; then
     echo "NVIDIA GSP firmware was disabled for this bind attempt."
 fi

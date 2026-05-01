@@ -5,22 +5,36 @@
 # audio function appears or binds. Compute-only operation does not need HDMI
 # audio, and an active snd_hda_intel binding has historically caused extra
 # device probes during early boot.
-
-set -uo pipefail
+#
+# Always exits 0. Best-effort: at boot the udev 'add' event can fire before
+# all sysfs attributes are populated; rather than logging a failure, we just
+# do what we can and exit cleanly. The other guards (driver_override on the
+# device, modprobe block on snd_hda_intel) handle the cases this misses.
 
 dev_name="${1:-0000:04:00.1}"
 dev="/sys/bus/pci/devices/$dev_name"
 
-[[ -d "$dev" ]] || exit 0
-[[ -r "$dev/vendor" && -r "$dev/device" ]] || exit 0
-[[ "$(<"$dev/vendor")" == "0x10de" && "$(<"$dev/device")" == "0x22e8" ]] || exit 0
+if [[ ! -d "$dev" ]]; then
+    exit 0
+fi
+
+vendor=""
+device=""
+[[ -r "$dev/vendor" ]] && vendor=$(<"$dev/vendor" 2>/dev/null)
+[[ -r "$dev/device" ]] && device=$(<"$dev/device" 2>/dev/null)
+
+# Only act on the AORUS audio function. If sysfs isn't populated yet, vendor
+# or device will be empty and we'll fall through cleanly.
+if [[ "$vendor" != "0x10de" || "$device" != "0x22e8" ]]; then
+    exit 0
+fi
 
 if [[ -w "$dev/driver_override" ]]; then
-    printf '%s\n' aorus_5090_disabled > "$dev/driver_override" || true
+    printf '%s\n' aorus_5090_disabled > "$dev/driver_override" 2>/dev/null || true
 fi
 
 if [[ -L "$dev/driver" && -w "$dev/driver/unbind" ]]; then
-    printf '%s\n' "$dev_name" > "$dev/driver/unbind" || true
+    printf '%s\n' "$dev_name" > "$dev/driver/unbind" 2>/dev/null || true
 fi
 
 exit 0
