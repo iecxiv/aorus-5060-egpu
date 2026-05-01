@@ -130,7 +130,10 @@ remove_if_exists /usr/local/sbin/aorus-5090-collect-pci-layout
 remove_if_exists /usr/local/bin/aorus-5090-compute-load-nvidia
 remove_if_exists /usr/local/bin/aorus-5090-collect-pci-layout
 remove_if_exists /usr/local/bin/aorus-5090-disable-audio
-# Keep /usr/local/bin/aorus-5090-status as a non-root-PATH convenience symlink:
+# Keep /usr/local/bin/aorus-5090-status as a non-root-PATH convenience symlink.
+# Force-replace whatever was there (could be a hardlink, a symlink to elsewhere,
+# or a stale copy of the file).
+rm -f /usr/local/bin/aorus-5090-status
 ln -sfn /usr/local/sbin/aorus-5090-status /usr/local/bin/aorus-5090-status
 printf '  /usr/local/bin/aorus-5090-status -> /usr/local/sbin/aorus-5090-status\n'
 
