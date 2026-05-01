@@ -202,14 +202,24 @@ if ! lsmod | grep -q '^nvidia '; then
     fi
 fi
 
-if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]] \
-        && ! pgrep -f '^/usr/bin/nvidia-persistenced' >/dev/null; then
-    if systemctl is-active nvidia-persistenced.service >/dev/null 2>&1; then
-        printf '  nvidia-persistenced.service is active\n'
-    else
-        printf '  starting nvidia-persistenced.service\n'
-        systemctl start nvidia-persistenced.service || true
-    fi
+# Persistenced may already be running outside systemd (manually started during
+# diagnostic work). Detect that and DO NOT try to start the systemd unit on top
+# of it: starting a second instance fails on the pid file lock, AND the unit's
+# default ExecStopPost wipes /var/run/nvidia-persistenced even on failure,
+# leaving the running daemon's runtime directory missing. Reboot is the clean
+# alignment - systemd takes over from boot.
+if [[ ! -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
+    : # eGPU not present; nothing to start
+elif pgrep -x nvidia-persiste >/dev/null \
+        && ! systemctl is-active nvidia-persistenced.service >/dev/null 2>&1; then
+    yellow "  nvidia-persistenced is running OUTSIDE systemd (manual start)."
+    yellow "  Skipping systemctl start to avoid pid-file lock conflict."
+    yellow "  Reboot when convenient - systemd will manage persistenced from boot."
+elif systemctl is-active nvidia-persistenced.service >/dev/null 2>&1; then
+    printf '  nvidia-persistenced.service is active\n'
+else
+    printf '  starting nvidia-persistenced.service\n'
+    systemctl start nvidia-persistenced.service || true
 fi
 
 # --------------------------------------------------------------- final check -

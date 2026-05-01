@@ -107,17 +107,28 @@ done
 show_pci_function GPU "$gpu_dev"
 show_pci_function HDMI_audio "$audio_dev"
 
-# nvidia-persistenced status (load-bearing for repeatable nvidia-smi)
+# nvidia-persistenced status (load-bearing for repeatable nvidia-smi).
+# Use pidfile if present, fall back to pgrep so we still detect a
+# manually-started daemon even if its runtime directory was removed.
 printf 'nvidia-persistenced: '
-if pid_file=/var/run/nvidia-persistenced/nvidia-persistenced.pid && [[ -r "$pid_file" ]]; then
+pid=""
+pid_file=/var/run/nvidia-persistenced/nvidia-persistenced.pid
+if [[ -r "$pid_file" ]]; then
     pid=$(<"$pid_file")
-    if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
-        nvidia0_fds=$(ls -1 /proc/"$pid"/fd 2>/dev/null \
-            | xargs -I{} readlink /proc/"$pid"/fd/{} 2>/dev/null \
-            | grep -c '^/dev/nvidia0$' || true)
-        printf 'running (pid=%s, %s fds on /dev/nvidia0)\n' "$pid" "$nvidia0_fds"
+fi
+if [[ -z "$pid" ]] || ! kill -0 "$pid" 2>/dev/null; then
+    pid=$(pgrep -x nvidia-persiste | head -1 || true)
+fi
+
+if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+    nvidia0_fds=$(ls -1 /proc/"$pid"/fd 2>/dev/null \
+        | xargs -I{} readlink /proc/"$pid"/fd/{} 2>/dev/null \
+        | grep -c '^/dev/nvidia0$' || true)
+    started_via=$(systemctl is-active nvidia-persistenced.service 2>/dev/null || true)
+    if [[ "$started_via" == "active" ]]; then
+        printf 'running via systemd (pid=%s, %s fds on /dev/nvidia0)\n' "$pid" "$nvidia0_fds"
     else
-        printf 'pid file present but process not running (stale)\n'
+        printf 'running outside systemd (pid=%s, %s fds on /dev/nvidia0) - reboot to align with systemd\n' "$pid" "$nvidia0_fds"
     fi
 else
     printf 'NOT running (nvidia-smi will freeze on second invocation)\n'
