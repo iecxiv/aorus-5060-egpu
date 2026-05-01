@@ -1,0 +1,10 @@
+2026-05-01 19:42:33 AEST started
+2026-05-01 19:42:33 AEST captured pre-test state
+2026-05-01 19:42:33 AEST preconditions ok
+2026-05-01 19:42:33 AEST before smoke test
+2026-05-01 19:42:34 AEST after smoke test, rc=0
+2026-05-01 19:42:36 AEST captured post nvidia-smi
+2026-05-01 19:42:36 AEST captured post-test state
+2026-05-01 19:42:36 AEST PASSED
+2026-05-01 19:42:36 AEST idle 30s for delayed-panic detection
+2026-05-01 19:43:06 AEST idle complete - EXIT trap will restore graphical.target

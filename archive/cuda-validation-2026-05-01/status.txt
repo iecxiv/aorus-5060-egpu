@@ -1,0 +1,2 @@
+aorus-cuda-tty-test PASSED
+smoke_rc=0

@@ -44,6 +44,31 @@ The freeze fingerprint on this hardware is: full system lock, fans ramp to full,
 
 ## Diagnostic (host is responsive)
 
+### CUDA / Python program returned `CUDA_ERROR_UNKNOWN` or `cuInit=999`
+
+This is the failure mode that historically caused **delayed kernel panics** on this stack. The trigger is `cuInit` trying to load `nvidia_uvm` and failing because of our compute-only modprobe blocks.
+
+If you see this:
+
+1. **Do not run any further CUDA / NVML calls.** The GPU is in a partial-init state and may panic the host minutes later.
+2. Check whether `nvidia_uvm` is loaded:
+
+   ```bash
+   lsmod | grep nvidia_uvm
+   ```
+
+   If absent, that is the cause. The loader is supposed to pre-load it at boot.
+
+3. Reboot. Do not try to fix it live - the partial-init state may already have set up a panic trigger.
+4. After reboot, run `sudo aorus-5090-status` and confirm `nvidia_uvm: loaded`. If it is not, the loader did not run or did not get past binding. Check the bind service:
+
+   ```bash
+   sudo systemctl status aorus-5090-compute-load-nvidia.service
+   sudo journalctl -u aorus-5090-compute-load-nvidia.service -b
+   ```
+
+5. If diagnostic CUDA runs need to happen even with `nvidia_uvm` somehow not loaded, use `tools/tty-cuda-test.sh` which refuses to start without the precondition met.
+
 ### `nvidia-smi` hangs but the rest of the system is fine
 
 This should not happen with persistenced running. If it does, persistenced is probably dead. Do NOT run another `nvidia-smi` - the second invocation will freeze the host. Instead:
@@ -78,6 +103,7 @@ Read the output:
 | `GPU driver: none` | compute-load service did not run, or failed | `sudo systemctl status aorus-5090-compute-load-nvidia.service`, check journal |
 | `BAR1: ... (less than 32 GiB)` | Thunderbolt host-router reset trashed the layout | Should not happen with `host_reset=false`. Verify boot args, cold boot with eGPU connected |
 | `nvidia-persistenced: NOT running` | Persistenced did not start, or died | `sudo systemctl status nvidia-persistenced.service`, check journal. If it's dead and `nvidia` is loaded, reboot rather than restart |
+| `nvidia_uvm: NOT loaded` | Loader did not pre-stage uvm, or it was unloaded | Reboot. Loader should re-stage on boot. If persistent, check loader output via `journalctl -u aorus-5090-compute-load-nvidia.service`. Do NOT run CUDA programs in this state |
 | `card2: nvidia` (or similar) under `drm_cards` | `nvidia_drm` loaded; this should never happen | Reboot; if persistent, check that `aorus-5090-compute-only.conf` is in place |
 
 ### Fan stops, GPU heats up

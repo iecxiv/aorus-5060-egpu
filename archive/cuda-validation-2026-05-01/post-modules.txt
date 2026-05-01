@@ -1,0 +1,2 @@
+nvidia_uvm           4210688  0
+nvidia              15904768  6 nvidia_uvm

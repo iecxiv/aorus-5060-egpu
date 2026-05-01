@@ -1,0 +1,24 @@
+thunderbolt.host_reset: disabled (correct)
+modules:
+  nvidia: loaded
+  nvidia_uvm: loaded
+  nvidia_modeset: unloaded
+  nvidia_drm: unloaded
+GPU: 0000:04:00.0
+  driver: nvidia
+  power_state: D0
+  power_control: on
+  d3cold_allowed: 0
+  driver_override: aorus_5090_manual
+  BAR0: 0x0000000080000000-0x0000000083ffffff
+  BAR1: 0x0000004000000000-0x00000047ffffffff (32 GiB)
+  BAR1_resize_mask: 000000000000ffc0
+HDMI_audio: 0000:04:00.1
+  driver: none
+  power_state: D0
+  power_control: on
+  d3cold_allowed: 0
+  driver_override: aorus_5090_disabled
+nvidia-persistenced: running via systemd (pid=8107, 4 fds on /dev/nvidia0)
+drm_cards:
+  card1: i915

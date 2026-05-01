@@ -1,6 +1,21 @@
 # Future investigations
 
-The current configuration works but masks rather than fixes a real bug. This document captures the open threads that could remove the workaround dependency or feed an upstream fix. None of these is required for the system to operate.
+The current configuration works but masks rather than fixes two real bugs. This document captures the open threads that could remove the workaround dependencies or feed upstream fixes. None of these is required for the system to operate.
+
+## What's been validated
+
+- `nvidia-smi` repeats safely with persistenced holding `/dev/nvidia0` open.
+- CUDA Driver API smoke (full `cuInit -> cuMemAlloc -> cuMemcpyDtoH -> verify`) passes end-to-end with no leak. See `archive/cuda-validation-2026-05-01/`.
+- Loader pre-stages `nvidia_uvm` so `cuInit` never fails on modprobe.
+- Driver-managed thermal control active.
+
+## What's NOT yet validated
+
+- PyTorch tensor operations on CUDA. (Next step toward vLLM.)
+- vLLM model load + inference.
+- Long-running CUDA workloads that may exercise close paths we haven't seen.
+- Sustained high-power compute (heat behaviour).
+- Suspend / resume cycles with the eGPU connected.
 
 ## 1. NVreg_DynamicPowerManagement=0 test
 
@@ -34,9 +49,11 @@ The current configuration works but masks rather than fixes a real bug. This doc
 
 The loader script already has `AORUS_5090_DISABLE_NONBLOCKING_OPEN` and `AORUS_5090_DISABLE_GSP` env-var hooks; adding `AORUS_5090_DISABLE_DYNAMIC_PM` is a few lines.
 
-## 2. Upstream NVIDIA bug report
+## 2. Upstream NVIDIA bug reports
 
-The captured artifacts from the 2026-05-01 investigation are unusually well-prepared for an upstream report. The core data is sufficient to identify the bug without further freezes.
+There are now **two** distinct bugs to file, both well-characterised. Either can be filed independently; both are user-side reproducible without further freezes on this hardware.
+
+### Bug A: Kernel hangs in `open()` of `/dev/nvidia0` on second open
 
 **Repository:** https://github.com/NVIDIA/open-gpu-kernel-modules
 
@@ -69,6 +86,32 @@ The captured artifacts from the 2026-05-01 investigation are unusually well-prep
 
 This bug report does not require any further freeze tests on the user's hardware. All the data already exists.
 
+### Bug B: Failed `cuInit` causes delayed kernel panic
+
+A separate bug, also reproducible without further freezes (we have the kernel log truncation evidence already).
+
+**Title (suggested):** Failed `cuInit()` leaves GPU in panic-prone state when `nvidia_uvm` modprobe is blocked; delayed kernel hard-lock on RTX 5090 over Thunderbolt 4
+
+**Body outline:**
+
+- Hardware / kernel / driver: as Bug A.
+- Setup: GPU bound to `nvidia`, `nvidia_uvm` deliberately not loaded, `install nvidia_uvm /bin/false` in modprobe config to simulate a missing-uvm condition.
+- Reproducer:
+
+  ```bash
+  python3 -c "import ctypes; cuda=ctypes.CDLL('libcuda.so.1'); print('cuInit', cuda.cuInit(0))"
+  # prints cuInit 999 (CUDA_ERROR_UNKNOWN)
+  # check: nvidia-smi --query-gpu=memory.used --format=csv,noheader
+  # observed 1 MiB allocated and never freed
+  # wait several minutes -> kernel hard-lock, no flushed logs, forced reboot required
+  ```
+
+- Expected behaviour: `cuInit` returns `CUDA_ERROR_NOT_INITIALIZED` or similar specific error AND fully unwinds any partial state.
+- Actual behaviour: `cuInit` returns generic `CUDA_ERROR_UNKNOWN` (999), 1 MiB stays allocated, and the host kernel-panics minutes later with no flushed log entries.
+- Workaround: pre-load `nvidia_uvm` (e.g. via `modprobe --ignore-install nvidia_uvm`) before any CUDA program runs, so `cuInit` never has to invoke modprobe.
+
+This bug is filed against the same repo and is potentially related to Bug A in that both involve poorly-handled error paths in driver init/teardown on this platform.
+
 ## 3. Try kernel 6.20+ when available
 
 Recent (2025-2026) Linux kernel work on Thunderbolt power management and PCIe authorization is ongoing. The same bug may have been fixed upstream after 6.19. If a newer kernel becomes available on Fedora 42 (or after a Fedora 43 upgrade), retest:
@@ -90,4 +133,23 @@ If an NVIDIA DRM card appears, GNOME may still freeze on login. Re-check that `a
 
 ## 5. CUDA workload close-path stress
 
-We have only validated `nvidia-smi` (NVML) repeatability, not long-running CUDA workloads. A real vLLM or PyTorch run that hot-loads / unloads models may exercise a different close path. If you observe freezes during normal CUDA use, capture an ioctl trace of the workload using `archive/diagnostic-tests/aorus-5090-nvml-ioctl-trace.so` to identify the close boundary.
+We have validated `nvidia-smi` (NVML) repeatability AND a one-shot CUDA Driver API smoke (`archive/cuda-validation-2026-05-01/`), but not long-running CUDA workloads. A real vLLM or PyTorch run that hot-loads / unloads models may exercise a different close path. If you observe freezes during normal CUDA use, capture an ioctl trace of the workload using `archive/diagnostic-tests/aorus-5090-nvml-ioctl-trace.so` to identify the close boundary.
+
+## 6. PyTorch tensor-op smoke (next planned step)
+
+The path from "CUDA Driver API works" to "vLLM works" goes through PyTorch's CUDA backend. Suggested incremental tests:
+
+1. `python -m venv /root/torch-test && pip install torch` (downloads ~3 GB).
+2. Test: `torch.cuda.is_available()`, `torch.zeros(1024, 1024, device='cuda')`, `torch.mm(a, b)`. Validates cuBLAS GEMM and basic tensor allocation.
+3. Same TTY-with-fsync methodology as `tools/tty-cuda-test.sh` so we have forensic data if anything goes wrong. Adapt the runner to also dump `torch.cuda.memory_allocated()` and `torch.cuda.memory_reserved()` post-test.
+
+Risk profile: similar to the CUDA Driver API smoke we just validated, possibly slightly higher because PyTorch loads more libraries. With `nvidia_uvm` pre-staged, the catastrophic failed-`cuInit` path is closed.
+
+## 7. vLLM bring-up
+
+After PyTorch is validated, the natural target. vLLM-specific concerns to be aware of:
+
+- vLLM officially supports Python 3.9-3.12; the system Python is 3.13. May need a separate Python install or `pyenv`.
+- vLLM does its own CUDA context management; whether its hot-load/unload model patterns trigger the close-path bug is an open question.
+- A first vLLM test should load a tiny model (e.g. TinyLlama-1.1B or similar) before attempting anything large.
+- Watch for `torch.cuda.empty_cache()` calls in particular - those may close+reopen device files in patterns we have not characterised.

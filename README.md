@@ -9,6 +9,15 @@ This config delivers:
 - CUDA / vLLM compute use of the eGPU.
 - Internal Intel Arc GPU keeps GNOME / display ownership (`i915` only in DRM).
 
+## Validated as of 2026-05-01
+
+- `nvidia-smi` runs repeatedly with `nvidia-persistenced` holding `/dev/nvidia0` open across invocations.
+- CUDA Driver API works end-to-end: `cuInit` -> context create -> `cuMemAlloc` -> `cuMemsetD8` -> `cuMemcpyDtoH` -> verified data integrity, no leak. See `archive/cuda-validation-2026-05-01/` for the captured progress markers and post-state.
+- Driver-managed thermal control active from boot.
+- Internal Intel Arc GPU keeps GNOME / DRM ownership (`i915` only).
+
+NOT yet validated: PyTorch / vLLM workloads. See `docs/future-investigations.md` and `tools/README.md` for the next test progressions.
+
 ## What this is not
 
 - Not a fix for the underlying close-path bug in NVIDIA's open kernel module on Blackwell over Thunderbolt; instead, it works around it cleanly using `nvidia-persistenced`. See `docs/architecture.md` for the bug summary and `docs/future-investigations.md` for the upstream report path.
@@ -166,6 +175,19 @@ NVIDIA driver / kernel updates can rebuild the module and may try to reload it. 
 
 If a kernel update changes `/etc/kernel/cmdline`, re-run `apply.sh` to regenerate the boot args. Verify with `cat /proc/cmdline` after reboot.
 
+## What the loader does at boot
+
+`aorus-5090-compute-load-nvidia.service` runs after `bolt.service` and `systemd-udev-settle.service`, before `graphical.target`. The script:
+
+1. Verifies the eGPU is on PCI; exits cleanly if not.
+2. Applies upstream PM policy on the TB -> bridge -> GPU path (`power/control=on`, `d3cold_allowed=0`).
+3. Unbinds the HDMI audio function from `snd_hda_intel` (compute-only, no audio needed).
+4. Verifies `BAR0` and `BAR1` are correctly assigned (BAR1 must be 32 GiB; the host_reset boot arg handles this).
+5. Loads the `nvidia` kernel module via `modprobe --ignore-install nvidia` and confirms the GPU bound.
+6. **Pre-loads `nvidia_uvm`** via `modprobe --ignore-install nvidia_uvm`. This is critical: any later `cuInit()` would otherwise try to load `nvidia_uvm` itself, which our compute-only modprobe block would silently reject, leaving the GPU in a partial-init state that has caused delayed kernel panics. Pre-staging avoids that path entirely.
+
+`nvidia-persistenced.service` (with our drop-in `Requires=` and `After=` the bind service) then starts and holds `/dev/nvidiactl` and `/dev/nvidia0` open for its lifetime, masking the second-open close-path bug for `nvidia-smi` and CUDA users.
+
 ## Files installed
 
 | Path | Purpose |
@@ -174,7 +196,7 @@ If a kernel update changes `/etc/kernel/cmdline`, re-run `apply.sh` to regenerat
 | `/etc/udev/rules.d/81-aorus-5090-compute-power.rules` | Pin TB / GPU path out of D3cold |
 | `/etc/modprobe.d/aorus-5090-compute-only.conf` | Block automatic and explicit nvidia module loads |
 | `/etc/modprobe.d/blacklist-nouveau.conf` | Defence-in-depth nouveau blacklist |
-| `/etc/systemd/system/aorus-5090-compute-load-nvidia.service` | Bind the eGPU at boot |
+| `/etc/systemd/system/aorus-5090-compute-load-nvidia.service` | Bind the eGPU at boot, pre-load nvidia_uvm |
 | `/etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf` | Order persistenced after the bind step |
 | `/usr/local/sbin/aorus-5090-compute-load-nvidia` | Loader implementation |
 | `/usr/local/sbin/aorus-5090-disable-audio` | HDMI audio function unbinder |
@@ -202,7 +224,8 @@ WARNING: if `nvidia-persistenced` is currently running and the `nvidia` module i
 
 ## More
 
-- `docs/architecture.md` - why each piece exists, the bug it works around.
+- `docs/architecture.md` - why each piece exists, the bugs it works around.
 - `docs/recovery.md` - what to do when things go wrong.
-- `docs/future-investigations.md` - upstream bug report draft, `NVreg_DynamicPowerManagement` test plan.
-- `archive/` - historical investigation artefacts (recovery plan, ioctl tracer, all freeze-test scripts).
+- `docs/future-investigations.md` - upstream bug report drafts, `NVreg_DynamicPowerManagement` test plan, PyTorch/vLLM next steps.
+- `tools/` - diagnostic and validation toolkit (CUDA smoke test, TTY-with-fsync test runner). Not installed by `apply.sh`; kept here as templates for future testing.
+- `archive/` - historical investigation artefacts (recovery plan, ioctl tracer, freeze-test scripts) and validation evidence (`cuda-validation-2026-05-01/`).

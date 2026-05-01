@@ -2,7 +2,7 @@
 
 This document explains why each piece of the configuration exists. Read this if you want to understand the system, change it safely, or escalate a bug upstream.
 
-## The two core problems
+## The three core problems
 
 ### Problem 1: BAR1 collapses during Thunderbolt authorization
 
@@ -32,6 +32,20 @@ The bug persists across `modprobe -r nvidia ; modprobe nvidia` - so the wedge st
 **Workaround:** `nvidia-persistenced`. The daemon opens `/dev/nvidiactl` once and `/dev/nvidia0` four times at startup and holds them for its lifetime. Every subsequent `nvidia-smi` (or any NVML caller) is therefore an "additional open alongside an existing one", never a "first open after last close". The close-side teardown that wedges the next open never runs because the open count never drops to zero.
 
 This is a vendor-supported configuration. It is not a hack. It is, however, **load-bearing** on this hardware in a way it is not on normal NVIDIA setups: stopping persistenced re-exposes the freeze.
+
+### Problem 3: Failed `cuInit` causes delayed kernel panics
+
+A separate failure mode, identified on 2026-05-01:
+
+- The compute-only modprobe config blocks all four NVIDIA modules from auto-loading via `install nvidia* /bin/false` lines. This is needed to prevent any process other than our loader from binding the eGPU before `nvidia-persistenced` is up.
+- However, when CUDA's `cuInit()` runs, it ensures `nvidia_uvm` is loaded as part of initialisation. With the blocks in place, `cuInit`'s internal `modprobe nvidia_uvm` call returns 1 (because `/bin/false` ran), and `cuInit` returns `CUDA_ERROR_UNKNOWN` (999) to the caller.
+- The catastrophic behaviour: a failed `cuInit` does not unwind cleanly on this stack. Some partial state has already been set up on the GPU (we observed 1 MiB allocated and never freed). Minutes later, the host kernel-panics — no flushed logs, forced reboot the only recovery.
+
+**Fix:** the loader script pre-loads `nvidia_uvm` after `nvidia` binds, via `modprobe --ignore-install nvidia_uvm` (the `--ignore-install` flag bypasses our own block). With `nvidia_uvm` already loaded, no later `cuInit` call ever has to invoke modprobe; CUDA initialisation finds everything it needs and succeeds cleanly.
+
+Validated 2026-05-01: with `nvidia_uvm` pre-staged, the CUDA Driver API smoke test (`cuInit -> cuMemAlloc -> cuMemcpyDtoH`) passes end-to-end, returns 0 MiB used after cleanup (no leak), and the host survives the 30 s post-test idle window without any delayed panic. See `archive/cuda-validation-2026-05-01/` for evidence.
+
+The install lines in `etc/modprobe.d/aorus-5090-compute-only.conf` remain because they still serve their original purpose — preventing arbitrary processes from triggering an `nvidia` or `nvidia_uvm` load before our service has bound them. We just route around them at boot via the loader's `--ignore-install`.
 
 ## How the configuration enforces this
 

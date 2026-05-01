@@ -1,0 +1,200 @@
+[Fri May  1 19:26:33 2026] BTRFS info (device nvme0n1p6 state M): use zstd compression, level 1
+[Fri May  1 19:26:33 2026] systemd[1]: Mounted dev-hugepages.mount - Huge Pages File System.
+[Fri May  1 19:26:33 2026] systemd[1]: Mounted dev-mqueue.mount - POSIX Message Queue File System.
+[Fri May  1 19:26:33 2026] systemd[1]: Mounted sys-kernel-debug.mount - Kernel Debug File System.
+[Fri May  1 19:26:33 2026] systemd[1]: Mounted sys-kernel-tracing.mount - Kernel Trace File System.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+[Fri May  1 19:26:33 2026] systemd[1]: modprobe@configfs.service: Deactivated successfully.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished modprobe@configfs.service - Load Kernel Module configfs.
+[Fri May  1 19:26:33 2026] systemd[1]: modprobe@dm_mod.service: Deactivated successfully.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished modprobe@dm_mod.service - Load Kernel Module dm_mod.
+[Fri May  1 19:26:33 2026] systemd[1]: modprobe@drm.service: Deactivated successfully.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished modprobe@drm.service - Load Kernel Module drm.
+[Fri May  1 19:26:33 2026] systemd[1]: modprobe@efi_pstore.service: Deactivated successfully.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished modprobe@efi_pstore.service - Load Kernel Module efi_pstore.
+[Fri May  1 19:26:33 2026] systemd[1]: modprobe@fuse.service: Deactivated successfully.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished modprobe@fuse.service - Load Kernel Module fuse.
+[Fri May  1 19:26:33 2026] systemd[1]: modprobe@loop.service: Deactivated successfully.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished modprobe@loop.service - Load Kernel Module loop.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished systemd-modules-load.service - Load Kernel Modules.
+[Fri May  1 19:26:33 2026] systemd-journald[652]: Collecting audit messages is enabled.
+[Fri May  1 19:26:33 2026] systemd[1]: Finished systemd-remount-fs.service - Remount Root and Kernel File Systems.
+[Fri May  1 19:26:33 2026] audit: type=1130 audit(1777627593.643:4): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-remount-fs comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[Fri May  1 19:26:33 2026] systemd[1]: Finished systemd-udev-load-credentials.service - Load udev Rules from Credentials.
+[Fri May  1 19:26:33 2026] audit: type=1130 audit(1777627593.643:5): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-udev-load-credentials comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[Fri May  1 19:26:33 2026] systemd-journald[652]: /run/log/journal/243e6986d52044a7a496dd3e0b8b7ecc/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+[Fri May  1 19:26:33 2026] systemd[1]: Mounting sys-fs-fuse-connections.mount - FUSE Control File System...
+[Fri May  1 19:26:33 2026] systemd[1]: iscsi-onboot.service - Special handling of early boot iSCSI sessions skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/class/iscsi_session
+[Fri May  1 19:26:33 2026] systemd[1]: systemd-hwdb-update.service - Rebuild Hardware Database skipped, unmet condition check ConditionNeedsUpdate=/etc
+[Fri May  1 19:26:33 2026] systemd[1]: systemd-pstore.service - Platform Persistent Storage Archival skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/fs/pstore
+[Fri May  1 19:26:33 2026] systemd[1]: Starting systemd-random-seed.service - Load/Save OS Random Seed...
+[Fri May  1 19:26:33 2026] systemd[1]: systemd-repart.service - Repartition Root Disk skipped, no trigger condition checks were met.
+[Fri May  1 19:26:33 2026] systemd[1]: Starting systemd-sysctl.service - Apply Kernel Variables...
+[Fri May  1 19:26:33 2026] systemd[1]: Starting systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully...
+[Fri May  1 19:26:33 2026] systemd[1]: systemd-tpm2-setup.service - TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-uki
+[Fri May  1 19:26:33 2026] systemd[1]: Started systemd-journald.service - Journal Service.
+[Fri May  1 19:26:33 2026] audit: type=1130 audit(1777627593.648:6): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-journald comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[Fri May  1 19:26:33 2026] audit: type=1130 audit(1777627593.654:7): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-sysctl comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[Fri May  1 19:26:33 2026] systemd-journald[652]: Received client request to flush runtime journal.
+[Fri May  1 19:26:33 2026] audit: type=1334 audit(1777627593.657:8): prog-id=51 op=LOAD
+[Fri May  1 19:26:33 2026] audit: type=1334 audit(1777627593.657:9): prog-id=52 op=LOAD
+[Fri May  1 19:26:33 2026] audit: type=1334 audit(1777627593.657:10): prog-id=53 op=LOAD
+[Fri May  1 19:26:33 2026] systemd-journald[652]: File /var/log/journal/243e6986d52044a7a496dd3e0b8b7ecc/system.journal corrupted or uncleanly shut down, renaming and replacing.
+[Fri May  1 19:26:33 2026] systemd-journald[652]: /var/log/journal/243e6986d52044a7a496dd3e0b8b7ecc/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+[Fri May  1 19:26:33 2026] systemd-journald[652]: Rotating system journal.
+[Fri May  1 19:26:33 2026] zram0: detected capacity change from 0 to 16777216
+[Fri May  1 19:26:33 2026] intel_pmc_ssram_telemetry 0000:00:14.2: enabling device (0000 -> 0002)
+[Fri May  1 19:26:33 2026] input: Intel HID events as /devices/platform/INTC10CB:00/input/input10
+[Fri May  1 19:26:33 2026] intel-hid INTC10CB:00: failed to enable HID power button
+[Fri May  1 19:26:33 2026] Adding 8388604k swap on /dev/zram0.  Priority:100 extents:1 across:8388604k SSDsc
+[Fri May  1 19:26:33 2026] ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PC00.LPCB.HEC.DPTF.FCHG], AE_NOT_FOUND (20250807/psargs-332)
+[Fri May  1 19:26:33 2026] ACPI Error: Aborting method \_SB.IETM.CHRG.PPSS due to previous error (AE_NOT_FOUND) (20250807/psparse-529)
+[Fri May  1 19:26:33 2026] resource: resource sanity check: requesting [mem 0x00000000fedc0000-0x00000000fedcffff], which spans more than pnp 00:03 [mem 0xfedc0000-0xfedc7fff]
+[Fri May  1 19:26:33 2026] caller igen6_register_mcis+0x4b/0x2d0 [igen6_edac] mapping multiple BARs
+[Fri May  1 19:26:33 2026] EDAC MC0: Giving out device to module igen6_edac controller Intel_client_SoC MC#0: DEV 0000:00:00.0 (INTERRUPT)
+[Fri May  1 19:26:33 2026] EDAC MC1: Giving out device to module igen6_edac controller Intel_client_SoC MC#1: DEV 0000:00:00.0 (INTERRUPT)
+[Fri May  1 19:26:33 2026] EDAC igen6: v2.5.1
+[Fri May  1 19:26:33 2026] pci 0000:00:08.0: Setting to D3hot
+[Fri May  1 19:26:33 2026] intel_pmc_core INT33A1:00:  initialized
+[Fri May  1 19:26:33 2026] i801_smbus 0000:00:1f.4: SPD Write Disable is set
+[Fri May  1 19:26:33 2026] i801_smbus 0000:00:1f.4: SMBus using PCI interrupt
+[Fri May  1 19:26:33 2026] i2c i2c-13: Successfully instantiated SPD at 0x50
+[Fri May  1 19:26:33 2026] Intel(R) 2.5G Ethernet Linux Driver
+[Fri May  1 19:26:33 2026] Copyright(c) 2018 Intel Corporation.
+[Fri May  1 19:26:33 2026] igc 0000:56:00.0: enabling device (0000 -> 0002)
+[Fri May  1 19:26:33 2026] igc 0000:56:00.0: PTM enabled, 4ns granularity
+[Fri May  1 19:26:33 2026] input: PC Speaker as /devices/platform/pcspkr/input/input11
+[Fri May  1 19:26:33 2026] Bluetooth: Core ver 2.22
+[Fri May  1 19:26:33 2026] NET: Registered PF_BLUETOOTH protocol family
+[Fri May  1 19:26:33 2026] Bluetooth: HCI device and connection manager initialized
+[Fri May  1 19:26:33 2026] Bluetooth: HCI socket layer initialized
+[Fri May  1 19:26:33 2026] Bluetooth: L2CAP socket layer initialized
+[Fri May  1 19:26:33 2026] Bluetooth: SCO socket layer initialized
+[Fri May  1 19:26:34 2026] asus_wmi: ASUS WMI generic driver loaded
+[Fri May  1 19:26:34 2026] cfg80211: Loading compiled-in X.509 certificates for regulatory database
+[Fri May  1 19:26:34 2026] Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+[Fri May  1 19:26:34 2026] Loaded X.509 cert 'wens: 61c038651aabdcf94bd0ac7ff06c7248db18c600'
+[Fri May  1 19:26:34 2026] igc 0000:56:00.0 (unnamed net_device) (uninitialized): PHC added
+[Fri May  1 19:26:34 2026] usbcore: registered new device driver r8152-cfgselector
+[Fri May  1 19:26:34 2026] asus_armoury: No matching power limits found for this system
+[Fri May  1 19:26:34 2026] intel_rapl_msr: PL4 support detected.
+[Fri May  1 19:26:34 2026] proc_thermal_pci 0000:00:04.0: enabling device (0000 -> 0002)
+[Fri May  1 19:26:34 2026] intel_rapl_common: Found RAPL domain package
+[Fri May  1 19:26:34 2026] intel_rapl_common: Found RAPL domain package
+[Fri May  1 19:26:34 2026] intel_rapl_common: Found RAPL domain core
+[Fri May  1 19:26:34 2026] intel_rapl_common: Found RAPL domain uncore
+[Fri May  1 19:26:34 2026] intel_rapl_common: Found RAPL domain psys
+[Fri May  1 19:26:34 2026] iwlwifi 0000:00:14.3: enabling device (0000 -> 0002)
+[Fri May  1 19:26:34 2026] asus_wmi: Initialization: 0x1
+[Fri May  1 19:26:34 2026] asus_wmi: SFUN value: 0x21
+[Fri May  1 19:26:34 2026] asus-nb-wmi asus-nb-wmi: Detected ATK, not ASUSWMI, use DSTS
+[Fri May  1 19:26:34 2026] asus-nb-wmi asus-nb-wmi: Using throttle_thermal_policy for platform_profile support
+[Fri May  1 19:26:34 2026] igc 0000:56:00.0: 4.000 Gb/s available PCIe bandwidth (5.0 GT/s PCIe x1 link)
+[Fri May  1 19:26:34 2026] igc 0000:56:00.0 eth0: MAC: 88:ae:dd:69:58:58
+[Fri May  1 19:26:34 2026] input: Asus WMI hotkeys as /devices/platform/asus-nb-wmi/input/input12
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: Device revision is 0
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: Secure boot is enabled
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: OTP lock is disabled
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: API lock is enabled
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: Debug lock is disabled
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: Minimum firmware build 1 week 10 2014
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: Bootloader timestamp 2022.18 buildtype 1 build 16362
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: DSM reset method type: 0x00
+[Fri May  1 19:26:34 2026] usbcore: registered new interface driver btusb
+[Fri May  1 19:26:34 2026] asus_wmi: fan_curve_get_factory_default (0x00110024) failed: -19
+[Fri May  1 19:26:34 2026] asus_wmi: fan_curve_get_factory_default (0x00110025) failed: -19
+[Fri May  1 19:26:34 2026] asus_wmi: fan_curve_get_factory_default (0x00110032) failed: -19
+[Fri May  1 19:26:34 2026] iwlwifi 0000:00:14.3: Detected crf-id 0x2001910, cnv-id 0x80930 wfpm id 0x80005b20
+[Fri May  1 19:26:34 2026] iwlwifi 0000:00:14.3: PCI dev 7740/00e4, rev=0x461, rfid=0x20112200
+[Fri May  1 19:26:34 2026] iwlwifi 0000:00:14.3: Detected Intel(R) Wi-Fi 7 BE201 320MHz
+[Fri May  1 19:26:34 2026] mei_gsc_proxy 0000:00:16.0-0f73db04-97ab-4125-b893-e904ad0d5464: bound 0000:00:02.0 (ops i915_gsc_proxy_component_ops [i915])
+[Fri May  1 19:26:34 2026] RAPL PMU: API unit is 2^-32 Joules, 4 fixed counters, 655360 ms ovfl timer
+[Fri May  1 19:26:34 2026] RAPL PMU: hw unit of domain pp0-core 2^-14 Joules
+[Fri May  1 19:26:34 2026] RAPL PMU: hw unit of domain package 2^-14 Joules
+[Fri May  1 19:26:34 2026] RAPL PMU: hw unit of domain pp1-gpu 2^-14 Joules
+[Fri May  1 19:26:34 2026] RAPL PMU: hw unit of domain psys 2^-14 Joules
+[Fri May  1 19:26:34 2026] spi-nor spi0.0: supply vcc not found, using dummy regulator
+[Fri May  1 19:26:34 2026] spd5118 13-0050: DDR5 temperature sensor: vendor 0x06:0x32 revision 1.6
+[Fri May  1 19:26:34 2026] Creating 1 MTD partitions on "0000:00:1f.5":
+[Fri May  1 19:26:34 2026] 0x000000000000-0x000002000000 : "BIOS"
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: Found device firmware: intel/ibt-0093-0291.sfi
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: Boot Address: 0x100800
+[Fri May  1 19:26:34 2026] Bluetooth: hci0: Firmware Version: 125-8.26
+[Fri May  1 19:26:34 2026] spd5118 13-0052: DDR5 temperature sensor: vendor 0x06:0x32 revision 1.6
+[Fri May  1 19:26:34 2026] iwlwifi 0000:00:14.3: loaded firmware version 101.6e695a70.0 bz-b0-fm-c0-c101.ucode op_mode iwlmld
+[Fri May  1 19:26:34 2026] r8152-cfgselector 2-1.4.4: reset SuperSpeed USB device number 4 using xhci_hcd
+[Fri May  1 19:26:34 2026] igc 0000:56:00.0 enp86s0: renamed from eth0
+[Fri May  1 19:26:34 2026] r8152 2-1.4.4:1.0 eth0: v1.12.13
+[Fri May  1 19:26:34 2026] r8152-cfgselector 3-3.4: reset high-speed USB device number 9 using xhci_hcd
+[Fri May  1 19:26:34 2026] snd_hda_intel 0000:00:1f.3: enabling device (0000 -> 0002)
+[Fri May  1 19:26:34 2026] snd_hda_intel 0000:00:1f.3: bound 0000:00:02.0 (ops intel_audio_component_bind_ops [i915])
+[Fri May  1 19:26:34 2026] input: HDA Intel PCH HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input13
+[Fri May  1 19:26:34 2026] input: HDA Intel PCH HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input14
+[Fri May  1 19:26:34 2026] input: HDA Intel PCH HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input15
+[Fri May  1 19:26:34 2026] input: HDA Intel PCH HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input16
+[Fri May  1 19:26:34 2026] EXT4-fs (nvme0n1p5): mounted filesystem 4f4f2b07-3901-49ac-9aed-085b94bd2b3a r/w with ordered data mode. Quota mode: none.
+[Fri May  1 19:26:34 2026] iwlwifi 0000:00:14.3: Detected RF FM, rfid=0x20112200
+[Fri May  1 19:26:34 2026] iwlwifi 0000:00:14.3: base HW address: 28:92:00:f7:c7:d6
+[Fri May  1 19:26:34 2026] r8152 3-3.4:1.0 eth1: v1.12.13
+[Fri May  1 19:26:34 2026] usbcore: registered new interface driver r8152
+[Fri May  1 19:26:34 2026] iwlwifi 0000:00:14.3 wlo1: renamed from wlan0
+[Fri May  1 19:26:34 2026] usbcore: registered new interface driver cdc_ether
+[Fri May  1 19:26:34 2026] usbcore: registered new interface driver r8153_ecm
+[Fri May  1 19:26:34 2026] r8152 3-3.4:1.0 enp0s20f0u3u4: renamed from eth1
+[Fri May  1 19:26:34 2026] r8152 2-1.4.4:1.0 enp0s13f0u1u4u4: renamed from eth0
+[Fri May  1 19:26:35 2026] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[Fri May  1 19:26:35 2026] Bluetooth: BNEP filters: protocol multicast
+[Fri May  1 19:26:35 2026] Bluetooth: BNEP socket layer initialized
+[Fri May  1 19:26:35 2026] nvme nvme0: using unchecked data buffer
+[Fri May  1 19:26:35 2026] NET: Registered PF_QIPCRTR protocol family
+[Fri May  1 19:26:35 2026] Consider using thermal netlink events interface
+[Fri May  1 19:26:35 2026] nvidia: loading out-of-tree module taints kernel.
+[Fri May  1 19:26:35 2026] nvidia: module verification failed: signature and/or required key missing - tainting kernel
+[Fri May  1 19:26:35 2026] nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+
+[Fri May  1 19:26:35 2026] nvidia 0000:04:00.0: enabling device (0000 -> 0003)
+[Fri May  1 19:26:35 2026] nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+[Fri May  1 19:26:35 2026] NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  580.142  Release Build  (dvs-builder@U22-I3-AD05-51-5)  Tue Mar  3 19:14:46 UTC 2026
+[Fri May  1 19:26:35 2026] RPC: Registered named UNIX socket transport module.
+[Fri May  1 19:26:35 2026] RPC: Registered udp transport module.
+[Fri May  1 19:26:35 2026] RPC: Registered tcp transport module.
+[Fri May  1 19:26:35 2026] RPC: Registered tcp-with-tls transport module.
+[Fri May  1 19:26:35 2026] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[Fri May  1 19:26:35 2026] Bluetooth: hci0: Waiting for firmware download to complete
+[Fri May  1 19:26:35 2026] Bluetooth: hci0: Firmware loaded in 1827675 usecs
+[Fri May  1 19:26:35 2026] Bluetooth: hci0: Waiting for device to boot
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: Device booted in 133931 usecs
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: dsbr: enable: 0x01 value: 0x0f
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: Found Intel DDC parameters: intel/ibt-0093-0291.ddc
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: Applying Intel DDC parameters completed
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: Firmware timestamp 2026.8 buildtype 1 build 105597
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: Firmware SHA1: 0x08f159a0
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: Fseq status: Success (0x00)
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: Fseq executed: 00.00.04.202
+[Fri May  1 19:26:36 2026] Bluetooth: hci0: Fseq BT Top: 00.00.04.202
+[Fri May  1 19:26:36 2026] Bluetooth: MGMT ver 1.23
+[Fri May  1 19:26:37 2026] ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
+[Fri May  1 19:26:39 2026] wlo1: authenticate with 94:2a:6f:04:dc:6c (local address=56:fa:1b:8d:80:ed)
+[Fri May  1 19:26:39 2026] wlo1: send auth to 94:2a:6f:04:dc:6c (try 1/3)
+[Fri May  1 19:26:39 2026] wlo1: authenticate with 94:2a:6f:04:dc:6c (local address=56:fa:1b:8d:80:ed)
+[Fri May  1 19:26:39 2026] wlo1: send auth to 94:2a:6f:04:dc:6c (try 1/3)
+[Fri May  1 19:26:39 2026] wlo1: authenticated
+[Fri May  1 19:26:39 2026] wlo1: associate with 94:2a:6f:04:dc:6c (try 1/3)
+[Fri May  1 19:26:40 2026] wlo1: RX AssocResp from 94:2a:6f:04:dc:6c (capab=0x1111 status=0 aid=2)
+[Fri May  1 19:26:40 2026] wlo1: associated
+[Fri May  1 19:26:40 2026] wlo1: Limiting TX power to 27 (30 - 3) dBm as advertised by 94:2a:6f:04:dc:6c
+[Fri May  1 19:26:41 2026] evm: overlay not supported
+[Fri May  1 19:26:42 2026] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+[Fri May  1 19:26:42 2026] rfkill: input handler disabled
+[Fri May  1 19:26:43 2026] Bluetooth: RFCOMM TTY layer initialized
+[Fri May  1 19:26:43 2026] Bluetooth: RFCOMM socket layer initialized
+[Fri May  1 19:26:43 2026] Bluetooth: RFCOMM ver 1.11
+[Fri May  1 19:26:43 2026] wireguard: WireGuard 1.0.0 loaded. See www.wireguard.com for information.
+[Fri May  1 19:26:43 2026] wireguard: Copyright (C) 2015-2019 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+[Fri May  1 19:26:52 2026] rfkill: input handler enabled
+[Fri May  1 19:26:53 2026] rfkill: input handler disabled
+[Fri May  1 19:27:31 2026] NOTICE: Automounting of tracing to debugfs is deprecated and will be removed in 2030
+[Fri May  1 19:42:34 2026] rfkill: input handler enabled
+[Fri May  1 19:42:34 2026] wlo1: deauthenticating from 94:2a:6f:04:dc:6c by local choice (Reason: 3=DEAUTH_LEAVING)
+[Fri May  1 19:42:34 2026] fbcon: Taking over console
+[Fri May  1 19:42:34 2026] Console: switching to colour frame buffer device 640x90
