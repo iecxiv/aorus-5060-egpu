@@ -126,16 +126,25 @@ fi
 remove_if_exists /etc/systemd/system/aorus-5090-collect-pci-layout.service
 remove_if_exists /usr/local/sbin/aorus-5090-collect-pci-layout
 
-# Duplicate scripts in /usr/local/bin (the canonical location is /usr/local/sbin)
-remove_if_exists /usr/local/bin/aorus-5090-compute-load-nvidia
-remove_if_exists /usr/local/bin/aorus-5090-collect-pci-layout
-remove_if_exists /usr/local/bin/aorus-5090-disable-audio
-# Keep /usr/local/bin/aorus-5090-status as a non-root-PATH convenience symlink.
-# Force-replace whatever was there (could be a hardlink, a symlink to elsewhere,
-# or a stale copy of the file).
-rm -f /usr/local/bin/aorus-5090-status
-ln -sfn /usr/local/sbin/aorus-5090-status /usr/local/bin/aorus-5090-status
-printf '  /usr/local/bin/aorus-5090-status -> /usr/local/sbin/aorus-5090-status\n'
+# Handle the merged-/usr layout case: on Fedora, /usr/local/sbin is a symlink
+# to /usr/local/bin. If they resolve to the same directory, scripts in
+# /usr/local/bin ARE the canonical scripts; do not delete them.
+sbin_real="$(readlink -f /usr/local/sbin)"
+bin_real="$(readlink -f /usr/local/bin)"
+if [[ "$sbin_real" == "$bin_real" ]]; then
+    printf '  /usr/local/sbin and /usr/local/bin resolve to the same directory; no duplicate cleanup needed\n'
+    # The installed scripts already serve both PATH locations. Just remove the
+    # collect-pci-layout vestigial script which has no /sbin install above.
+    remove_if_exists /usr/local/bin/aorus-5090-collect-pci-layout
+else
+    # Separate directories: cleanup duplicates that the prior debugging era left.
+    remove_if_exists /usr/local/bin/aorus-5090-compute-load-nvidia
+    remove_if_exists /usr/local/bin/aorus-5090-collect-pci-layout
+    remove_if_exists /usr/local/bin/aorus-5090-disable-audio
+    rm -f /usr/local/bin/aorus-5090-status
+    ln -sfn /usr/local/sbin/aorus-5090-status /usr/local/bin/aorus-5090-status
+    printf '  /usr/local/bin/aorus-5090-status -> /usr/local/sbin/aorus-5090-status\n'
+fi
 
 # ---------------------------------------------------------------- services --
 step "reload systemd, mask/disable/enable services"
