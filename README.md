@@ -70,6 +70,28 @@ This must show: `host_reset: disabled`, `nvidia: loaded`, `nvidia_drm: unloaded`
 
 ## Verify
 
+The repository ships three top-level scripts. Each is idempotent and safe to run repeatedly.
+
+| Script | Purpose |
+|---|---|
+| `apply.sh`  | Install / re-apply the configuration. Safe to run any time. |
+| `status.sh` | Comprehensive verification. Checks every load-bearing piece (boot args, modules, udev, modprobe, scripts, services, PCI, Thunderbolt, persistenced, DRM, kernel logs, smoke test). Exit code 0 = healthy, 1 = warnings, 2 = degraded. |
+| `remove.sh` | Reverse the install. Removes config files, drop-in, and disables services. Does NOT remove kernel boot args. |
+
+To verify after install:
+
+```bash
+sudo ./status.sh
+```
+
+Or for a quick operational check (single-page output):
+
+```bash
+sudo aorus-5090-status
+```
+
+Manual smoke test:
+
 ```bash
 nvidia-smi
 nvidia-smi
@@ -168,13 +190,15 @@ pci=realloc,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0
 thunderbolt.host_reset=false
 ```
 
-## Revert
+## Remove
 
 ```bash
-sudo ./revert.sh
+sudo ./remove.sh
 ```
 
 Disables the services, removes the persistenced drop-in, and restores the directory to the package-managed state. Does NOT remove kernel boot args (do that manually with `grubby --remove-args=...` if you want).
+
+WARNING: if `nvidia-persistenced` is currently running and the `nvidia` module is loaded, `remove.sh` will stop the daemon - which closes its `/dev/nvidia0` fds. Any subsequent `nvidia-smi` or NVML caller in the same boot will then trigger the close-reopen freeze. Reboot immediately after running `remove.sh` if the eGPU was active.
 
 ## More
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Best-effort reverter for the AORUS RTX 5090 eGPU configuration.
+# Best-effort remover for the AORUS RTX 5090 eGPU configuration.
 #
 # Disables the services, removes our drop-in and config files. Does NOT
 # remove kernel boot args (do that manually if you want, with
@@ -12,7 +12,7 @@
 set -euo pipefail
 
 if [[ "$EUID" -ne 0 ]]; then
-    echo "revert.sh must be run as root" >&2
+    echo "remove.sh must be run as root" >&2
     exit 1
 fi
 
@@ -63,7 +63,7 @@ step "reload systemd and udev"
 systemctl daemon-reload
 udevadm control --reload-rules
 
-red "\nrevert.sh complete."
+red "\nremove.sh complete."
 red "Boot args (thunderbolt.host_reset=false, pci=realloc, nouveau blacklist) are still applied."
 red "If you want to remove those too:"
 red "  sudo grubby --remove-args='thunderbolt.host_reset=false pci=realloc,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0' --update-kernel=ALL"
