@@ -132,13 +132,37 @@ include:
 
 The compute-only path does **not** include:
 
-- `xorg-x11-drv-nvidia*`
-- `nvidia-settings`
-- `nvidia-libXNVCtrl`
-- `libnvidia-fbc`
-- The Vulkan ICD, EGL vendor JSON, OpenCL vendor ICD
+- `xorg-x11-drv-nvidia*` (X11 / Wayland driver bundle)
+- `nvidia-settings` (GUI settings tool)
+- `nvidia-libXNVCtrl` (X11 NV-CONTROL extension)
+- `libnvidia-fbc` (Frame Buffer Capture lib)
 - `nvidia-container-toolkit*` (separate optional install if you want
   containers)
+- `nvidia-driver` (the desktop META-package; brings in the above)
+- `nvidia-driver-assistant` (the helper script, only useful at install
+  time)
+- The systemd units that ship via `nvidia-driver`:
+  `nvidia-hibernate.service`, `nvidia-resume.service`,
+  `nvidia-suspend.service`, `nvidia-suspend-then-hibernate.service`,
+  `nvidia-powerd.service`
+
+The compute-only path **does** include (despite the "compute-only" name):
+
+- The Vulkan ICD JSON (`/usr/share/vulkan/icd.d/nvidia_icd.x86_64.json`)
+- The Vulkan implicit-layer JSON (`/usr/share/vulkan/implicit_layer.d/nvidia_layers.json`)
+- The EGL vendor JSON (`/usr/share/glvnd/egl_vendor.d/10_nvidia.json`)
+- The OpenCL ICD (`/etc/OpenCL/vendors/nvidia.icd`)
+
+These are bundled into `nvidia-driver-libs` (Vulkan + EGL) and
+`nvidia-driver-cuda` (OpenCL), both of which are required for compute.
+NVIDIA's package layout puts the ICD JSONs alongside the core libraries
+rather than in a separate "graphics" package.
+
+So the **disable-via-rename approach in
+`/etc/modprobe.d/nvidia.conf` and `apply.sh`'s `disable_loader_entry`
+function remains load-bearing on the compute-only install too.** Without
+the rename, GNOME / mutter / any Vulkan-using app would still find the
+NVIDIA Vulkan ICD and dlopen `libGLX_nvidia.so` on the eGPU.
 
 If those packages are absent, the corresponding workarounds in this
 repo (rename ICDs to `.aorus-disabled`, mask `switcheroo-control`,

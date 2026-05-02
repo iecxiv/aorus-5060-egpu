@@ -178,12 +178,12 @@ if [[ "$(systemctl is-enabled nvidia-fallback.service 2>&1)" != "masked" ]]; the
     printf '  masked: nvidia-fallback.service\n'
 fi
 
-# nvidia-powerd should be disabled (opens/closes device files - re-trigger risk).
-if [[ "$(systemctl is-enabled nvidia-powerd.service 2>&1)" != "disabled" ]] \
-        && [[ "$(systemctl is-enabled nvidia-powerd.service 2>&1)" != "masked" ]]; then
-    systemctl disable nvidia-powerd.service >/dev/null 2>&1 || true
-    printf '  disabled: nvidia-powerd.service\n'
-fi
+# nvidia-powerd: opens/closes device files at runtime, which is exactly
+# the close-path-bug trigger we work hard to prevent. Mask so it cannot
+# start. On a compute-only install via the NVIDIA CUDA repo, nvidia-powerd
+# is not installed at all (the desktop meta-package nvidia-driver provided
+# it) - mask_unit_robust handles the 'not installed' case as a no-op.
+mask_unit_robust nvidia-powerd.service
 
 # Compute-only mode: mask GPU-touching system services that are pointless
 # on this host. Each is a potential close-path-bug trigger if it dlopens
@@ -202,8 +202,17 @@ fi
 mask_unit_robust() {
     local unit="$1"
     local etc_path="/etc/systemd/system/$unit"
-    if [[ "$(systemctl is-enabled "$unit" 2>&1)" == "masked" ]]; then
+    local enabled
+    enabled=$(systemctl is-enabled "$unit" 2>&1)
+    if [[ "$enabled" == "masked" ]]; then
         printf '  already masked: %s\n' "$unit"
+        return 0
+    fi
+    # Unit not installed at all (e.g., on a compute-only install where the
+    # nvidia-container-toolkit or desktop meta-package never landed). Nothing
+    # to mask; treat as success.
+    if [[ "$enabled" =~ not-found ]] || [[ "$enabled" =~ "Failed to get unit" ]]; then
+        printf '  not installed (compute-only): %s\n' "$unit"
         return 0
     fi
     # Try standard masking first (works when unit is in /usr/lib/).
@@ -219,7 +228,7 @@ mask_unit_robust() {
         printf '  masked (via rename + /dev/null symlink): %s\n' "$unit"
         return 0
     fi
-    yellow "  WARNING: could not mask $unit (no /etc/ file to rename)"
+    yellow "  WARNING: could not mask $unit"
     return 1
 }
 

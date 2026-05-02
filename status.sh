@@ -191,11 +191,31 @@ check_unit_state() {
 check_unit_state aorus-5090-compute-load-nvidia.service enabled
 check_unit_state nvidia-persistenced.service enabled
 check_unit_state aorus-5090-uvm-keepalive.service enabled
-check_unit_state nvidia-fallback.service masked
-check_unit_state nvidia-powerd.service disabled
-check_unit_state switcheroo-control.service masked
-check_unit_state nvidia-cdi-refresh.path masked
-check_unit_state nvidia-cdi-refresh.service masked
+
+# These units may not exist at all on a clean compute-only install via the
+# NVIDIA CUDA repo (the desktop meta-package nvidia-driver and the
+# nvidia-container-toolkit are not pulled in). Treat 'not-found' as a
+# valid state - it means there's nothing to mask, which is the desired
+# end state. The unit will exist if we accidentally re-pulled the desktop
+# meta-package or installed nvidia-container-toolkit; in that case mask
+# is the right enforcement.
+check_unit_state_or_absent() {
+    local unit="$1" expected="$2"
+    local actual
+    actual="$(systemctl is-enabled "$unit" 2>&1 || true)"
+    if [[ "$actual" == "$expected" ]]; then
+        ok "$unit: $actual"
+    elif [[ "$actual" =~ not-found ]] || [[ "$actual" =~ "Failed to get unit" ]]; then
+        ok "$unit: not installed (compute-only does not ship it)"
+    else
+        fail "$unit: $actual (expected $expected or not-found)"
+    fi
+}
+check_unit_state_or_absent nvidia-fallback.service masked
+check_unit_state_or_absent nvidia-powerd.service masked
+check_unit_state_or_absent switcheroo-control.service masked
+check_unit_state_or_absent nvidia-cdi-refresh.path masked
+check_unit_state_or_absent nvidia-cdi-refresh.service masked
 
 active_state() {
     local unit="$1"
@@ -715,12 +735,17 @@ if [[ -n "$nvidia_pkgs" ]]; then
     while IFS= read -r p; do info "rpm: $p"; done <<< "$nvidia_pkgs"
 fi
 
-# Verify the akmod is built for the running kernel
+# Verify the kernel module is built for the running kernel.
+# Two paths supported:
+#   - F43+ NVIDIA CUDA repo + DKMS: dkms status shows nvidia/<ver> for our kernel
+#   - F42 RPMFusion akmod: rpm -q kmod-nvidia-<kver>
 running_kver="$(uname -r)"
-if rpm -q "kmod-nvidia-${running_kver}" >/dev/null 2>&1; then
-    ok "kmod-nvidia built for running kernel ($running_kver)"
+if dkms status 2>/dev/null | grep -q "^nvidia.*${running_kver}.*installed"; then
+    ok "DKMS-built nvidia module installed for running kernel ($running_kver)"
+elif rpm -q "kmod-nvidia-${running_kver}" >/dev/null 2>&1; then
+    ok "kmod-nvidia (RPMFusion akmod) built for running kernel ($running_kver)"
 else
-    warn "no kmod-nvidia built for running kernel ($running_kver) - run 'sudo akmods --force' if NVIDIA fails to load"
+    warn "no nvidia kernel module built for running kernel ($running_kver) - 'sudo dkms autoinstall' (CUDA-repo) or 'sudo akmods --force' (RPMFusion)"
 fi
 
 # --------------------------------------------- 11. Recent kernel signals --
