@@ -172,6 +172,23 @@ modprobe --ignore-install nvidia_uvm
 # at its ConditionPathExists check, which is the right escalation path.
 nvidia-modprobe -u -c 0 || echo "WARNING: nvidia-modprobe -u -c 0 failed; /dev/nvidia-uvm-tools may not exist" >&2
 
+# Tighten /dev/nvidia* permissions to 0660 root:ollama so user-session
+# processes (gnome-shell, ptyxis, etc.) cannot incidentally open them. Our
+# 82-aorus-5090-nvidia-permissions.rules udev rule SHOULD do this, but
+# nvidia-modprobe creates the device files via mknod() which does NOT fire
+# udev events - the rule never gets a chance to match. Setting perms here
+# (immediately after creation, before any other process can open) is the
+# load-bearing convergence step. Tolerate failures: the ollama group might
+# not exist yet on a fresh Fedora install before our apply.sh ran.
+if getent group ollama >/dev/null 2>&1; then
+    chgrp ollama /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools 2>/dev/null || true
+    chmod 0660   /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools 2>/dev/null || true
+    if [[ -d /dev/nvidia-caps ]]; then
+        chgrp ollama /dev/nvidia-caps/* 2>/dev/null || true
+        chmod 0660   /dev/nvidia-caps/* 2>/dev/null || true
+    fi
+fi
+
 # Restore the manual override now that we have bound on purpose; this prevents
 # any future udev re-add from auto-binding the device to a different driver.
 set_attr "$gpu_dev/driver_override" aorus_5090_manual
