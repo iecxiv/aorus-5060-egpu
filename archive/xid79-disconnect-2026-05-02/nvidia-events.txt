@@ -1,0 +1,179 @@
+May 03 04:32:40 obpc kernel: pcieport 0000:00:01.0: PME: Signaling with IRQ 122
+May 03 04:32:40 obpc kernel: pcieport 0000:00:01.0: AER: enabled with IRQ 122
+May 03 04:32:40 obpc kernel: pcieport 0000:00:07.0: PME: Signaling with IRQ 123
+May 03 04:32:40 obpc kernel: pcieport 0000:00:07.0: AER: enabled with IRQ 123
+May 03 04:32:40 obpc kernel: pcieport 0000:00:07.0: pciehp: Slot #12 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 03 04:32:40 obpc kernel: pcieport 0000:00:07.2: PME: Signaling with IRQ 124
+May 03 04:32:40 obpc kernel: pcieport 0000:00:07.2: AER: enabled with IRQ 124
+May 03 04:32:40 obpc kernel: pcieport 0000:00:07.2: pciehp: Slot #14 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 03 04:32:40 obpc kernel: pcieport 0000:00:1c.0: PME: Signaling with IRQ 125
+May 03 04:32:40 obpc kernel: pcieport 0000:00:1c.0: AER: enabled with IRQ 125
+May 03 04:32:40 obpc kernel: pcieport 0000:03:00.0: enabling device (0001 -> 0003)
+May 03 04:32:40 obpc kernel: pcieport 0000:03:01.0: pciehp: Slot #1 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 03 04:32:40 obpc kernel: pcieport 0000:03:02.0: pciehp: Slot #2 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 03 04:32:40 obpc kernel: pcieport 0000:03:03.0: pciehp: Slot #3 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 02 18:39:32 obpc kernel: pcieport 0000:00:07.0: pciehp: Slot(12): Link Down
+May 02 18:39:32 obpc kernel: pcieport 0000:00:07.0: pciehp: Slot(12): Card not present
+May 02 18:39:32 obpc kernel: NVRM: GPU at PCI:0000:04:00: GPU-90b9424e-7236-fd4d-d903-44e565e1bd42
+May 02 18:39:32 obpc kernel: NVRM: GPU Board Serial Number: 0
+May 02 18:39:32 obpc kernel: NVRM: Xid (PCI:0000:04:00): 79, GPU has fallen off the bus.
+May 02 18:39:32 obpc kernel: NVRM: GPU 0000:04:00.0: GPU has fallen off the bus.
+May 02 18:39:32 obpc kernel: NVRM: GPU 0000:04:00.0: GPU serial number is 0.
+May 02 18:39:32 obpc kernel: NVRM: kgspRcAndNotifyAllChannels_IMPL: RC all channels for critical error 79.
+May 02 18:39:32 obpc kernel: NVRM: _threadNodeCheckTimeout: API_GPU_ATTACHED_SANITY_CHECK failed!
+May 02 18:39:32 obpc kernel: NVRM: _threadNodeCheckTimeout: API_GPU_ATTACHED_SANITY_CHECK failed!
+May 02 18:39:32 obpc kernel: NVRM: _threadNodeCheckTimeout: API_GPU_ATTACHED_SANITY_CHECK failed!
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 608!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 609!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 610!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 611!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 612!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 613!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 614!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 615!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 616!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 617!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 618!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 619!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 620!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 621!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 622!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 623!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 624!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 625!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 626!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 627!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 628!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 629!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 630!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 631!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 78 sequence 632!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback) @ nv_debug_dump.c:273
+May 02 18:39:32 obpc kernel: NVRM: RmLogGpuCrash: RmLogGpuCrash: failed to save GPU crash data
+May 02 18:39:32 obpc kernel: NVRM: Xid (PCI:0000:04:00): 154, GPU recovery action changed from 0x0 (None) to 0x1 (GPU Reset Required)
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 633!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d00004; hObject=0xc1d00006; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 634!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d00004; hObject=0xc1d00007; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_client.c:844
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:259
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:1375
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 635!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d00004; hObject=0xc1d00005; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 636!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000c; hObject=0x3141590c; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_client.c:844
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:259
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:1375
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 637!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000c; hObject=0x31415900; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 638!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000c; hObject=0x3141590f; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ mem.c:180
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 639!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000c; hObject=0x31415904; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 640!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000c; hObject=0x31415903; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 641!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e0000a; hObject=0x00000005; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_client.c:844
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:259
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:1375
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 642!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e0000a; hObject=0x00000002; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 643!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e0000a; hObject=0x0000000a; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ vaspace_api.c:573
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 644!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e0000a; hObject=0x00000006; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 645!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e0000a; hObject=0x0000000c; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 646!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e0000a; hObject=0x0000000b; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 647!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00009; hObject=0x00000005; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_client.c:844
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:259
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:1375
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 648!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00009; hObject=0x00000002; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 649!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00009; hObject=0x00000006; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 650!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00009; hObject=0x0000000b; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 651!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00009; hObject=0x0000000a; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 76 sequence 652!
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ kernel_graphics.c:2594
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 76 sequence 653!
+May 02 18:39:32 obpc kernel: NVRM: _kccuUnmapAndFreeMemory: CCU memdesc unmap request failed with status: 0xf
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 76 sequence 654!
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 655!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000d; hObject=0xcaf00002; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_client.c:844
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:259
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:1375
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 656!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000d; hObject=0xcaf00001; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 657!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000d; hObject=0xcaf00003; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_client.c:844
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:259
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:1375
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 658!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1d0000d; hObject=0xcaf00000; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 659!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00007; hObject=0xcaf00001; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 660!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00007; hObject=0xcaf00000; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 76 sequence 661!
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ fecs_event_list.c:1623
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 662!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00005; hObject=0xcaf00002; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_client.c:844
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) @ rs_server.c:259
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: rmStatus == NV_OK @ kern_disp.c:311
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 663!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00005; hObject=0xcaf00001; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 664!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00005; hObject=0xcaf00000; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: (ememOffsetEnd - ememOffsetStart) == wordsWritten @ kern_fsp_gh100.c:648
+May 02 18:39:32 obpc kernel: NVRM: _threadNodeCheckTimeout: API_GPU_ATTACHED_SANITY_CHECK failed!
+May 02 18:39:32 obpc kernel: NVRM: kfspWaitForResponse: FSP command timed out
+May 02 18:39:32 obpc kernel: NVRM: kfspCleanupBootState_IMPL: Clock boost disbalement via FSP failed with error 0x65
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 70 sequence 665!
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 666!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00006; hObject=0xcaf00003; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 667!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00006; hObject=0xcaf00001; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 10 sequence 668!
+May 02 18:39:32 obpc kernel: NVRM: rpcRmApiFree_GSP: GspRmFree failed: hClient=0xc1e00006; hObject=0xcaf00000; paramsStatus=0x00000000; status=0x0000000f
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 76 sequence 669!
+May 02 18:39:32 obpc kernel: NVRM: nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from pRmApi->Control(pRmApi, pGpu->hInternalClient, pGpu->hInternalSubdevice, NV2080_CTRL_CMD_INTERNAL_INIT_USER_SHARED_DATA, &params, sizeof(params)) @ gpu_user_shared_data.c:213
+May 02 18:39:32 obpc kernel: NVRM: _issueRpcAndWait: rpcSendMessage failed with status 0x0000000f for fn 47 sequence 670!
+May 02 18:39:32 obpc kernel: NVRM: _threadNodeCheckTimeout: API_GPU_ATTACHED_SANITY_CHECK failed!
+May 02 18:39:32 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: rmStatus == NV_OK @ osinit.c:2363
