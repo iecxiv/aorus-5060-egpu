@@ -1,5 +1,21 @@
 # Future investigations
 
+> **Note (2026-05-03):** the active investigation into the CUDA-workload host
+> freeze has moved to `freeze-investigation-plan.md`. That doc has the
+> Lever A–G framework, the decision tree pivoting on the WSL2 gate (Lever G),
+> evidence catalogue from upstream issue #979, and the recommended working
+> order for the next session. Read that first if you're picking up the
+> investigation.
+>
+> This doc still contains the historical Bug A/B/C/D filing-quality material
+> from earlier in the project; some of it is now superseded by the broader
+> bug-class characterization (the close-path bug on `/dev/nvidia0` and the
+> CUDA-write-op freeze appear to be different surface symptoms of the same
+> upstream Blackwell × Thunderbolt × open-module class). Sections below are
+> kept as-is for reference but not actively maintained.
+
+---
+
 The current configuration works but masks rather than fixes two real bugs. This document captures the open threads that could remove the workaround dependencies or feed upstream fixes. None of these is required for the system to operate.
 
 ## What's been validated
