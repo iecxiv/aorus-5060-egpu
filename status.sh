@@ -461,6 +461,28 @@ check_loader_disabled /etc/OpenCL/vendors/nvidia.icd                     "OpenCL
 # ------------------------------------------ 8d. /dev/nvidia* permissions ---
 section "8d. /dev/nvidia* device-file permissions"
 
+# Cross-check: the modprobe.conf's NVreg_DeviceFileGID must match the
+# actual ollama group's numeric GID. NVreg options are set at module-load
+# time and aren't exposed via /sys/module/nvidia/parameters/, so we can't
+# inspect the running value. Catching GID drift in the conf is the next
+# best signal: if ollama has GID 1234 on this system but NVreg points at
+# 968, every nvidia-modprobe call will reset perms to 0660 root:GID-968-
+# whatever-that-is, breaking Layer 1.
+ollama_gid=$(getent group ollama 2>/dev/null | cut -d: -f3)
+modconf=/etc/modprobe.d/aorus-5090-compute-only.conf
+if [[ -r "$modconf" ]]; then
+    nvreg_gid=$(grep -oE 'NVreg_DeviceFileGID=[0-9]+' "$modconf" 2>/dev/null | tail -1 | cut -d= -f2)
+    if [[ -n "$nvreg_gid" && -n "$ollama_gid" ]]; then
+        if [[ "$nvreg_gid" == "$ollama_gid" ]]; then
+            ok "NVreg_DeviceFileGID=$nvreg_gid matches ollama group GID"
+        else
+            fail "NVreg_DeviceFileGID=$nvreg_gid in $modconf but actual ollama GID is $ollama_gid (edit modconf to match)"
+        fi
+    elif [[ -z "$nvreg_gid" ]]; then
+        warn "NVreg_DeviceFileGID not set in $modconf (perms will reset to 0666 root:root after every nvidia-smi)"
+    fi
+fi
+
 check_dev_perms() {
     local dev="$1"
     if [[ ! -e "$dev" ]]; then
