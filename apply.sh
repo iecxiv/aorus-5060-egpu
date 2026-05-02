@@ -68,6 +68,8 @@ copy_if_different etc/modprobe.d/aorus-5090-compute-only.conf \
                   /etc/modprobe.d/aorus-5090-compute-only.conf 0644
 copy_if_different etc/modprobe.d/blacklist-nouveau.conf \
                   /etc/modprobe.d/blacklist-nouveau.conf 0644
+copy_if_different etc/modprobe.d/nvidia-power-management.conf \
+                  /etc/modprobe.d/nvidia-power-management.conf 0644
 
 # systemd units
 copy_if_different etc/systemd/system/aorus-5090-compute-load-nvidia.service \
@@ -96,6 +98,7 @@ restorecon_paths=(
     /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules
     /etc/modprobe.d/aorus-5090-compute-only.conf
     /etc/modprobe.d/blacklist-nouveau.conf
+    /etc/modprobe.d/nvidia-power-management.conf
     /etc/systemd/system/aorus-5090-compute-load-nvidia.service
     /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf
     /etc/systemd/system/aorus-5090-uvm-keepalive.service

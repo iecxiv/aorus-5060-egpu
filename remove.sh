@@ -103,6 +103,7 @@ remove_if_exists /etc/udev/rules.d/81-aorus-5090-compute-power.rules
 remove_if_exists /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules
 remove_if_exists /etc/modprobe.d/aorus-5090-compute-only.conf
 remove_if_exists /etc/modprobe.d/blacklist-nouveau.conf
+remove_if_exists /etc/modprobe.d/nvidia-power-management.conf
 remove_if_exists /usr/local/sbin/aorus-5090-compute-load-nvidia
 remove_if_exists /usr/local/sbin/aorus-5090-disable-audio
 remove_if_exists /usr/local/sbin/aorus-5090-status

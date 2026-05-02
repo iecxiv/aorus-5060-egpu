@@ -127,6 +127,8 @@ check_file_match etc/modprobe.d/aorus-5090-compute-only.conf \
                  /etc/modprobe.d/aorus-5090-compute-only.conf
 check_file_match etc/modprobe.d/blacklist-nouveau.conf \
                  /etc/modprobe.d/blacklist-nouveau.conf
+check_file_match etc/modprobe.d/nvidia-power-management.conf \
+                 /etc/modprobe.d/nvidia-power-management.conf
 check_file_match etc/systemd/system/aorus-5090-compute-load-nvidia.service \
                  /etc/systemd/system/aorus-5090-compute-load-nvidia.service
 check_file_match etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf \
