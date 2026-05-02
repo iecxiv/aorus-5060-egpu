@@ -49,6 +49,20 @@ check_arg_in_cmdline 'pci=realloc,pcie_bus_perf,hpmmioprefsize=256M,resource_ali
 check_arg_in_cmdline 'module_blacklist=nouveau,nova_core'
 check_arg_in_cmdline 'rd.driver.blacklist=nouveau,nova_core'
 check_arg_in_cmdline 'modprobe.blacklist=nouveau,nova_core'
+check_arg_in_cmdline 'iommu=pt'
+
+# IOMMU should be in passthrough mode for kernel-managed devices. The current
+# domain-type setting is recorded in dmesg early in boot.
+if [[ -d /sys/class/iommu/dmar0 ]]; then
+    iommu_default=$(dmesg 2>/dev/null | awk '/iommu: Default domain type:/ {print $NF; exit}')
+    if [[ "$iommu_default" == "Passthrough" ]]; then
+        ok "IOMMU default domain: Passthrough (matches iommu=pt)"
+    elif [[ "$iommu_default" == "Translated" ]]; then
+        warn "IOMMU default domain: Translated (iommu=pt boot arg not in effect; reboot after grubby update)"
+    else
+        info "IOMMU default domain: ${iommu_default:-unknown}"
+    fi
+fi
 
 if [[ -r /sys/module/thunderbolt/parameters/host_reset ]]; then
     hr="$(</sys/module/thunderbolt/parameters/host_reset)"

@@ -31,8 +31,14 @@ if ! grep -q 'thunderbolt.host_reset=false' /proc/cmdline; then
     yellow "WARNING: 'thunderbolt.host_reset=false' is NOT in /proc/cmdline."
     yellow "The eGPU likely has BAR1=256MiB rather than 32GiB. Boot args are required."
     yellow "After this script finishes, run:"
-    yellow "  sudo grubby --update-kernel=ALL --args=\"thunderbolt.host_reset=false pci=realloc,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core\""
+    yellow "  sudo grubby --update-kernel=ALL --args=\"thunderbolt.host_reset=false pci=realloc,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core iommu=pt\""
     yellow "Then reboot before relying on the rest of the configuration."
+elif ! grep -q 'iommu=pt' /proc/cmdline; then
+    yellow "NOTICE: 'iommu=pt' is NOT in /proc/cmdline."
+    yellow "Other boot args are present, but the IOMMU is in Translated mode rather"
+    yellow "than passthrough. Recommended for stability + performance:"
+    yellow "  sudo grubby --update-kernel=ALL --args=\"iommu=pt\""
+    yellow "Reboot to apply."
 fi
 
 if [[ ! -e /sys/bus/pci/devices/0000:04:00.0 ]]; then

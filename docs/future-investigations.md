@@ -194,3 +194,119 @@ After PyTorch is validated, the natural target. vLLM-specific concerns to be awa
 - vLLM does its own CUDA context management; whether its hot-load/unload model patterns trigger the close-path bug is an open question.
 - A first vLLM test should load a tiny model (e.g. TinyLlama-1.1B or similar) before attempting anything large.
 - Watch for `torch.cuda.empty_cache()` calls in particular - those may close+reopen device files in patterns we have not characterised.
+
+## 8. Pivot to NVIDIA's official "compute-only" install on Fedora 43
+
+**Discovered 2026-05-02 via NVIDIA's driver installation guide:**
+
+- Root: https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/latest/
+- https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/compute-only-and-desktop-installation.html
+- https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/driver-assistant.html
+- https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/advanced-options.html
+
+NVIDIA documents a first-class **compute-only installation mode** since driver
+560+. It includes the CUDA runtime + GPU compute drivers and excludes the
+desktop layer (X/Wayland, Vulkan/EGL/OpenCL/libGL ICDs, display power
+management). The `nvidia-driver-assistant` tool wraps the install and
+supports both kernel-module flavours:
+
+```
+nvidia-driver-assistant --install --module-flavor open      # OpenRM
+nvidia-driver-assistant --install --module-flavor closed    # Closed RM
+```
+
+**This is exactly the configuration we have been building by hand from a
+desktop install.** A meaningful chunk of the platform repo's Layer-2 / Layer-3
+hardening was reactive — disable Vulkan ICD, EGL vendor, OpenCL ICD, mask
+switcheroo-control, mask nvidia-cdi-refresh.path - all aimed at undoing
+desktop-install side effects that compute-only mode never installs in the
+first place.
+
+### Supported distros and our gap
+
+The compute-only mode supports: Amazon Linux 2023, RHEL 8-10, **Fedora 43**,
+openSUSE 15-16, Debian 12-13, Ubuntu 22.04 / 24.04. Notably **NOT Fedora 42**,
+which is what this host runs. Two paths forward:
+
+- **Upgrade to Fedora 43, then install via compute-only mode (recommended).**
+  Aligns with vendor-supported config; removes the bulk of our reactive
+  hardening; gets us the canonical happy path the platform docs describe.
+- **Stay on Fedora 42 with the NVIDIA CUDA repo.** Probably works (the
+  packages are RHEL-style RPMs) but unsupported. Useful only as a quick
+  closed-RM A/B if upgrade cost matters more than vendor support.
+
+### What stays vs goes after the migration
+
+**Stays - genuine hardware/platform fixes:**
+
+- Boot args (`pci=realloc...`, `thunderbolt.host_reset=false`, `iommu=pt`,
+  nouveau blacklisting). Layer 2, hardware-specific.
+- Loader script (`aorus-5090-compute-load-nvidia`). Binds the GPU explicitly
+  through the manual override and pre-stages `nvidia_uvm`. Hardware-specific.
+- udev rules for power state pinning (`81-aorus-5090-compute-power.rules`)
+  and driver_override (`79-aorus-5090-no-autoload.rules`). Layer 1/2.
+- `nvidia-persistenced` drop-in (Restart=no, depends on loader). Workaround
+  for the close-path bug.
+- `aorus-5090-uvm-keepalive.service`. Same workaround for /dev/nvidia-uvm.
+- NVreg options in modprobe.d (DeviceFile{UID,GID,Mode}, DynamicPowerManagement,
+  PreserveVideoMemoryAllocations, S0ix, RestrictProfilingToAdminUsers).
+  Driver-tuning, applies regardless of install path.
+- `nvidia-power-management.conf` shadow override.
+
+**Goes - reactive cleanup that compute-only mode handles natively:**
+
+- Layer 2 ICD disable (Vulkan/EGL/OpenCL aorus-disabled renames). The
+  compute-only install never installs these, so there is nothing to disable.
+- Mask of `switcheroo-control.service`. Probably not installed; mask becomes
+  inert.
+- Mask of `nvidia-cdi-refresh.path` and `.service`. May or may not be
+  installed depending on whether nvidia-container-toolkit is pulled in;
+  re-evaluate post-migration.
+- `82-aorus-5090-nvidia-permissions.rules`. NVIDIA's compute-only install
+  may already set restrictive perms; verify and remove if redundant.
+
+**Migration plan (to be executed in a dedicated session):**
+
+1. Cold-boot to known-good state, run `status.sh`, capture full output as a
+   pre-migration snapshot in `archive/compute-only-migration-<date>/`.
+2. `dnf system-upgrade` to Fedora 43 (~30-60 min, one reboot).
+3. After reboot, validate iGPU is rendering GNOME and host is otherwise sane.
+   The eGPU may not be bound at this point (RPMFusion akmod may not have
+   rebuilt for the new kernel yet).
+4. Remove RPMFusion's nvidia packages: `dnf remove akmod-nvidia kmod-nvidia
+   xorg-x11-drv-nvidia*`. This will pull a lot of dependents; review.
+5. Add NVIDIA's CUDA repo per docs. Verify with `dnf repolist`.
+6. `nvidia-driver-assistant --install --module-flavor open` (start with open;
+   later A/B with closed if the kernel-driver freeze persists).
+7. Reboot. The new driver install owns kernel module loading; revisit the
+   loader script's `modprobe --ignore-install nvidia` step - may need to
+   adapt the modprobe.d install lines.
+8. Run `status.sh`. Many checks should still pass; the ones in sections 8c
+   (ICDs disabled) will now correctly report "not installed" as INFO.
+9. Re-test ollama / harness. The kernel-level freeze (if it survives the
+   migration) tells us the bug is independent of install path.
+10. If freeze persists with `--module-flavor open`, retry with `--module-flavor
+    closed`. This is the definitive open-vs-closed-RM A/B.
+11. Update apply.sh / remove.sh / status.sh: drop the now-redundant
+    Layer-2 hardening (ICD disable, the masks of compute-only-mode-not-needed
+    services). Promote sections that catch real issues.
+12. Update `docs/architecture.md` to reflect the compute-only-install
+    foundation rather than the desktop-install + hand-hardening pattern.
+
+**Rollback plan:**
+
+Keep a Fedora 42 root snapshot via btrfs subvolume / LVM / dd before starting.
+If the upgrade or NVIDIA-repo install breaks the host, boot into the snapshot.
+RPMFusion install path is well-documented in our existing apply.sh.
+
+**What this does NOT fix:**
+
+The kernel-level freeze that hits when ollama runs sustained CUDA work is
+a driver / GSP firmware / Blackwell-over-Thunderbolt bug, not an
+install-path bug. Switching to compute-only mode won't make ollama work
+where it currently freezes the host. What it DOES do:
+
+- Removes incidental userspace exposure (the desktop-install ICDs / libs).
+- Gives us a vendor-blessed config to point at when filing the NVIDIA bug.
+- Lets us A/B test open vs closed RM cleanly.
+- Reduces our maintenance surface significantly.

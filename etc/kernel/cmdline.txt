@@ -11,6 +11,7 @@ rd.driver.blacklist=nouveau,nova_core
 modprobe.blacklist=nouveau,nova_core
 pci=realloc,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0
 thunderbolt.host_reset=false
+iommu=pt
 
 # Why each is needed:
 #
@@ -38,3 +39,22 @@ thunderbolt.host_reset=false
 #   router reset that destroys the firmware/early-boot 32 GiB BAR1 layout,
 #   collapsing it to 256 MiB. This kills NVIDIA driver bind. With this flag,
 #   the firmware-assigned 32 GiB BAR1 survives Thunderbolt authorization.
+#
+# iommu=pt
+#   IOMMU is already auto-enabled on this platform via ACPI DMAR tables (no
+#   intel_iommu=on needed; verify with `ls /sys/class/iommu/` showing dmar0
+#   and dmar1). 'pt' = passthrough: kernel-managed devices bypass the
+#   IOMMU's translation tables; only devices explicitly bound to vfio-pci
+#   (none on this host) go through full IOMMU mapping. Two reasons:
+#
+#     (1) Stability. Translated mode adds DMA address mapping for every
+#         device, including the eGPU over Thunderbolt. Passthrough avoids
+#         any subtle interaction between IOMMU TLB invalidation and the
+#         Thunderbolt PCIe bridge during high-throughput GPU DMA.
+#
+#     (2) Performance. Translated mode incurs an IOMMU TLB lookup per DMA
+#         transaction. For sustained CUDA workloads (model load, kernel
+#         launches, memory transfers) this is measurable overhead.
+#
+#   Layer-2 hardening complementary to BIOS PCIe ASPM disabled (Layer 1)
+#   and our driver-side tuning (Layer 3).
