@@ -1,4 +1,31 @@
-# AORUS RTX 5090 AI Box on Fedora 42 (NUC 15 Pro+, kernel 6.19)
+# AORUS RTX 5090 AI Box on NUC 15 Pro+
+
+> **⚠ Active investigation in progress (2026-05-03 onwards)** — see
+> **[`docs/freeze-investigation-plan.md`](docs/freeze-investigation-plan.md)**
+> for the current state, lever taxonomy A–K, three-layer reliability
+> model, and decision tree. **[`docs/source-review-notes.md`](docs/source-review-notes.md)**
+> has the source-review work (six passes) including the smoking-gun
+> NVIDIA comment, the failure model, and the concrete patch surface
+> (~13 lines across 5 sites). Read those two docs first.
+>
+> The CUDA-workload host freeze is a Linux-open-kernel-module bug
+> upstream at NVIDIA/open-gpu-kernel-modules#979, structurally — the
+> open module commits to permanent GPU-lost state on a single transient
+> PCIe register-read failure (NVIDIA's own comment: *"This doesn't
+> support PEX Reset and Recovery yet."*). 3DMark Nomad on Windows runs
+> cleanly on the same hardware; WSL2 ran a 45-iteration LLM benchmark
+> ladder up to 27B-parameter models cleanly via the Windows driver path.
+> The patch surface is localised and fixable.
+>
+> **Current platform**: Fedora 43 + open kernel module **595.71.05** from
+> the official NVIDIA-CUDA repo (`nvidia-driver-cuda` +
+> `kmod-nvidia-open-dkms`). The historical content below predates the
+> investigation and refers to the older F42 + RPMFusion 580.142 stack.
+> Kept for reference / archive value; **not the current state**.
+
+---
+
+## Historical content (Fedora 42 + RPMFusion 580.142 era)
 
 The clean, minimal, happy-path documentation for running an AORUS GeForce RTX 5090 AI Box (GB202, Blackwell) over Thunderbolt 4 on a Fedora 42 host, with proprietary NVIDIA userspace 580.142.
 

@@ -605,6 +605,19 @@ Lever F: housekeeping.  Lever F: GSP via         Lever F: as in
    Mostly housekeeping; useful regardless of G.
 5. **Lever C** — file on #979 once we have at least Lever G's outcome.
 
+## 7a. External paths referenced from this repo
+
+Artifacts that live outside the platform repo but are essential context:
+
+| Path | What | Maintained by |
+|---|---|---|
+| `/root/nvidia-open-src/` | Cloned `NVIDIA/open-gpu-kernel-modules` at exact tag `595.71.05` (matches our installed driver). All file:line citations in `source-review-notes.md` resolve here. | Fetched 2026-05-03; refetch on driver upgrade |
+| `/root/llm-bench/wsl-fedora43-2026-05-03/` | Lever G WSL2 benchmark report. 45-iteration ladder across 5 models (1B → 27B) authored by a separate agent. Canonical control datapoint proving the bug is Linux-side. | Read-only archive |
+| `/root/ollama/` | Working ollama serving stack. `tools/run-with-telemetry.sh` is the lite-test harness; default workload qwen2.5:0.5b + "Write one sentence about Paris." Has fsync'd progress markers (added 2026-05-03). | Sibling repo |
+| `/root/ollama/archive/lite-2026-05-03-192806/` | First freeze with telemetry survival. Captured Xid 79 + fn 10 cleanup cascade at `rs_client.c:844`. Cited in source-review Pass 3. | Archive |
+| `/root/ollama/archive/lite-2026-05-03-211751/` | Second freeze with telemetry survival. Captured fn 78 engine-dump cascade at `nv_debug_dump.c:273` + `journal.c:2239`. Cited in source-review Pass 5/6. | Archive |
+| `/root/vllm/` | Parked vLLM evidence archive (older work). Not active. | Sibling repo, historical |
+
 ## 7. Methodology gaps to address
 
 These don't block the investigation but should be fixed when convenient:
