@@ -808,6 +808,188 @@ The L3 (graceful-failure) work in any future Lever J-2 needs to harden
    methodology fix have produced kernel log + telemetry data we'd
    never had. Cost: small. Diagnostic value: high.
 
+## Pass 6: Source review of new deadlock loci (2026-05-03 late, Task 3)
+
+Read the two new sites called out by the Pass-5 captured kernel sequence.
+Both files at `src/nvidia/src/kernel/diagnostics/`.
+
+### `nv_debug_dump.c:269-281` (the loop containing line 273)
+
+```c
+NV_STATUS
+nvdDumpAllEngines_IMPL(...)
+{
+    NVD_ENGINE_CALLBACK *pEngineCallback;
+    NV_STATUS nvStatus = NV_OK;
+
+    NV_CHECK_OK_OR_RETURN(LEVEL_ERROR,
+        prbEncNestedStart(pPrbEnc, NVDEBUG_NVDUMP_GPU_INFO));
+
+    for (pEngineCallback = pNvd->pCallbacks;
+        (prbEncBufLeft(pPrbEnc) > 0) && (pEngineCallback != NULL);
+        pEngineCallback = pEngineCallback->pNext)
+    {
+        NV_CHECK_OK_OR_CAPTURE_FIRST_ERROR(nvStatus, LEVEL_ERROR,
+            nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback));   // <- line 273
+
+        // Check to see if GPU is inaccessible
+        if (pGpu->getProperty(pGpu, PDB_PROP_GPU_INACCESSIBLE))
+        {
+            pNvDumpState->bGpuAccessible = NV_FALSE;
+        }
+    }
+    ...
+}
+```
+
+**Bug analysis:**
+
+1. The loop iterates through ALL engine callbacks (~14 on our GPU).
+2. Each callback invokes a GSP RPC to read engine state.
+3. With GPU lost, every RPC fails synchronously with `NV_ERR_GPU_IS_LOST`.
+4. `NV_CHECK_OK_OR_CAPTURE_FIRST_ERROR` records the error but **does not break the loop** — it just captures the FIRST error and lets iteration continue.
+5. The post-callback check sets a local flag `pNvDumpState->bGpuAccessible = NV_FALSE` if `PDB_PROP_GPU_INACCESSIBLE` is set — but **does not break out of the loop**. So even the existing inaccessibility check is advisory.
+6. Note: `PDB_PROP_GPU_INACCESSIBLE` and `PDB_PROP_GPU_IS_LOST` are *different properties*; the code doesn't even check the latter here.
+
+**Patch surface (Lever J-2):**
+
+Insert a guard at the top of each iteration:
+
+```c
+for (pEngineCallback = pNvd->pCallbacks;
+    (prbEncBufLeft(pPrbEnc) > 0) && (pEngineCallback != NULL);
+    pEngineCallback = pEngineCallback->pNext)
+{
+    if (pGpu->getProperty(pGpu, PDB_PROP_GPU_IS_LOST) ||
+        pGpu->getProperty(pGpu, PDB_PROP_GPU_INACCESSIBLE))
+    {
+        pNvDumpState->bGpuAccessible = NV_FALSE;
+        break;  // PATCH: stop attempting dumps on a known-lost GPU
+    }
+    NV_CHECK_OK_OR_CAPTURE_FIRST_ERROR(nvStatus, LEVEL_ERROR,
+        nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback));
+    ...
+}
+```
+
+~3 lines. Eliminates the 14-iteration cascade. Doesn't fix the underlying
+deadlock-on-assertion (that's `journal.c:2239`), but cuts ~13 redundant
+RPC failures from the path.
+
+### `journal.c:2204-2263` (function containing line 2239)
+
+This is the **deferred GPU-dump workitem** — queued from
+`gpuSetDisconnectedProperties` via `osQueueWorkItem` after the GPU is
+declared lost.
+
+```c
+static void
+_rcdbAddRmGpuDumpDeferred(  // function name inferred; signature shows void+NvU32+pData
+    NvU32 gpuInstance,
+    void *pData
+)
+{
+    OBJSYS *pSys = SYS_GET_INSTANCE();
+    NV_STATUS status;
+
+    status = osAcquireRmSema(pSys->pSema);                              // LOCK 1
+    if (status == NV_OK) {
+        status = rmapiLockAcquire(API_LOCK_FLAGS_NONE, RM_LOCK_MODULES_DIAG); // LOCK 2
+        if (status == NV_OK) {
+            status = rmGpuLocksAcquire(GPUS_LOCK_FLAGS_NONE,
+                                       RM_LOCK_MODULES_DIAG);            // LOCK 3
+            if (status == NV_OK) {
+                Journal *pRcDB = SYS_GET_RCDB(pSys);
+                OBJGPU  *pGpu = gpumgrGetGpu(gpuInstance);
+
+                pRcDB->setProperty(pRcDB, PDB_PROP_RCDB_IN_DEFERRED_DUMP_CODEPATH, NV_TRUE);
+
+                status = rcdbAddRmGpuDump(pGpu);   // <- calls nvdDumpAllEngines, fails
+                NV_ASSERT(status == NV_OK);        // <- LINE 2239 — assertion fires
+
+                pRcDB->setProperty(pRcDB, PDB_PROP_RCDB_IN_DEFERRED_DUMP_CODEPATH, NV_FALSE);
+                rmGpuLocksRelease(...);
+            }
+            rmapiLockRelease();
+        }
+        osReleaseRmSema(pSys->pSema, NULL);
+    }
+}
+```
+
+**Bug analysis:**
+
+1. **Three nested locks** are acquired before the dump: RM Semaphore, API lock, GPU lock. Held until `rmGpuLocksRelease` after the assertion.
+2. `rcdbAddRmGpuDump(pGpu)` is the function that ultimately calls
+   `nvdDumpAllEngines_IMPL` (the loop above). It returns the captured
+   error from that loop.
+3. With GPU lost, `rcdbAddRmGpuDump` returns `NV_ERR_GPU_IS_LOST`.
+4. `NV_ASSERT(status == NV_OK)` fires. In a debug build this is a
+   breakpoint; in a release build it logs but doesn't abort.
+5. **The kernel hangs here, but the assert itself doesn't crash.** The
+   hang is somewhere downstream — likely in the assertion handler's
+   own state-collection code (which may attempt MORE register reads
+   for stack/context trace), or in a downstream lock release that
+   contends with another deadlocked thread.
+
+**Patch surface (Lever J-2):**
+
+Two complementary fixes possible:
+
+1. **At line 2239** — replace the assertion with a graceful-error path:
+
+   ```c
+   if (status != NV_OK) {
+       NV_PRINTF(LEVEL_ERROR, "rcdbAddRmGpuDump failed: 0x%x (GPU may be lost)\n", status);
+       // Don't assert; the dump failed gracefully, continue cleanup.
+   }
+   ```
+
+2. **Inside `rcdbAddRmGpuDump`** — short-circuit at entry:
+
+   ```c
+   if (pGpu->getProperty(pGpu, PDB_PROP_GPU_IS_LOST)) {
+       NV_PRINTF(LEVEL_INFO, "Skipping GPU dump for lost GPU\n");
+       return NV_OK;  // pretend dump succeeded; nothing to dump
+   }
+   ```
+
+The second is preferred — it short-circuits BOTH the engine-dump loop
+AND the assertion. ~3 lines. Both patches together (1 + 2) provide
+defense in depth.
+
+### Combined L3 patch surface (Lever J-2)
+
+Updated full L3 patch surface from Pass 3 + Pass 5 + Pass 6:
+
+| Site | File:line | Patch | Lines |
+|---|---|---|---|
+| Cleanup assert | `rs_client.c:844` | Add `NV_ERR_GPU_IS_LOST` to acceptable status set | 1 |
+| Cleanup assert | `rs_server.c:259` | Add `NV_ERR_GPU_IS_LOST` to acceptable status set | 1 |
+| Engine dump loop | `nv_debug_dump.c:269` | Insert per-iteration guard on `PDB_PROP_GPU_IS_LOST` | ~5 |
+| Dump entry | `rcdbAddRmGpuDump` (caller of nvdDumpAllEngines) | Short-circuit on `PDB_PROP_GPU_IS_LOST` | ~3 |
+| Dump assertion | `journal.c:2239` | Replace `NV_ASSERT(status == NV_OK)` with logged warning | ~3 |
+
+Total: **5 patch sites, ~13 lines of code.** All defensive (replace
+asserts with logged-and-continue, or short-circuit on known-lost-GPU).
+None of these patches change behaviour on a healthy GPU — they only
+change behaviour after `PDB_PROP_GPU_IS_LOST` has been set.
+
+### What this does NOT fix
+
+Lever I (the retry in `osHandleGpuLost`) still does the heavy lifting:
+it prevents `PDB_PROP_GPU_IS_LOST` from being set in the first place
+on transient PCIe failures. The L3 patches above only matter when the
+GPU is GENUINELY lost (e.g. someone unplugged the eGPU). Without
+Lever I, transients still cause loss-declaration even though the GPU
+is actually fine; with Lever I, only real losses trigger the L3
+paths, and L3 patches keep those losses from deadlocking the kernel.
+
+**Both Lever I and the L3 patches are needed for full Windows-grade
+robustness.** Lever I alone leaves the kernel hanging on real GPU
+disconnect. L3 alone leaves the kernel committing to lost-GPU on
+transients.
+
 ## Source-review coverage gaps (parked reads)
 
 Honest inventory of what was NOT read end-to-end, in priority order. The
