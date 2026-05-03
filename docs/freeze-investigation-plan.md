@@ -281,6 +281,34 @@ Of the four firmware surfaces:
 Reduced to surfaces 1 and 4. Mostly housekeeping; pairs with Lever B
 (both touch host-firmware investigation).
 
+### Lever H — RmOverrideInternalTimeoutsMs (DERIVED FROM LEVER E)
+
+Source review (Lever E pass 2) found that Linux open module locks
+`defaultus` at **4 seconds** at GPU init time (graphics mode default,
+because `computeModeRefCount = 0` then). Most generic RM waits use
+this. Hypothesis (H1): a GSP-RPC during cuCtxCreate exceeds 4s on
+TB-tunneled PCIe, the timeout fires, the recovery path deadlocks
+(no TDR equivalent in the Linux open module). See
+`source-review-notes.md` for the full trace.
+
+`nvrm_registry.h:105-124` exposes `RmOverrideInternalTimeoutsMs` —
+a 32-bit registry value with bit-field flags for which timeout
+class to override. The string form is `RmOverrideInternalTimeoutsMs`;
+we set it via the `NVreg_RegistryDwords` mechanism the way we set
+`RmForceExternalGpu`.
+
+Value: `0xC0007530`
+- Bits 31+30 (`0xC0000000`): `SET_RM_DEFAULT_TIMEOUT` + `SET_RC_WATCHDOG_TIMEOUT`
+- Bits 23:0 (`0x00007530`): 30,000 ms = 30 seconds
+
+Three outcomes are possible, each informative:
+
+| Outcome | Means |
+|---|---|
+| **A** Freeze gone | H1 confirmed; bug is timeout-fire + recovery deadlock; next investigation is the recovery-path deadlock locus (probably in `thread_state.c` and `message_queue_cpu.c` receive half — both currently unread per source-review-notes Tier 1). |
+| **B** Freeze identical | H1 ruled out; bug is a deadlock with no timeout involved. Pivots back to source-review Tier 1 reads (recovery + RPC half) AND into Tier 3 (DMA-map path). |
+| **C** Different failure mode (clean error code, partial work, longer survival) | Timeout was firing but a deeper code path is now exposed. Whatever the new failure mode points at becomes the next read. |
+
 ### Lever G — WSL2 CUDA reproduction (PENDING, GATE)
 
 User-proposed 2026-05-03 morning. The diagnostic gate that determines the

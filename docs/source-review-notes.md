@@ -268,6 +268,85 @@ later.)
    nvidia-uvm/uvm_blackwell*` between 595 and HEAD for any Blackwell × TB
    fixes that haven't landed in our branch yet. ~30 min.
 
+## Source-review coverage gaps (parked reads)
+
+Honest inventory of what was NOT read end-to-end, in priority order. The
+"recommended next steps" section above lists actions; this section names the
+specific files/regions whose content has not yet been digested. If Lever H
+returns outcome B (no change) or C (different failure mode), this list is
+where the next reads come from.
+
+### Tier 1 — most likely to contain the freeze locus
+
+These are the highest-leverage reads if Lever H does not resolve.
+
+- **`src/nvidia/src/kernel/core/thread_state.c` (full file).** Identified
+  at lines 1151/1156 as where `gpuGetMode` is consulted. Almost certainly
+  contains the actual timeout-fire and recovery sequencing. If the
+  hypothesis "fired timeout deadlocks the kernel" is right, the deadlock
+  is in here or its immediate callers. Have not opened.
+- **`src/nvidia/src/kernel/gpu/gsp/message_queue_cpu.c` receive/cleanup
+  half.** Read only `GspMsgQueueSendCommand` (lines 460–510). Did NOT read
+  the corresponding receive half, the timeout-handling, or the
+  failure-cleanup code. The RPC failure path is exactly where a deadlock
+  would manifest.
+- **`src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c` RPC-issue sections** (file
+  is 4752 lines total, only grepped). Specifically the `kgspBootstrap_HAL`
+  dispatch and any `kgspExecuteRpc`-equivalent call sites. The cuCtxCreate
+  GSP handshake threads through here.
+
+### Tier 2 — supporting context
+
+- **`kernel-open/nvidia-uvm/uvm_blackwell_host.c` (381 lines).** Host
+  channel logic on Blackwell. The channel is what carries GSP RPCs.
+  Completely unread.
+- **`kernel-open/nvidia-uvm/uvm_blackwell.c` (157 lines).** Only the first
+  ~50 lines (`arch_init_properties`). Rest unread.
+- **`kernel-open/nvidia-uvm/uvm_blackwell_fault_buffer.c` (122 lines).**
+  Completely unread.
+- **UVM channel setup in general** — `uvm_channel.c`, `uvm_va_block.c`,
+  `uvm_pmm_*`. The cuCtxCreate path threads through these. Never grepped.
+
+### Tier 3 — DMA mapping path (H2 territory)
+
+If Lever H rules out the timeout hypothesis (outcome B), the DMA-mapping
+path becomes the next strongest candidate.
+
+- **DMA-map code generally** — anywhere `dma_map_*` / IOMMU calls happen
+  from kernel-side. Never grepped.
+- **`kernel-open/nvidia/nv-pci.c`** beyond lines 490–580 + 2300–2350 (2400+
+  lines total, mostly unread). Bridge enumeration, BAR sizing, MSI rearm,
+  IRQ routing.
+- **The IOCTL surface** — `kernel-open/nvidia/nv.c`, `nv-control.c`,
+  `nv-frontend.c`. User→kernel handoff for CUDA. Never grepped.
+
+### Tier 4 — single-function reads, low priority
+
+- **`gpuScaleTimeout`** (gpu_timeout.c:83 caller, function defined
+  elsewhere). Could in principle scale `defaultus` differently per arch.
+  ~15 minutes to settle.
+- **`gpuGetMode_IMPL` and `computeModeRefCount`** — never read where the
+  refcount is incremented. Confirms our claim that compute mode is per-
+  CUDA-process, not per-host-policy.
+- **`chipset_pcie.c:488/513`** — where `PDB_PROP_CL_UPSTREAM_LTR_SUPPORTED`
+  is set or cleared based on chipset detection. Cosmetic; LTR-disabled is
+  not the freeze trigger.
+
+### Tier 5 — beyond this branch
+
+- **Driver branches 596.x and later.** Have not done `git log -- ...` to
+  find Blackwell × TB fixes that may have landed after 595.71.05. Could
+  change the picture if a fix exists upstream that we'd just need to
+  cherry-pick or upgrade to. ~30 minutes.
+
+### What we have NOT done at all
+
+Direct trace from `cuCtxCreate_v2` IOCTL entry → kernel module dispatch →
+RM IOCTL handler → context allocation → DMA map → GSP-RPC. We've explored
+*around* the path (timeouts, eGPU gating, MMU layout) but never *along*
+the path itself. That trace would localise where the wait actually happens
+to be.
+
 ## Cross-references in this repo
 
 - `freeze-investigation-plan.md` — top-level investigation plan; Lever E
