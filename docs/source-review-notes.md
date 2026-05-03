@@ -463,6 +463,222 @@ hand-rolled patch.
 | **H** Timeout override | **Predicted negative** before testing. Still worth running as a control to falsify the hypothesis cleanly. |
 | **NEW: I — driver patch + dkms rebuild** | Layer 1 retry patch in `osHandleGpuLost`. ~10 lines of C. ~hour to write + rebuild + test. **This is now the most promising lever.** |
 
+## Pass 4: Three-layer reliability model (2026-05-03 evening)
+
+Pass 3's framing was incomplete. It focused on layer 2 (recovery) because
+that's where NVIDIA's smoking-gun comment lives, but bus reliability is
+genuinely a three-layer concern. Each layer has a Linux-side gap relative
+to Windows nvlddmkm.sys, and each is potentially addressable.
+
+### Layer 1 — Prevention: keep the bus stable so transients are rare
+
+The mature Windows TB stack does decade+ of laptop-eGPU hardening here.
+WHQL certification mandates aggressive bus-stability behaviours. The
+Linux open module has the building blocks but tunes them loosely.
+
+**Concrete L1 deficiencies on our stack:**
+
+- **LTR is not enforced.** `kbifInitLtr_GB202`
+  (`src/nvidia/src/kernel/gpu/bif/arch/blackwell/kernel_bif_gb202.c:154`)
+  reads `pCl->getProperty(pCl, PDB_PROP_CL_UPSTREAM_LTR_SUPPORTED)` and
+  *only* writes the GPU's `LTR_ENABLE` bit if the upstream chipset
+  supports LTR. TB hierarchies typically don't propagate LTR — we see
+  the "LTR is disabled in the hierarchy" warning. The GPU-side LTR
+  could be enabled regardless; the upstream-required check is a
+  defensive default that hurts us.
+- **ASPM policy not pinned.** Userspace cmdline option
+  `pcie_aspm.policy=performance` exists (it's in bilikaz's working
+  recipe at #979 comment 9) but we have not applied it. Without it,
+  the kernel may transition the bus into low-power states under
+  marginal load.
+- **TB CLx not disabled.** `thunderbolt.clx=0` exists, also in
+  bilikaz's recipe. CLx is TB's low-power link-state mechanism.
+  A CLx wake event happening concurrently with a PCIe transaction
+  is a candidate trigger for the all-1s reads we see.
+- **D-state transitions not fully suppressed.** We have
+  `d3cold_allowed=0` at the udev layer and
+  `NVreg_DynamicPowerManagement=0x00` at the driver layer, but the
+  in-driver runtime PM may still attempt soft transitions. There's
+  no driver-internal "external GPU" gate that disables PM more
+  aggressively beyond what we've already set.
+
+### Layer 2 — Recovery: when a transient happens, recover gracefully
+
+Where Pass 3's analysis lives. NVIDIA's source comment at
+`osinit.c:361-364` documents that the open module **does not implement
+PEX Reset and Recovery**. A single all-1s register read commits to
+permanent GPU-lost.
+
+**Concrete L2 deficiencies:**
+
+- **No multi-retry on the read-failure path.** `gpuVerifyExistence_IMPL`
+  re-reads `NV_PMC_BOOT_0` *once* before committing
+  (`gpu_access.c:1215-1233`). `osHandleGpuLost` does the same
+  (`osinit.c:357-358`). On a TB tunnel, the transient often clears
+  within milliseconds — but the driver doesn't wait.
+- **No PCI link retrain.** No use of Linux's `pci_reset_function()` or
+  `pci_reset_secondary_bus()`. AER subsystem callbacks not hooked. If
+  the link is in a recoverable bad state, no recovery is attempted.
+- **No GSP-side recovery.** Once `PDB_PROP_GPU_IS_LOST` is set, GSP's
+  view is never resynced even if the link comes back.
+
+### Layer 3 — Graceful failure: when recovery fails, fail cleanly
+
+Windows TDR resets the driver state, returns clean errors to apps,
+and keeps the system running. Linux open module instead deadlocks
+the kernel.
+
+**Concrete L3 deficiencies:**
+
+- **Cleanup cascade asserts on `NV_ERR_GPU_IS_LOST`.** `rs_client.c:844`
+  asserts `(status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET)`
+  after `serverFreeResourceRpcUnderLock`. With status `NV_ERR_GPU_IS_LOST`,
+  the assert fires repeatedly across the cleanup loop. Same at
+  `rs_server.c:259`.
+- **`krcRcAndNotifyAllChannels` may not be GPU-lost-safe.**
+  Notification code may walk channel state and read registers, which
+  can re-trigger the all-1s detection and recurse into
+  `osHandleGpuLost`.
+- **`RmLogGpuCrash` reads GPU state for crash dumping.** If the GPU
+  is genuinely unreachable, the dump itself can stall. No timeout
+  on the dump path.
+- **Workitem queued by `gpuSetDisconnectedProperties` may deadlock.**
+  `osQueueWorkItem` for `_gpuSetDisconnectedPropertiesWorker` runs
+  on a worker thread. If it tries to acquire the same locks as the
+  failing path, deadlock.
+- **No mechanism to mark contexts as failed and resume.** Even if the
+  GPU recovered, the open module has no way to tell userspace "the
+  CUDA context died; please re-create it." The process must die and
+  the host must reboot.
+
+### Mapping levers to layers
+
+| Lever | L1 (Prevent) | L2 (Recover) | L3 (Graceful) | Status |
+|---|:-:|:-:|:-:|---|
+| **A** Layer-2 cmdline (pci=realloc=off + RmForceExternalGpu) | partial | — | — | done, negative |
+| **G** WSL2 reproduction | n/a | n/a | n/a | done, positive — proves bug is Linux-side |
+| **H** RmOverrideInternalTimeoutsMs | — | — | — | predicted negative; runs against a code path the bug bypasses |
+| **I** Patch + dkms rebuild (retry in `osHandleGpuLost`) | — | **partial (multi-retry only)** | — | proposed; ~10-line MVP for L2 retry |
+| **K** (NEW) Layer-1 cmdline experiments (`thunderbolt.clx=0`, `pcie_aspm.policy=performance`, force-LTR via patch) | **direct** | — | — | proposed; partly cmdline (cheap), partly patch |
+| **J** (NEW) Sovereign module (full L1+L2+L3) | direct | direct | direct | proposed; major lift; testing vehicle |
+
+**Lever I's honest scope: ~1/3 of the Windows feature set, the cheapest
+slice.** It addresses the dominant failure mode (transient register
+reads that would clear in ms if anyone waited) but does not implement
+AER-style link retrain, does not implement TDR-style state reset, does
+not address the L1 prevention angle. Worth doing because of cost/benefit
+asymmetry — 10 lines, 1ms latency on the failure path — but not the
+"complete fix."
+
+### Lever J: sovereign module concept
+
+User-proposed (2026-05-03 evening). A custom-maintained fork of
+`nvidia.ko` (and possibly `nvidia-uvm.ko`) that implements all three
+layers as a research / testing vehicle. Not for production; for
+characterising what a complete reliability story looks like and as
+a basis for upstream PR negotiation.
+
+**Scope sketch:**
+
+- L1: prevention patches in BIF / FSP / chipset code
+  - Force GPU-side LTR enable regardless of upstream
+    (`kbifInitLtr_GB202` patch — drop the upstream-supported check)
+  - Pin link width/speed via PCI config writes at module load
+  - More aggressive runtime PM disable when
+    `PDB_PROP_GPU_IS_EXTERNAL_GPU` is set
+- L2: recovery patches in `osHandleGpuLost`, `gpuVerifyExistence_IMPL`,
+  `gpuSanityCheckRegRead_IMPL`
+  - Multi-retry register reads (Lever I MVP)
+  - On retry-budget exhaustion, attempt
+    `pci_reset_function(pci_dev)` and re-verify
+  - Hook AER subsystem callbacks (`pci_error_handlers`) for proactive
+    link recovery on AER-reported errors
+  - Re-init GSP RPC channel after recovery
+- L3: graceful failure patches in `krcRcAndNotifyAllChannels`,
+  `RmLogGpuCrash`, `rs_client.c`, `rs_server.c`
+  - Replace asserts with logged warnings + clean error returns when
+    `status == NV_ERR_GPU_IS_LOST`
+  - Add timeouts to crash-dump register reads; bail early if the GPU
+    is known-lost
+  - TDR-equivalent: reset driver state (channels, contexts, command
+    rings), mark in-flight CUDA contexts as failed, allow new
+    contexts to be created without reboot
+  - Audit `_gpuSetDisconnectedPropertiesWorker` for lock-cycle
+    potential
+
+**Build mechanics:**
+
+- Maintain patch series in this repo or a sibling repo
+  (e.g. `aorus-5090-nvidia-open-patches/`)
+- Build via DKMS using a `dkms.conf` that points at the cloned source
+  with patches applied
+- Install to `/lib/modules/$(uname -r)/extra/` (highest precedence)
+- Optionally rename the module package to avoid conflicts with the
+  dnf-managed `kmod-nvidia-open-dkms`
+- Include a `modinfo`-visible version string identifying the patched
+  build (e.g. "595.71.05-aorus-l1l2l3-v1") so we can confirm the right
+  module is loaded
+- A driver-version upgrade triggers a rebase; we cannot just sit at
+  595.71.05 forever
+
+**Maintenance and risk:**
+
+- Every NVIDIA upstream release requires re-applying our patches.
+  Patch conflicts are likely as the source evolves. Estimate:
+  ~1-4 hours per release.
+- A bug in our patches could cause its own freezes; bisecting against
+  the stock module is harder than bisecting against upstream.
+- Reduces our ability to file user-visible bugs against NVIDIA — they
+  can (rightly) decline to triage anything that touches a forked
+  module.
+- Increases ability to *contribute* a fix, since we'd have a working
+  reference implementation.
+
+**Testing strategy:**
+
+- Each layer's patches as separately-toggleable build options or
+  module parameters, so we can A/B/C test which layer carried the
+  win
+- Long-soak test (multi-hour sustained inference) before declaring
+  the module stable; one passing lite-test isn't sufficient (jciolek's
+  unicorn boot ran for 3 hours then hit the freeze on next boot —
+  same hardware, same code)
+- Cross-validate against the WSL2 leg of the bench (Lever G) — same
+  workload should produce comparable numbers if recovery is clean
+- Stress the L2 path explicitly via fault injection: write a userspace
+  helper that triggers a TB power-state transition mid-CUDA-call, see
+  if recovery survives
+
+**Decision criteria for pursuing Lever J:**
+
+- If Lever I is sufficient (transients are the dominant failure mode
+  and 10-line retry catches them all): no need for J. Stop.
+- If Lever I helps but doesn't fully resolve (some failures remain
+  even with retry): J becomes the path forward; specifically L2
+  link-retrain and L3 graceful-failure patches.
+- If Lever I doesn't help at all: the trigger isn't transient; J is
+  still the path forward but starting with L1 prevention.
+
+In all cases, Lever I is the cheapest first move: it tests the
+"transients are dominant" hypothesis with a 10-line patch.
+
+### Lever K: Layer-1 cmdline + module-option experiments
+
+Cheap, pure-userspace L1 attempts. No driver rebuild required.
+
+- **Boot args additions** (one cmdline change, one reboot to test):
+  - `pcie_aspm.policy=performance` (per bilikaz)
+  - `thunderbolt.clx=0` (per bilikaz)
+- **NVreg additions via `NVreg_RegistryDwords`:**
+  - There may be RM-internal registry keys for forcing LTR on; not
+    yet enumerated. Requires another grep over `nvrm_registry.h`.
+- **udev power-state pins:** mostly already done
+  (`d3cold_allowed=0`, `power/control=on`).
+
+These are partly already applied (Lever A took the pci/RmForceExternalGpu
+slice), partly unexplored. Worth running before Lever I just to remove
+known-cheap variables.
+
 ## Source-review coverage gaps (parked reads)
 
 Honest inventory of what was NOT read end-to-end, in priority order. The

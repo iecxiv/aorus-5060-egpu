@@ -281,6 +281,75 @@ Of the four firmware surfaces:
 Reduced to surfaces 1 and 4. Mostly housekeeping; pairs with Lever B
 (both touch host-firmware investigation).
 
+### Three-layer reliability framework (added 2026-05-03 evening)
+
+Bus reliability is genuinely a three-layer problem; previous lever
+descriptions conflated them. See `source-review-notes.md` "Pass 4" for
+the full enumeration with file:line citations of where each layer is
+weak in the open Linux module.
+
+| Layer | Goal | Linux open module gap |
+|---|---|---|
+| **L1 — Prevention** | Keep the bus stable so transients don't happen | LTR not enforced GPU-side, ASPM policy not pinned, TB CLx not disabled, runtime PM partially suppressed |
+| **L2 — Recovery** | When a transient happens, recover gracefully | No multi-retry, no PCI link retrain, no AER hook, no GSP-state resync |
+| **L3 — Graceful failure** | When recovery fails, fail cleanly without taking the host down | Cleanup cascades assert on `NV_ERR_GPU_IS_LOST`, `RmLogGpuCrash` reads dead-GPU registers, no TDR-equivalent state reset |
+
+Mapping leversto layers:
+
+| Lever | L1 | L2 | L3 | Status |
+|---|:-:|:-:|:-:|---|
+| A | partial | — | — | done, negative |
+| H | — | — | — | predicted negative; runs against a code path the bug bypasses |
+| I | — | partial (multi-retry only) | — | proposed; ~10-line MVP for L2 retry |
+| K | direct | — | — | proposed; cmdline + module-option experiments only |
+| J | direct | direct | direct | proposed; full sovereign-module testing vehicle |
+
+Lever I's honest scope: ~1/3 of the Windows feature set, the cheapest
+slice. It addresses the dominant failure mode if transients are the
+trigger, but does not implement AER-style link retrain or TDR-style
+state reset.
+
+### Lever K — Layer-1 cmdline + module-option experiments
+
+Cheap, pure-userspace L1 attempts to keep the bus stable. No driver
+rebuild required.
+
+- Boot args additions (one cmdline change, one reboot per test):
+  - `pcie_aspm.policy=performance` (per bilikaz #979 comment 9)
+  - `thunderbolt.clx=0` (per bilikaz)
+- NVreg additions via `NVreg_RegistryDwords`: TBD, requires another
+  grep over `nvrm_registry.h` for LTR-force keys etc.
+- udev power-state pins: mostly already done.
+
+Expected to be partial mitigations at most — they reduce trigger
+likelihood but don't address what happens when a transient does occur.
+Worth running before Lever I to remove known-cheap variables.
+
+### Lever J — Sovereign module (full L1+L2+L3 testing vehicle)
+
+User-proposed (2026-05-03 evening). Custom-maintained fork of
+`nvidia.ko` (and possibly `nvidia-uvm.ko`) implementing all three
+layers as a research/testing vehicle. Not for production; for
+characterising what a complete reliability story looks like and as
+a basis for upstream PR negotiation.
+
+Full scope and per-layer patch surface, build mechanics, maintenance
+and risk profile, and testing strategy: see
+`source-review-notes.md` "Lever J" subsection.
+
+Decision tree on whether to pursue J:
+
+- If Lever I is sufficient (transients are the dominant failure mode):
+  no need for J. Stop with the 10-line retry patch.
+- If Lever I helps but doesn't fully resolve: J becomes the path
+  forward; L2 link-retrain + L3 graceful-failure patches.
+- If Lever I doesn't help at all: trigger isn't transient; start with
+  L1 prevention patches in J.
+
+In all cases, Lever I is the cheapest first move and tests the
+"transients are dominant" hypothesis directly. J is gated on Lever I
+not being enough.
+
 ### Lever I — Patch driver + DKMS rebuild (NEW, derived from Lever E pass 3)
 
 Source review pass 3 (2026-05-03 evening) localised the bug to a single
