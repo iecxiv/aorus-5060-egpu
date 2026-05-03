@@ -68,45 +68,77 @@ and `message_queue_cpu.c` for the CPU↔GSP RPC channel.
 BAR enumeration handling: *"Starting from Blackwell BAR1 will be the real
 BAR1."* This is a known platform-specific change point.
 
-## Finding 3: GSP-RPC default timeout is 2-30s, scaled per platform, overridable
+## Finding 3: GSP-RPC default timeout — Linux is on 4s, NOT 30s
 
 `gpu_timeout.h:40-50`:
 
 ```c
 #define GPU_TIMEOUT_DEFAULT  0
-//
 // GPU_TIMEOUT_DEFAULT is different per platform and can range anywhere
 // from 2 to 30 secs depending on the GPU Mode and Platform.
-//
 ```
 
 `GPU_TIMEOUT_DEFAULT = 0` is a magic value meaning "use the platform default";
 the actual value lives in `pGpu->timeoutData.defaultus` (microseconds).
 
-GSP heartbeat timeouts derive from this default, with a 30% margin:
+**The Linux value is set at `os.c:2042-2071`** (`osGetTimeoutParams`):
+
+| Mode | Linux default | Notes |
+|---|---|---|
+| Graphics | **4 seconds** | (`4 * 1000000` µs) |
+| Compute | 30 seconds | (`30 * 1000000` µs) |
+| vGPU/VGX | 1.8 seconds | matches Windows WDDM 2s hard limit |
+
+**But which mode are we actually in?** From `g_gpu_nvoc.h:5487`:
 
 ```c
-// kernel_gsp.c:2261
-pKernelGsp->gspRmHeartbeatTimeoutMs = defaultTimeoutMs + ((defaultTimeoutMs / 10) * 3);
+static inline NvU32 gpuGetMode(struct OBJGPU *pGpu) {
+    return pGpu->computeModeRefCount > 0 ? 2 : 1;  // COMPUTE_MODE : GRAPHICS_MODE
+}
 ```
 
-So if the Linux platform default is 4s, GSP heartbeat fires at 5.2s.
-TB-tunneled PCIe has higher round-trip latency than internal PCIe; a CUDA
-context-create that takes longer than this on the GPU side could cause GSP
-to think it's stalled.
+So `COMPUTE_MODE` is true **only when at least one CUDA process is actively
+attached with compute mode**. **`nvidia-smi -c EXCLUSIVE_PROCESS` setting is a
+policy, not a refcount-bump.** On our live system, `nvidia-smi` reports
+`compute_mode = Default` and `computeModeRefCount = 0` until a CUDA app
+attaches.
 
-**Initialization path** (`gpu_timeout.c:60-83`):
+**Crucially, `osGetTimeoutParams` is called ONCE at GPU init in
+`timeoutInitializeGpuDefault` (gpu_timeout.c:56)**, when no CUDA process is
+attached. So `defaultus` is fixed at **4 seconds**, in graphics mode, and
+every subsequent timeout calculation uses this.
+
+**Even our compute workload on a compute-only host runs against a 4s default
+timeout.** This is shorter than the Windows comparison value (1.8s WDDM) only
+narrowly, and is *much* shorter than the 30s "compute mode" claim suggests.
+
+GSP heartbeat timeouts derive from this with a 30% margin (`kernel_gsp.c:2261`):
 
 ```c
-osGetTimeoutParams(pGpu, &timeoutDefault, &(pTD->scale), &(pTD->defaultFlags));
-pTD->defaultus = timeoutDefault;
-...
-pTD->defaultus = gpuScaleTimeout(pGpu, pTD->defaultus);  // platform-scaled
+gspRmHeartbeatTimeoutMs = defaultTimeoutMs + ((defaultTimeoutMs / 10) * 3);
 ```
 
-So the actual timeout depends on `osGetTimeoutParams` (Linux-specific) and a
-HAL-dispatched `gpuScaleTimeout`. Worth chasing both — particularly whether
-either has eGPU-aware behaviour.
+→ on Linux graphics-mode (us): **5.2s GSP heartbeat**.
+
+**The hardcoded waits in HAL paths take `NV_MAX(scaled hardcoded, defaultus)`:**
+
+| Wait location | Hardcoded | Linux effective |
+|---|---:|---:|
+| BIF GB202 BAR-firewall-disengage (D3 resume) | 500 ms | 4 s |
+| FSP GB202 secure-boot-wait (cold boot) | 5 s | **5 s** |
+| FSP GB100 secure-boot-wait | 4 s | 4 s |
+| SEC2 GB20B init wait | 4 s | 4 s |
+
+So on cold boot, FSP secure-boot has 5s (which is right-sized per the
+`kern_fsp_gb202.c:69-75` comment: "FBFalcon training during devinit alone
+takes 2 seconds, up to 3 on HBM3"). This is fine.
+
+But all the *generic* RM waits — including any GSP-RPC wait that doesn't have
+a longer hardcoded value — use the 4s default. **If a GSP-RPC during
+cuCtxCreate takes longer than ~4 seconds over TB-tunneled PCIe**, the
+timeout fires.
+
+**This is the strongest evidence yet for H1.**
 
 ## Finding 4: There IS a registry override mechanism for RM-internal timeouts
 
@@ -147,18 +179,23 @@ a clean success) rather than a host hang.
 
 ## Hypotheses (ranked)
 
-### H1 — RM/GSP-RPC default timeout fires under TB latency
+### H1 — RM/GSP-RPC 4s default timeout fires under TB latency, recovery deadlocks
 
-Plausibility: **medium-high**. Consistent with `nvidia-smi` working (read-only,
-short paths) but `cuCtxCreate_v2` failing (long initialization with multiple
-GSP RPCs, more likely to exceed the timeout). Consistent with the
-"unicorn boot" pattern jciolek reported (#979 comment 14) — same hardware,
-sometimes works for hours, sometimes fails immediately, suggesting a
-race/timing edge case rather than a hard logic bug.
+Plausibility: **high**. Refined evidence after second-pass reading:
 
-**Test:** Lever H. Set `NVreg_RegistryDwords` to bump RM default timeout
-to 30s. If ollama runs longer / fails differently / no longer hard-locks,
-strong evidence. Cheap, fully reversible.
+- Linux graphics-mode default is **4 s** (Linux, `os.c:2064`).
+- We're in graphics mode at GPU init time because `computeModeRefCount = 0` then.
+- `defaultus` is fixed at init and doesn't update when CUDA contexts later attach.
+- GSP heartbeat is 1.3× default = **5.2 s**.
+- Most generic RM waits use this 4s default (overridden only for FSP cold-boot at 5s, BIF firewall at 4s effective, etc).
+- TB-tunneled PCIe latency on a JHL9480 is measurably higher than internal — not always by enough to fire 4s, but enough to be marginal.
+- Consistent with `nvidia-smi` working (short, single-RPC paths) but `cuCtxCreate_v2` failing (long, multi-RPC sequence).
+- Consistent with jciolek's "unicorn boot" pattern (#979 comment 14) — sometimes works for hours, sometimes immediate fail, suggesting a *race* / *marginal* timing rather than a hard logic bug.
+- **Why Windows works at the same nominal timeout (1.8s):** Windows nvlddmkm.sys has TDR on top of the timeout — when a wait fires, the driver is reset, the GPU continues. Linux open module appears to hit a deadlock pattern (likely an uninterruptible mutex / spinlock cycle in the recovery path) instead of cleanly resetting.
+
+**Test (Lever H):** override the default timeout via `NVreg_RegistryDwords` to ~30s. The bit-31 flag of `RmOverrideInternalTimeoutsMs` ("Set RM default timeout") covers ALL the generic 4s waits — exactly what we want.
+
+If the freeze pattern changes (longer stable runs, or a clean error code instead of a host hang), H1 is confirmed and the next question becomes: where's the deadlock in the recovery path that Windows doesn't have?
 
 ### H2 — Blackwell-specific code path mishandles tunneled-PCIe BAR1 size
 
@@ -193,17 +230,37 @@ later.)
 - **GSP firmware bug:** Lever G ruled this out — Windows driver uses the
   same GSP firmware blob on the same GPU, runs cleanly through 27B model
   loads.
+- **Blackwell MMU:** `uvm_blackwell_mmu.c` (188 lines, fully read) is purely
+  page-table layout. Inherits from Hopper MMU mode and only overrides
+  `page_table_depth` to add 256G/512M huge-page support. No DMA-map or
+  BAR1 logic. Bug is not in this file.
+- **LTR-disabled-in-hierarchy warning** (matches jciolek's #979 dmesg):
+  `kbifInitLtr_GB202` (kernel_bif_gb202.c:154) only writes the LTR-enable
+  bit if the upstream chipset has `PDB_PROP_CL_UPSTREAM_LTR_SUPPORTED`.
+  TB hierarchies frequently disable LTR upstream. The "warning" path just
+  skips writing the LTR enable — it does not fail or change other code.
+  Cosmetic. Probably not the trigger but worth noting it correlates with
+  TB-attached GPUs.
 
-## Recommended next steps
+## Recommended next steps (after second-pass reading)
 
-1. **Lever H — runtime experiment.** Set `RmOverrideInternalTimeoutsMs` to 30s
-   for RM-default + RC watchdog. Reboot, re-run ollama lite test. If freeze
-   pattern changes (no hang, longer runs, different error), H1 confirmed.
-   ~1 hour of work + reboot, fully reversible (just remove the option).
-2. **Continued source review.** Read `uvm_blackwell_mmu.c` (188 lines) end
-   to end for BAR/DMA assumptions; read `kgspBootstrap_GB100` or
-   `kgspBootstrap_HAL` dispatch for what happens during cuCtxCreate's GSP
-   handshake; map the exact RPC sequence. ~1-2 hours, read-only.
+1. **Lever H — runtime experiment.** Now the highest-value next step. Set
+   `RmOverrideInternalTimeoutsMs` to 30 s with the SET_RM_DEFAULT_TIMEOUT
+   flag (bit 31). The hex value: `0x80007530` = bit 31 + 30000 ms. Or
+   `0xC0007530` = bits 31+30 (RM default + RC watchdog) + 30000 ms.
+   Apply via `NVreg_RegistryDwords` alongside the existing
+   `RmForceExternalGpu=1`. Reboot, re-run ollama lite test.
+   - Outcome A — freeze gone: H1 confirmed; the bug is timeout-fire +
+     deadlocking-recovery; next investigation is the recovery path.
+   - Outcome B — freeze identical: H1 ruled out; bug is a deadlock with
+     no timeout involved; next investigation is the lock/wait pattern.
+   - Outcome C — different failure (clean error code, partial work, etc.):
+     interesting middle ground; suggests timeout was firing but now we
+     hit a different code path further in.
+2. **Continued source review (deferred until Lever H).** Read
+   `kgspBootstrap_HAL` dispatch and the cuCtxCreate GSP handshake to
+   understand what waits exist in that path — useful regardless of Lever H
+   outcome.
 3. **`gpuScaleTimeout` on Blackwell.** Check if Blackwell HAL scales the
    default timeout differently than other arches. ~30 min, read-only.
 4. **Compare 595.71.05 vs newer driver branches (596+).** Check
