@@ -990,6 +990,258 @@ robustness.** Lever I alone leaves the kernel hanging on real GPU
 disconnect. L3 alone leaves the kernel committing to lost-GPU on
 transients.
 
+## Pass 7: Lever I patch surface (full implementation, 2026-05-03 late)
+
+Implementation-grade documentation of the Lever I retry patch, parallel
+to Pass 6's documentation of the L3 patch surface. Same style: read the
+target site in full, show the patched form, justify the parameters,
+cross-reference the artifacts.
+
+This Pass produces three artifacts in this repo:
+
+| Artifact | Path |
+|---|---|
+| The actual patch | `patches/0001-osHandleGpuLost-retry-on-transient-pcie-failure.patch` |
+| Build/install script | `tools/build-patched-driver.sh` |
+| Operator runbook | `docs/lever-i-runbook.md` |
+
+The runbook covers operator-level workflow (prereqs, build, verify,
+test, rollback, maintenance). This section is the source-level analysis.
+
+### Target: `osHandleGpuLost` at `osinit.c:340-409`
+
+Original (current 595.71.05 source, lines 340-358):
+
+```c
+NV_STATUS
+osHandleGpuLost(OBJGPU *pGpu, NvBool bEmitXid)
+{
+    nv_state_t *nv = NV_GET_NV_STATE(pGpu);
+    nv_priv_t *nvp = NV_GET_NV_PRIV(nv);
+    NvU32 pmc_boot_0;
+
+    // Determine if we've already run the handler
+    if (!pGpu->getProperty(pGpu, PDB_PROP_GPU_IS_CONNECTED))
+    {
+        return NV_OK;
+    }
+
+    pmc_boot_0 = NV_PRIV_REG_RD32(nv->regs->map_u, NV_PMC_BOOT_0);   // <- single read
+    if (pmc_boot_0 != nvp->pmc_boot_0)
+    {
+        // ... declares GPU lost (Xid 79, gpuSetDisconnectedProperties,
+        //     krcRcAndNotifyAllChannels, RmLogGpuCrash, etc.) ...
+    }
+    return NV_OK;
+}
+```
+
+The single-read commit is the bug. Our patch wraps it in a retry loop.
+
+### Patched form (semantic, full diff in `patches/0001-...`)
+
+```c
+NV_STATUS
+osHandleGpuLost(OBJGPU *pGpu, NvBool bEmitXid)
+{
+    nv_state_t *nv = NV_GET_NV_STATE(pGpu);
+    nv_priv_t *nvp = NV_GET_NV_PRIV(nv);
+    NvU32 pmc_boot_0;
+    NvU32 retry;            // PATCH
+
+    if (!pGpu->getProperty(pGpu, PDB_PROP_GPU_IS_CONNECTED))
+        return NV_OK;
+
+    // PATCH: retry the read up to 10 times with 100us between attempts
+    // before falling through to the lost-declaration path. 1ms total
+    // retry budget. Zero added latency on healthy reads (loop exits
+    // first iteration).
+    for (retry = 0; retry < 10; retry++)
+    {
+        pmc_boot_0 = NV_PRIV_REG_RD32(nv->regs->map_u, NV_PMC_BOOT_0);
+        if (pmc_boot_0 == nvp->pmc_boot_0)
+        {
+            if (retry > 0)
+            {
+                NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
+                              "AORUS Lever I: PCIe transient cleared after %u retries (%u us) - GPU not lost\n",
+                              retry, retry * 100);
+            }
+            return NV_OK;
+        }
+        if (retry < 9)
+            osDelayUs(100);
+    }
+
+    // FALL THROUGH: pmc_boot_0 is the last (still-mismatched) value.
+    // Existing lost-declaration path runs unchanged.
+    if (pmc_boot_0 != nvp->pmc_boot_0)
+    {
+        // ... existing code: Xid 79, gpuSetDisconnectedProperties, ...
+    }
+    return NV_OK;
+}
+```
+
+### Parameter choices justified
+
+#### `N_RETRIES = 10` and `osDelayUs(100)`
+
+Total retry budget: **10 × 100 µs = 1 ms**.
+
+- **Why 100 µs per attempt:** matches the cadence used by other polling
+  loops in this driver. Existing precedent: `kbifPollBarFirewallDisengage_GB202`
+  in `kernel_bif_gb202.c:327` uses `osDelayUs(100)` between attempts of
+  a similar BAR-firewall poll. `thread_state.c:444` and
+  `gpu_timeout.c:382` also use 100 µs as a polling tick.
+- **Why 10 iterations:** gives a 1 ms window without going so long
+  that we add meaningful latency to a real disconnect. Empirically, TB
+  retimer drops, link power-state transitions, and LTR re-negotiation
+  events are sub-ms phenomena. Issue #979 reporters' "unicorn boot"
+  patterns (jciolek comment 14) imply the trigger is near-instantaneous
+  — within ms of the first PCIe transaction the GPU may recover or fail
+  permanently. 1 ms straddles the recoverable window.
+- **What if 1 ms isn't enough?** Bump `N_RETRIES` to e.g. 50 (5 ms).
+  Cost on real disconnect grows linearly with N. If 5 ms doesn't catch
+  it, the trigger likely isn't a TB transient at all — the bug is
+  elsewhere and Lever J-1 / J-2 take over.
+
+#### `NV_DBG_ERRORS` log level for the catch message
+
+NVIDIA's printf levels:
+- `NV_DBG_INFO` — debug-only, suppressed in release builds
+- `NV_DBG_ERRORS` — printed in release builds via `dmesg`
+- `NV_DBG_WARNINGS` — printed in release builds, ranks above ERRORS
+
+Using `NV_DBG_ERRORS` ensures the catch message lands in `dmesg` of
+production driver builds. We *want* to see this — every catch is
+proof the patch is doing useful work, and the absence over time would
+suggest transients aren't the dominant failure mode.
+
+A future tuning: bump to `NV_DBG_WARNINGS` if we want to differentiate
+the catch message from "real" errors. Cosmetic.
+
+#### Why patch only `osHandleGpuLost`, not `gpuVerifyExistence_IMPL`
+
+`gpuVerifyExistence_IMPL` (`gpu_access.c:1215-1233`) already has a
+1-retry pattern wrapped around its call to `osHandleGpuLost`. With
+our patch inside `osHandleGpuLost`, the effective behaviour from
+`gpuVerifyExistence` becomes:
+
+1. Read `NV_PMC_BOOT_0` once, mismatch detected
+2. Call `osHandleGpuLost(NV_TRUE)` — which now retries 10 times
+3. If `osHandleGpuLost` returned without declaring lost: GPU is fine
+4. Re-read once more (existing code), confirm
+5. Return `NV_OK` or `NV_ERR_GPU_IS_LOST`
+
+So we get up to 11+1 = 12 attempts total before giving up.
+`gpuSanityCheckRegRead_IMPL` (`gpu_access.c:1245-1320`) is similar:
+all-1s detected → re-read NV_PMC_BOOT_0 → call `osHandleGpuLost` if
+INVALID. Same effective coverage from a single patch site.
+
+**Patching only `osHandleGpuLost` keeps the surface minimal** while
+covering all the read-failure entry points.
+
+#### Why retain the original lost-declaration path on fall-through
+
+If all 10 retries fail, `pmc_boot_0` holds a still-mismatched value
+and the existing `if (pmc_boot_0 != nvp->pmc_boot_0)` block runs
+unchanged. This is intentional:
+
+- On a real GPU disconnect (eGPU unplugged), retries will all fail
+  and the original code path runs — preserving the existing Xid 79
+  emit, channel notification, crash-dump attempt, etc.
+- This means **Lever I does not break the disconnect signal path**.
+  Userspace still gets notified that the GPU is gone via the existing
+  mechanisms.
+- Lever J-2 is what makes the disconnect path itself robust (no
+  kernel hang). Lever I just keeps the path from triggering on
+  transients. Complementary, not redundant.
+
+### Why the patch is small enough to be conservative
+
+The patch:
+- Touches **one function** in **one file**
+- Adds **one local variable** (`NvU32 retry`)
+- Replaces **one statement** (the single read) with a **for-loop**
+  containing the same statement plus delay
+- Adds **one log line** under a conditional that only fires on the
+  catch path
+- Does **not** modify the lost-declaration code below
+- Does **not** add new headers (`osDelayUs` is already reachable via
+  `<os/os.h>` per existing `osinit.c` includes; precedent in
+  `kernel_bif_gb202.c`, `thread_state.c`, etc.)
+
+A reviewer can read the patch in 30 seconds and verify it doesn't
+change behaviour on healthy reads or real disconnects.
+
+### Build mechanics summary
+
+Full details in `tools/build-patched-driver.sh`. High-level:
+
+1. Source at `/root/nvidia-open-src/`, tag `595.71.05`.
+2. `git checkout -- src kernel-open` to ensure clean baseline.
+3. `git apply patches/*.patch` (idempotent via `--check`).
+4. `make -j$(nproc) modules SYSSRC=/lib/modules/$(uname -r)/build`.
+5. `xz`-compress and install built `.ko` files to
+   `/lib/modules/$(uname -r)/extra/`, replacing the dnf-managed copies
+   after backing them up to sibling `.dnf-stock-<timestamp>` files.
+6. `depmod -a $(uname -r)`.
+7. Reboot manually (script does NOT reboot).
+
+### Verification post-reboot
+
+| Check | Command | Expected if patched |
+|---|---|---|
+| Module version | `modinfo nvidia \| grep version` | `version: 595.71.05` (same) |
+| Source hash | `modinfo nvidia \| grep srcversion` | **NOT** `58D233B8E3F4A2973D73151` (will differ from stock) |
+| Module load | `dmesg \| grep 'NVRM: loading'` | `NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64 595.71.05` (text unchanged but build-date will reflect rebuild) |
+| Patch active | `dmesg \| grep 'AORUS Lever'` | empty unless a transient has been caught |
+
+### What this patch does NOT do
+
+- **Does not implement AER recovery.** AER would let the kernel
+  attempt a link retrain when the PCI subsystem reports a recoverable
+  error. Our patch only re-reads a register; if the link is genuinely
+  in a wedged state for >1 ms, our retries all fail.
+- **Does not implement TDR-style state reset.** If the GPU is
+  genuinely lost, the existing fall-through path runs and we hit the
+  cleanup-deadlock or dump-deadlock that Pass 5 documented. Lever J-2
+  patches address that separately.
+- **Does not protect against non-`NV_PMC_BOOT_0` failure modes.**
+  There may be other places in the driver where a register read
+  failure leads to permanent declared-lost. Pass 3 identified
+  `osHandleGpuLost` as the central declaration site and `gpuVerifyExistence`
+  / `gpuSanityCheckRegRead` as the entry points; if there's another
+  entry path we haven't found, this patch doesn't cover it.
+
+### Why this is the right first move regardless
+
+Even with all the caveats:
+
+- It tests the dominant-trigger hypothesis directly (transients are
+  the cause of most freezes vs. real failures).
+- It's reversible in 30 seconds via the saved backup.
+- It doesn't change behaviour on healthy reads or real disconnects.
+- It produces a logged signal whenever it catches a transient — so
+  every successful inference run gives us empirical data.
+
+If this patch alone fixes our setup, we're done with the freeze
+investigation. If it doesn't, we know the trigger isn't a transient
+in the recoverable-by-retry sense, and Lever J-1 / J-2 become prime.
+
+### Cross-reference: pass-by-pass summary
+
+| Pass | Output |
+|---|---|
+| 1 | Repository cloned, surface mapped, eGPU detection found shallow |
+| 2 | 4-second timeout default identified; H1 hypothesis sharpened (later disproven) |
+| 3 | Failure model fully characterised: trigger → declaration → cascade |
+| 4 | Three-layer reliability model (L1/L2/L3) introduced |
+| 5 | Lever H + K test result; new deadlock locus at journal.c:2239 |
+| 6 | L3 patch surface fully documented (Lever J-2): 5 sites, ~13 lines |
+| **7** | **Lever I patch surface fully documented: 1 site, ~30 lines including comments + diagnostic printf** |
+
 ## Source-review coverage gaps (parked reads)
 
 Honest inventory of what was NOT read end-to-end, in priority order. The

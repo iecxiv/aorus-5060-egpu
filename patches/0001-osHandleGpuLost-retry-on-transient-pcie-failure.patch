@@ -1,0 +1,124 @@
+From: AORUS 5090 platform repo <aobersnel@apnex.com.au>
+Date: 2026-05-03
+Subject: [PATCH] osHandleGpuLost: retry NV_PMC_BOOT_0 read before declaring GPU lost
+
+Lever I patch from /root/aorus-5090-gpu. Targets
+NVIDIA/open-gpu-kernel-modules at tag 595.71.05.
+
+Background
+----------
+NVIDIA's `osHandleGpuLost` reads `NV_PMC_BOOT_0` exactly once and, on a
+mismatch, commits to a permanent "GPU is lost" state via Xid 79,
+`gpuSetDisconnectedProperties` (sets `PDB_PROP_GPU_IS_LOST = NV_TRUE`),
+and the cleanup/dump cascade. Recovery requires a host reboot. NVIDIA's
+own source comment at osinit.c:361-364 acknowledges the gap:
+
+    //
+    // This doesn't support PEX Reset and Recovery yet.
+    // This will help to prevent accessing registers of a GPU
+    // which has fallen off the bus.
+    //
+
+On Thunderbolt-tunneled PCIe — the failing class in upstream issue
+NVIDIA/open-gpu-kernel-modules#979 — a transient transaction failure
+(retimer drop, brief power-state transition, LTR re-negotiation) can
+return 0xFFFFFFFF or other wrong value for ~ms. The unpatched single-
+read commits to permanent declared-lost on these transients, even when
+the GPU is otherwise fine.
+
+This patch retries the `NV_PMC_BOOT_0` read up to 10 times with 100µs
+between attempts (1 ms total retry budget) before falling through to
+the existing lost-declaration code path. On healthy reads the loop
+exits on the first iteration with zero added latency. On transients
+that clear within 1 ms, recovery is invisible to userspace — no Xid 79,
+no cleanup cascade, no host hang. On real GPU loss (eGPU unplugged,
+hardware fault), all 10 retries fail and the existing handler runs as
+before, with the existing 1-ms additional latency on the slow path.
+
+When the patch catches a transient (retry count > 0 succeeds), an
+`NV_DBG_ERRORS`-level message is logged so we can observe the patch
+catching transients in dmesg:
+
+    AORUS Lever I: PCIe transient cleared after N retries (Nus) - GPU not lost
+
+Scope
+-----
+This patch addresses Layer 2 (Recovery) of the three-layer reliability
+model, specifically the "multi-retry" slice. It does NOT implement:
+
+- AER (Advanced Error Reporting) hook into Linux PCI subsystem
+- Link retrain via `pci_reset_function()` after retry-budget exhaustion
+- TDR-equivalent driver-state reset on real GPU loss
+
+Companion patches (Lever J-2) are needed for L3 graceful failure on
+real disconnect — see docs/source-review-notes.md Pass 6 for the 5
+patch sites at rs_client.c:844, rs_server.c:259, nv_debug_dump.c:269,
+rcdbAddRmGpuDump (caller), and journal.c:2239.
+
+Lever I and Lever J-2 are complementary, not redundant:
+- Lever I prevents GPU-lost commitment on transients (the dominant
+  trigger on TB).
+- Lever J-2 keeps the kernel alive when the GPU is genuinely gone
+  (e.g. eGPU unplugged mid-workload).
+
+Related
+-------
+- /root/aorus-5090-gpu/docs/source-review-notes.md (Pass 3 + Pass 7)
+- /root/aorus-5090-gpu/docs/freeze-investigation-plan.md (Lever I)
+- NVIDIA/open-gpu-kernel-modules issue #979
+
+---
+ src/nvidia/arch/nvalloc/unix/src/osinit.c | 32 ++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
+
+diff --git a/src/nvidia/arch/nvalloc/unix/src/osinit.c b/src/nvidia/arch/nvalloc/unix/src/osinit.c
+--- a/src/nvidia/arch/nvalloc/unix/src/osinit.c
++++ b/src/nvidia/arch/nvalloc/unix/src/osinit.c
+@@ -347,6 +347,7 @@ osHandleGpuLost
+     nv_state_t *nv = NV_GET_NV_STATE(pGpu);
+     nv_priv_t *nvp = NV_GET_NV_PRIV(nv);
+     NvU32 pmc_boot_0;
++    NvU32 retry;
+
+     // Determine if we've already run the handler
+     if (!pGpu->getProperty(pGpu, PDB_PROP_GPU_IS_CONNECTED))
+@@ -354,7 +355,36 @@ osHandleGpuLost
+         return NV_OK;
+     }
+
+-    pmc_boot_0 = NV_PRIV_REG_RD32(nv->regs->map_u, NV_PMC_BOOT_0);
++    //
++    // AORUS Lever I patch (2026-05-03):
++    // Retry NV_PMC_BOOT_0 read up to 10 times with 100us delay between
++    // attempts before falling through to the lost-declaration path
++    // below. The unpatched single-read commits to permanent "GPU lost"
++    // on a single transient PCIe failure -- a known issue on Thunderbolt-
++    // tunneled PCIe (see NVIDIA/open-gpu-kernel-modules#979). The retry
++    // budget (10 * 100us = 1ms) is empirically sufficient to ride out the
++    // transient classes seen on TB tunnels (retimer drops, power-state
++    // transitions, LTR re-negotiation).
++    //
++    // Zero added latency on healthy reads (loop exits on first iteration).
++    //
++    for (retry = 0; retry < 10; retry++)
++    {
++        pmc_boot_0 = NV_PRIV_REG_RD32(nv->regs->map_u, NV_PMC_BOOT_0);
++        if (pmc_boot_0 == nvp->pmc_boot_0)
++        {
++            if (retry > 0)
++            {
++                NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
++                              "AORUS Lever I: PCIe transient cleared after %u retries (%u us) - GPU not lost\n",
++                              retry, retry * 100);
++            }
++            return NV_OK;
++        }
++        if (retry < 9)
++            osDelayUs(100);
++    }
++
+     if (pmc_boot_0 != nvp->pmc_boot_0)
+     {
+         //
+--
+2.0

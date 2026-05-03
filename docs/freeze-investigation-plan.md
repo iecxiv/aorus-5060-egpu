@@ -498,6 +498,35 @@ This is the first lever that has a real shot at *fixing* (not just
 mitigating) the bug. It's also the lever closest to being a credible
 upstream PR if it works.
 
+#### Implementation artifacts (committed 2026-05-03 evening)
+
+The patch, build harness, and operator runbook are now staged in this
+repo, ready for the build-and-test pass:
+
+| Artifact | Path |
+|---|---|
+| Unified-diff patch | `patches/0001-osHandleGpuLost-retry-on-transient-pcie-failure.patch` |
+| Build/install harness | `tools/build-patched-driver.sh` |
+| Operator runbook | `docs/lever-i-runbook.md` |
+| Source-level analysis | `docs/source-review-notes.md` Pass 7 |
+
+The patch wraps the single `NV_PMC_BOOT_0` read at `osinit.c:357` in a
+10-iteration retry loop with 100 µs delay between attempts. Adds a
+`NV_DBG_ERRORS`-level log message when a transient is caught (so we
+can see the patch doing useful work via `dmesg`). Falls through to the
+existing lost-declaration path on retry-budget exhaustion.
+
+To run the build-and-test pass when ready:
+
+```bash
+sudo /root/aorus-5090-gpu/tools/build-patched-driver.sh
+sudo reboot
+# verify per docs/lever-i-runbook.md
+```
+
+Build is idempotent. Rollback is documented (script saves stock module
+backups with `.dnf-stock-<timestamp>` suffix).
+
 ### Lever H — RmOverrideInternalTimeoutsMs (DERIVED FROM LEVER E)
 
 Source review (Lever E pass 2) found that Linux open module locks
