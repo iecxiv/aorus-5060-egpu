@@ -1003,7 +1003,7 @@ This Pass produces three artifacts in this repo:
 |---|---|
 | The actual patch | `patches/0001-osHandleGpuLost-retry-on-transient-pcie-failure.patch` |
 | Build/install script | `tools/build-patched-driver.sh` |
-| Operator runbook | `docs/lever-i-runbook.md` |
+| Operator runbook | `docs/patched-driver-runbook.md` |
 
 The runbook covers operator-level workflow (prereqs, build, verify,
 test, rollback, maintenance). This section is the source-level analysis.
@@ -1241,6 +1241,72 @@ in the recoverable-by-retry sense, and Lever J-1 / J-2 become prime.
 | 5 | Lever H + K test result; new deadlock locus at journal.c:2239 |
 | 6 | L3 patch surface fully documented (Lever J-2): 5 sites, ~13 lines |
 | **7** | **Lever I patch surface fully documented: 1 site, ~30 lines including comments + diagnostic printf** |
+
+## Pass 8: Lever J-2 patch realisation (2026-05-03 late)
+
+Pass 6 documented the L3 patch surface conceptually. Pass 8 stages the
+actual patch files alongside Lever I (Pass 7) so a single build of
+`tools/build-patched-driver.sh` deploys both levers together.
+
+### Three patch files staged
+
+| File | Targets | Purpose |
+|---|---|---|
+| `patches/0002-rcdbAddRmGpuDump-shortcircuit-on-gpu-lost.patch` | `journal.c:2917` (entry of `rcdbAddRmGpuDump`) | **Primary deadlock-prevention.** Early-return on `PDB_PROP_GPU_IS_LOST` so the engine-dump cascade never runs on a known-lost GPU |
+| `patches/0003-nvDumpAllEngines-break-on-gpu-lost.patch` | `nv_debug_dump.c:269-281` (the engine callback loop) | **Defence-in-depth.** Per-iteration guard checking `PDB_PROP_GPU_IS_LOST` and `PDB_PROP_GPU_INACCESSIBLE`; breaks loop on either |
+| `patches/0004-cleanup-asserts-accept-gpu-lost.patch` | `rs_client.c:844`, `rs_server.c:259`, `journal.c:2239` (three asserts) | **Defence-in-depth.** Relax asserts to accept `NV_ERR_GPU_IS_LOST` as valid status; log diagnostic markers |
+
+All three patches add `NV_DBG_ERRORS`-level log markers (`AORUS Lever J-2`)
+so operators can observe the patches firing in dmesg.
+
+### Why this split
+
+- **0002** is the *primary* fix. Prevents the entire engine-dump
+  cascade from running on a lost GPU — eliminates the 14 fn-78 RPC
+  failures captured in the kernel log at `lite-2026-05-03-211751`.
+- **0003** is *secondary* defence. If some other entry path calls
+  `nvdDumpAllEngines_IMPL` directly, the loop still exits cleanly.
+- **0004** is *cosmetic* on the asserts (`NV_ASSERT` in release builds
+  typically just logs, doesn't halt). Included for the diagnostic
+  markers it adds.
+
+The split makes selective application possible — moving a patch out of
+`patches/` causes the build to skip it.
+
+### Combined Lever I + J-2 outcome interpretation
+
+With all four patches deployed:
+
+| Scenario | Behaviour |
+|---|---|
+| Healthy reads | identical to stock |
+| Transient ≤ 1 ms | **Lever I catches it.** dmesg: `AORUS Lever I: PCIe transient cleared after N retries`. Workload continues transparently. |
+| Transient > 1 ms | Lever I's retries exhaust; falls through to lost-declaration. **Lever J-2 prevents the deadlock.** dmesg: `AORUS Lever J-2 (rcdbAddRmGpuDump): GPU lost, skipping crash dump`. Workload errors out cleanly. Host stays alive. |
+| Real disconnect (eGPU unplugged mid-workload) | Same as transient > 1 ms. Host stays alive; workload errors out; eGPU unusable until reboot or manual PCI rebind. |
+
+Matches the Windows-grade robustness model (multi-retry + TDR-equivalent
+graceful failure), minus the AER link retrain layer.
+
+### Total patch series footprint
+
+- **6 sites across 4 files**
+- **~52 lines of code change** (not counting comments)
+- All defensive
+- All conditional on `GPU_IS_LOST` / `INACCESSIBLE` / `NV_ERR_GPU_IS_LOST`
+- Zero behaviour change on a healthy GPU
+
+### Pass-by-pass summary updated
+
+| Pass | Output |
+|---|---|
+| 1 | Repository cloned, surface mapped |
+| 2 | 4-second timeout default; H1 hypothesis (later disproven) |
+| 3 | Failure model fully characterised |
+| 4 | Three-layer reliability model (L1/L2/L3) |
+| 5 | Lever H + K test result; new deadlock locus at journal.c:2239 |
+| 6 | L3 patch surface fully documented (Lever J-2 conceptually): 5 sites, ~13 lines |
+| 7 | Lever I patch staged: 1 site, ~30 lines |
+| **8** | **Lever J-2 patches staged: 3 patch files, 5 sites, ~22 lines** |
 
 ## Source-review coverage gaps (parked reads)
 

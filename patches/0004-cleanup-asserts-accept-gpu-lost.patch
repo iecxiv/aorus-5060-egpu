@@ -1,0 +1,115 @@
+From: AORUS 5090 platform repo <aobersnel@apnex.com.au>
+Date: 2026-05-03
+Subject: [PATCH] resserv + journal: relax cleanup-path asserts to accept NV_ERR_GPU_IS_LOST
+
+Lever J-2 patch from /root/aorus-5090-gpu. Targets
+NVIDIA/open-gpu-kernel-modules at tag 595.71.05.
+
+Background
+----------
+After osHandleGpuLost declares the GPU lost, the cleanup cascade runs
+through krcRcAndNotifyAllChannels which iterates channel free RPCs.
+Each RPC fails synchronously with NV_ERR_GPU_IS_LOST. The cleanup code
+asserts that status is one of {NV_OK, NV_ERR_GPU_IN_FULLCHIP_RESET} --
+it does NOT accept NV_ERR_GPU_IS_LOST. Asserts fire repeatedly across
+the cleanup loop, contributing to the post-detection deadlock cascade
+(captured in /root/ollama/archive/lite-2026-05-03-192806/).
+
+Three sites have this pattern:
+
+- src/nvidia/src/libraries/resserv/src/rs_client.c:844
+  After serverFreeResourceRpcUnderLock returns.
+
+- src/nvidia/src/libraries/resserv/src/rs_server.c:259
+  After clientFreeResource returns.
+
+- src/nvidia/src/kernel/diagnostics/journal.c:2239
+  After rcdbAddRmGpuDump returns (in the deferred-dump-callback work
+  item handler _rcdbAddRmGpuDumpCallback).
+
+Fix
+---
+For each site, log a J-2 marker if the status is NV_ERR_GPU_IS_LOST
+(so we can observe the patch firing) and relax the assertion to accept
+NV_ERR_GPU_IS_LOST in the acceptable-status set.
+
+NV_ASSERT in release builds typically just logs (doesn't halt). So
+this patch is mostly cosmetic on the assertion itself. The primary
+deadlock-prevention work is in patch 0002 (rcdbAddRmGpuDump short-
+circuit). This patch is defence-in-depth: removes the noisy
+"Assertion failed" cascade from dmesg and makes the GPU-lost path
+explicitly recognised.
+
+Related
+-------
+- /root/aorus-5090-gpu/docs/source-review-notes.md (Pass 3 + Pass 5 +
+  Pass 6 + Pass 8)
+- patches/0002-rcdbAddRmGpuDump-shortcircuit-on-gpu-lost.patch (the
+  primary deadlock-prevention fix)
+- patches/0003-nvDumpAllEngines-break-on-gpu-lost.patch (defence-
+  in-depth on the engine-dump loop)
+
+---
+ src/nvidia/src/kernel/diagnostics/journal.c        |  6 ++++++
+ src/nvidia/src/libraries/resserv/src/rs_client.c   |  6 ++++++
+ src/nvidia/src/libraries/resserv/src/rs_server.c   |  6 ++++++
+ 3 files changed, 18 insertions(+)
+
+diff --git a/src/nvidia/src/libraries/resserv/src/rs_client.c b/src/nvidia/src/libraries/resserv/src/rs_client.c
+--- a/src/nvidia/src/libraries/resserv/src/rs_client.c
++++ b/src/nvidia/src/libraries/resserv/src/rs_client.c
+@@ -841,7 +841,13 @@ clientFreeResource
+
+     status = serverFreeResourceRpcUnderLock(pServer, pParams);
+-    NV_ASSERT((status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET));
++    // AORUS Lever J-2 patch (2026-05-03):
++    // Accept NV_ERR_GPU_IS_LOST as a valid status during cleanup. The
++    // unpatched assertion fires repeatedly when osHandleGpuLost has
++    // declared the GPU lost; the cleanup RPCs all return GPU_IS_LOST.
++    if (status == NV_ERR_GPU_IS_LOST) {
++        NV_PRINTF(LEVEL_ERROR,
++                  "AORUS Lever J-2 (rs_client.c:844): cleanup RPC returned GPU_IS_LOST, gracefully ignoring\n");
++    }
++    NV_ASSERT((status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) || (status == NV_ERR_GPU_IS_LOST));
+
+     // NV_PRINTF(LEVEL_INFO, "hClient %x: Freeing hResource: %x\n",
+     //          pClient->hClient, pResourceRef->hResource);
+diff --git a/src/nvidia/src/libraries/resserv/src/rs_server.c b/src/nvidia/src/libraries/resserv/src/rs_server.c
+--- a/src/nvidia/src/libraries/resserv/src/rs_server.c
++++ b/src/nvidia/src/libraries/resserv/src/rs_server.c
+@@ -256,7 +256,13 @@ serverFreeResourceTreeUnderLock
+
+         status = clientFreeResource(pResourceRef->pClient, pServer, pFreeParams);
+-        NV_ASSERT((status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET));
++        // AORUS Lever J-2 patch (2026-05-03):
++        // Accept NV_ERR_GPU_IS_LOST as a valid status during cleanup
++        // (companion of the rs_client.c relaxation).
++        if (status == NV_ERR_GPU_IS_LOST) {
++            NV_PRINTF(LEVEL_ERROR,
++                      "AORUS Lever J-2 (rs_server.c:259): clientFreeResource returned GPU_IS_LOST, gracefully ignoring\n");
++        }
++        NV_ASSERT((status == NV_OK) || (status == NV_ERR_GPU_IN_FULLCHIP_RESET) || (status == NV_ERR_GPU_IS_LOST));
+
+         serverResLock_Epilogue(pServer, LOCK_ACCESS_WRITE, pLockInfo, &releaseFlags);
+     }
+diff --git a/src/nvidia/src/kernel/diagnostics/journal.c b/src/nvidia/src/kernel/diagnostics/journal.c
+--- a/src/nvidia/src/kernel/diagnostics/journal.c
++++ b/src/nvidia/src/kernel/diagnostics/journal.c
+@@ -2236,7 +2236,13 @@ _rcdbAddRmGpuDumpCallback
+                 pRcDB->setProperty(pRcDB, PDB_PROP_RCDB_IN_DEFERRED_DUMP_CODEPATH, NV_TRUE);
+
+                 status = rcdbAddRmGpuDump(pGpu);
+-                NV_ASSERT(status == NV_OK);
++                // AORUS Lever J-2 patch (2026-05-03):
++                // rcdbAddRmGpuDump now returns NV_OK early on GPU_IS_LOST
++                // (see patch 0002). This relaxation is for any legacy
++                // failure mode that might still propagate up.
++                if (status != NV_OK) {
++                    NV_PRINTF(LEVEL_ERROR,
++                              "AORUS Lever J-2 (journal.c:2239): rcdbAddRmGpuDump returned 0x%x in deferred dump path (was assertion + downstream deadlock locus)\n", status);
++                }
+
+                 pRcDB->setProperty(pRcDB, PDB_PROP_RCDB_IN_DEFERRED_DUMP_CODEPATH, NV_FALSE);
+
+--
+2.0

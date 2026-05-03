@@ -498,34 +498,57 @@ This is the first lever that has a real shot at *fixing* (not just
 mitigating) the bug. It's also the lever closest to being a credible
 upstream PR if it works.
 
-#### Implementation artifacts (committed 2026-05-03 evening)
+#### Implementation artifacts (Lever I + J-2 bundle, staged 2026-05-03)
 
-The patch, build harness, and operator runbook are now staged in this
-repo, ready for the build-and-test pass:
+Lever I and Lever J-2 are now bundled as a single patch series. The
+build harness `tools/build-patched-driver.sh` iterates over all four
+patch files in lexical order, so deploying I + J-2 is a single build
+invocation. Selective skipping is possible by moving individual patch
+files out of `patches/`.
+
+| Patch | Lever | Purpose |
+|---|---|---|
+| `patches/0001-osHandleGpuLost-retry-on-transient-pcie-failure.patch` | I | Multi-retry on `NV_PMC_BOOT_0` to prevent declaring lost on transients |
+| `patches/0002-rcdbAddRmGpuDump-shortcircuit-on-gpu-lost.patch` | J-2 | Primary deadlock-prevention — short-circuit dump on `PDB_PROP_GPU_IS_LOST` |
+| `patches/0003-nvDumpAllEngines-break-on-gpu-lost.patch` | J-2 | Defence-in-depth — per-iteration guard in dump loop |
+| `patches/0004-cleanup-asserts-accept-gpu-lost.patch` | J-2 | Relax cleanup-path asserts to accept `NV_ERR_GPU_IS_LOST` |
 
 | Artifact | Path |
 |---|---|
-| Unified-diff patch | `patches/0001-osHandleGpuLost-retry-on-transient-pcie-failure.patch` |
 | Build/install harness | `tools/build-patched-driver.sh` |
-| Operator runbook | `docs/lever-i-runbook.md` |
-| Source-level analysis | `docs/source-review-notes.md` Pass 7 |
+| Operator runbook | `docs/patched-driver-runbook.md` |
+| Source-level analysis | `docs/source-review-notes.md` Pass 7 (Lever I) + Pass 8 (Lever J-2) |
 
-The patch wraps the single `NV_PMC_BOOT_0` read at `osinit.c:357` in a
-10-iteration retry loop with 100 µs delay between attempts. Adds a
-`NV_DBG_ERRORS`-level log message when a transient is caught (so we
-can see the patch doing useful work via `dmesg`). Falls through to the
-existing lost-declaration path on retry-budget exhaustion.
+Total patch footprint: **6 sites across 4 files, ~52 lines of code
+change** (not counting comments). All defensive. All conditional on
+`PDB_PROP_GPU_IS_LOST` / `PDB_PROP_GPU_INACCESSIBLE` /
+`NV_ERR_GPU_IS_LOST` — zero behaviour change on a healthy GPU.
 
 To run the build-and-test pass when ready:
 
 ```bash
 sudo /root/aorus-5090-gpu/tools/build-patched-driver.sh
 sudo reboot
-# verify per docs/lever-i-runbook.md
+# verify per docs/patched-driver-runbook.md
 ```
 
 Build is idempotent. Rollback is documented (script saves stock module
-backups with `.dnf-stock-<timestamp>` suffix).
+backups with `.dnf-stock-<timestamp>` suffix). Restoring a single
+backup deactivates all four patches at once.
+
+#### Behaviour matrix with bundle deployed
+
+| Scenario | Behaviour |
+|---|---|
+| Healthy reads | identical to stock |
+| Transient ≤ 1 ms | **Lever I catches it.** Workload continues transparently. dmesg: `AORUS Lever I:` |
+| Transient > 1 ms | Lever I exhausts; **Lever J-2 prevents deadlock.** Workload errors out cleanly via cuMemAlloc failure. Host stays alive. dmesg: `AORUS Lever J-2:` |
+| Real disconnect | Same as transient > 1 ms. Host alive, workload errored. eGPU dead until reboot. |
+
+This matches Windows nvlddmkm.sys robustness in two of its three layers
+(multi-retry + TDR-equivalent graceful failure), minus the AER link
+retrain layer (which would auto-recover the GPU after a transient — Lever
+J-1's territory).
 
 ### Lever H — RmOverrideInternalTimeoutsMs (DERIVED FROM LEVER E)
 

@@ -1,20 +1,33 @@
-# Lever I runbook — patched-driver build, install, test, rollback
+# Patched-driver runbook — Lever I + Lever J-2 build, install, test, rollback
 
-Operator-level runbook for applying the Lever I patch (multi-retry on
-`NV_PMC_BOOT_0` read in `osHandleGpuLost` and any other transient-PCIe-
-sensitive sites in the open NVIDIA module).
+Operator-level runbook for the bundled patch series. Currently four
+patches in `patches/`:
 
-For the *why* and the source-review trail, see:
+| # | Patch | Lever | Purpose |
+|---|---|---|---|
+| 0001 | `osHandleGpuLost-retry-on-transient-pcie-failure.patch` | I | Multi-retry on `NV_PMC_BOOT_0` read in `osHandleGpuLost` to prevent permanent declared-lost on transient PCIe failures |
+| 0002 | `rcdbAddRmGpuDump-shortcircuit-on-gpu-lost.patch` | J-2 | Primary deadlock-prevention fix — short-circuit `rcdbAddRmGpuDump` on `PDB_PROP_GPU_IS_LOST` so the dump cascade never runs on a known-lost GPU |
+| 0003 | `nvDumpAllEngines-break-on-gpu-lost.patch` | J-2 | Defence-in-depth — per-iteration guard in `nvdDumpAllEngines_IMPL`, breaks the loop on `PDB_PROP_GPU_IS_LOST` or `PDB_PROP_GPU_INACCESSIBLE` |
+| 0004 | `cleanup-asserts-accept-gpu-lost.patch` | J-2 | Relax cleanup-path asserts in `rs_client.c`, `rs_server.c`, `journal.c:2239` to accept `NV_ERR_GPU_IS_LOST` |
 
-- `docs/freeze-investigation-plan.md` (Lever I section)
-- `docs/source-review-notes.md` Pass 3 (failure model) and Pass 7 (patch surface)
-- `patches/0001-osHandleGpuLost-retry-on-transient-pcie-failure.patch`
-  (the actual patch in unified diff format)
+For the *why* and the source-review trail:
 
-For the corresponding L3 graceful-failure patches (5 sites, ~13 lines),
-see `docs/source-review-notes.md` Pass 6. Lever I and the L3 patches are
-**complementary, not redundant** — Lever I prevents the trigger on
-transients; the L3 patches keep the kernel alive on real GPU loss.
+- `docs/freeze-investigation-plan.md` (Lever I and Lever J-2 sections)
+- `docs/source-review-notes.md` Pass 3 (failure model), Pass 6 (J-2
+  patch surface), Pass 7 (Lever I patch surface), Pass 8 (J-2 patch
+  realisation)
+
+Lever I and Lever J-2 are **complementary, not redundant**:
+
+- Lever I prevents the trigger on transient PCIe failures (`PDB_PROP_GPU_IS_LOST`
+  is never set if the transient clears within 1 ms)
+- Lever J-2 keeps the kernel alive when `PDB_PROP_GPU_IS_LOST` IS set
+  (real GPU disconnect, transient longer than Lever I's retry budget)
+
+The build harness `tools/build-patched-driver.sh` iterates over all
+`patches/*.patch` in lexical order, so deploying the full bundle is a
+single build invocation. Patches can be selectively skipped by moving
+them out of `patches/`.
 
 ## Pre-flight
 
@@ -134,7 +147,7 @@ captures CSVs + a context dump + a dmesg snapshot at start.
 
 ```bash
 # After the test:
-dmesg | grep -i 'AORUS Lever'
+dmesg | grep -iE 'AORUS Lever (I|J-2)'
 ```
 
 If you see lines like:
@@ -145,6 +158,28 @@ AORUS Lever I: PCIe transient cleared after 2 retries (200 us) - GPU not lost
 
 **The patch caught a transient.** Lever I is doing its intended job.
 Confirms the "transients are dominant" hypothesis. Significant.
+
+If you see lines like:
+
+```
+AORUS Lever J-2 (rcdbAddRmGpuDump): GPU lost, skipping crash dump (was deadlock locus)
+AORUS Lever J-2 (nvdDumpAllEngines): GPU lost/inaccessible, skipping remaining engine dumps
+AORUS Lever J-2 (rs_client.c:844): cleanup RPC returned GPU_IS_LOST, gracefully ignoring
+AORUS Lever J-2 (rs_server.c:259): clientFreeResource returned GPU_IS_LOST, gracefully ignoring
+AORUS Lever J-2 (journal.c:2239): rcdbAddRmGpuDump returned 0x... in deferred dump path
+```
+
+**The Lever J-2 patches caught a real GPU loss** — i.e. either the GPU
+was genuinely lost (eGPU unplugged, hardware fault) OR a transient
+exceeded Lever I's 1 ms retry budget. Either way, the kernel survived
+where it would have hung before. The workload will have errored out
+(cuMemAlloc returns error etc.) but the host stays alive and the user
+can investigate at leisure.
+
+If you see *both* Lever I markers AND Lever J-2 markers in dmesg,
+that means: I caught some transients (good), and at least one was too
+long or a real loss occurred (covered by J-2). Both patches working in
+their intended roles.
 
 If `dmesg | grep 'AORUS Lever'` is empty AND the test succeeded,
 either no transient occurred during this run (TB transients are

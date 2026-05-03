@@ -1,0 +1,77 @@
+From: AORUS 5090 platform repo <aobersnel@apnex.com.au>
+Date: 2026-05-03
+Subject: [PATCH] nvdDumpAllEngines_IMPL: per-iteration guard, break on GPU-lost
+
+Lever J-2 patch from /root/aorus-5090-gpu. Targets
+NVIDIA/open-gpu-kernel-modules at tag 595.71.05.
+
+Background
+----------
+nvdDumpAllEngines_IMPL iterates through every engine callback (~14 on
+Blackwell GB202), invoking each via GSP RPC. The existing loop checks
+PDB_PROP_GPU_INACCESSIBLE *after* each callback failure but only sets
+a local advisory flag (pNvDumpState->bGpuAccessible = NV_FALSE) -- it
+does NOT break out of the loop. Result: 14 successive failed RPCs
+when GPU is lost (captured in
+/root/ollama/archive/lite-2026-05-03-211751/).
+
+The existing guard also doesn't check PDB_PROP_GPU_IS_LOST, only
+PDB_PROP_GPU_INACCESSIBLE. These are different properties.
+
+Fix
+---
+Insert a per-iteration guard at the top of the loop that checks BOTH
+PDB_PROP_GPU_IS_LOST and PDB_PROP_GPU_INACCESSIBLE, sets the advisory
+flag, and breaks out of the loop.
+
+Defence-in-depth: companion patch 0002 short-circuits rcdbAddRmGpuDump
+at entry, so this loop should never be reached on a known-lost GPU.
+But if some other entry path (test harness, control IOCTL) calls
+nvdDumpAllEngines_IMPL directly, this patch ensures the loop still
+exits cleanly.
+
+Adds an NV_DBG_ERRORS-level marker so we can observe the patch firing
+in dmesg.
+
+Related
+-------
+- /root/aorus-5090-gpu/docs/source-review-notes.md (Pass 5 + Pass 6 +
+  Pass 8)
+- patches/0002-rcdbAddRmGpuDump-shortcircuit-on-gpu-lost.patch (the
+  primary fix; this patch is defence-in-depth)
+
+---
+ src/nvidia/src/kernel/diagnostics/nv_debug_dump.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/src/nvidia/src/kernel/diagnostics/nv_debug_dump.c b/src/nvidia/src/kernel/diagnostics/nv_debug_dump.c
+--- a/src/nvidia/src/kernel/diagnostics/nv_debug_dump.c
++++ b/src/nvidia/src/kernel/diagnostics/nv_debug_dump.c
+@@ -269,6 +269,18 @@ nvdDumpAllEngines_IMPL
+     for (pEngineCallback = pNvd->pCallbacks;
+         (prbEncBufLeft(pPrbEnc) > 0) && (pEngineCallback != NULL);
+         pEngineCallback = pEngineCallback->pNext)
+     {
++        //
++        // AORUS Lever J-2 patch (2026-05-03):
++        // Per-iteration guard. The existing PDB_PROP_GPU_INACCESSIBLE
++        // check below sets the advisory flag but does NOT break the
++        // loop. Result on GPU loss: ~14 sequential failed RPCs (one
++        // per engine). Add an explicit break here, and also check the
++        // sibling PDB_PROP_GPU_IS_LOST property which the existing
++        // code does not consult.
++        //
++        if (pGpu->getProperty(pGpu, PDB_PROP_GPU_IS_LOST) ||
++            pGpu->getProperty(pGpu, PDB_PROP_GPU_INACCESSIBLE))
++        {
++            NV_PRINTF(LEVEL_ERROR,
++                      "AORUS Lever J-2 (nvdDumpAllEngines): GPU lost/inaccessible, skipping remaining engine dumps\n");
++            pNvDumpState->bGpuAccessible = NV_FALSE;
++            break;
++        }
++
+         NV_CHECK_OK_OR_CAPTURE_FIRST_ERROR(nvStatus, LEVEL_ERROR,
+             nvdEngineDumpCallbackHelper(pGpu, pPrbEnc, pNvDumpState, pEngineCallback));
+
+--
+2.0

@@ -1,0 +1,82 @@
+From: AORUS 5090 platform repo <aobersnel@apnex.com.au>
+Date: 2026-05-03
+Subject: [PATCH] rcdbAddRmGpuDump: short-circuit on PDB_PROP_GPU_IS_LOST
+
+Lever J-2 patch from /root/aorus-5090-gpu. Targets
+NVIDIA/open-gpu-kernel-modules at tag 595.71.05.
+
+Background
+----------
+When osHandleGpuLost declares the GPU lost (sets PDB_PROP_GPU_IS_LOST),
+the recovery path calls RmLogGpuCrash which eventually invokes
+rcdbAddRmGpuDump. That function calls into nvdDumpAllEngines_IMPL,
+which iterates through every engine callback (~14 on Blackwell GB202).
+Each callback issues a GSP RPC to read engine state. With GPU lost,
+every RPC fails synchronously with NV_ERR_GPU_IS_LOST. The cascade
+ends with journal.c:2239's NV_ASSERT firing, after which the kernel
+deadlocks (deadlock locus captured in
+/root/ollama/archive/lite-2026-05-03-211751/).
+
+Fix
+---
+Add an early-return at rcdbAddRmGpuDump's entry on PDB_PROP_GPU_IS_LOST,
+mirroring the existing early-return for PDB_PROP_GPU_TEGRA_SOC_NVDISPLAY
+just below it. A GPU known to be lost has nothing to dump -- attempting
+to dump it just exercises the deadlock-prone RPC cascade.
+
+Adds an NV_DBG_ERRORS-level marker so we can observe the patch firing
+in dmesg whenever a real GPU loss bypasses our Lever I retry budget.
+
+Scope
+-----
+This is one of three Lever J-2 patches addressing L3 graceful failure
+when the GPU is genuinely lost. Companion patches:
+- 0003-nvDumpAllEngines-break-on-gpu-lost.patch (defence-in-depth)
+- 0004-cleanup-asserts-accept-gpu-lost.patch (rs_client.c, rs_server.c,
+  journal.c:2239)
+
+Lever I (0001) prevents PDB_PROP_GPU_IS_LOST from being set on
+transient PCIe failures. Lever J-2 patches keep the kernel alive when
+the property IS set (real disconnect, transient longer than Lever I's
+retry budget).
+
+Related
+-------
+- /root/aorus-5090-gpu/docs/source-review-notes.md (Pass 5 + Pass 6 +
+  Pass 8)
+- /root/aorus-5090-gpu/docs/freeze-investigation-plan.md (Lever J-2)
+- Captured deadlock evidence:
+  /root/ollama/archive/lite-2026-05-03-211751/
+
+---
+ src/nvidia/src/kernel/diagnostics/journal.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/src/nvidia/src/kernel/diagnostics/journal.c b/src/nvidia/src/kernel/diagnostics/journal.c
+--- a/src/nvidia/src/kernel/diagnostics/journal.c
++++ b/src/nvidia/src/kernel/diagnostics/journal.c
+@@ -2914,6 +2914,20 @@ rcdbAddRmGpuDump
+     NvU32               bufferUsed;
+     NvU8               *pBuf               = NULL;
+
++    //
++    // AORUS Lever J-2 patch (2026-05-03):
++    // Short-circuit on PDB_PROP_GPU_IS_LOST. A GPU known to be lost has
++    // nothing to dump; attempting to iterate engine callbacks via
++    // nvdDumpAllEngines just exercises the GSP-RPC failure cascade that
++    // deadlocks the kernel at journal.c:2239 (captured: 14 iter fn 78
++    // failures followed by host hang). See docs/source-review-notes.md
++    // Pass 5/6 for the captured kernel sequence.
++    //
++    if (pGpu->getProperty(pGpu, PDB_PROP_GPU_IS_LOST))
++    {
++        NV_PRINTF(LEVEL_ERROR,
++                  "AORUS Lever J-2 (rcdbAddRmGpuDump): GPU lost, skipping crash dump (was deadlock locus)\n");
++        return NV_OK;
++    }
++
+     if (pGpu->getProperty(pGpu, PDB_PROP_GPU_TEGRA_SOC_NVDISPLAY))
+     {
+         return NV_ERR_NOT_SUPPORTED;
+--
+2.0
