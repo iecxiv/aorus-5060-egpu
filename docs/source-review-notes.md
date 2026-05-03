@@ -472,9 +472,25 @@ to Windows nvlddmkm.sys, and each is potentially addressable.
 
 ### Layer 1 — Prevention: keep the bus stable so transients are rare
 
+**Architecturally important: L1 is a platform problem, not an NVIDIA
+problem.** Every L1 lever — LTR enable bit, ASPM policy, TB CLx state,
+link width/speed pin, runtime PM coordination — is generic PCIe /
+Thunderbolt configuration. The fact that NVIDIA has L1 functions like
+`kbifInitLtr_GB202` is because they're configuring the GPU's role as a
+PCIe endpoint, but the broader concern (link state, power management,
+bus stability) is platform-level and applies equally to any TB-attached
+high-bandwidth peripheral: NVMe, capture cards, other GPUs.
+
 The mature Windows TB stack does decade+ of laptop-eGPU hardening here.
 WHQL certification mandates aggressive bus-stability behaviours. The
-Linux open module has the building blocks but tunes them loosely.
+Linux open module has the NVIDIA-side building blocks but tunes them
+loosely; the broader Linux PCI / TB subsystems also tune loosely. Both
+contribute to the gap.
+
+This means L1 work is **NVIDIA-agnostic** — it can be implemented as a
+standalone Linux kernel module that just configures the bus correctly,
+without touching `nvidia.ko` at all. See "Lever J-1" in
+`freeze-investigation-plan.md` for the companion-module design.
 
 **Concrete L1 deficiencies on our stack:**
 
@@ -553,14 +569,15 @@ the kernel.
 
 ### Mapping levers to layers
 
-| Lever | L1 (Prevent) | L2 (Recover) | L3 (Graceful) | Status |
-|---|:-:|:-:|:-:|---|
-| **A** Layer-2 cmdline (pci=realloc=off + RmForceExternalGpu) | partial | — | — | done, negative |
-| **G** WSL2 reproduction | n/a | n/a | n/a | done, positive — proves bug is Linux-side |
-| **H** RmOverrideInternalTimeoutsMs | — | — | — | predicted negative; runs against a code path the bug bypasses |
-| **I** Patch + dkms rebuild (retry in `osHandleGpuLost`) | — | **partial (multi-retry only)** | — | proposed; ~10-line MVP for L2 retry |
-| **K** (NEW) Layer-1 cmdline experiments (`thunderbolt.clx=0`, `pcie_aspm.policy=performance`, force-LTR via patch) | **direct** | — | — | proposed; partly cmdline (cheap), partly patch |
-| **J** (NEW) Sovereign module (full L1+L2+L3) | direct | direct | direct | proposed; major lift; testing vehicle |
+| Lever | L1 (Prevent) | L2 (Recover) | L3 (Graceful) | NVIDIA touch? | Status |
+|---|:-:|:-:|:-:|:-:|---|
+| **A** Layer-2 cmdline (pci=realloc=off + RmForceExternalGpu) | partial | — | — | yes (modprobe options) | done, negative |
+| **G** WSL2 reproduction | n/a | n/a | n/a | n/a | done, positive — proves bug is Linux-side |
+| **H** RmOverrideInternalTimeoutsMs | — | — | — | yes | predicted negative; bug bypasses the timeout path |
+| **I** Patch + dkms rebuild (retry in `osHandleGpuLost`) | — | **partial (multi-retry only)** | — | **yes (rebuild)** | proposed; ~10-line MVP |
+| **K** Layer-1 cmdline experiments (`thunderbolt.clx=0`, `pcie_aspm.policy=performance`) | **direct** | — | — | no — pure cmdline | proposed |
+| **J-1** L1 bus-hardening companion module | **direct** | — | — | **no — standalone kmod** | proposed; NVIDIA-agnostic |
+| **J-2** L2+L3 NVIDIA-driver recovery (inline / hooks / kprobe) | — | direct | direct | **yes** | proposed; gated on Lever I + J-1 outcome |
 
 **Lever I's honest scope: ~1/3 of the Windows feature set, the cheapest
 slice.** It addresses the dominant failure mode (transient register
@@ -570,13 +587,25 @@ not address the L1 prevention angle. Worth doing because of cost/benefit
 asymmetry — 10 lines, 1ms latency on the failure path — but not the
 "complete fix."
 
-### Lever J: sovereign module concept
+### Lever J: sovereign module concept (split into J-1 + J-2 — 2026-05-03 refactor)
 
-User-proposed (2026-05-03 evening). A custom-maintained fork of
-`nvidia.ko` (and possibly `nvidia-uvm.ko`) that implements all three
-layers as a research / testing vehicle. Not for production; for
-characterising what a complete reliability story looks like and as
-a basis for upstream PR negotiation.
+User-proposed (2026-05-03 evening) and refined later same evening once
+we realised L1 is platform-agnostic and shouldn't be conflated with the
+NVIDIA-driver work. The original "fork nvidia.ko, do everything" framing
+has been split:
+
+- **Lever J-1** — L1 bus-hardening companion module (standalone Linux
+  kernel module, NVIDIA-agnostic, pure pluggable, zero changes to
+  `nvidia.ko`). See `freeze-investigation-plan.md` Lever J-1 for the
+  full design, scope, build mechanics, and decision tree.
+- **Lever J-2** — L2/L3 NVIDIA-driver recovery (in-driver code, three
+  implementation paths: inline patches, hooks-and-companion hybrid, or
+  kprobe interception for research-grade work).
+
+The remainder of this section enumerates the per-layer patch surface
+and detail relevant to whichever implementation approach is chosen.
+The high-level scope and decision tree live in
+`freeze-investigation-plan.md`.
 
 **Scope sketch:**
 

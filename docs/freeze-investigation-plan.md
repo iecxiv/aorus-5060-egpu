@@ -294,15 +294,21 @@ weak in the open Linux module.
 | **L2 — Recovery** | When a transient happens, recover gracefully | No multi-retry, no PCI link retrain, no AER hook, no GSP-state resync |
 | **L3 — Graceful failure** | When recovery fails, fail cleanly without taking the host down | Cleanup cascades assert on `NV_ERR_GPU_IS_LOST`, `RmLogGpuCrash` reads dead-GPU registers, no TDR-equivalent state reset |
 
-Mapping leversto layers:
+Mapping levers to layers:
 
-| Lever | L1 | L2 | L3 | Status |
-|---|:-:|:-:|:-:|---|
-| A | partial | — | — | done, negative |
-| H | — | — | — | predicted negative; runs against a code path the bug bypasses |
-| I | — | partial (multi-retry only) | — | proposed; ~10-line MVP for L2 retry |
-| K | direct | — | — | proposed; cmdline + module-option experiments only |
-| J | direct | direct | direct | proposed; full sovereign-module testing vehicle |
+| Lever | L1 | L2 | L3 | NVIDIA touch? | Status |
+|---|:-:|:-:|:-:|:-:|---|
+| A | partial | — | — | yes (modprobe) | done, negative |
+| H | — | — | — | yes | predicted negative; bug bypasses timeout path |
+| I | — | partial (multi-retry only) | — | **yes (driver rebuild)** | proposed; ~10-line MVP |
+| K | direct | — | — | no — pure cmdline | proposed |
+| J-1 | direct | — | — | **no — standalone kmod** | proposed; NVIDIA-agnostic |
+| J-2 | — | direct | direct | yes | proposed; gated on I + J-1 outcome |
+
+Note the key architectural insight: **L1 work has no NVIDIA dependency**.
+Levers K (cmdline only) and J-1 (companion kmod) can both deliver L1
+prevention without rebuilding nvidia.ko or even understanding NVIDIA
+internals — just standard PCIe / Thunderbolt configuration.
 
 Lever I's honest scope: ~1/3 of the Windows feature set, the cheapest
 slice. It addresses the dominant failure mode if transients are the
@@ -325,30 +331,99 @@ Expected to be partial mitigations at most — they reduce trigger
 likelihood but don't address what happens when a transient does occur.
 Worth running before Lever I to remove known-cheap variables.
 
-### Lever J — Sovereign module (full L1+L2+L3 testing vehicle)
+### Lever J — Sovereign module (split into J-1 and J-2 — 2026-05-03 evening refactor)
 
-User-proposed (2026-05-03 evening). Custom-maintained fork of
-`nvidia.ko` (and possibly `nvidia-uvm.ko`) implementing all three
-layers as a research/testing vehicle. Not for production; for
-characterising what a complete reliability story looks like and as
-a basis for upstream PR negotiation.
+Originally framed as a single "fork nvidia.ko, fix everything" effort.
+User insight: **L1 is a platform problem, not an NVIDIA problem.** All
+L1 work is generic PCIe / Thunderbolt config (LTR enable bit, ASPM
+policy, CLx state, runtime PM, link width pin) — addressable for any
+TB-attached PCIe endpoint without touching NVIDIA-internal code. Only
+L2 and L3 require code inside `nvidia.ko`'s address space. Splitting
+the lever cleanly separates the engineering and decouples maintenance.
 
-Full scope and per-layer patch surface, build mechanics, maintenance
-and risk profile, and testing strategy: see
-`source-review-notes.md` "Lever J" subsection.
+#### Lever J-1 — L1 bus-hardening companion module (NVIDIA-agnostic)
 
-Decision tree on whether to pursue J:
+A standalone Linux kernel module that hardens TB-tunneled PCIe state
+for the GPU's PCI device. Pure pluggable: zero changes to nvidia.ko,
+no understanding of NVIDIA internals required.
 
-- If Lever I is sufficient (transients are the dominant failure mode):
-  no need for J. Stop with the 10-line retry patch.
-- If Lever I helps but doesn't fully resolve: J becomes the path
-  forward; L2 link-retrain + L3 graceful-failure patches.
-- If Lever I doesn't help at all: trigger isn't transient; start with
-  L1 prevention patches in J.
+Scope:
 
-In all cases, Lever I is the cheapest first move and tests the
-"transients are dominant" hypothesis directly. J is gated on Lever I
-not being enough.
+- `pci_get_device(0x10de, 0x2C02, ...)` to find the GPU (or broader
+  filter for any TB-attached endpoint as a research mode)
+- Write the GPU's PCI Device Control 2 register to force LTR_ENABLE
+  regardless of upstream chipset advertising
+- Pin link width / max speed via PCI config writes
+- Coordinate with Linux PCI core / `thunderbolt` kmod / runtime PM
+  via standard kernel APIs
+- Periodic re-assertion via timer (some settings get clobbered on
+  power-state transitions)
+- Build via standard `Kbuild` Makefile + `dkms.conf`
+- Maintenance against Linux kernel versions, NOT NVIDIA driver versions
+- Testable in isolation against the freeze trigger
+- Bonus: testable against non-NVIDIA TB devices (NVMe, capture card)
+  to validate that the fix is genuinely bus-level rather than an
+  NVIDIA-driver-quirk-in-disguise
+
+Prior art search worth doing before building from scratch — egpu.io
+community + Linux upstream may have existing tools for TB-PCIe
+endpoint hardening.
+
+#### Lever J-2 — L2 + L3 NVIDIA-driver recovery (NVIDIA-internal)
+
+The driver-internal portion of the original Lever J. Targets
+`nvidia.ko` directly via one of three mechanisms:
+
+- **Inline patches** — fork the open module, maintain patch series,
+  `make modules_install` to `/lib/modules/.../extra/`. Heavy
+  maintenance; maximum control.
+- **Hooks + companion** — small upstream patch (~30-50 lines) adds
+  `EXPORT_SYMBOL_GPL` for key recovery primitives + a
+  `register_external_recovery_handler` callback API. Companion
+  module implements the heavy logic. Minimal upstream churn,
+  manageable maintenance.
+- **kprobe-based interception** — zero patches to nvidia.ko;
+  companion module places kprobes on `osHandleGpuLost` and the
+  rsserv assert sites. Fragile across kernel/driver versions but
+  fine for *research*.
+
+Per-layer patch surface (L2 recovery + L3 graceful failure) and
+file:line targets: see `source-review-notes.md` "Lever J" subsection.
+
+Critically, the recovery primitives **already exist in the source**:
+
+- `kbifResetFromTimeoutFullChip_IMPL` (`kernel_bif.c:2006`) — full-chip
+  reset is implemented but has **zero callers**
+- `kbifWaitForConfigAccessAfterReset_IMPL` (`kernel_bif.c:2053`) —
+  post-reset polling implemented
+- BIF HAL hooks per-arch — Blackwell has Reset/PrepareForReset HAL
+  implementations
+- RC subsystem dedicated, has its own watchdog
+- `nv_pci_driver` struct (nv-pci.c:2750) — empty `.err_handler` slot
+  ready for AER wire-up
+
+The bug is missing **wiring**, not missing **modules**. J-2 patches
+are mostly a few targeted call-site additions plus the AER hook
+struct, not new logic.
+
+#### Decision tree
+
+```
+Run Lever I (10-line retry in osHandleGpuLost)
+   │
+   ├── Sufficient? → done. No J needed.
+   │
+   ├── Partial fix? → Lever J-1 first (L1 prevention),
+   │                   then evaluate if J-2 still needed.
+   │
+   └── No fix? → Lever J-1 first (L1 prevention).
+                  If J-1 fixes alone: done.
+                  If not: Lever J-2 (L2/L3 driver work).
+```
+
+J-1 sits cleanly between Lever I and Lever J-2. It's the
+NVIDIA-agnostic prevention layer; if it works alone we never need
+to touch nvidia.ko's recovery internals.
 
 ### Lever I — Patch driver + DKMS rebuild (NEW, derived from Lever E pass 3)
 
