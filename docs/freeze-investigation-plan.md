@@ -425,6 +425,18 @@ J-1 sits cleanly between Lever I and Lever J-2. It's the
 NVIDIA-agnostic prevention layer; if it works alone we never need
 to touch nvidia.ko's recovery internals.
 
+### PCIe cmdline flag reference
+
+For the catalogue of `pci=` sub-options and `pcie_*` top-level kernel
+parameters, available Tier-1/2/3 escalation flags, and the
+investigation method that derived them, see
+[`pcie-kernel-cmdline-options.md`](./pcie-kernel-cmdline-options.md).
+
+Currently applied: `pci=...,noaer` (Lever L). Available escalations
+documented include `pcie_aspm=off`, `pcie_pme=off`, `pcie_ports=compat`,
+`pci=...,nomsi`. Each should be motivated by a specific dmesg signal,
+not added preemptively.
+
 ### Lever-by-lever empirical results (2026-05-03 late update)
 
 | Lever | Status | Result |
