@@ -12,7 +12,7 @@
 # `git apply --check`.
 #
 # DOES NOT REBOOT. After this script finishes, run:
-#     sudo /usr/local/sbin/aorus-5090-status
+#     sudo /usr/local/sbin/aorus-egpu-status
 #     sudo reboot
 # and then verify the patched build is loaded:
 #     modinfo nvidia | grep -E '^(version|srcversion):'
@@ -66,8 +66,35 @@ fi
 
 step "reset source to clean state"
 
-# Discard any in-tree changes (e.g., prior patch applications) so we re-apply cleanly
-git -C "$SRC_DIR" checkout -- src kernel-open 2>/dev/null || true
+# Discard any in-tree changes (e.g., prior patch applications) so we re-apply
+# cleanly. Reset ALL tracked files (not just src/ + kernel-open/) — version.mk
+# at the repo root is touched by patch 0005, and was previously a manual-step
+# wart per project memory. Also clean untracked files added by patches
+# (e.g. nv-qwatchdog.c/h from patch 0014) so re-application doesn't trip on
+# pre-existing files. -d removes untracked dirs, -x is intentionally NOT used
+# (we don't want to wipe build artifacts that DKMS may be using).
+git -C "$SRC_DIR" checkout -- . 2>/dev/null || true
+# Patch-added files that need cleanup before re-apply:
+#   - 0014: nv-qwatchdog.{c,h}
+#   - 0016: nv-lever-m-recover.{c,h}
+git -C "$SRC_DIR" clean -fd \
+    kernel-open/nvidia/nv-qwatchdog.c \
+    kernel-open/nvidia/nv-qwatchdog.h \
+    kernel-open/nvidia/nv-lever-m-recover.c \
+    kernel-open/nvidia/nv-lever-m-recover.h \
+    2>/dev/null || true
+
+# Force regeneration of version.h. The Makefile rule depends on version.mk
+# mtime, but the cache survives `git checkout --` (not tracked by git).
+# When patch 0005 (or later patches like 0016) bumps version.mk to a new
+# aorus.N suffix, an existing version.h from a prior build still has the
+# old string — and the embedded NVIDIA_VERSION ends up stale even though
+# the module binary contains the new code. Empirically observed
+# 2026-05-06 14:42 (aorus.6 build came out as aorus.5 in modinfo).
+rm -f "$SRC_DIR"/src/nvidia/_out/Linux_x86_64/version.h \
+      "$SRC_DIR"/src/nvidia-modeset/_out/Linux_x86_64/version.h \
+      "$SRC_DIR"/kernel-open/_out/Linux_x86_64/version.h \
+      2>/dev/null || true
 
 step "apply patch series"
 

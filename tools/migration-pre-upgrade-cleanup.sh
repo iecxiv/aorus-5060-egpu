@@ -14,7 +14,7 @@
 #   3. Snapshot what's preserved vs. what's been changed - report only
 #
 # What this script DOES NOT do:
-#   - Stop persistenced or aorus-5090-uvm-keepalive: they hold /dev/nvidia0
+#   - Stop persistenced or aorus-egpu-uvm-keepalive: they hold /dev/nvidia0
 #     and /dev/nvidia-uvm fds; closing those fds at userspace level CAN
 #     trigger the close-path bug. Better to power off the host (graceful
 #     shutdown closes them all at once at the kernel level) and then
@@ -62,10 +62,10 @@ The following are kept intact and will be re-evaluated post-install:
     pci=realloc, thunderbolt.host_reset=false, iommu=pt, etc.
     -> Hardware-specific. Required regardless of driver source.
 
-  /etc/udev/rules.d/79,81,82-aorus-5090-*.rules
+  /etc/udev/rules.d/79,81,82-aorus-egpu-*.rules
     -> Hardware-specific (driver_override, power state, perm tightening).
 
-  /etc/modprobe.d/aorus-5090-compute-only.conf
+  /etc/modprobe.d/aorus-egpu-compute-only.conf
   /etc/modprobe.d/nvidia-power-management.conf
     -> NVreg options (DeviceFile{UID,GID,Mode}, DynamicPowerManagement,
        PreserveVideoMemoryAllocations, S0ix, RestrictProfilingToAdminUsers,
@@ -73,16 +73,16 @@ The following are kept intact and will be re-evaluated post-install:
        -> Apply when the new driver loads. F43 dnf may write .rpmsave on
           conflict; we'll reconcile post-install.
 
-  /etc/systemd/system/aorus-5090-compute-load-nvidia.service
-  /etc/systemd/system/aorus-5090-uvm-keepalive.service
+  /etc/systemd/system/aorus-egpu-compute-load-nvidia.service
+  /etc/systemd/system/aorus-egpu-uvm-keepalive.service
   /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf
   /etc/systemd/system/ollama.service.d/aorus-egpu.conf
     -> Re-evaluate post-install. Some may need adaptation.
 
-  /usr/local/sbin/aorus-5090-* (loader, disable-audio, status, keep-alive)
+  /usr/local/sbin/aorus-egpu-* (loader, disable-audio, status, keep-alive)
     -> Hardware-specific.
 
-  /root/aorus-5090-gpu/, /root/ollama/, /root/vllm/
+  /root/aorus-5090-egpu/, /root/ollama/, /root/vllm/
     -> Repos persist (under btrfs root subvol).
 
 The following are TRANSIENT through the migration:
@@ -107,7 +107,7 @@ cat <<EOF
 NOW the host is in a safe state to:
 
   1. (optional) Take btrfs snapshot for rollback:
-       sudo /root/aorus-5090-gpu/tools/migration-snapshot.sh
+       sudo /root/aorus-5090-egpu/tools/migration-snapshot.sh
 
   2. Power off:
        sudo systemctl poweroff

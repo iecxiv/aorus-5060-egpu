@@ -23,9 +23,9 @@ index 77954e1b..2e2c66d9 100644
 +    //
 +    if (pGpu->getProperty(pGpu, PDB_PROP_GPU_IS_LOST))
 +    {
-+        static int s_aorus_lever_n_logged = 0;
-+        if (!s_aorus_lever_n_logged) {
-+            s_aorus_lever_n_logged = 1;
++        static int s_tb_egpu_lever_n_logged = 0;
++        if (!s_tb_egpu_lever_n_logged) {
++            s_tb_egpu_lever_n_logged = 1;
 +            NV_PRINTF(LEVEL_ERROR,
 +                      "AORUS Lever N (rpcRmApiFree_GSP): GPU lost, free RPCs returning NV_OK silently for cleanup\n");
 +        }

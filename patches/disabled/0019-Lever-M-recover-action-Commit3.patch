@@ -1,0 +1,395 @@
+From: aorus-5090-egpu <noreply@example.invalid>
+Date: Wed, 6 May 2026 16:09:00 +1000
+Subject: [PATCH] Lever M-recover: in-driver recovery action (Commit 3)
+
+Replaces the no-op work_handler stub (Commit 1) with the validated
+PCI recovery sequence (remove + rescan + reset). Triggered from
+nv_start_device immediately after rm_init_adapter has just returned
+failure AND WPR2 register is non-zero.
+
+This is the conclusive Commit 3 — design sharpened by diagnostic
+telemetry (patch 0018, archive/diag-telemetry-2026-05-06-154732/) which
+falsified the original "WPR2 stuck across boots" hypothesis. Actual
+mechanism: WPR2 transitions from clear (0) to set (0x07f4a000) DURING
+the first failed rm_init_adapter call within a boot. Subsequent retries
+see the leftover WPR2 setting.
+
+Trigger condition (sharpened): "rm_init_adapter just returned failure
+AND WPR2 register is non-zero" — combination is unambiguous; non-zero
+WPR2 alone is normal during healthy operation (0x07f4a000 is the running
+value).
+
+Action sequence (matches validated L4 helper steps):
+  1. pci_stop_and_remove_bus_device — kernel calls our nv_pci_remove,
+     which tears down the old nvl. Recovery context refcounts pdev via
+     pci_dev_get to keep it alive across the remove.
+  2. msleep(100) settle.
+  3. pci_rescan_bus — kernel re-enumerates, refreshes reset_methods,
+     calls nv_pci_probe with a fresh nvl.
+  4. msleep(NVreg_TbEgpuLeverMResetSettleMs) settle (default 500ms).
+  5. pci_get_slot + pci_reset_function — FLR now succeeds because rescan
+     refreshed reset_methods. Clears WPR2.
+  6. Next persistenced retry sees WPR2=0 → rm_init_adapter succeeds.
+
+Lifecycle:
+  - Recovery context allocated dynamically (NOT in nvl), so it survives
+    pci_stop_and_remove_bus_device freeing nvl
+  - Module-level atomic in_progress flag deduplicates multiple
+    persistenced retries triggering recovery simultaneously
+  - Module-level total_attempts counter persists across nvl-free for
+    cross-bind visibility (per-pdev fire_count resets on each rescan)
+
+Userspace contract:
+  - nv_start_device returns -EBUSY when recovery is scheduled (was -EIO).
+    Per Linux convention, persistenced/ollama retry on EBUSY.
+  - rm_init_adapter failure with WPR2=0 (not WPR2-stuck) still returns
+    -EIO unchanged — recovery wouldn't help that failure class.
+
+Race considerations:
+  - schedule_work delivers async; nv_start_device returns first, releases
+    locks, then the worker thread runs the action.
+  - pci_lock_rescan_remove serializes against any other PCI operations.
+  - in_progress flag prevents recovery storm.
+
+Bumps version 595.71.05-aorus.8 → aorus.9.
+
+Tasks: #62
+---
+diff --git a/kernel-open/nvidia/nv-lever-m-recover.c b/kernel-open/nvidia/nv-lever-m-recover.c
+index 9b306d76..2d2f33b7 100644
+--- a/kernel-open/nvidia/nv-lever-m-recover.c
++++ b/kernel-open/nvidia/nv-lever-m-recover.c
+@@ -54,6 +54,8 @@
+ #include <linux/device.h>
+ #include <linux/io.h>      /* ioremap, ioread32, iounmap */
+ #include <linux/types.h>
++#include <linux/pci.h>     /* pci_lock_rescan_remove, pci_reset_function, etc. */
++#include <linux/delay.h>   /* msleep */
+ 
+ /* WPR2 status register: NV_HUBMMU0_PRI_BASE + NV_HUBMMU_PRI_MMU_WPR2_ADDR_HI
+  * for Blackwell GB100/GB202 (per published headers
+@@ -86,23 +88,225 @@ module_param(NVreg_TbEgpuLeverMResetSettleMs, uint, 0644);
+ MODULE_PARM_DESC(NVreg_TbEgpuLeverMResetSettleMs,
+     "AORUS Lever M-recover: settle delay (ms) after bus reset before re-checking (default 500)");
+ 
+-/* No-op work handler stub — Commit 2 fills in the actual recovery
+- * sequence. For Commit 1 we just log that the workqueue plumbing fired,
+- * increment the counter, and return. Useful for sanity-checking the
+- * scaffolding in isolation. */
++/* Commit 3 (2026-05-06): real recovery action.
++ *
++ * Replaces the Commit 1 no-op stub. Triggered from
++ * tb_egpu_lever_m_handle_post_rmInit_fail() via schedule_work with a
++ * dynamically-allocated context (separate from nvl, so it survives
++ * pci_stop_and_remove_bus_device freeing nvl).
++ *
++ * Sequence (matching the empirically-validated L4 helper steps 3-5):
++ *   1. pci_stop_and_remove_bus_device — kernel calls our nv_pci_remove,
++ *      which tears down nvl. Our context refcounts pdev via pci_dev_get
++ *      to keep the struct alive.
++ *   2. msleep(100) settle.
++ *   3. pci_rescan_bus — kernel re-enumerates the bus, refreshes the
++ *      reset_methods table, calls our nv_pci_probe with a fresh nvl.
++ *   4. msleep(NVreg_TbEgpuLeverMResetSettleMs) settle (default 500ms).
++ *   5. pci_get_slot to find the new pdev, then pci_reset_function to
++ *      issue FLR (which now works because rescan refreshed reset_methods).
++ *      This clears WPR2 in the GPU.
++ *   6. After this handler returns, the next persistenced retry of
++ *      open(/dev/nvidia0) → nv_start_device → rm_init_adapter sees
++ *      WPR2=0 → GSP boot proceeds → success.
++ *
++ * Module-level in_progress atomic deduplicates against simultaneous
++ * triggers from multiple persistenced retries.
++ *
++ * The handler does NOT touch nvl after step 1 — nvl is freed when
++ * pci_stop_and_remove_bus_device fires our remove handler. All state
++ * needed by the handler is captured in the recovery context struct.
++ */
++struct tb_egpu_lever_m_recovery_ctx
++{
++    struct work_struct  work;
++    struct pci_dev     *pdev;       /* refcounted via pci_dev_get */
++    unsigned int        attempt_num;
++};
++
++/* Module-level deduplication flag. Survives nvl free across remove. */
++static atomic_t tb_egpu_lever_m_recovery_in_progress = ATOMIC_INIT(0);
++
++/* Module-level cumulative attempt count. Used for fire_count tracking
++ * since the per-pdev nvl->lever_m struct gets reallocated after rescan. */
++static atomic_t tb_egpu_lever_m_total_attempts = ATOMIC_INIT(0);
++
++static void tb_egpu_lever_m_recovery_action_handler(struct work_struct *work)
++{
++    struct tb_egpu_lever_m_recovery_ctx *ctx =
++        container_of(work, struct tb_egpu_lever_m_recovery_ctx, work);
++    struct pci_dev *pdev = ctx->pdev;
++    struct pci_bus *bus  = pdev->bus;
++    unsigned int   devfn = pdev->devfn;
++    struct pci_dev *new_pdev;
++    int reset_ret = -1;
++    unsigned long start_jiffies = jiffies;
++
++    nv_printf(NV_DBG_ERRORS,
++        "AORUS Lever M-recover: RECOVERY ACTION starting (attempt %u, pdev=%s)\n",
++        ctx->attempt_num, pci_name(pdev));
++
++    /* Step 1: PCI remove. Kernel calls nv_pci_remove → frees nvl. */
++    pci_lock_rescan_remove();
++    pci_stop_and_remove_bus_device(pdev);
++    pci_unlock_rescan_remove();
++    nv_printf(NV_DBG_ERRORS,
++        "AORUS Lever M-recover: step 1 (pci_stop_and_remove_bus_device) done\n");
++
++    msleep(100);
++
++    /* Step 2: PCI rescan. Kernel re-enumerates → calls nv_pci_probe. */
++    pci_lock_rescan_remove();
++    pci_rescan_bus(bus);
++    pci_unlock_rescan_remove();
++    nv_printf(NV_DBG_ERRORS,
++        "AORUS Lever M-recover: step 2 (pci_rescan_bus) done\n");
++
++    msleep(NVreg_TbEgpuLeverMResetSettleMs);
++
++    /* Step 3: PCI reset. Now succeeds because rescan refreshed reset_methods.
++     * pci_get_slot returns a refcounted pdev; pci_dev_put balances. */
++    new_pdev = pci_get_slot(bus, devfn);
++    if (new_pdev != NULL)
++    {
++        reset_ret = pci_reset_function(new_pdev);
++        nv_printf(NV_DBG_ERRORS,
++            "AORUS Lever M-recover: step 3 (pci_reset_function) returned %d\n",
++            reset_ret);
++        pci_dev_put(new_pdev);
++    }
++    else
++    {
++        nv_printf(NV_DBG_ERRORS,
++            "AORUS Lever M-recover: step 3 — pci_get_slot returned NULL after rescan; recovery may have failed\n");
++    }
++
++    /* Cleanup: release pdev refcount, free ctx, clear in_progress. */
++    pci_dev_put(ctx->pdev);
++    kfree(ctx);
++
++    nv_printf(NV_DBG_ERRORS,
++        "AORUS Lever M-recover: RECOVERY ACTION complete (attempt %u, %u ms total). "
++        "Next nv_start_device call will retry rm_init_adapter against (hopefully) clean state.\n",
++        ctx->attempt_num,
++        jiffies_to_msecs(jiffies - start_jiffies));
++
++    atomic_set(&tb_egpu_lever_m_recovery_in_progress, 0);
++}
++
++/* Public API: called from nv.c after rm_init_adapter returns failure.
++ * Returns true if recovery was scheduled (caller should return -EBUSY).
++ * Returns false if recovery was not triggered (kill switch off, WPR2
++ * not actually set, or alloc failure).
++ */
++bool tb_egpu_lever_m_handle_post_rmInit_fail(nv_linux_state_t *nvl)
++{
++    nv_state_t   *nv;
++    u64           bar0_phys;
++    void __iomem *map;
++    u64           page_aligned;
++    u32           page_offset;
++    u32           wpr2_raw, wpr2_val;
++    struct tb_egpu_lever_m_recovery_ctx *ctx;
++
++    if (!nvl || !nvl->pci_dev)
++        return false;
++    if (!NVreg_TbEgpuLeverMRecoverEnable)
++        return false;
++
++    nv = NV_STATE_PTR(nvl);
++    bar0_phys = nv->bars[NV_GPU_BAR_INDEX_REGS].cpu_address;
++    if (bar0_phys == 0)
++        return false;
++
++    /* Read WPR2 register. */
++    page_aligned = (bar0_phys + TB_EGPU_LEVER_M_WPR2_REG_OFFSET) & PAGE_MASK;
++    page_offset  = (bar0_phys + TB_EGPU_LEVER_M_WPR2_REG_OFFSET) & ~PAGE_MASK;
++    map = ioremap(page_aligned, PAGE_SIZE);
++    if (!map)
++    {
++        NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
++            "AORUS Lever M-recover: ioremap failed at post-rmInit trigger; cannot detect WPR2 state\n");
++        return false;
++    }
++    wpr2_raw = ioread32(map + page_offset);
++    iounmap(map);
++    wpr2_val = wpr2_raw & TB_EGPU_LEVER_M_WPR2_VAL_MASK;
++
++    if (wpr2_val == 0)
++    {
++        /* rm_init_adapter failed for a reason OTHER than WPR2-stuck.
++         * Recovery via PCI reset wouldn't help (and we'd lose the GPU
++         * for no reason). Don't trigger. */
++        NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
++            "AORUS Lever M-recover: post-rmInit-FAIL with WPR2=0x%08x (clear) "
++            "— failure is NOT WPR2-stuck; no recovery action\n",
++            wpr2_raw);
++        return false;
++    }
++
++    /* WPR2 is set AND rm_init_adapter just failed: this is the stuck
++     * state-mismatch condition. Update per-pdev counters for visibility. */
++    if (nvl->lever_m)
++    {
++        atomic_inc(&nvl->lever_m->fire_count);
++        nvl->lever_m->last_fire_jiffies = jiffies;
++    }
++
++    /* Module-level dedup: only schedule if no recovery is already in
++     * flight. The work handler clears in_progress when it completes. */
++    if (atomic_cmpxchg(&tb_egpu_lever_m_recovery_in_progress, 0, 1) != 0)
++    {
++        NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
++            "AORUS Lever M-recover: WPR2=0x%08x detected at post-rmInit-FAIL "
++            "but recovery already in progress; skipping duplicate schedule "
++            "(caller will see -EBUSY)\n",
++            wpr2_val);
++        return true;  /* Recovery is happening; caller propagates -EBUSY */
++    }
++
++    /* Allocate work context. GFP_ATOMIC because nv_start_device may
++     * hold locks. Failure means no recovery this attempt; clear flag. */
++    ctx = kzalloc(sizeof(*ctx), GFP_ATOMIC);
++    if (!ctx)
++    {
++        atomic_set(&tb_egpu_lever_m_recovery_in_progress, 0);
++        NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
++            "AORUS Lever M-recover: kzalloc(recovery_ctx) failed; cannot trigger recovery\n");
++        return false;
++    }
++
++    ctx->pdev        = pci_dev_get(nvl->pci_dev);
++    ctx->attempt_num = atomic_inc_return(&tb_egpu_lever_m_total_attempts);
++    INIT_WORK(&ctx->work, tb_egpu_lever_m_recovery_action_handler);
++
++    NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
++        "AORUS Lever M-recover: WPR2=0x%08x at post-rmInit-FAIL "
++        "— scheduling recovery action attempt #%u (remove + rescan + reset). "
++        "fire_count(this-bind)=%d total_attempts=%u\n",
++        wpr2_val,
++        ctx->attempt_num,
++        nvl->lever_m ? atomic_read(&nvl->lever_m->fire_count) : 0,
++        atomic_read(&tb_egpu_lever_m_total_attempts));
++
++    schedule_work(&ctx->work);
++    return true;
++}
++
++/* No-op stub for the per-pdev work_struct in nvl->lever_m, kept for
++ * compatibility (Commit 1 wired the workqueue allocation; we don't use
++ * it for the recovery action since we use a separate dynamically-
++ * allocated context that survives nvl-free). Future commits may use
++ * this for non-recovery per-pdev work. */
+ static void tb_egpu_lever_m_reset_work_handler(struct work_struct *work)
+ {
+     struct tb_egpu_lever_m_recover *lm =
+         container_of(work, struct tb_egpu_lever_m_recover, reset_work);
+ 
+-    atomic_inc(&lm->fire_count);
+-    lm->last_fire_jiffies = jiffies;
+-
+     nv_printf(NV_DBG_INFO,
+-        "AORUS Lever M-recover: reset_work fired (Commit 1 scaffolding stub; "
+-        "no actual recovery action yet — Commits 2+3 deliver the real work). "
+-        "fire_count=%d\n",
+-        atomic_read(&lm->fire_count));
++        "AORUS Lever M-recover: per-pdev reset_work fired (no-op stub; "
++        "real recovery action runs via tb_egpu_lever_m_recovery_action_handler "
++        "in a separate dynamically-allocated context)\n");
+ 
+     atomic_set(&lm->in_progress, 0);
+ }
+diff --git a/kernel-open/nvidia/nv-lever-m-recover.h b/kernel-open/nvidia/nv-lever-m-recover.h
+index 24111803..4c579d6c 100644
+--- a/kernel-open/nvidia/nv-lever-m-recover.h
++++ b/kernel-open/nvidia/nv-lever-m-recover.h
+@@ -89,6 +89,26 @@ void tb_egpu_lever_m_recover_stop(nv_linux_state_t *nvl);
+ bool tb_egpu_lever_m_check_wpr2_at_probe(nv_linux_state_t *nvl,
+                                         u64 bar0_phys_addr);
+ 
++/* Commit 3 — Post-rm_init_adapter-failure trigger (2026-05-06).
++ *
++ * Called from nv_start_device immediately after rm_init_adapter has
++ * returned failure. Reads WPR2 register; if non-zero, schedules a
++ * work-queue handler that performs the validated PCI recovery sequence
++ * (remove + rescan + reset). Returns true if recovery was scheduled
++ * (caller should propagate -EBUSY to userspace), false if no recovery
++ * was needed/triggered.
++ *
++ * The trigger condition is the *combination* "rm_init_adapter just
++ * failed AND WPR2 register is non-zero" — sharpened by diagnostic
++ * patch 0018 evidence (WPR2=0x07f4a000 is the normal running value
++ * during healthy operation; non-zero alone is not a stuck indicator).
++ *
++ * Module-level dedup via atomic in_progress flag prevents recovery
++ * storm if multiple persistenced retries hit post-rmInit-FAIL
++ * concurrently.
++ */
++bool tb_egpu_lever_m_handle_post_rmInit_fail(nv_linux_state_t *nvl);
++
+ /* Diagnostic telemetry for Commit 3 design (2026-05-06).
+  *
+  * Reads NV_PMC_BOOT_0 (bus-alive sanity, BAR0+0) and
+diff --git a/kernel-open/nvidia/nv.c b/kernel-open/nvidia/nv.c
+index 886159b2..e81937a8 100644
+--- a/kernel-open/nvidia/nv.c
++++ b/kernel-open/nvidia/nv.c
+@@ -1538,16 +1538,33 @@ int nv_start_device(nv_state_t *nv, nvidia_stack_t *sp)
+ 
+     if (!rm_init_adapter(sp, nv))
+     {
+-        /* AORUS Lever M-recover diagnostic: post-rmInit FAILURE path —
+-         * captures WPR2/PMC state immediately after rm_init_adapter
+-         * returned failure. If WPR2 transitioned from clear (pre) to
+-         * non-zero (post-fail), GSP firmware is what sets the register
+-         * during its boot attempt. */
++        /* AORUS Lever M-recover diagnostic: post-rmInit FAILURE — log
++         * register state for the timeline before triggering recovery. */
+         tb_egpu_lever_m_diag_dump(nvl, "post-rmInit-FAIL");
+-        NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
+-                      "rm_init_adapter failed, device minor number %d\n",
+-                      nvl->minor_num);
+-        rc = -EIO;
++
++        /* AORUS Lever M-recover Commit 3 (2026-05-06): if WPR2 register
++         * is non-zero after rm_init_adapter just failed, this is the
++         * "WPR2-stuck" state-mismatch condition. Schedule async recovery
++         * (PCI remove + rescan + reset) and return -EBUSY so userspace
++         * retries against (hopefully) clean state.
++         *
++         * If WPR2 is 0, failure is from a different cause (e.g., H14
++         * first-failure root cause not yet investigated). Recovery is
++         * not triggered; return -EIO as before. */
++        if (tb_egpu_lever_m_handle_post_rmInit_fail(nvl))
++        {
++            NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
++                "rm_init_adapter failed (WPR2-stuck) — Lever M-recover "
++                "scheduled async recovery, returning -EBUSY for retry\n");
++            rc = -EBUSY;
++        }
++        else
++        {
++            NV_DEV_PRINTF(NV_DBG_ERRORS, nv,
++                "rm_init_adapter failed, device minor number %d\n",
++                nvl->minor_num);
++            rc = -EIO;
++        }
+         goto failed_release_irq;
+     }
+     /* AORUS Lever M-recover diagnostic: post-rmInit SUCCESS path. */
+diff --git a/version.mk b/version.mk
+index bc59c1a4..ccf5dce2 100644
+--- a/version.mk
++++ b/version.mk
+@@ -1,4 +1,4 @@
+-NVIDIA_VERSION = 595.71.05-aorus.8
++NVIDIA_VERSION = 595.71.05-aorus.9
+ NVIDIA_NVID_VERSION = 595.71.05
+ NVIDIA_NVID_EXTRA = 
+ 

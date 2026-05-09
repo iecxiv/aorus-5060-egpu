@@ -4,7 +4,7 @@
 # to 'root' (next to 'home', 'var/lib/machines').
 #
 # Usage:
-#   sudo /root/aorus-5090-gpu/tools/migration-snapshot.sh [name-suffix]
+#   sudo /root/aorus-5090-egpu/tools/migration-snapshot.sh [name-suffix]
 #
 # Default suffix: pre-F43-YYYY-MM-DD-HHMM
 #
@@ -71,7 +71,7 @@ echo "=== snapshot created ==="
 btrfs subvolume show "$mp/$target" | head -10
 
 # Generate a rollback companion script
-recovery_script="/root/aorus-5090-gpu/archive/migration-rollback-${suffix}.sh"
+recovery_script="/root/aorus-5090-egpu/archive/migration-rollback-${suffix}.sh"
 mkdir -p "$(dirname "$recovery_script")"
 cat > "$recovery_script" <<EOF
 #!/usr/bin/env bash

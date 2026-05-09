@@ -10,8 +10,8 @@
 #   /root/aorus-cuda-tty-test/
 #     status.txt           - high-level state machine
 #     progress.txt         - timestamped marker per step (fsync'd line by line)
-#     pre-status.txt       - aorus-5090-status before
-#     post-status.txt      - aorus-5090-status after (only if not panicked)
+#     pre-status.txt       - aorus-egpu-status before
+#     post-status.txt      - aorus-egpu-status after (only if not panicked)
 #     pre-modules.txt      - lsmod output before
 #     post-modules.txt     - lsmod output after
 #     smoke-output.txt     - stdout/stderr from the smoke test python
@@ -55,7 +55,7 @@ set_status 'aorus-cuda-tty-test started' 'stage=precheck'
 mark 'started'
 
 # Capture full pre-test state, fsync'd
-/usr/local/sbin/aorus-5090-status > "$OUT/pre-status.txt" 2>&1
+/usr/local/sbin/aorus-egpu-status > "$OUT/pre-status.txt" 2>&1
 sync -f "$OUT/pre-status.txt" 2>/dev/null || sync
 lsmod | grep -E '^nvidia' > "$OUT/pre-modules.txt" 2>&1
 sync -f "$OUT/pre-modules.txt" 2>/dev/null || sync
@@ -84,7 +84,7 @@ set_status 'aorus-cuda-tty-test running' 'stage=smoke_test'
 # Run the smoke test with a hard timeout. The test itself exits non-zero on
 # any cuda call returning != 0; success is only when it prints 'cuda_smoke=pass'.
 mark 'before smoke test'
-timeout 30s python3 /root/aorus-5090-gpu/tools/cuda-driver-api-smoke-test.py > "$OUT/smoke-output.txt" 2>&1
+timeout 30s python3 /root/aorus-5090-egpu/tools/cuda-driver-api-smoke-test.py > "$OUT/smoke-output.txt" 2>&1
 smoke_rc=$?
 printf '%s\n' "$smoke_rc" > "$OUT/smoke-rc.txt"
 sync -f "$OUT/smoke-rc.txt" 2>/dev/null || sync
@@ -98,7 +98,7 @@ timeout 10s nvidia-smi --query-gpu=memory.used,temperature.gpu,fan.speed,power.d
 sync -f "$OUT/post-nvidia-smi.txt" 2>/dev/null || sync
 mark "captured post nvidia-smi"
 
-/usr/local/sbin/aorus-5090-status > "$OUT/post-status.txt" 2>&1
+/usr/local/sbin/aorus-egpu-status > "$OUT/post-status.txt" 2>&1
 sync -f "$OUT/post-status.txt" 2>/dev/null || sync
 lsmod | grep -E '^nvidia' > "$OUT/post-modules.txt" 2>&1
 sync -f "$OUT/post-modules.txt" 2>/dev/null || sync

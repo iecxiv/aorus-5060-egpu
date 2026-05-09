@@ -18,7 +18,7 @@
 set -uo pipefail
 
 VENV_PATH="${VENV_PATH:-/root/torch-test}"
-TEST_SCRIPT="${TEST_SCRIPT:-/root/aorus-5090-gpu/tools/pytorch-cuda-smoke-test.py}"
+TEST_SCRIPT="${TEST_SCRIPT:-/root/aorus-5090-egpu/tools/pytorch-cuda-smoke-test.py}"
 OUT="${OUT:-/root/aorus-pytorch-tty-test}"
 
 mkdir -p "$OUT"
@@ -47,7 +47,7 @@ set_status 'aorus-pytorch-tty-test started' 'stage=precheck'
 mark 'started'
 
 # Capture pre-test state, fsync'd
-/usr/local/sbin/aorus-5090-status > "$OUT/pre-status.txt" 2>&1
+/usr/local/sbin/aorus-egpu-status > "$OUT/pre-status.txt" 2>&1
 sync -f "$OUT/pre-status.txt" 2>/dev/null || sync
 lsmod | grep -E '^nvidia' > "$OUT/pre-modules.txt" 2>&1
 sync -f "$OUT/pre-modules.txt" 2>/dev/null || sync
@@ -108,7 +108,7 @@ nvidia-smi --query-gpu=memory.used,temperature.gpu,fan.speed,power.draw,pstate \
 sync -f "$OUT/post-nvidia-smi.txt" 2>/dev/null || sync
 mark 'captured post nvidia-smi'
 
-/usr/local/sbin/aorus-5090-status > "$OUT/post-status.txt" 2>&1
+/usr/local/sbin/aorus-egpu-status > "$OUT/post-status.txt" 2>&1
 sync -f "$OUT/post-status.txt" 2>/dev/null || sync
 lsmod | grep -E '^nvidia' > "$OUT/post-modules.txt" 2>&1
 sync -f "$OUT/post-modules.txt" 2>/dev/null || sync

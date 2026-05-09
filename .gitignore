@@ -1,0 +1,29 @@
+# Editor backups
+*.swp
+*.swo
+*~
+
+# Patch tool backups
+*.orig
+*.rej
+*.patch.new
+
+# Sed/temp leftovers
+*.tmp
+
+# Local-only override (anyone publishing should not require these)
+.envrc
+
+# Build artefacts (the patched-driver build happens in /root/nvidia-open-src
+# external to this repo by default; this guard catches cases where someone
+# builds in-tree).
+nvidia-open-build/
+_out/
+*.o
+*.ko
+*.ko.*
+.tmp_versions/
+
+# Python caches (test scripts use python sometimes)
+__pycache__/
+*.pyc

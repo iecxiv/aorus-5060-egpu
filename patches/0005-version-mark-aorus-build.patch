@@ -7,7 +7,7 @@ index 089c77d0..3586420f 100644
  ccflags-y += -Wall $(DEFINES) $(INCLUDES) -Wno-cast-qual -Wno-format-extra-args
  ccflags-y += -D__KERNEL__ -DMODULE -DNVRM
 -ccflags-y += -DNV_VERSION_STRING=\"595.71.05\"
-+ccflags-y += -DNV_VERSION_STRING=\"595.71.05-aorus.1\"
++ccflags-y += -DNV_VERSION_STRING=\"595.71.05-aorus.5\"
  
  # Include and link Tegra out-of-tree modules.
  ifneq ($(wildcard /usr/src/nvidia/nvidia-public),)
@@ -17,7 +17,7 @@ index ea15e650..eed98621 100644
 +++ b/version.mk
 @@ -1,4 +1,4 @@
 -NVIDIA_VERSION = 595.71.05
-+NVIDIA_VERSION = 595.71.05-aorus.1
++NVIDIA_VERSION = 595.71.05-aorus.5
  NVIDIA_NVID_VERSION = 595.71.05
  NVIDIA_NVID_EXTRA = 
  
