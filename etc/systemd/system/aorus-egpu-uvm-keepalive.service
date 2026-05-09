@@ -1,6 +1,6 @@
 [Unit]
 Description=AORUS RTX 5090 eGPU UVM keep-alive (close-path bug mitigation)
-Documentation=file:///root/aorus-5090-gpu/docs/architecture.md
+Documentation=file:///root/aorus-5090-egpu/docs/architecture.md
 Documentation=file:///root/ollama/docs/freeze-2026-05-02-1032.md
 
 # Order: only after the loader has bound nvidia AND pre-staged nvidia_uvm
@@ -9,9 +9,9 @@ Documentation=file:///root/ollama/docs/freeze-2026-05-02-1032.md
 # of UVM before any user-session CUDA service and after the platform's
 # loader/persistenced chain. See /root/ollama/docs/freeze-2026-05-02-1032.md
 # for the freeze evidence that motivated this unit.
-After=aorus-5090-compute-load-nvidia.service
+After=aorus-egpu-compute-load-nvidia.service
 After=nvidia-persistenced.service
-Requires=aorus-5090-compute-load-nvidia.service
+Requires=aorus-egpu-compute-load-nvidia.service
 Requires=nvidia-persistenced.service
 
 # Skip cleanly if the loader didn't run / didn't pre-stage nvidia_uvm. With
@@ -23,7 +23,7 @@ ConditionPathExists=/dev/nvidia-uvm-tools
 
 [Service]
 Type=exec
-ExecStart=/usr/local/sbin/aorus-5090-uvm-keepalive
+ExecStart=/usr/local/sbin/aorus-egpu-uvm-keepalive
 
 # Restart=no by design. If this holder dies, restart would mean close+reopen
 # of the UVM fds, which is exactly the 1->0->1 transition we are preventing.

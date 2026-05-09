@@ -1,0 +1,29 @@
+[Unit]
+Description=AORUS eGPU observability watchdog (Mode B silent freeze SysRq capture)
+Documentation=file:///root/aorus-5090-egpu/docs/service-retirement-roadmap.md
+Documentation=file:///root/aorus-5090-egpu/docs/reliability-hypothesis-ledger.md
+
+# Independent of the GPU stack — always runs, observes from outside.
+# Wants= (not Requires=) the loader because if the loader didn't run,
+# this service is still useful: it'll detect persistent unresponsiveness
+# and capture state.
+Wants=aorus-egpu-compute-load-nvidia.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/aorus-egpu-observability-watchdog
+
+# Restart on failure but with backoff — if helper crashes, recover without
+# spinning. Empirically 5s should be enough.
+Restart=on-failure
+RestartSec=5
+
+# Limit blast radius: not real-time scheduled, modest CPU cap.
+Nice=10
+CPUQuota=10%
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,26 @@
+# RENDERED FROM TEMPLATE by apply.sh — values from /etc/aorus-egpu/config.env.
+# To change behaviour, edit
+# `etc/udev/rules.d/79-aorus-egpu-no-autoload.rules.template` in the repo
+# and re-run `sudo ./apply.sh`. Edits to /etc/udev/rules.d/79-...rules
+# are overwritten on next apply.
+#
+# Stop generic udev PCI modalias autoload from binding the eGPU before
+# nvidia-persistenced is ready. NVIDIA is loaded explicitly through
+# aorus-egpu-compute-load-nvidia.service.
+#
+# Why both `driver_override` and clearing MODALIAS:
+#   - driver_override blocks drivers_autoprobe from binding any registered driver
+#     other than the named one (which won't ever exist).
+#   - Clearing ENV{MODALIAS} prevents systemd-udevd's modalias matcher from
+#     loading the nvidia kernel module by autoload at all.
+#
+# Without both, the freeze-prone "first NVIDIA probe before persistenced is up"
+# can occur before our service has bound the GPU.
+#
+# Substitution variables (sourced from config.env, used in ACTION lines below):
+#   EGPU_VENDOR_ID        — GPU PCI vendor (e.g. 0x10de)
+#   EGPU_DEVICE_ID        — GPU PCI device (e.g. 0x2b85 for RTX 5090)
+#   EGPU_AUDIO_DEVICE_ID  — paired HDMI audio function device (e.g. 0x22e8)
+
+ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="@@EGPU_VENDOR_ID@@", ATTR{device}=="@@EGPU_DEVICE_ID@@", ATTR{driver_override}="aorus_egpu_manual", ENV{MODALIAS}=""
+ACTION=="add|bind", SUBSYSTEM=="pci", ATTR{vendor}=="@@EGPU_VENDOR_ID@@", ATTR{device}=="@@EGPU_AUDIO_DEVICE_ID@@", ATTR{driver_override}="aorus_egpu_disabled", ENV{MODALIAS}="", RUN+="/usr/local/sbin/aorus-egpu-disable-audio %k"

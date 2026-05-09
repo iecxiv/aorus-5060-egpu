@@ -1,0 +1,9 @@
+# H3 (kill-switch persistence) — defense-in-depth restore.
+#
+# When the nvidia module is loaded, run aorus-egpu-lever-m-killswitch-restore
+# to copy the persistent file at /var/lib/aorus-egpu/lever-m-killswitch
+# to the runtime sysfs parameter. Layered with the driver's own file
+# read at module init: belt + braces.
+
+ACTION=="add", SUBSYSTEM=="module", KERNEL=="nvidia", \
+    RUN+="/usr/local/sbin/aorus-egpu-lever-m-killswitch-restore"

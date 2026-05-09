@@ -20,7 +20,7 @@
 # Hard requirements for this to actually work:
 #
 # 1. Must be the FIRST process to open /dev/nvidia-uvm after boot. The systemd
-#    unit orders us After= aorus-5090-compute-load-nvidia.service (which loads
+#    unit orders us After= aorus-egpu-compute-load-nvidia.service (which loads
 #    nvidia_uvm and creates the device files) and Before= multi-user.target,
 #    so user-session CUDA services see us already holding the fds.
 #
@@ -36,7 +36,7 @@ set -euo pipefail
 
 if [[ ! -c /dev/nvidia-uvm ]]; then
     echo "FATAL: /dev/nvidia-uvm is not present" >&2
-    echo "       The aorus-5090-compute-load-nvidia loader should have pre-staged" >&2
+    echo "       The aorus-egpu-compute-load-nvidia loader should have pre-staged" >&2
     echo "       nvidia_uvm. If this triggers, the loader did not run or failed." >&2
     exit 1
 fi
@@ -54,7 +54,7 @@ fi
 exec 3<>/dev/nvidia-uvm
 exec 4<>/dev/nvidia-uvm-tools
 
-echo "aorus-5090-uvm-keepalive: holding fd 3 -> /dev/nvidia-uvm, fd 4 -> /dev/nvidia-uvm-tools"
+echo "aorus-egpu-uvm-keepalive: holding fd 3 -> /dev/nvidia-uvm, fd 4 -> /dev/nvidia-uvm-tools"
 
 # Replace ourselves with sleep so the fds outlive the bash interpreter and the
 # resulting process is minimal (no shell-parsing, no child-reaping concerns,

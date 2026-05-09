@@ -18,6 +18,9 @@ fi
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$repo_root"
 
+# shellcheck source=lib/install-manifest.sh
+source "$repo_root/lib/install-manifest.sh"
+
 green() { printf '\033[32m%s\033[0m\n' "$*"; }
 yellow() { printf '\033[33m%s\033[0m\n' "$*"; }
 red() { printf '\033[31m%s\033[0m\n' "$*" >&2; }
@@ -31,7 +34,7 @@ if ! grep -q 'thunderbolt.host_reset=false' /proc/cmdline; then
     yellow "WARNING: 'thunderbolt.host_reset=false' is NOT in /proc/cmdline."
     yellow "The eGPU likely has BAR1=256MiB rather than 32GiB. Boot args are required."
     yellow "After this script finishes, run:"
-    yellow "  sudo grubby --update-kernel=ALL --args=\"thunderbolt.host_reset=false pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0,noaer module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core iommu=pt pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off\""
+    yellow "  sudo grubby --update-kernel=ALL --args=\"thunderbolt.host_reset=false pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core iommu=pt pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off\""
     yellow "Then reboot before relying on the rest of the configuration."
 elif ! grep -q 'iommu=pt' /proc/cmdline; then
     yellow "NOTICE: 'iommu=pt' is NOT in /proc/cmdline."
@@ -61,61 +64,127 @@ copy_if_different() {
     printf '  installed: %s\n' "$dst"
 }
 
-# udev rules
-copy_if_different etc/udev/rules.d/79-aorus-5090-no-autoload.rules \
-                  /etc/udev/rules.d/79-aorus-5090-no-autoload.rules 0644
-copy_if_different etc/udev/rules.d/81-aorus-5090-compute-power.rules \
-                  /etc/udev/rules.d/81-aorus-5090-compute-power.rules 0644
-copy_if_different etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules \
-                  /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules 0644
+# Iterate the manifest. Each array gets the same install-or-skip treatment
+# routed by category. Templated udev rules are NOT copied here — they're
+# rendered later after detect-config writes /etc/aorus-egpu/config.env.
 
-# modprobe configs
-copy_if_different etc/modprobe.d/aorus-5090-compute-only.conf \
-                  /etc/modprobe.d/aorus-5090-compute-only.conf 0644
-copy_if_different etc/modprobe.d/blacklist-nouveau.conf \
-                  /etc/modprobe.d/blacklist-nouveau.conf 0644
-copy_if_different etc/modprobe.d/nvidia-power-management.conf \
-                  /etc/modprobe.d/nvidia-power-management.conf 0644
-copy_if_different etc/modprobe.d/nvidia.conf \
-                  /etc/modprobe.d/nvidia.conf 0644
+for name in "${EGPU_UDEV_STATIC[@]}"; do
+    copy_if_different "etc/udev/rules.d/$name" "$(egpu_path_udev "$name")" 0644
+done
 
-# systemd units
-copy_if_different etc/systemd/system/aorus-5090-compute-load-nvidia.service \
-                  /etc/systemd/system/aorus-5090-compute-load-nvidia.service 0644
-copy_if_different etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf \
-                  /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf 0644
-copy_if_different etc/systemd/system/aorus-5090-uvm-keepalive.service \
-                  /etc/systemd/system/aorus-5090-uvm-keepalive.service 0644
+for name in "${EGPU_MODPROBE_CONFS[@]}"; do
+    copy_if_different "etc/modprobe.d/$name" "$(egpu_path_modprobe "$name")" 0644
+done
 
-# scripts
-copy_if_different usr/local/sbin/aorus-5090-compute-load-nvidia \
-                  /usr/local/sbin/aorus-5090-compute-load-nvidia 0755
-copy_if_different usr/local/sbin/aorus-5090-disable-audio \
-                  /usr/local/sbin/aorus-5090-disable-audio 0755
-copy_if_different usr/local/sbin/aorus-5090-status \
-                  /usr/local/sbin/aorus-5090-status 0755
-copy_if_different usr/local/sbin/aorus-5090-uvm-keepalive \
-                  /usr/local/sbin/aorus-5090-uvm-keepalive 0755
+for name in "${EGPU_SYSCTL_CONFS[@]}"; do
+    copy_if_different "etc/sysctl.d/$name" "$(egpu_path_sysctl "$name")" 0644
+done
+
+# Active + retired services use identical installation. Enable/disable
+# distinction is handled in the services step further below.
+for name in "${EGPU_SERVICES_ACTIVE[@]}" "${EGPU_SERVICES_RETIRED[@]}"; do
+    copy_if_different "etc/systemd/system/$name" "$(egpu_path_service "$name")" 0644
+done
+
+for name in "${EGPU_DROP_INS[@]}"; do
+    copy_if_different "etc/systemd/system/$name" "$(egpu_path_dropin "$name")" 0644
+done
+
+for name in "${EGPU_LIBS[@]}"; do
+    copy_if_different "usr/local/lib/aorus-egpu/$name" "$(egpu_path_lib "$name")" 0644
+done
+
+for name in "${EGPU_BINARIES[@]}"; do
+    copy_if_different "usr/local/sbin/$name" "$(egpu_path_binary "$name")" 0755
+done
+
+# ------------------------------------------------- auto-detect host topology -
+step "auto-detect host topology and write /etc/aorus-egpu/config.env"
+
+# Run aorus-egpu-detect-config to refresh /etc/aorus-egpu/config.env from
+# live PCI state. Idempotent — previous file preserved as
+# config.env.previous. Safe to run on every apply; required on first
+# install before helpers can source the config.
+if /usr/local/sbin/aorus-egpu-detect-config >/dev/null 2>&1; then
+    printf '  detected: %s\n' "$(grep '^EGPU_BDF=' /etc/aorus-egpu/config.env | cut -d= -f2 | tr -d '"')"
+    printf '  config:   /etc/aorus-egpu/config.env\n'
+else
+    yellow "  aorus-egpu-detect-config failed — eGPU may not be present; helpers will fall back to defaults"
+fi
+
+# ------------------------------------------------- render udev rule templates -
+step "render udev rule templates from /etc/aorus-egpu/config.env"
+
+# 79-aorus-egpu-no-autoload + 81-aorus-egpu-compute-power are templated; values
+# come from auto-detected config.env. Re-rendered idempotently on each apply,
+# so a hardware change followed by `sudo ./apply.sh` updates them in place.
+if [[ -r /etc/aorus-egpu/config.env ]]; then
+    # shellcheck source=/dev/null
+    source /etc/aorus-egpu/config.env
+
+    # ---- 79-aorus-egpu-no-autoload: simple variable substitution ----
+    sed \
+        -e "s|@@EGPU_VENDOR_ID@@|${EGPU_VENDOR_ID}|g" \
+        -e "s|@@EGPU_DEVICE_ID@@|${EGPU_DEVICE_ID}|g" \
+        -e "s|@@EGPU_AUDIO_DEVICE_ID@@|${EGPU_AUDIO_DEVICE_ID}|g" \
+        etc/udev/rules.d/79-aorus-egpu-no-autoload.rules.template \
+        > /etc/udev/rules.d/79-aorus-egpu-no-autoload.rules
+    chmod 0644 /etc/udev/rules.d/79-aorus-egpu-no-autoload.rules
+    printf '  rendered: /etc/udev/rules.d/79-aorus-egpu-no-autoload.rules\n'
+
+    # ---- 81-aorus-egpu-compute-power: variable + array expansion ----
+    # Build the TB host path block (one pair of ACTION lines per
+    # TB_HOST_VENDOR_DEVICES entry) and the GPU+audio block, then
+    # substitute both into the template.
+    tb_block=""
+    for vd in "${TB_HOST_VENDOR_DEVICES[@]}"; do
+        v="${vd%:*}"; d="${vd#*:}"
+        tb_block+="ACTION==\"add|bind|change\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"${v}\", ATTR{device}==\"${d}\", TEST==\"power/control\", ATTR{power/control}=\"on\""$'\n'
+        tb_block+="ACTION==\"add|bind|change\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"${v}\", ATTR{device}==\"${d}\", TEST==\"d3cold_allowed\", ATTR{d3cold_allowed}=\"0\""$'\n'
+    done
+    gpu_block=""
+    for d in "${EGPU_DEVICE_ID}" "${EGPU_AUDIO_DEVICE_ID}"; do
+        gpu_block+="ACTION==\"add|bind|change\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"${EGPU_VENDOR_ID}\", ATTR{device}==\"${d}\", TEST==\"power/control\", ATTR{power/control}=\"on\""$'\n'
+        gpu_block+="ACTION==\"add|bind|change\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"${EGPU_VENDOR_ID}\", ATTR{device}==\"${d}\", TEST==\"d3cold_allowed\", ATTR{d3cold_allowed}=\"0\""$'\n'
+    done
+    # awk handles the multi-line substitution cleanly without sed escape pain.
+    # Anchored ^...$ so only standalone-placeholder lines match; placeholder
+    # references inside comment text are unaffected.
+    awk -v tb="$tb_block" -v gpu="$gpu_block" '
+        /^@@TB_HOST_PATH_RULES@@$/  { printf "%s",  tb;  next }
+        /^@@EGPU_GPU_AUDIO_RULES@@$/ { printf "%s", gpu; next }
+        { print }
+    ' etc/udev/rules.d/81-aorus-egpu-compute-power.rules.template \
+        > /etc/udev/rules.d/81-aorus-egpu-compute-power.rules
+    chmod 0644 /etc/udev/rules.d/81-aorus-egpu-compute-power.rules
+    printf '  rendered: /etc/udev/rules.d/81-aorus-egpu-compute-power.rules\n'
+else
+    yellow "  /etc/aorus-egpu/config.env missing — cannot render templated udev rules"
+fi
 
 # ----------------------------------------------------- SELinux / udev reload -
 step "restore SELinux contexts and reload udev"
 
-restorecon_paths=(
-    /etc/udev/rules.d/79-aorus-5090-no-autoload.rules
-    /etc/udev/rules.d/81-aorus-5090-compute-power.rules
-    /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules
-    /etc/modprobe.d/aorus-5090-compute-only.conf
-    /etc/modprobe.d/blacklist-nouveau.conf
-    /etc/modprobe.d/nvidia-power-management.conf
-    /etc/modprobe.d/nvidia.conf
-    /etc/systemd/system/aorus-5090-compute-load-nvidia.service
-    /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf
-    /etc/systemd/system/aorus-5090-uvm-keepalive.service
-    /usr/local/sbin/aorus-5090-compute-load-nvidia
-    /usr/local/sbin/aorus-5090-disable-audio
-    /usr/local/sbin/aorus-5090-status
-    /usr/local/sbin/aorus-5090-uvm-keepalive
-)
+restorecon_paths=()
+for name in "${EGPU_UDEV_STATIC[@]}" "${EGPU_UDEV_TEMPLATED[@]}"; do
+    restorecon_paths+=("$(egpu_path_udev "$name")")
+done
+for name in "${EGPU_MODPROBE_CONFS[@]}"; do
+    restorecon_paths+=("$(egpu_path_modprobe "$name")")
+done
+for name in "${EGPU_SYSCTL_CONFS[@]}"; do
+    restorecon_paths+=("$(egpu_path_sysctl "$name")")
+done
+for name in "${EGPU_SERVICES_ACTIVE[@]}" "${EGPU_SERVICES_RETIRED[@]}"; do
+    restorecon_paths+=("$(egpu_path_service "$name")")
+done
+for name in "${EGPU_DROP_INS[@]}"; do
+    restorecon_paths+=("$(egpu_path_dropin "$name")")
+done
+for name in "${EGPU_BINARIES[@]}"; do
+    restorecon_paths+=("$(egpu_path_binary "$name")")
+done
+
 if command -v restorecon >/dev/null; then
     restorecon -F "${restorecon_paths[@]}" 2>/dev/null || true
 fi
@@ -123,7 +192,7 @@ fi
 udevadm control --reload-rules
 
 # ------------------------------------------------------------- cleanup phase -
-step "remove vestigial files"
+step "merged-/usr layout handling"
 
 remove_if_exists() {
     local path="$1"
@@ -135,37 +204,68 @@ remove_if_exists() {
     fi
 }
 
-# Old latch files
-remove_if_exists /etc/aorus-5090-allow-compute-load
-remove_if_exists /etc/aorus-5090-collect-pci-layout
-
-# Vestigial debug collector
-if systemctl is-enabled aorus-5090-collect-pci-layout.service >/dev/null 2>&1; then
-    systemctl disable aorus-5090-collect-pci-layout.service >/dev/null 2>&1 || true
-    printf '  disabled: aorus-5090-collect-pci-layout.service\n'
-fi
-remove_if_exists /etc/systemd/system/aorus-5090-collect-pci-layout.service
-remove_if_exists /usr/local/sbin/aorus-5090-collect-pci-layout
-
-# Handle the merged-/usr layout case: on Fedora, /usr/local/sbin is a symlink
-# to /usr/local/bin. If they resolve to the same directory, scripts in
-# /usr/local/bin ARE the canonical scripts; do not delete them.
+# On Fedora, /usr/local/sbin is a symlink to /usr/local/bin. If they resolve
+# to the same directory, scripts in /usr/local/bin ARE the canonical scripts;
+# do not delete them. Otherwise (separate directories) cleanup duplicates left
+# by prior installs and create a /usr/local/bin/aorus-egpu-status symlink so
+# the status command is on a default user PATH.
 sbin_real="$(readlink -f /usr/local/sbin)"
 bin_real="$(readlink -f /usr/local/bin)"
 if [[ "$sbin_real" == "$bin_real" ]]; then
     printf '  /usr/local/sbin and /usr/local/bin resolve to the same directory; no duplicate cleanup needed\n'
-    # The installed scripts already serve both PATH locations. Just remove the
-    # collect-pci-layout vestigial script which has no /sbin install above.
-    remove_if_exists /usr/local/bin/aorus-5090-collect-pci-layout
 else
-    # Separate directories: cleanup duplicates that the prior debugging era left.
-    remove_if_exists /usr/local/bin/aorus-5090-compute-load-nvidia
-    remove_if_exists /usr/local/bin/aorus-5090-collect-pci-layout
-    remove_if_exists /usr/local/bin/aorus-5090-disable-audio
-    rm -f /usr/local/bin/aorus-5090-status
-    ln -sfn /usr/local/sbin/aorus-5090-status /usr/local/bin/aorus-5090-status
-    printf '  /usr/local/bin/aorus-5090-status -> /usr/local/sbin/aorus-5090-status\n'
+    for bin in "${EGPU_BINARIES[@]}"; do
+        remove_if_exists "/usr/local/bin/$bin"
+    done
+    rm -f /usr/local/bin/aorus-egpu-status
+    ln -sfn /usr/local/sbin/aorus-egpu-status /usr/local/bin/aorus-egpu-status
+    printf '  /usr/local/bin/aorus-egpu-status -> /usr/local/sbin/aorus-egpu-status\n'
 fi
+
+# ----------------------------------------- aorus-5090-* → aorus-egpu-* rename --
+# Q3 Tier 2 rename pass (2026-05-09): drop the gpu-model suffix from userspace
+# names since most levers generalise across Blackwell + open driver. Old names
+# (LEGACY_* arrays in lib/install-manifest.sh) are aliased cleanup targets so
+# an existing install can migrate forward idempotently. Once an install has
+# run apply.sh post-rename, no aorus-5090-* unit / binary / config remains.
+step "migrate from aorus-5090-* / aorus-lever-m-* to aorus-egpu-*"
+
+for svc in "${LEGACY_SERVICES[@]}" "${LEGACY_VESTIGIAL_SERVICES[@]}"; do
+    if systemctl is-active "$svc" >/dev/null 2>&1; then
+        systemctl stop "$svc" >/dev/null 2>&1 || true
+        printf '  stopped: %s\n' "$svc"
+    fi
+    if systemctl is-enabled "$svc" >/dev/null 2>&1; then
+        systemctl disable "$svc" >/dev/null 2>&1 || true
+        printf '  disabled: %s\n' "$svc"
+    fi
+    remove_if_exists "/etc/systemd/system/$svc"
+done
+
+for bin in "${LEGACY_BINARIES[@]}"; do
+    remove_if_exists "/usr/local/sbin/$bin"
+    remove_if_exists "/usr/local/bin/$bin"
+done
+
+for f in "${LEGACY_MODPROBE[@]}"; do
+    remove_if_exists "/etc/modprobe.d/$f"
+done
+
+for f in "${LEGACY_SYSCTL[@]}"; do
+    remove_if_exists "/etc/sysctl.d/$f"
+done
+
+for f in "${LEGACY_UDEV[@]}"; do
+    remove_if_exists "/etc/udev/rules.d/$f"
+done
+
+for f in "${LEGACY_VESTIGIAL_FILES[@]}"; do
+    remove_if_exists "$f"
+done
+
+# Protective blacklist stub written by remove.sh on graceful shutdown.
+# Removed here so our proper modprobe.d files take effect.
+remove_if_exists /etc/modprobe.d/zz-aorus-egpu-blacklist.conf
 
 # ---------------------------------------------------------------- services --
 step "reload systemd, mask/disable/enable services"
@@ -244,29 +344,27 @@ mask_unit_robust nvidia-cdi-refresh.path
 mask_unit_robust nvidia-cdi-refresh.service
 systemctl daemon-reload
 
-# Enable the bind service.
-if ! systemctl is-enabled aorus-5090-compute-load-nvidia.service >/dev/null 2>&1; then
-    systemctl enable aorus-5090-compute-load-nvidia.service
-    printf '  enabled: aorus-5090-compute-load-nvidia.service\n'
-else
-    printf '  already enabled: aorus-5090-compute-load-nvidia.service\n'
-fi
+# Enable every active service from the manifest (idempotent).
+for svc in "${EGPU_SERVICES_ACTIVE[@]}" nvidia-persistenced.service; do
+    if ! systemctl is-enabled "$svc" >/dev/null 2>&1; then
+        systemctl enable "$svc" >/dev/null 2>&1 && printf '  enabled: %s\n' "$svc" || \
+            yellow "  could not enable $svc (unit file not found?)"
+    else
+        printf '  already enabled: %s\n' "$svc"
+    fi
+done
 
-# Enable persistenced.
-if ! systemctl is-enabled nvidia-persistenced.service >/dev/null 2>&1; then
-    systemctl enable nvidia-persistenced.service
-    printf '  enabled: nvidia-persistenced.service\n'
-else
-    printf '  already enabled: nvidia-persistenced.service\n'
-fi
-
-# Enable the UVM keep-alive (extends persistenced's mitigation to /dev/nvidia-uvm).
-if ! systemctl is-enabled aorus-5090-uvm-keepalive.service >/dev/null 2>&1; then
-    systemctl enable aorus-5090-uvm-keepalive.service
-    printf '  enabled: aorus-5090-uvm-keepalive.service\n'
-else
-    printf '  already enabled: aorus-5090-uvm-keepalive.service\n'
-fi
+# Disable every retired service (kept on disk as historical archive).
+# Resurrection: `sudo systemctl enable --now <service>` per
+# docs/service-retirement-roadmap.md.
+for svc in "${EGPU_SERVICES_RETIRED[@]}"; do
+    if systemctl is-enabled "$svc" >/dev/null 2>&1; then
+        systemctl disable --now "$svc" >/dev/null 2>&1 || true
+        printf '  disabled (retired): %s\n' "$svc"
+    else
+        printf '  already retired: %s\n' "$svc"
+    fi
+done
 
 # Disable the user's nvidia-settings autostart if not already disabled.
 autostart=/etc/xdg/autostart/nvidia-settings-user.desktop
@@ -310,7 +408,7 @@ disable_loader_entry /etc/OpenCL/vendors/nvidia.icd
 # ----------------------------------------------- ollama group membership ---
 step "ollama group membership"
 
-# The 82-aorus-5090-nvidia-permissions.rules udev rule restricts /dev/nvidia*
+# The 82-aorus-egpu-nvidia-permissions.rules udev rule restricts /dev/nvidia*
 # to root and the 'ollama' group. Add the human admin user (apnex) to this
 # group so unprivileged 'nvidia-smi' continues to work for diagnostics.
 # 'sudo nvidia-smi' will work regardless via root.
@@ -348,7 +446,7 @@ fi
 step "live state"
 
 # Apply current udev rules to already-enumerated devices (re-runs the
-# 81-aorus-5090-compute-power.rules d3cold/power_control rewrites).
+# 81-aorus-egpu-compute-power.rules d3cold/power_control rewrites).
 udevadm trigger --subsystem-match=pci
 
 # If nvidia is already loaded and bound and persistenced is already running,
@@ -356,8 +454,8 @@ udevadm trigger --subsystem-match=pci
 # Read /proc/modules directly to avoid SIGPIPE on lsmod under pipefail.
 if ! grep -q '^nvidia ' /proc/modules; then
     if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
-        printf '  starting aorus-5090-compute-load-nvidia.service\n'
-        systemctl start aorus-5090-compute-load-nvidia.service
+        printf '  starting aorus-egpu-compute-load-nvidia.service\n'
+        systemctl start aorus-egpu-compute-load-nvidia.service
     fi
 fi
 
@@ -407,16 +505,16 @@ fi
 # from this point forward, the window closes.
 if [[ ! -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
     : # eGPU not present; nothing to start
-elif systemctl is-active aorus-5090-uvm-keepalive.service >/dev/null 2>&1; then
-    printf '  aorus-5090-uvm-keepalive.service is active\n'
+elif systemctl is-active aorus-egpu-uvm-keepalive.service >/dev/null 2>&1; then
+    printf '  aorus-egpu-uvm-keepalive.service is active\n'
 else
-    printf '  starting aorus-5090-uvm-keepalive.service\n'
-    systemctl start aorus-5090-uvm-keepalive.service || true
+    printf '  starting aorus-egpu-uvm-keepalive.service\n'
+    systemctl start aorus-egpu-uvm-keepalive.service || true
 fi
 
 # --------------------------------------------------------------- final check -
 step "post-apply status"
-/usr/local/sbin/aorus-5090-status || true
+/usr/local/sbin/aorus-egpu-status || true
 
 green "\napply.sh complete."
 green "Reboot to verify the configuration survives a cold boot."

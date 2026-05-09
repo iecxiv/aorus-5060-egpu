@@ -1,0 +1,20 @@
+[Unit]
+Description=AORUS RTX 5090 eGPU bridge link speed cap (H17 — cap at Gen1 before nvidia binds)
+Documentation=file:///root/aorus-5090-egpu/docs/iommu-gsp-lockdown-analysis.md
+After=systemd-udev-settle.service bolt.service
+Wants=systemd-udev-settle.service bolt.service
+Before=aorus-egpu-compute-load-nvidia.service
+RequiredBy=aorus-egpu-compute-load-nvidia.service
+# No ConditionPathExists: script auto-detects the AORUS GPU's parent
+# bridge (vendor 10de:2b85) regardless of TB4 port (different BDF per
+# port: 03:00.0 on port A, 2d:00.0 on port B). If GPU not present, the
+# script is a fast no-op.
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/aorus-egpu-bridge-link-cap apply
+ExecStop=/usr/local/sbin/aorus-egpu-bridge-link-cap restore
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

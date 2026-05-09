@@ -1,0 +1,162 @@
+#!/usr/bin/env bash
+# aorus-egpu-pcie-tune — Phase 1 H9a Completion Timeout tightening
+#
+# Per docs/reliability-hypothesis-ledger.md hypothesis H9a: tightening
+# PCIe Completion Timeout Value (CTV) on the TB host port (0000:00:07.0)
+# and the GPU (0000:04:00.0) might convert Mode B silent freezes into
+# Mode A graceful failures by surfacing stuck TLPs as AER uncorrectable
+# events within ~10ms instead of the device default (~50ms).
+#
+# DevCtl2 register layout (PCIe Express cap offset 0x28):
+#   bits 3:0  Completion Timeout Value (CTV)
+#   bit 4     Completion Timeout Disable (0 = timeouts enabled)
+#   bit 5     ARI Forwarding Enable
+#   bit 6     AtomicOp Requester Enable
+#   bit 10    LTR Mechanism Enable          ← already set on this hw
+#   ...
+#
+# CTV encoding (subset, per PCIe Base Spec):
+#   0x0  Default (~50ms, device-specific)        ← current
+#   0x1  50us  to 100us  (Range A1)
+#   0x2  1ms   to 10ms   (Range A2)              ← TARGET
+#   0x5  16ms  to 55ms   (Range B1)
+#   0x6  65ms  to 210ms  (Range B2)
+#   0x9  260ms to 900ms  (Range C1)
+#   0xA  1s    to 3.5s   (Range C2)
+#
+# Audit confirmed both target devices have:
+#   - DevCap2.TimeoutDis+ (tunable)
+#   - 00:07.0 supports Range ABC
+#   - 04:00.0 supports Range AB
+#   - Current DevCtl2 = 0x0400 (CTV=0, LTR enabled)
+#
+# This helper:
+#   - Saves original DevCtl2 to /var/lib/aorus-egpu/pcie-tune-original.txt
+#     for restore
+#   - Writes new DevCtl2 with CTV=0x2 (preserves all other bits)
+#   - Verifies write succeeded
+#   - Logs to journald
+#
+# Layer (per docs/architecture-and-modularity.md): L4 (shell helper).
+# Runs as a systemd one-shot after driver bind.
+# Reversible: `aorus-egpu-pcie-tune restore` writes back original DevCtl2.
+
+set -euo pipefail
+
+STATE_DIR=/var/lib/aorus-egpu
+STATE_FILE="$STATE_DIR/pcie-tune-original.txt"
+
+DEVICES=(
+    "0000:00:07.0"
+    "0000:04:00.0"
+)
+
+NEW_CTV=0x2  # Range A2, 1ms to 10ms
+
+log() { logger -t aorus-pcie-tune "$*"; printf '[aorus-pcie-tune] %s\n' "$*"; }
+
+read_devctl2() {
+    local bdf="$1"
+    setpci -s "$bdf" CAP_EXP+0x28.W 2>/dev/null
+}
+
+write_devctl2() {
+    local bdf="$1" val="$2"
+    setpci -s "$bdf" CAP_EXP+0x28.W="$val"
+}
+
+# Compute new DevCtl2 = (old & 0xfff0) | NEW_CTV
+compute_new() {
+    local old="$1"
+    local masked=$(( 0x$old & 0xfff0 ))
+    local new=$(( masked | NEW_CTV ))
+    printf '%04x' $new
+}
+
+cmd_apply() {
+    mkdir -p "$STATE_DIR"
+    : > "$STATE_FILE.tmp"
+
+    for bdf in "${DEVICES[@]}"; do
+        if [[ ! -e "/sys/bus/pci/devices/$bdf" ]]; then
+            log "skip: $bdf not present"
+            continue
+        fi
+
+        local current new
+        current=$(read_devctl2 "$bdf")
+        new=$(compute_new "$current")
+
+        if [[ "$current" == "$new" ]]; then
+            log "$bdf: DevCtl2=0x$current already matches target — no change"
+            echo "$bdf $current" >> "$STATE_FILE.tmp"
+            continue
+        fi
+
+        echo "$bdf $current" >> "$STATE_FILE.tmp"
+        write_devctl2 "$bdf" "$new"
+
+        local readback
+        readback=$(read_devctl2 "$bdf")
+        if [[ "$readback" == "$new" ]]; then
+            log "$bdf: DevCtl2 0x$current -> 0x$readback (CTV $((0x$current & 0xf)) -> $((0x$readback & 0xf)))"
+        else
+            log "$bdf: WRITE VERIFY FAILED — wanted 0x$new, got 0x$readback"
+            return 2
+        fi
+    done
+
+    mv "$STATE_FILE.tmp" "$STATE_FILE"
+    log "applied: state saved to $STATE_FILE"
+}
+
+cmd_restore() {
+    if [[ ! -f "$STATE_FILE" ]]; then
+        log "restore: no state file at $STATE_FILE — nothing to do"
+        return 0
+    fi
+
+    while read -r bdf orig; do
+        if [[ ! -e "/sys/bus/pci/devices/$bdf" ]]; then
+            log "skip: $bdf not present"
+            continue
+        fi
+        local current
+        current=$(read_devctl2 "$bdf")
+        if [[ "$current" == "$orig" ]]; then
+            log "$bdf: already at original 0x$orig"
+            continue
+        fi
+        write_devctl2 "$bdf" "$orig"
+        local readback
+        readback=$(read_devctl2 "$bdf")
+        log "$bdf: restored DevCtl2 0x$current -> 0x$readback (target 0x$orig)"
+    done < "$STATE_FILE"
+}
+
+cmd_status() {
+    for bdf in "${DEVICES[@]}"; do
+        if [[ ! -e "/sys/bus/pci/devices/$bdf" ]]; then
+            printf '%s: not present\n' "$bdf"
+            continue
+        fi
+        local v
+        v=$(read_devctl2 "$bdf")
+        printf '%s: DevCtl2=0x%s  CTV=%d  TimeoutDis=%d\n' \
+            "$bdf" "$v" $((0x$v & 0xf)) $(((0x$v >> 4) & 1))
+    done
+    if [[ -f "$STATE_FILE" ]]; then
+        printf '\nsaved-original (for restore):\n'
+        cat "$STATE_FILE"
+    fi
+}
+
+case "${1:-apply}" in
+    apply)   cmd_apply ;;
+    restore) cmd_restore ;;
+    status)  cmd_status ;;
+    *)
+        echo "usage: $0 {apply|restore|status}" >&2
+        exit 1
+        ;;
+esac

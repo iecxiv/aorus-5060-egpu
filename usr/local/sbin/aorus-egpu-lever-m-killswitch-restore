@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# aorus-egpu-lever-m-killswitch-restore — defense-in-depth helper for H3 kill switch.
+#
+# Triggered by udev (82-aorus-egpu-lever-m-killswitch.rules) on nvidia
+# module add. Re-applies the persistent kill-switch file's content to
+# the runtime sysfs parameter so the runtime state always matches the
+# persistent state — even if the driver's own kernel_read_file_from_path
+# at module init missed it (e.g. file written after rootfs but before
+# kmod-nvidia load completed).
+#
+# Always exits 0 to avoid blocking module load on cosmetic restore failures.
+
+set -u
+
+KILLSWITCH_FILE=/var/lib/aorus-egpu/lever-m-killswitch
+SYSFS_PARAM=/sys/module/nvidia/parameters/NVreg_AorusLeverMRecoverEnable
+
+# Module may not have created /sys yet on add event; brief retry.
+for _ in 1 2 3 4 5; do
+    [[ -w "$SYSFS_PARAM" ]] && break
+    sleep 0.2
+done
+
+if [[ ! -w "$SYSFS_PARAM" ]]; then
+    exit 0
+fi
+
+if [[ -r "$KILLSWITCH_FILE" ]]; then
+    state=$(<"$KILLSWITCH_FILE")
+    state="${state//[$'\t\r\n ']/}"
+    case "$state" in
+        0) printf '0\n' > "$SYSFS_PARAM" 2>/dev/null || true ;;
+        1) printf '1\n' > "$SYSFS_PARAM" 2>/dev/null || true ;;
+    esac
+fi
+
+exit 0

@@ -1,0 +1,17 @@
+[Unit]
+Description=AORUS RTX 5090 eGPU PCIe link state delta monitor (H17.1 — characterise autonomous downgrade)
+Documentation=file:///root/aorus-5090-egpu/docs/iommu-gsp-lockdown-analysis.md
+After=aorus-egpu-bridge-link-cap.service aorus-egpu-compute-load-nvidia.service
+Wants=aorus-egpu-bridge-link-cap.service
+ConditionPathExists=/sys/bus/pci/devices/0000:03:00.0
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/aorus-egpu-link-monitor
+Restart=on-failure
+RestartSec=5
+Nice=10
+CPUQuota=5%
+
+[Install]
+WantedBy=multi-user.target

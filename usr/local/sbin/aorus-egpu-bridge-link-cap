@@ -1,0 +1,201 @@
+#!/usr/bin/env bash
+# aorus-egpu-bridge-link-cap — H17 (2026-05-07)
+#
+# Caps the PCIe link speed on the upstream Thunderbolt switch downstream
+# port (0000:03:00.0 — eGPU's parent bridge) BEFORE nvidia.ko binds.
+# Eliminates link-speed renegotiation during GSP DMA setup window —
+# the trigger for GSP_LOCKDOWN_NOTICE events on this hardware.
+#
+# Mechanism: write LnkCtl2 (PCIe Express capability offset 0x30) to set
+# Target Link Speed bits [3:0] without touching other bits, then trigger
+# Retrain Link via LnkCtl bit 5 so the new target takes effect (without
+# retrain, kernel/bridge syncs LnkCtl2 back to the active speed).
+#
+# Usage: aorus-egpu-bridge-link-cap {apply|restore|status}
+# See docs/iommu-gsp-lockdown-analysis.md and reliability-hypothesis-ledger.md#h17
+
+set -u
+
+# Auto-detect the upstream bridge of the AORUS RTX 5090 (vendor 0x10de
+# device 0x2b85). Walks GPU's sysfs symlink → real path → parent dir to
+# find the immediate upstream bridge BDF. Works on either NUC TB4 port
+# (bridge BDF differs per port: 0000:03:00.0 on port A, 0000:2d:00.0 on
+# port B). Override via BRIDGE= env if needed.
+# shellcheck source=/usr/local/lib/aorus-egpu/common.sh
+source /usr/local/lib/aorus-egpu/common.sh
+
+detect_gpu_parent_bridge() {
+    local d v dev
+    for d in /sys/bus/pci/devices/*; do
+        [[ -r "$d/vendor" && -r "$d/device" ]] || continue
+        v=$(<"$d/vendor"); dev=$(<"$d/device")
+        if [[ "$v" == "$EGPU_VENDOR_ID" && "$dev" == "$EGPU_DEVICE_ID" ]]; then
+            basename "$(dirname "$(readlink -f "$d")")"
+            return 0
+        fi
+    done
+    return 1
+}
+# Prefer config file's pre-detected bridge BDF; fall back to live
+# detection; final fallback is the project default. Honour BRIDGE=
+# env override for testing.
+BRIDGE="${BRIDGE:-${EGPU_BRIDGE_BDF:-$(detect_gpu_parent_bridge || echo 0000:03:00.0)}}"
+# 2026-05-07: G3-E experiment — Gen3 + Hardware Autonomous Speed Disable.
+# Pins link at exactly Target Link Speed; hardware cannot autonomously
+# shift to Gen4 (or Gen1) outside that target. Discriminates:
+#   - rmInit succeeds → Gen3 fail was transient Gen4 attempts (G3-E ships)
+#   - rmInit fails    → Gen3 traffic itself is over signal envelope (Gen2 is ceiling)
+#
+# Test history this hardware:
+#   Gen1 cap         (2026-05-07 ~14:00): 0 LOCKDOWN ✓ bandwidth-limited
+#   Gen2 cap         (2026-05-07 16:17): 0 LOCKDOWN ✓ rmInit ✓ PROD-OK
+#   Gen3 cap         (2026-05-07 16:51): 36 LOCKDOWN ✗ wedged
+#                    archive/gen3-fail-2026-05-07-165158/
+#   Gen4 (uncapped):                     LOCKDOWN storms ✗
+#
+# Smoking gun for Gen3 fail: GPU_AER_Cor=0x2000 (Advisory Non-Fatal) at
+# probe-end while link active at Gen3, bridge AER clean — error on GPU
+# PCIe receiver. Hypothesis G3-E: hardware autonomous Gen3↔Gen4 retraining
+# (LnkCtl2 bit 5 was 0) caused the disturbance. Task #106.
+#
+# LnkCtl2 layout (PCIe r6):
+#   [3:0] Target Link Speed
+#   [4]   Enter Compliance
+#   [5]   Hardware Autonomous Speed Disable  ← G3-E sets this
+#   [6]   Selectable De-emphasis  (preserve original)
+# Sourced from config.env (LINK_CAP_TARGET_SPEED, LINK_CAP_HW_AUTO_DISABLE).
+# Default values match the empirically-validated Gen3+bit5 configuration
+# (see test history above + docs/services/bridge-link-cap.md).
+TARGET_SPEED_BITS="${LINK_CAP_TARGET_SPEED:-0x3}"
+# Bit 5 = Hardware Autonomous Speed Disable. Compose into EXTRA_LNKCTL2_BITS.
+EXTRA_LNKCTL2_BITS=$(( (LINK_CAP_HW_AUTO_DISABLE != 0) ? 0x20 : 0x00 ))
+LOG_TAG="aorus-bridge-link-cap"
+STATE_DIR="${STATE_DIR:-/var/lib/aorus-egpu}"
+STATE_FILE="$STATE_DIR/bridge-link-cap.original"
+
+mkdir -p "$STATE_DIR"
+
+log() { logger -t "$LOG_TAG" --priority "$1" -- "$2"; printf '[%s] [%s] %s\n' "$LOG_TAG" "$1" "$2"; }
+info() { log info "$*"; }
+err()  { log err  "$*"; }
+
+read_lnkctl2() {
+    setpci -s "$BRIDGE" CAP_EXP+0x30.W 2>/dev/null
+}
+
+cmd_apply() {
+    if [[ ! -e "/sys/bus/pci/devices/$BRIDGE" ]]; then
+        info "bridge $BRIDGE not present (eGPU likely not connected); no-op"
+        return 0
+    fi
+
+    local cur new
+    cur=$(read_lnkctl2)
+    if [[ -z "$cur" ]]; then
+        err "could not read LnkCtl2 from $BRIDGE"
+        return 1
+    fi
+
+    # Save original on first apply
+    if [[ ! -f "$STATE_FILE" ]]; then
+        echo "$BRIDGE $cur" > "$STATE_FILE"
+        info "saved original LnkCtl2 0x$cur to $STATE_FILE"
+    fi
+
+    # Compute new value: clear bits [5:0] (speed + Enter Compliance + HwAutoSpeedDisable),
+    # OR in TARGET_SPEED_BITS + EXTRA_LNKCTL2_BITS. Mask 0xffc0 preserves bit 6
+    # (Selectable De-emphasis) and higher fields untouched.
+    new=$(printf '%04x' $(( (0x$cur & 0xffc0) | TARGET_SPEED_BITS | EXTRA_LNKCTL2_BITS )))
+    if [[ "$cur" == "$new" ]]; then
+        info "bridge $BRIDGE LnkCtl2 already 0x$cur; no change needed"
+        return 0
+    fi
+
+    local target_gen=$((TARGET_SPEED_BITS & 0xf))
+    local gen_label="Gen${target_gen}"
+    local hwasd=$(( (EXTRA_LNKCTL2_BITS >> 5) & 1 ))
+    info "bridge $BRIDGE LnkCtl2: 0x$cur -> 0x$new (Target=${gen_label} HwAutoSpeedDisable=${hwasd})"
+    setpci -s "$BRIDGE" CAP_EXP+0x30.W="$new"
+
+    # Trigger link retrain so the new Target Link Speed actually takes effect.
+    # Without retrain, the kernel/bridge syncs LnkCtl2 back to the active speed
+    # (observed empirically 2026-05-07: Target=Gen3 reverted to Gen1 within 100ms).
+    # PCIe Express Capability LnkCtl bit 5 = Retrain Link.
+    local lnkctl_cur lnkctl_new
+    lnkctl_cur=$(setpci -s "$BRIDGE" CAP_EXP+0x10.W 2>/dev/null)
+    lnkctl_new=$(printf '%04x' $(( 0x$lnkctl_cur | 0x20 )))
+    info "bridge $BRIDGE retrain link (LnkCtl: 0x$lnkctl_cur -> 0x$lnkctl_new)"
+    setpci -s "$BRIDGE" CAP_EXP+0x10.W="$lnkctl_new"
+
+    # Wait for retrain to complete. LnkSta bit 11 = Link Training.
+    # Spec: should clear within tens of ms once link reaches stable state.
+    local retries=20 lnksta train
+    while ((retries-- > 0)); do
+        lnksta=$(setpci -s "$BRIDGE" CAP_EXP+0x12.W 2>/dev/null)
+        train=$(( 0x$lnksta & 0x800 ))
+        [[ $train -eq 0 ]] && break
+        sleep 0.05
+    done
+    sleep 0.1
+    local readback
+    readback=$(read_lnkctl2)
+    info "bridge $BRIDGE post-retrain LnkCtl2=0x$readback LnkSta=0x$lnksta"
+    # Validate the cap actually took effect. The readback may not match
+    # exactly because the kernel/hardware syncs Target Link Speed bits
+    # [3:0] to the active link speed after retrain (e.g. on a runtime
+    # restart where the link is already trained at a lower speed). The
+    # critical bit is bit 5 (Hardware Autonomous Speed Disable) — if
+    # that's set, autonomous shifts are blocked even if Target ends up
+    # synced to a lower active speed. Accept any readback where bit 5
+    # is set; warn (not fail) if Target also matches; fail only if bit
+    # 5 was NOT set after the write.
+    local readback_int=$((0x$readback))
+    local want_int=$((0x$new))
+    local bit5_set=$(( (readback_int >> 5) & 1 ))
+    local want_bit5=$(( (want_int >> 5) & 1 ))
+    if (( want_bit5 == 1 && bit5_set == 0 )); then
+        err "bridge $BRIDGE LnkCtl2 readback bit5 not set: got 0x$readback (HW Auto Speed Disable failed to engage)"
+        return 1
+    fi
+    if [[ "$readback" != "$new" ]]; then
+        info "bridge $BRIDGE LnkCtl2 readback differs from write: got 0x$readback, wrote 0x$new (kernel re-synced Target bits to active link speed; bit5 still set so cap is effective)"
+    fi
+    # Decode current link speed from LnkSta bits[3:0]
+    local current_gen=$((0x$lnksta & 0xf))
+    info "bridge $BRIDGE link confirmed at Gen${current_gen} (LnkCtl2 Target=${gen_label})"
+}
+
+cmd_restore() {
+    if [[ ! -f "$STATE_FILE" ]]; then
+        info "no state file at $STATE_FILE; nothing to restore"
+        return 0
+    fi
+    while read -r bdf orig; do
+        [[ -z "$orig" ]] && continue
+        if [[ ! -e "/sys/bus/pci/devices/$bdf" ]]; then
+            info "$bdf not present, skipping restore"; continue
+        fi
+        info "restoring $bdf LnkCtl2 to 0x$orig"
+        setpci -s "$bdf" CAP_EXP+0x30.W="$orig"
+    done < "$STATE_FILE"
+    rm -f "$STATE_FILE"
+}
+
+cmd_status() {
+    if [[ ! -e "/sys/bus/pci/devices/$BRIDGE" ]]; then
+        printf '%s: not present\n' "$BRIDGE"
+        return 0
+    fi
+    local cur
+    cur=$(read_lnkctl2)
+    printf '%s: LnkCtl2=0x%s  Target Link Speed=%d (1=Gen1, 2=Gen2, 3=Gen3, 4=Gen4)\n' \
+        "$BRIDGE" "$cur" $((0x$cur & 0xf))
+    [[ -f "$STATE_FILE" ]] && { printf '\nsaved-original:\n'; cat "$STATE_FILE"; }
+}
+
+case "${1:-apply}" in
+    apply)   cmd_apply ;;
+    restore) cmd_restore ;;
+    status)  cmd_status ;;
+    *)       echo "usage: $0 {apply|restore|status}" >&2; exit 1 ;;
+esac

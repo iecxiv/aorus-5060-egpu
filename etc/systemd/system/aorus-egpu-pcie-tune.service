@@ -1,0 +1,33 @@
+[Unit]
+Description=AORUS RTX 5090 eGPU PCIe Completion Timeout tuning (H9a)
+Documentation=file:///root/aorus-5090-egpu/docs/reliability-hypothesis-ledger.md
+Documentation=file:///root/aorus-5090-egpu/docs/stability-roadmap.md
+
+# Order: after the loader has bound nvidia. The helper writes per-device
+# DevCtl2 (PCIe Express cap) on 0000:00:07.0 (TB host port) and
+# 0000:04:00.0 (GPU). Both must be enumerated and bound for the writes
+# to land cleanly. Running before the bind risks hitting the device
+# in a transient state.
+After=aorus-egpu-compute-load-nvidia.service
+Requires=aorus-egpu-compute-load-nvidia.service
+
+# Skip cleanly if the eGPU isn't connected (e.g., laptop running without
+# the dock). Mirrors the loader's condition.
+ConditionPathExists=/sys/bus/pci/devices/0000:04:00.0
+ConditionPathExists=/sys/bus/pci/devices/0000:00:07.0
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+# Apply CTV tightening on boot. ExecStop restores original DevCtl2
+# values so `systemctl stop aorus-egpu-pcie-tune` reverses cleanly
+# (useful for A/B testing without reboot).
+ExecStart=/usr/local/sbin/aorus-egpu-pcie-tune apply
+ExecStop=/usr/local/sbin/aorus-egpu-pcie-tune restore
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

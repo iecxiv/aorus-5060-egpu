@@ -1,0 +1,197 @@
+#!/usr/bin/env bash
+# aorus-egpu-observability-watchdog — Gap 1 closer (Phase B3 reframed)
+#
+# Independent observer that detects Mode B silent freeze conditions
+# (where the wrapper itself wedges) and triggers SysRq dumps to capture
+# per-task kernel state into dmesg BEFORE the host reboots / hangs.
+#
+# Reframed from the original Phase B3 design (auto-FLR external
+# watchdog) to OBSERVABILITY ONLY. Recovery is the wrapper's
+# (or Lever R's) job; this helper's job is to ensure that when the
+# wrapper goes blind, we still capture the kernel state.
+#
+# Detection signals (all must hold for wedge declaration):
+#   1. PASSIVE liveness check fails for >detect_threshold_s
+#   2. AND (any active iter's progress.csv has not been updated in
+#      >progress_threshold_s) OR (no active iter but persistent
+#      liveness failure)
+#
+# Action on wedge:
+#   - Log to journal at err level
+#   - echo l > /proc/sysrq-trigger  (show backtrace of all CPUs)
+#   - echo t > /proc/sysrq-trigger  (show all task stacks)
+#   - echo w > /proc/sysrq-trigger  (show blocked tasks)
+#   - echo m > /proc/sysrq-trigger  (show memory state)
+#   - sleep extended period to avoid re-firing
+#
+# 2026-05-07 redesign (task #108): removed nvidia-smi polling.
+#   Original design ran `nvidia-smi -L` every 10s, which open()/close()s
+#   /dev/nvidia0. The close-path wedge (per project memory + Lever S
+#   task #100) destabilised the GPU/PCIe link, triggering ~17s
+#   recovery cycles that masked themselves but defeated the goal of
+#   stable Gen3 operation. New design uses ONLY:
+#     - sysfs PCI enumeration check (vendor 10de:2b85)
+#     - sysfs driver-binding check (driver symlink → "nvidia")
+#     - sysfs M-recover counters (no nvidia-smi)
+#   None of these touch /dev/nvidia*; they are kernel-side reads of
+#   already-populated state, no probe path triggered. Mode B silent
+#   freeze still detectable via combination of GPU-not-bound + stale
+#   progress.csv, since a true kernel wedge prevents driver binding
+#   from completing or causes binding to fall through.
+#
+# Retirement criterion: when Phase 4 M-recover + Phase 5 M-preserve
+# + Lever R Tier 3 are all PROVEN, Mode B silent freezes either don't
+# occur or are caught by AER + kdump infrastructure. This watchdog
+# becomes redundant. Per docs/service-retirement-roadmap.md.
+#
+# Layer: L4 (helper) + L5 (systemd unit). Per
+# docs/architecture-and-modularity.md — pragmatic stopgap pending
+# in-driver recovery completeness.
+
+set -u
+
+# shellcheck source=/usr/local/lib/aorus-egpu/common.sh
+source /usr/local/lib/aorus-egpu/common.sh
+
+NVIDIA_SMI_TIMEOUT_S="${NVIDIA_SMI_TIMEOUT_S:-3}"
+DETECT_THRESHOLD_S="${DETECT_THRESHOLD_S:-60}"
+PROGRESS_THRESHOLD_S="${PROGRESS_THRESHOLD_S:-60}"
+POLL_INTERVAL_S="${POLL_INTERVAL_S:-10}"
+COOLDOWN_AFTER_TRIGGER_S="${COOLDOWN_AFTER_TRIGGER_S:-300}"
+ARCHIVE_DIR="${ARCHIVE_DIR:-/root/ollama/archive}"
+STATE_DIR="${STATE_DIR:-/var/lib/aorus-egpu}"
+HELPER_TAG="aorus-obs-wdog"
+
+mkdir -p "$STATE_DIR"
+
+log()  { logger -t "$HELPER_TAG" --priority "$1" -- "$2"; printf '[%s] [%s] %s\n' "$HELPER_TAG" "$1" "$2"; }
+info() { log info "$*"; }
+warn() { log warning "$*"; }
+err()  { log err "$*"; }
+
+# Verify root + sysrq writable
+if [[ "$EUID" -ne 0 ]]; then
+    err "must run as root"
+    exit 3
+fi
+
+if [[ ! -w /proc/sysrq-trigger ]]; then
+    err "/proc/sysrq-trigger not writable — verify kernel.sysrq != 0"
+    exit 3
+fi
+
+# Find latest active iter directory (if any). Returns mtime of progress.csv.
+# Empty if no recent iter directory or no progress.csv.
+get_active_iter_progress_age() {
+    local latest_dir progress_file mtime now age
+    latest_dir=$(ls -1d "$ARCHIVE_DIR"/loop-* 2>/dev/null | sort | tail -1)
+    [[ -z "$latest_dir" ]] && return
+    progress_file="$latest_dir/progress.csv"
+    [[ ! -f "$progress_file" ]] && return
+    # Only consider "active" if last entry is recent (within 5 minutes — older means
+    # this iter is done, even if progress.csv is stale forever after).
+    mtime=$(stat -c '%Y' "$progress_file" 2>/dev/null) || return
+    now=$(date +%s)
+    age=$((now - mtime))
+    # If the dir is super-old, no active iter
+    if [[ $age -gt 600 ]]; then
+        return
+    fi
+    echo "$age"
+}
+
+# Passive GPU liveness check via sysfs only.
+# DOES NOT touch /dev/nvidia* — that would trigger close-path wedge
+# (the bug we're working around). Returns 0 = alive, 1 = dead.
+#
+# Liveness criterion (in order):
+#   1. AORUS RTX 5090 (vendor 0x10de, device 0x2b85) is enumerated in
+#      /sys/bus/pci/devices/. Confirms TB tunnel is up + PCI scan saw it.
+#   2. nvidia driver is bound to it (driver symlink → "nvidia").
+#      Confirms probe path completed and rmInit succeeded.
+# Both must hold. Either failing = dead from our POV.
+gpu_passive_alive() {
+    local d
+    for d in /sys/bus/pci/devices/*; do
+        [[ -r "$d/vendor" && -r "$d/device" ]] || continue
+        if [[ "$(<"$d/vendor")" == "$EGPU_VENDOR_ID" && "$(<"$d/device")" == "$EGPU_DEVICE_ID" ]]; then
+            # GPU enumerated — check driver binding
+            if [[ -L "$d/driver" ]] && [[ "$(basename "$(readlink "$d/driver")")" == "nvidia" ]]; then
+                return 0  # alive
+            fi
+            return 1  # GPU present but unbound (or wrong driver) = dead
+        fi
+    done
+    return 1  # GPU not enumerated = dead (TB tunnel down or eGPU off)
+}
+
+# Detect wedge
+should_trigger_sysrq() {
+    # Check 1: GPU passively alive (sysfs only — no /dev access)
+    local gpu_alive=0
+    if gpu_passive_alive; then
+        gpu_alive=1
+    fi
+
+    # Check 2: progress.csv stale on active iter?
+    local progress_age
+    progress_age=$(get_active_iter_progress_age)
+
+    # Decision logic:
+    # - If GPU bound: stack is healthy enough; no wedge
+    # - If GPU unbound/missing AND active iter with stale progress.csv: WEDGE
+    # - If GPU unbound/missing AND no active iter: just GPU dead state, not a wedge
+    #   (could be post-failure state; not our concern, recovery is wpr2-recovery's
+    #    or M-recover's job)
+
+    if [[ "$gpu_alive" == "1" ]]; then
+        return 1  # no wedge
+    fi
+
+    if [[ -n "$progress_age" && "$progress_age" -gt "$PROGRESS_THRESHOLD_S" ]]; then
+        info "wedge candidate: GPU unbound/missing + progress.csv age ${progress_age}s > ${PROGRESS_THRESHOLD_S}s"
+        return 0  # WEDGE
+    fi
+
+    return 1  # no wedge
+}
+
+trigger_sysrq_capture() {
+    local ts
+    ts=$(date '+%Y-%m-%d %H:%M:%S')
+    err "WEDGE DETECTED at $ts — triggering SysRq capture into dmesg"
+    {
+        echo "[$HELPER_TAG] sysrq trigger at $ts"
+        # 'l' = show backtrace of all CPUs
+        echo l > /proc/sysrq-trigger
+        sleep 1
+        # 'w' = show blocked (uninterruptible) tasks
+        echo w > /proc/sysrq-trigger
+        sleep 1
+        # 't' = show all tasks (verbose, large dmesg output)
+        echo t > /proc/sysrq-trigger
+        sleep 2
+        # 'm' = show memory state
+        echo m > /proc/sysrq-trigger
+        sleep 1
+        echo "[$HELPER_TAG] sysrq capture complete at $(date '+%Y-%m-%d %H:%M:%S')"
+    } 2>&1 | sed "s/^/[$HELPER_TAG-sysrq] /"
+    # Persist a marker file so post-reboot analysis can find this event quickly
+    {
+        echo "wedge_detected_at=$ts"
+        echo "sysrq_triggered=l,w,t,m"
+        echo "boot_id=$(cat /proc/sys/kernel/random/boot_id)"
+    } >> "$STATE_DIR/wedge-events.log"
+}
+
+# Main loop
+info "started: poll=${POLL_INTERVAL_S}s, nvsmi_timeout=${NVIDIA_SMI_TIMEOUT_S}s, progress_threshold=${PROGRESS_THRESHOLD_S}s, cooldown=${COOLDOWN_AFTER_TRIGGER_S}s"
+
+while true; do
+    if should_trigger_sysrq; then
+        trigger_sysrq_capture
+        info "cooldown ${COOLDOWN_AFTER_TRIGGER_S}s before next check"
+        sleep "$COOLDOWN_AFTER_TRIGGER_S"
+    fi
+    sleep "$POLL_INTERVAL_S"
+done

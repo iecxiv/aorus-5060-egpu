@@ -9,7 +9,7 @@
 #
 # Tightening to 0660 root:ollama means only:
 #   - nvidia-persistenced (root)              - must keep /dev/nvidia0 + /dev/nvidiactl open
-#   - aorus-5090-uvm-keepalive (root)         - must keep /dev/nvidia-uvm + -uvm-tools open
+#   - aorus-egpu-uvm-keepalive (root)         - must keep /dev/nvidia-uvm + -uvm-tools open
 #   - ollama.service (User=ollama)            - the actual compute consumer
 #   - admin users in the ollama group         - for nvidia-smi / diagnostic access
 #

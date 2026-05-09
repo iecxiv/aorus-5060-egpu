@@ -1,0 +1,218 @@
+#!/usr/bin/env bash
+# aorus-egpu-wpr2-recovery — Lever R Tier 1 v3 (L4 userspace helper)
+# WITH Tier 2 PARTIAL: retry budget (added 2026-05-06 12:38)
+#
+# Detects boot-time WPR2-stuck state and executes the empirically-validated
+# recovery sequence (PCI remove + rescan + reset). Pivoted from the L1
+# (NVIDIA fork) approach in Tier 1 v1/v2 after empirical evidence on
+# 2026-05-06 09:00-09:14 that:
+#   - pcie_reset_flr alone (Tier 1 v1) does not clear WPR2
+#   - pci_reset_function alone (Tier 1 v2) returns -ENOTTY pre-rescan
+#   - the full sysfs sequence works reliably
+#
+# 2026-05-06 12:33 evidence: SAME sequence sometimes needs 2 passes
+# at boot time. First pass cleared WPR2 but left bind in
+# confComputeConstructEngine / gpuSanityCheck failure state; second
+# pass succeeded. Retry budget (Tier 2 partial) added.
+#
+# Architecture: pure userspace, zero NVIDIA-source coupling, uses public
+# kernel sysfs interface. Per docs/architecture-and-modularity.md L4 layer.
+# Per docs/lever-R-design.md Tier 1 v3 + Tier 2 partial (retry only).
+#
+# Detection strategy:
+#   1. Test if `nvidia-smi -L` shows working GPU — if yes, no-op exit
+#   2. If nvidia-smi fails AND dmesg shows the WPR2-stuck pattern, recover
+#   3. If nvidia-smi fails for a different reason, log + exit (not our problem)
+#
+# Recovery sequence (per pass; up to MAX_ATTEMPTS passes):
+#   1. Stop persistenced + uvm-keepalive (release any held fds)
+#   2. modprobe -r nvidia_uvm + nvidia (unbind + remove modules)
+#   3. echo 1 > /sys/bus/pci/devices/0000:04:00.0/remove
+#   4. echo 1 > /sys/bus/pci/rescan
+#   5. echo 1 > /sys/bus/pci/devices/0000:04:00.0/reset
+#   6. systemctl restart aorus-egpu-compute-load-nvidia.service
+#   7. start persistenced + uvm-keepalive
+#   8. verify nvidia-smi works  → if yes, return success; if no, retry
+#
+# Exit codes:
+#   0 = no recovery needed OR recovery succeeded (any attempt)
+#   1 = all MAX_ATTEMPTS recovery passes exhausted
+#   2 = nvidia-smi fails for non-WPR2 reason (different failure class)
+#   3 = environmental error (running as non-root, helper missing tools, etc.)
+
+set -u
+# Don't set -e — we want to continue through diagnostic steps even if some fail
+
+# shellcheck source=/usr/local/lib/aorus-egpu/common.sh
+[[ -r /usr/local/lib/aorus-egpu/common.sh ]] && source /usr/local/lib/aorus-egpu/common.sh
+GPU_BDF="${GPU_BDF:-${EGPU_BDF:-0000:04:00.0}}"
+HELPER_TAG="aorus-wpr2-recover"
+STATE_DIR="${STATE_DIR:-/var/lib/aorus-egpu}"
+HISTORY_LOG="$STATE_DIR/wpr2-recoveries.log"
+
+# Tier 2 PARTIAL: retry budget. Empirical evidence 2026-05-06 12:33
+# showed first-pass at boot can fail in conf-compute / gpuSanityCheck
+# state even though WPR2 cleared; second pass succeeded.
+MAX_ATTEMPTS="${MAX_ATTEMPTS:-3}"
+RETRY_DELAY_S="${RETRY_DELAY_S:-5}"
+
+mkdir -p "$STATE_DIR"
+
+log()  { logger -t "$HELPER_TAG" --priority "$1" -- "$2"; printf '[%s] [%s] %s\n' "$HELPER_TAG" "$1" "$2"; }
+info() { log info "$*"; }
+warn() { log warning "$*"; }
+err()  { log err "$*"; }
+
+# Gap 4: structured append-only history for cumulative recovery tracking.
+# Each line: ISO-8601 timestamp,boot_id,event,detail
+# Events: no-op, started, attempt-started, attempt-failed, recovery-success, recovery-failed
+record_event() {
+    local event="$1" detail="${2:-}"
+    local ts boot_id
+    ts=$(date '+%Y-%m-%dT%H:%M:%S%z')
+    boot_id=$(cat /proc/sys/kernel/random/boot_id 2>/dev/null)
+    printf '%s,%s,%s,%s\n' "$ts" "$boot_id" "$event" "$detail" >> "$HISTORY_LOG"
+}
+
+# Check if GPU is healthy (nvidia-smi shows actual GPU line, not "No devices found")
+nvidia_smi_shows_gpu() {
+    local out
+    out=$(timeout 5 nvidia-smi -L 2>&1)
+    echo "$out" | grep -qE '^GPU [0-9]+:'
+}
+
+# One pass of the recovery sequence. Returns 0 if GPU is restored, 1 if not.
+do_recovery_pass() {
+    local attempt="$1"
+    info "=== recovery attempt $attempt/$MAX_ATTEMPTS ==="
+    record_event "attempt-started" "attempt=$attempt"
+    local pass_start_ns
+    pass_start_ns=$(date +%s%N)
+
+    # Step 1: release any held device fds
+    info "step 1: stopping persistenced + uvm-keepalive"
+    systemctl stop aorus-egpu-uvm-keepalive.service 2>/dev/null || true
+    systemctl stop nvidia-persistenced.service 2>/dev/null || true
+
+    # Step 2: unload nvidia modules. Order matters: UVM/DRM first, then nvidia.
+    info "step 2: modprobe -r"
+    modprobe -r nvidia_uvm 2>&1 | sed "s/^/[$HELPER_TAG] /" || true
+    modprobe -r nvidia_drm 2>&1 | sed "s/^/[$HELPER_TAG] /" || true
+    modprobe -r nvidia 2>&1 | sed "s/^/[$HELPER_TAG] /" || {
+        warn "modprobe -r nvidia failed — device may still be bound; continuing anyway"
+    }
+
+    # Step 3: PCI remove (device disappears from sysfs)
+    info "step 3: PCI remove ($GPU_BDF)"
+    if [[ -e "/sys/bus/pci/devices/$GPU_BDF/remove" ]]; then
+        echo 1 > "/sys/bus/pci/devices/$GPU_BDF/remove" 2>&1 | sed "s/^/[$HELPER_TAG] /" || true
+    fi
+    sleep 2
+
+    # Step 4: PCI rescan (re-enumerate; refreshes kernel's reset_methods detection)
+    info "step 4: PCI rescan"
+    echo 1 > /sys/bus/pci/rescan 2>&1 | sed "s/^/[$HELPER_TAG] /" || {
+        err "PCI rescan failed"
+        return 1
+    }
+    sleep 3
+
+    if [[ ! -e "/sys/bus/pci/devices/$GPU_BDF" ]]; then
+        err "device did not re-appear after rescan"
+        return 1
+    fi
+
+    # Step 5: PCI reset (now succeeds because rescan refreshed reset_methods)
+    info "step 5: PCI reset (clears WPR2)"
+    echo 1 > "/sys/bus/pci/devices/$GPU_BDF/reset" 2>&1 | sed "s/^/[$HELPER_TAG] /"
+    local reset_rc=$?
+    if [[ $reset_rc -ne 0 ]]; then
+        warn "PCI reset returned $reset_rc — continuing"
+    fi
+    sleep 1
+
+    # Step 6: re-trigger driver bind via the existing platform loader
+    info "step 6: restart aorus-egpu-compute-load-nvidia.service"
+    if ! systemctl restart aorus-egpu-compute-load-nvidia.service 2>&1 | sed "s/^/[$HELPER_TAG] /"; then
+        err "compute-load-nvidia.service failed to restart"
+        return 1
+    fi
+    sleep 2
+
+    # Step 7: restart device-fd holders
+    info "step 7: starting persistenced + uvm-keepalive"
+    systemctl start nvidia-persistenced.service 2>&1 | sed "s/^/[$HELPER_TAG] /" || warn "persistenced start failed"
+    systemctl start aorus-egpu-uvm-keepalive.service 2>&1 | sed "s/^/[$HELPER_TAG] /" || warn "uvm-keepalive start failed"
+
+    # Step 8: verify
+    info "step 8: verifying nvidia-smi"
+    local pass_end_ns pass_duration_ms
+    pass_end_ns=$(date +%s%N)
+    pass_duration_ms=$(( (pass_end_ns - pass_start_ns) / 1000000 ))
+    if nvidia_smi_shows_gpu; then
+        info "attempt $attempt SUCCEEDED in ${pass_duration_ms}ms"
+        record_event "attempt-succeeded" "attempt=$attempt,duration_ms=$pass_duration_ms"
+        return 0
+    else
+        warn "attempt $attempt FAILED after ${pass_duration_ms}ms — nvidia-smi shows no working GPU"
+        record_event "attempt-failed" "attempt=$attempt,duration_ms=$pass_duration_ms"
+        return 1
+    fi
+}
+
+# ----- preflight -----
+
+if [[ "$EUID" -ne 0 ]]; then
+    err "must run as root (need sysfs writes + systemctl + modprobe)"
+    exit 3
+fi
+
+if [[ ! -e "/sys/bus/pci/devices/$GPU_BDF" ]]; then
+    info "no GPU at $GPU_BDF — eGPU disconnected; skipping"
+    exit 0
+fi
+
+# ----- detection -----
+
+if nvidia_smi_shows_gpu; then
+    info "nvidia-smi shows working GPU — no recovery needed (idempotent no-op)"
+    record_event "no-op" "GPU healthy"
+    exit 0
+fi
+info "nvidia-smi shows no working GPU — checking for WPR2-stuck pattern"
+
+if ! journalctl -k -b 0 --no-pager 2>/dev/null | grep -q "_kgspBootGspRm: unexpected WPR2 already up"; then
+    warn "nvidia-smi failed but WPR2-stuck pattern not in dmesg — different failure class; exiting"
+    exit 2
+fi
+
+# ----- recovery (with retry budget) -----
+
+err "WPR2-stuck detected — executing recovery sequence (Lever R Tier 1 v3 + Tier 2 retry budget)"
+record_event "started" "WPR2-stuck detected, max_attempts=$MAX_ATTEMPTS"
+RECOVERY_START_NS=$(date +%s%N)
+
+for attempt in $(seq 1 "$MAX_ATTEMPTS"); do
+    if do_recovery_pass "$attempt"; then
+        RECOVERY_END_NS=$(date +%s%N)
+        RECOVERY_DURATION_MS=$(( (RECOVERY_END_NS - RECOVERY_START_NS) / 1000000 ))
+        err "RECOVERY SUCCEEDED on attempt $attempt/$MAX_ATTEMPTS — Lever R Tier 1 v3 cleared WPR2-stuck state"
+        nvidia-smi -L 2>&1 | sed "s/^/[$HELPER_TAG] /"
+        record_event "recovery-success" "attempts=$attempt,duration_ms=$RECOVERY_DURATION_MS"
+        exit 0
+    fi
+
+    if [[ "$attempt" -lt "$MAX_ATTEMPTS" ]]; then
+        warn "attempt $attempt failed; retrying after ${RETRY_DELAY_S}s ($(( MAX_ATTEMPTS - attempt )) attempts remaining)"
+        sleep "$RETRY_DELAY_S"
+    fi
+done
+
+# All attempts exhausted
+RECOVERY_END_NS=$(date +%s%N)
+RECOVERY_DURATION_MS=$(( (RECOVERY_END_NS - RECOVERY_START_NS) / 1000000 ))
+NVSMI_FINAL=$(timeout 5 nvidia-smi -L 2>&1)
+err "RECOVERY FAILED — all $MAX_ATTEMPTS attempts exhausted in ${RECOVERY_DURATION_MS}ms"
+err "final nvidia-smi output: $NVSMI_FINAL"
+record_event "recovery-failed" "attempts=$MAX_ATTEMPTS,duration_ms=$RECOVERY_DURATION_MS,nvsmi_output=${NVSMI_FINAL:0:80}"
+exit 1

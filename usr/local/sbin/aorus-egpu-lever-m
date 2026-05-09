@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+# aorus-egpu-lever-m — kill-switch CLI for AORUS Lever M-recover (Patch 0024).
+#
+# Two layers of state:
+#   1. Persistent kill-switch file: /var/lib/aorus-egpu/lever-m-killswitch
+#      Read by the driver at module init via kernel_read_file_from_path.
+#      Survives modprobe -r / nvidia.ko reloads. This is the SOURCE OF
+#      TRUTH for "is the lever engaged?".
+#   2. Runtime module param: /sys/module/nvidia/parameters/NVreg_AorusLeverMRecoverEnable
+#      What the driver is currently using. Updated immediately by this
+#      CLI so the change takes effect without reboot.
+#
+# Usage:
+#   sudo aorus-egpu-lever-m enable
+#   sudo aorus-egpu-lever-m disable
+#   sudo aorus-egpu-lever-m status
+
+set -euo pipefail
+
+KILLSWITCH_DIR=/var/lib/aorus-egpu
+KILLSWITCH_FILE="$KILLSWITCH_DIR/lever-m-killswitch"
+SYSFS_PARAM=/sys/module/nvidia/parameters/NVreg_AorusLeverMRecoverEnable
+
+require_root() {
+    if [[ "$EUID" -ne 0 ]]; then
+        echo "aorus-egpu-lever-m: must be run as root" >&2
+        exit 1
+    fi
+}
+
+write_runtime_param() {
+    local val="$1"
+    if [[ -w "$SYSFS_PARAM" ]]; then
+        printf '%s\n' "$val" > "$SYSFS_PARAM"
+        return 0
+    fi
+    return 1
+}
+
+cmd_enable() {
+    require_root
+    mkdir -p "$KILLSWITCH_DIR"
+    printf '1\n' > "$KILLSWITCH_FILE"
+    if write_runtime_param 1; then
+        echo "aorus-egpu-lever-m: ENABLED (file=$KILLSWITCH_FILE=1; runtime=$SYSFS_PARAM=1)"
+    else
+        echo "aorus-egpu-lever-m: file=$KILLSWITCH_FILE=1 written; runtime param not writable"
+        echo "  (driver may not be loaded yet; will engage at next module load via udev rule)"
+    fi
+}
+
+cmd_disable() {
+    require_root
+    mkdir -p "$KILLSWITCH_DIR"
+    printf '0\n' > "$KILLSWITCH_FILE"
+    if write_runtime_param 0; then
+        echo "aorus-egpu-lever-m: DISABLED (file=$KILLSWITCH_FILE=0; runtime=$SYSFS_PARAM=0)"
+    else
+        echo "aorus-egpu-lever-m: file=$KILLSWITCH_FILE=0 written; runtime param not writable"
+        echo "  (driver may not be loaded yet; will engage at next module load via udev rule)"
+    fi
+}
+
+cmd_status() {
+    local file_state runtime_state
+    if [[ -r "$KILLSWITCH_FILE" ]]; then
+        file_state=$(<"$KILLSWITCH_FILE")
+        file_state="${file_state//[$'\t\r\n ']/}"
+    else
+        file_state="(absent — module-param default applies)"
+    fi
+    if [[ -r "$SYSFS_PARAM" ]]; then
+        runtime_state=$(<"$SYSFS_PARAM")
+    else
+        runtime_state="(driver not loaded)"
+    fi
+    echo "aorus-egpu-lever-m status:"
+    echo "  persistent file: $KILLSWITCH_FILE = $file_state"
+    echo "  runtime param:   $SYSFS_PARAM = $runtime_state"
+    if [[ -d /sys/module/nvidia ]]; then
+        local fires successes surrenders
+        for pdev in /sys/bus/pci/drivers/nvidia/*:*; do
+            [[ -e "$pdev/aorus_lever_m_fires" ]] || continue
+            fires=$(<"$pdev/aorus_lever_m_fires")
+            successes=$(<"$pdev/aorus_lever_m_successes")
+            surrenders=$(<"$pdev/aorus_lever_m_surrenders")
+            echo "  $(basename "$pdev"): fires=$fires successes=$successes surrenders=$surrenders"
+        done
+    fi
+}
+
+case "${1:-status}" in
+    enable)  cmd_enable ;;
+    disable) cmd_disable ;;
+    status)  cmd_status ;;
+    *)
+        echo "usage: $0 {enable|disable|status}" >&2
+        exit 1
+        ;;
+esac

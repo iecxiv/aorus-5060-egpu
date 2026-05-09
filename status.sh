@@ -14,6 +14,9 @@ set -uo pipefail
 
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
+# shellcheck source=lib/install-manifest.sh
+source "$repo_root/lib/install-manifest.sh"
+
 # ANSI colours; only emit if stdout is a TTY.
 if [[ -t 1 ]]; then
     C_OK=$'\033[32m'; C_WARN=$'\033[33m'; C_FAIL=$'\033[31m'; C_INFO=$'\033[36m'; C_RESET=$'\033[0m'; C_BOLD=$'\033[1m'
@@ -41,15 +44,32 @@ check_arg_in_cmdline() {
     fi
 }
 
+# Source per-host config (auto-detected by /usr/local/sbin/aorus-egpu-detect-config).
+# shellcheck source=/usr/local/lib/aorus-egpu/common.sh
+[[ -r /usr/local/lib/aorus-egpu/common.sh ]] && source /usr/local/lib/aorus-egpu/common.sh
+# Fallbacks for environment without common.sh deployed yet
+: "${EGPU_VENDOR_ID:=0x10de}"
+: "${EGPU_DEVICE_ID:=0x2b85}"
+: "${EGPU_BDF:=0000:04:00.0}"
+: "${EGPU_AUDIO_DEVICE_ID:=0x22e8}"
+: "${EGPU_AUDIO_BDF:=0000:04:00.1}"
+: "${EGPU_BRIDGE_BDF:=0000:03:00.0}"
+: "${TB_HOST_VENDOR_DEVICES:=0x8086:0x7ec4 0x8086:0x5786}"
+TB_HOST_VENDOR_DEVICES_ARRAY=( ${TB_HOST_VENDOR_DEVICES[@]+"${TB_HOST_VENDOR_DEVICES[@]}"} )
+
 # -------------------------------------------------------------- 1. boot args -
 section "1. Boot arguments (/proc/cmdline)"
 
 check_arg_in_cmdline 'thunderbolt.host_reset=false'
-check_arg_in_cmdline 'pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0,noaer'
+check_arg_in_cmdline "pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@${EGPU_BRIDGE_BDF:-0000:03:00.0}"
 check_arg_in_cmdline 'module_blacklist=nouveau,nova_core'
 check_arg_in_cmdline 'rd.driver.blacklist=nouveau,nova_core'
 check_arg_in_cmdline 'modprobe.blacklist=nouveau,nova_core'
-check_arg_in_cmdline 'iommu=pt'
+# Lever T (2026-05-07): iommu=off intel_iommu=off — was iommu=pt
+# pre-Lever-T but pt mode doesn't help TB-tunneled (untrusted) devices.
+# See docs/iommu-gsp-lockdown-analysis.md.
+check_arg_in_cmdline 'iommu=off'
+check_arg_in_cmdline 'intel_iommu=off'
 
 # Lever K (Layer-1 prevention) boot args. Source: bilikaz's working
 # configuration in NVIDIA/open-gpu-kernel-modules#979 comment 9. These
@@ -61,32 +81,41 @@ check_arg_in_cmdline 'pcie_aspm.policy=performance'
 check_arg_in_cmdline 'thunderbolt.clx=0'
 check_arg_in_cmdline 'pcie_port_pm=off'
 
-# Lever L (PCI AER disable). Disables AER reporting at the kernel level.
-# Final correct form (verified by extracting strings from running
-# vmlinux): noaer is a pci= sub-option, like realloc and earlydump.
-# So lever L is encoded as a comma-suffix to our existing pci= arg
-# rather than a separate parameter -- which is why the standalone
-# `noaer`, `pcie_aer_disable`, and `pcie_aer=off` attempts all failed
-# (the kernel parses pci= sub-options separately from top-level
-# kernel parameters; the others were not registered handlers in
-# Linux 6.19.x).
+# Lever L (PCI AER disable) -- REVERTED 2026-05-04. The flag form
+# `pci=...,noaer` was correctly applied (verified via _OSC line losing
+# AER from the OS-controlled service list) but produced a WORSE
+# failure mode than leaving AER enabled: with AER suppressed, a
+# transient PCIe link failure no longer signals the NVIDIA driver, so
+# PDB_PROP_GPU_IS_LOST is never set, all our recovery patches (Levers
+# I, J-2, N) never engage, and the in-flight driver thread hangs
+# indefinitely on the dead register read. Result: silent kernel hang
+# with zero NVRM activity in dmesg, zero AORUS markers, no panic
+# trace.
 #
-# Confirmation: dmesg should NOT show "pcieport ...: AER: enabled
-# with IRQ ..." after this is active.
-# (The pci=noaer check above is implicitly covered by the comma-suffix
-# in the main pci= line.)
+# Decision: keep AER enabled so the driver still gets the bus-error
+# signal that our patches require. The MCE-broadcast-panic mode that
+# motivated Lever L is now contained by Lever H revert (timeout
+# rollback) + Lever N (rpcRmApiFree shortcircuit collapses the
+# 107-assertion cleanup surface).
+#
+# See docs/pcie-kernel-cmdline-options.md for the full sub-options
+# catalogue if a future test cycle needs to revisit this.
 
-# IOMMU should be in passthrough mode for kernel-managed devices. The current
-# domain-type setting is recorded in dmesg early in boot.
+# Lever T (2026-05-07): IOMMU must be DISABLED for TB-tunneled GPU. dmar0/dmar1
+# devices should be ABSENT under iommu=off; if present, the cmdline didn't take
+# effect. See docs/iommu-gsp-lockdown-analysis.md.
 if [[ -d /sys/class/iommu/dmar0 ]]; then
+    fail "IOMMU device dmar0 present (expected absent under iommu=off; reboot after grubby update or check kernel cmdline)"
     iommu_default=$(dmesg 2>/dev/null | awk '/iommu: Default domain type:/ {print $NF; exit}')
     if [[ "$iommu_default" == "Passthrough" ]]; then
-        ok "IOMMU default domain: Passthrough (matches iommu=pt)"
+        warn "IOMMU default domain: Passthrough (was iommu=pt era; expected disabled now)"
     elif [[ "$iommu_default" == "Translated" ]]; then
-        warn "IOMMU default domain: Translated (iommu=pt boot arg not in effect; reboot after grubby update)"
+        fail "IOMMU default domain: Translated (cmdline not in effect)"
     else
         info "IOMMU default domain: ${iommu_default:-unknown}"
     fi
+else
+    ok "IOMMU disabled (no /sys/class/iommu/dmar0; matches iommu=off cmdline)"
 fi
 
 if [[ -r /sys/module/thunderbolt/parameters/host_reset ]]; then
@@ -156,26 +185,50 @@ check_file_match() {
     fi
 }
 
-check_file_match etc/udev/rules.d/79-aorus-5090-no-autoload.rules \
-                 /etc/udev/rules.d/79-aorus-5090-no-autoload.rules
-check_file_match etc/udev/rules.d/81-aorus-5090-compute-power.rules \
-                 /etc/udev/rules.d/81-aorus-5090-compute-power.rules
-check_file_match etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules \
-                 /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules
-check_file_match etc/modprobe.d/aorus-5090-compute-only.conf \
-                 /etc/modprobe.d/aorus-5090-compute-only.conf
-check_file_match etc/modprobe.d/blacklist-nouveau.conf \
-                 /etc/modprobe.d/blacklist-nouveau.conf
-check_file_match etc/modprobe.d/nvidia-power-management.conf \
-                 /etc/modprobe.d/nvidia-power-management.conf
-check_file_match etc/modprobe.d/nvidia.conf \
-                 /etc/modprobe.d/nvidia.conf
-check_file_match etc/systemd/system/aorus-5090-compute-load-nvidia.service \
-                 /etc/systemd/system/aorus-5090-compute-load-nvidia.service
-check_file_match etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf \
-                 /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf
-check_file_match etc/systemd/system/aorus-5090-uvm-keepalive.service \
-                 /etc/systemd/system/aorus-5090-uvm-keepalive.service
+# Iterate the manifest. Templated udev rules (79, 81) compare the rendered
+# /etc file against an existence-only check (the .template differs by design;
+# rendered output depends on config.env). Static rules + modprobe + sysctl +
+# unit files use byte-equal cmp against the repo source.
+check_file_present() {
+    local sys_file="$1" label="${2:-$1}"
+    if [[ -e "$sys_file" ]]; then
+        ok "$label"
+    else
+        fail "$label missing"
+    fi
+}
+
+for name in "${EGPU_UDEV_TEMPLATED[@]}"; do
+    # Templates render at apply.sh time; can't byte-compare. Existence + reasonable size.
+    sys_file="$(egpu_path_udev "$name")"
+    if [[ -e "$sys_file" ]] && [[ "$(stat -c%s "$sys_file")" -gt 100 ]]; then
+        ok "$sys_file (rendered from template)"
+    elif [[ -e "$sys_file" ]]; then
+        warn "$sys_file present but suspiciously small (template render failed?)"
+    else
+        fail "$sys_file missing (apply.sh did not render template)"
+    fi
+done
+
+for name in "${EGPU_UDEV_STATIC[@]}"; do
+    check_file_match "etc/udev/rules.d/$name" "$(egpu_path_udev "$name")"
+done
+
+for name in "${EGPU_MODPROBE_CONFS[@]}"; do
+    check_file_match "etc/modprobe.d/$name" "$(egpu_path_modprobe "$name")"
+done
+
+for name in "${EGPU_SYSCTL_CONFS[@]}"; do
+    check_file_match "etc/sysctl.d/$name" "$(egpu_path_sysctl "$name")"
+done
+
+for name in "${EGPU_SERVICES_ACTIVE[@]}" "${EGPU_SERVICES_RETIRED[@]}"; do
+    check_file_match "etc/systemd/system/$name" "$(egpu_path_service "$name")"
+done
+
+for name in "${EGPU_DROP_INS[@]}"; do
+    check_file_match "etc/systemd/system/$name" "$(egpu_path_dropin "$name")"
+done
 
 # -------------------------------------------------------------- 4. scripts --
 section "4. Scripts"
@@ -194,10 +247,9 @@ check_script() {
     fi
 }
 
-check_script usr/local/sbin/aorus-5090-compute-load-nvidia /usr/local/sbin/aorus-5090-compute-load-nvidia
-check_script usr/local/sbin/aorus-5090-disable-audio /usr/local/sbin/aorus-5090-disable-audio
-check_script usr/local/sbin/aorus-5090-status /usr/local/sbin/aorus-5090-status
-check_script usr/local/sbin/aorus-5090-uvm-keepalive /usr/local/sbin/aorus-5090-uvm-keepalive
+for name in "${EGPU_BINARIES[@]}"; do
+    check_script "usr/local/sbin/$name" "$(egpu_path_binary "$name")"
+done
 
 # ---------------------------------------------------- 5. systemd unit state -
 section "5. systemd units"
@@ -213,9 +265,15 @@ check_unit_state() {
     fi
 }
 
-check_unit_state aorus-5090-compute-load-nvidia.service enabled
-check_unit_state nvidia-persistenced.service enabled
-check_unit_state aorus-5090-uvm-keepalive.service enabled
+# Active services from the manifest must all be enabled; persistenced too.
+for svc in "${EGPU_SERVICES_ACTIVE[@]}" nvidia-persistenced.service; do
+    check_unit_state "$svc" enabled
+done
+# Retired services must remain disabled (they're kept on disk as historical
+# archive). See docs/services/ for retirement records + resurrection criteria.
+for svc in "${EGPU_SERVICES_RETIRED[@]}"; do
+    check_unit_state "$svc" disabled
+done
 
 # These units may not exist at all on a clean compute-only install via the
 # NVIDIA CUDA repo (the desktop meta-package nvidia-driver and the
@@ -247,23 +305,23 @@ active_state() {
     systemctl is-active "$unit" 2>&1 || true
 }
 
-a="$(active_state aorus-5090-compute-load-nvidia.service)"
+a="$(active_state aorus-egpu-compute-load-nvidia.service)"
 case "$a" in
     active|activating)
-        ok "aorus-5090-compute-load-nvidia.service active state: $a"
+        ok "aorus-egpu-compute-load-nvidia.service active state: $a"
         ;;
     failed)
-        fail "aorus-5090-compute-load-nvidia.service active state: failed"
+        fail "aorus-egpu-compute-load-nvidia.service active state: failed"
         ;;
     inactive)
-        if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
-            warn "aorus-5090-compute-load-nvidia.service: inactive (eGPU is present, expected active)"
+        if [[ -e /sys/bus/pci/devices/${EGPU_BDF} ]]; then
+            warn "aorus-egpu-compute-load-nvidia.service: inactive (eGPU is present, expected active)"
         else
-            ok "aorus-5090-compute-load-nvidia.service: inactive (eGPU not present, condition skip is correct)"
+            ok "aorus-egpu-compute-load-nvidia.service: inactive (eGPU not present, condition skip is correct)"
         fi
         ;;
     *)
-        warn "aorus-5090-compute-load-nvidia.service active state: $a"
+        warn "aorus-egpu-compute-load-nvidia.service active state: $a"
         ;;
 esac
 
@@ -272,7 +330,7 @@ case "$a" in
     active) ok "nvidia-persistenced.service active state: active" ;;
     failed) fail "nvidia-persistenced.service active state: failed" ;;
     inactive)
-        if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
+        if [[ -e /sys/bus/pci/devices/${EGPU_BDF} ]]; then
             if pgrep -x nvidia-persiste >/dev/null; then
                 warn "nvidia-persistenced.service: inactive but daemon is running outside systemd (manual start) - reboot to align"
             else
@@ -292,19 +350,7 @@ else
     fail "persistenced drop-in missing"
 fi
 
-a="$(active_state aorus-5090-uvm-keepalive.service)"
-case "$a" in
-    active) ok "aorus-5090-uvm-keepalive.service active state: active" ;;
-    failed) fail "aorus-5090-uvm-keepalive.service active state: failed (UVM close-path bug is unmitigated; CUDA processes will eventually freeze the host)" ;;
-    inactive)
-        if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
-            fail "aorus-5090-uvm-keepalive.service: inactive (UVM close-path unmitigated; reboot to align)"
-        else
-            ok "aorus-5090-uvm-keepalive.service: inactive (eGPU not present)"
-        fi
-        ;;
-    *) warn "aorus-5090-uvm-keepalive.service active state: $a" ;;
-esac
+# aorus-egpu-uvm-keepalive RETIRED 2026-05-08 — not validated here.
 
 # ----------------------------------------------------- 6. PCI device state --
 section "6. PCI device state"
@@ -313,10 +359,10 @@ gpu_dev=""
 audio_dev=""
 for dev in /sys/bus/pci/devices/*; do
     [[ -r "$dev/vendor" && -r "$dev/device" ]] || continue
-    if [[ "$(<"$dev/vendor")" == "0x10de" && "$(<"$dev/device")" == "0x2b85" ]]; then
+    if [[ "$(<"$dev/vendor")" == "$EGPU_VENDOR_ID" && "$(<"$dev/device")" == "$EGPU_DEVICE_ID" ]]; then
         gpu_dev="$dev"
     fi
-    if [[ "$(<"$dev/vendor")" == "0x10de" && "$(<"$dev/device")" == "0x22e8" ]]; then
+    if [[ "$(<"$dev/vendor")" == "$EGPU_VENDOR_ID" && "$(<"$dev/device")" == "$EGPU_AUDIO_DEVICE_ID" ]]; then
         audio_dev="$dev"
     fi
 done
@@ -356,6 +402,47 @@ else
     else
         warn "GPU d3cold_allowed: $d3c (expected 0)"
     fi
+
+    # Verify PM policy on the upstream bridges + audio function — udev
+    # rule 81-aorus-egpu-compute-power.rules covers all four; this check
+    # ensures the rule actually fired for each. Source-of-truth shifted
+    # 2026-05-08 from the compute-load-nvidia script (which walked the
+    # path) to the udev rule alone; status.sh now enforces.
+    # Build PM-policy device list: TB_HOST_VENDOR_DEVICES (auto-detected
+    # upstream PCIe path) + the eGPU's audio function. Labels are derived
+    # from vendor:device (best-effort; specific names reserved for known IDs).
+    pm_check_devs=()
+    for vd in "${TB_HOST_VENDOR_DEVICES_ARRAY[@]}"; do
+        case "$vd" in
+            0x8086:0x7ec4) pm_check_devs+=("${vd}:Intel-TB-upstream") ;;
+            0x8086:0x5786) pm_check_devs+=("${vd}:Intel-root-port") ;;
+            *)             pm_check_devs+=("${vd}:upstream-pcie-${vd//[:.x]/}") ;;
+        esac
+    done
+    pm_check_devs+=("${EGPU_VENDOR_ID}:${EGPU_AUDIO_DEVICE_ID}:eGPU-audio-function")
+    for vd_pair in "${pm_check_devs[@]}"; do
+        IFS=':' read -r want_v want_d label <<< "$vd_pair"
+        found=""
+        for d in /sys/bus/pci/devices/*; do
+            [[ -r "$d/vendor" && -r "$d/device" ]] || continue
+            if [[ "$(<"$d/vendor")" == "$want_v" && "$(<"$d/device")" == "$want_d" ]]; then
+                found="$d"
+                break
+            fi
+        done
+        if [[ -z "$found" ]]; then
+            warn "$label ($want_v:$want_d) not found on PCI"
+            continue
+        fi
+        bdf="${found##*/}"
+        bpc=""; [[ -r "$found/power/control" ]] && bpc="$(cat "$found/power/control" 2>/dev/null)"
+        bd3c=""; [[ -r "$found/d3cold_allowed" ]] && bd3c="$(cat "$found/d3cold_allowed" 2>/dev/null)"
+        if [[ "$bpc" == "on" && "$bd3c" == "0" ]]; then
+            ok "$label $bdf: power/control=on d3cold_allowed=0"
+        else
+            warn "$label $bdf: power/control=${bpc:-unknown} d3cold_allowed=${bd3c:-unknown} (expected on/0; udev rule should set)"
+        fi
+    done
 
     drvo="$(<"$gpu_dev/driver_override")"
     if [[ "$drvo" == "aorus_5090_manual" ]]; then
@@ -461,43 +548,17 @@ if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
         fail "persistenced is not holding /dev/nvidia0 - close-reopen wedge unguarded"
     fi
 else
-    if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
+    if [[ -e /sys/bus/pci/devices/${EGPU_BDF} ]]; then
         fail "nvidia-persistenced: NOT running (nvidia-smi will freeze on second invocation)"
     else
         ok "nvidia-persistenced: not running (eGPU not present, expected)"
     fi
 fi
 
-# UVM keep-alive: complementary to persistenced. Holds /dev/nvidia-uvm and
-# /dev/nvidia-uvm-tools open so CUDA processes (vLLM, ollama, etc.) cannot
-# be the last closer when they exit. See architecture.md and
-# /root/ollama/docs/freeze-2026-05-02-1032.md for the bug evidence.
-section "8b. UVM keep-alive (complementary to persistenced)"
-
-ka_pid=""
-if [[ "$(active_state aorus-5090-uvm-keepalive.service)" == "active" ]]; then
-    ka_pid=$(systemctl show -p MainPID --value aorus-5090-uvm-keepalive.service 2>/dev/null || true)
-fi
-
-if [[ -n "$ka_pid" && "$ka_pid" != "0" ]] && kill -0 "$ka_pid" 2>/dev/null; then
-    uvm_fds=$(ls -1 /proc/"$ka_pid"/fd 2>/dev/null \
-        | xargs -I{} readlink /proc/"$ka_pid"/fd/{} 2>/dev/null \
-        | grep -c '^/dev/nvidia-uvm$' || true)
-    uvm_tools_fds=$(ls -1 /proc/"$ka_pid"/fd 2>/dev/null \
-        | xargs -I{} readlink /proc/"$ka_pid"/fd/{} 2>/dev/null \
-        | grep -c '^/dev/nvidia-uvm-tools$' || true)
-    if (( uvm_fds >= 1 && uvm_tools_fds >= 1 )); then
-        ok "keep-alive holding $uvm_fds fd on /dev/nvidia-uvm, $uvm_tools_fds on /dev/nvidia-uvm-tools (pid=$ka_pid)"
-    else
-        fail "keep-alive running (pid=$ka_pid) but UVM fds missing: uvm=$uvm_fds, uvm-tools=$uvm_tools_fds"
-    fi
-else
-    if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
-        fail "aorus-5090-uvm-keepalive: NOT running (UVM close-path bug unmitigated; CUDA workloads can freeze the host)"
-    else
-        ok "aorus-5090-uvm-keepalive: not running (eGPU not present, expected)"
-    fi
-fi
+# Section 8b (UVM keep-alive) removed: service RETIRED 2026-05-08;
+# UVM close-path bug class is empirically benign on the current driver
+# stack (H22 ledger, Patch 0030 + n=6 UVM probes). Retirement record
+# in docs/services/uvm-keepalive.md.
 
 # ----------------------------------------- 8c. NVIDIA loader entries disabled --
 section "8c. NVIDIA Vulkan / EGL / OpenCL loader entries (compute-only mode)"
@@ -532,7 +593,7 @@ section "8d. /dev/nvidia* device-file permissions"
 # 968, every nvidia-modprobe call will reset perms to 0660 root:GID-968-
 # whatever-that-is, breaking Layer 1.
 ollama_gid=$(getent group ollama 2>/dev/null | cut -d: -f3)
-modconf=/etc/modprobe.d/aorus-5090-compute-only.conf
+modconf=/etc/modprobe.d/aorus-egpu-compute-only.conf
 if [[ -r "$modconf" ]]; then
     nvreg_gid=$(grep -oE 'NVreg_DeviceFileGID=[0-9]+' "$modconf" 2>/dev/null | tail -1 | cut -d= -f2)
     if [[ -n "$nvreg_gid" && -n "$ollama_gid" ]]; then
@@ -613,7 +674,7 @@ section "8f. NVIDIA driver module parameters (runtime vs configured)"
 # Mismatch between conf and runtime usually means the conf changed but
 # the driver wasn't reloaded - i.e. reboot needed.
 
-modconf=/etc/modprobe.d/aorus-5090-compute-only.conf
+modconf=/etc/modprobe.d/aorus-egpu-compute-only.conf
 if [[ -r "$modconf" ]]; then
     # Extract every "options nvidia K=V K=V ..." pair. awk strips comments
     # and prints one K=V token per line.
@@ -698,7 +759,7 @@ drm_resolve=$(modprobe --show-depends nvidia-drm 2>&1)
 if grep -q 'install /bin/false' <<<"$drm_resolve"; then
     ok "modprobe nvidia-drm directly resolves to install /bin/false"
 else
-    fail "modprobe nvidia-drm does NOT hit the install /bin/false guard - check aorus-5090-compute-only.conf"
+    fail "modprobe nvidia-drm does NOT hit the install /bin/false guard - check aorus-egpu-compute-only.conf"
 fi
 
 # --------------------------------------- 8e. exclusivity (lsof check) ------
@@ -796,7 +857,7 @@ fi
 # -------------------------------------------------------- 12. nvidia-smi --
 section "12. nvidia-smi smoke test"
 
-if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]] && mod_loaded nvidia; then
+if [[ -e /sys/bus/pci/devices/${EGPU_BDF} ]] && mod_loaded nvidia; then
     if timeout 10 nvidia-smi --query-gpu=name,temperature.gpu,fan.speed,power.draw,pstate \
             --format=csv,noheader 2>/dev/null > /tmp/aorus-status-smi.$$; then
         out=$(< /tmp/aorus-status-smi.$$)

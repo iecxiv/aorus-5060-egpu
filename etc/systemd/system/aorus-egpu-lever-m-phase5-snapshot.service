@@ -1,0 +1,25 @@
+[Unit]
+Description=AORUS Lever M-recover Phase 5 evidence snapshot
+Documentation=file:///root/aorus-5090-egpu/docs/lever-m-recover-commit3-hardening-design.md
+Documentation=file:///root/aorus-5090-egpu/docs/service-retirement-roadmap.md
+
+# Run AFTER the L4 helper (whose outcome we want to capture) and after
+# persistenced (whose first open is what fires post-rmInit-{OK,FAIL}).
+After=aorus-egpu-wpr2-recovery.service
+After=nvidia-persistenced.service
+After=aorus-egpu-compute-load-nvidia.service
+
+# Skip cleanly if eGPU not connected.
+ConditionPathExists=/sys/bus/pci/devices/0000:04:00.0
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/aorus-egpu-lever-m-phase5-snapshot
+
+# Snapshot is best-effort observability; never block boot on it.
+TimeoutStartSec=30
+SuccessExitStatus=0
+
+[Install]
+WantedBy=multi-user.target

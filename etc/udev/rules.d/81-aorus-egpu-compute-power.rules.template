@@ -1,0 +1,20 @@
+# RENDERED FROM TEMPLATE by apply.sh — values from /etc/aorus-egpu/config.env.
+# To change behaviour, edit
+# `etc/udev/rules.d/81-aorus-egpu-compute-power.rules.template` in the repo
+# and re-run `sudo ./apply.sh`. Edits to /etc/udev/rules.d/81-...rules
+# are overwritten on next apply.
+#
+# Pin the AORUS RTX 5090 eGPU PCI path out of runtime D3cold.
+#
+# For each device on the TB host path + GPU + paired audio function:
+#   power/control=on (no autosuspend) and d3cold_allowed=0 (no D3cold).
+# Without this, an idle eGPU can transition into D3cold; coming back out over
+# the TB tunnel is unreliable and was a contributor to early GPU "fallen off
+# the bus" / "Unable to change power state from D3cold to D0" hangs.
+#
+# Substitution markers (each on its own line below — sourced from config.env):
+#   TB_HOST_PATH_RULES   — generated rules for each TB_HOST_VENDOR_DEVICES entry
+#   EGPU_GPU_AUDIO_RULES — generated rules for the GPU + paired audio function
+
+@@TB_HOST_PATH_RULES@@
+@@EGPU_GPU_AUDIO_RULES@@

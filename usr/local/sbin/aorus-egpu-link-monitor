@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+# aorus-egpu-link-monitor — H17.1 PCIe link state delta logger
+#
+# Polls bridge + GPU PCIe LnkCtl2 / LnkCtl / LnkSta every 500ms, logs
+# only DELTAS to /var/log/aorus-egpu/link-state.log. Targets:
+# - Identifying when the autonomous Gen3->Gen1 downgrade happens
+# - Identifying which side (bridge or GPU) initiates the change
+# - Distinguishing explicit (BWMS=1) vs autonomous (LABS=1) changes
+# - Correlating with concurrent dmesg events (pcie_bw_notification, etc.)
+#
+# Low perturbation: read-only PCIe config-space accesses (setpci CAP_EXP).
+# 500ms cadence is conservative.
+#
+# Output format (CSV-ish): tsv lines
+#   timestamp_iso  who   ev    LnkCtl2  LnkSta   LnkCtl   speed  training  bwms  labs  retrain
+#   "ev" is "init" (first read), "delta-X" (which field changed)
+
+set -u
+
+BRIDGE="${BRIDGE:-0000:03:00.0}"
+GPU="${GPU:-0000:04:00.0}"
+INTERVAL="${INTERVAL:-0.5}"
+LOG_DIR="${LOG_DIR:-/var/log/aorus-egpu}"
+LOG_FILE="$LOG_DIR/link-state.log"
+
+mkdir -p "$LOG_DIR"
+
+read_pci() {
+    local bdf=$1 cap_offset=$2
+    setpci -s "$bdf" "CAP_EXP+${cap_offset}.W" 2>/dev/null
+}
+
+# Decode LnkSta into fields
+decode_lnksta() {
+    local v=$1
+    local v_int=$((0x$v))
+    local speed=$((v_int & 0xf))
+    local training=$(( (v_int >> 11) & 1 ))
+    local bwms=$(( (v_int >> 14) & 1 ))
+    local labs=$(( (v_int >> 15) & 1 ))
+    echo "$speed $training $bwms $labs"
+}
+
+# Decode LnkCtl2 Target Link Speed
+decode_target() {
+    local v=$1
+    echo $(( 0x$v & 0xf ))
+}
+
+# Decode LnkCtl Retrain Link bit
+decode_retrain() {
+    local v=$1
+    echo $(( (0x$v >> 5) & 1 ))
+}
+
+state_for() {
+    local bdf=$1
+    local lnkctl2 lnkctl lnksta
+    lnkctl2=$(read_pci "$bdf" 0x30)
+    lnkctl=$(read_pci "$bdf" 0x10)
+    lnksta=$(read_pci "$bdf" 0x12)
+    [[ -z "$lnkctl2" || -z "$lnkctl" || -z "$lnksta" ]] && { echo "DEAD"; return; }
+    echo "$lnkctl2 $lnkctl $lnksta"
+}
+
+log_state() {
+    local who=$1 ev=$2 state=$3
+    if [[ "$state" == "DEAD" ]]; then
+        printf '%s\t%s\t%s\t%s\n' "$(date -Iseconds)" "$who" "$ev" "DEAD" >> "$LOG_FILE"
+        return
+    fi
+    set -- $state
+    local lnkctl2=$1 lnkctl=$2 lnksta=$3
+    local lnkstadec=$(decode_lnksta "$lnksta")
+    local target=$(decode_target "$lnkctl2")
+    local retrain=$(decode_retrain "$lnkctl")
+    printf '%s\t%s\t%-8s\tLnkCtl2=0x%s(target=Gen%d)\tLnkSta=0x%s(speed=Gen%s training=%s BWMS=%s LABS=%s)\tLnkCtl=0x%s(retrain=%s)\n' \
+        "$(date -Iseconds)" "$who" "$ev" \
+        "$lnkctl2" "$target" \
+        "$lnksta" $(echo $lnkstadec | cut -d' ' -f1) $(echo $lnkstadec | cut -d' ' -f2) $(echo $lnkstadec | cut -d' ' -f3) $(echo $lnkstadec | cut -d' ' -f4) \
+        "$lnkctl" "$retrain" >> "$LOG_FILE"
+}
+
+# Initial reads
+br_state=$(state_for "$BRIDGE")
+gp_state=$(state_for "$GPU")
+log_state "bridge" "init" "$br_state"
+log_state "gpu"    "init" "$gp_state"
+
+# Poll loop — log only deltas
+while true; do
+    sleep "$INTERVAL"
+    new_br=$(state_for "$BRIDGE")
+    new_gp=$(state_for "$GPU")
+    if [[ "$new_br" != "$br_state" ]]; then
+        log_state "bridge" "delta" "$new_br"
+        br_state="$new_br"
+    fi
+    if [[ "$new_gp" != "$gp_state" ]]; then
+        log_state "gpu" "delta" "$new_gp"
+        gp_state="$new_gp"
+    fi
+done
