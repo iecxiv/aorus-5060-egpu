@@ -264,7 +264,7 @@ done
 # --------------------------------------------------------- remove binaries --
 step "remove userspace binaries + shared library"
 
-for name in "${EGPU_BINARIES[@]}" "${LEGACY_BINARIES[@]}"; do
+for name in "${EGPU_BINARIES[@]}" "${EGPU_BINARIES_RETIRED[@]}" "${LEGACY_BINARIES[@]}"; do
     remove_if_exists "/usr/local/sbin/$name"
     remove_if_exists "/usr/local/bin/$name"
 done

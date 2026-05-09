@@ -1,0 +1,46 @@
+# Observability-watchdog retirement-evidence snapshot
+snapshot_time: 2026-05-09T17:07:04+10:00
+boot_time:     2026-05-09T17:04:51+10:00 (btime=1778310291)
+uptime_s:      132
+kernel:        6.19.14-200.fc43.x86_64
+
+## Module identity
+  filename:       /lib/modules/6.19.14-200.fc43.x86_64/extra/nvidia.ko.xz
+  version:        595.71.05-aorus.12
+  srcversion:     B57421AF4EBED5910AB74D5
+
+## Lever M-recover counters (in-driver)
+  fires:        0
+  successes:    0
+  surrenders:   0
+  last_fire_jf: 0
+
+## Lever Q-watchdog counters (in-driver Mode B detection)
+  cycles:        606
+  detections:    0
+  last_detection_jf: 0
+  last_pmc_boot_0: 0x00000000
+  last_aer_summary: (no detection event yet — qwatchdog has run 606 cycles)
+
+## Observability-watchdog journal (this boot)
+  service state: active
+  wedge-pattern lines this boot (binary-only): 0
+
+## Kernel signals (this boot)
+  Xid events:                    0
+  fallen-off / gpu-lost lines:   0
+  NVRM-Failed / RmInit-fail:     0
+  AER uncorrectable / fatal:     0
+
+## M-recover dmesg events (this boot)
+  (none — M-recover did not fire)
+
+## Q-watchdog dmesg events (this boot)
+  (none — Q-watchdog did not fire detection)
+
+## GPU functional check
+  nvidia-smi: GPU 0: NVIDIA GeForce RTX 5090 (UUID: GPU-90b9424e-7236-fd4d-d903-44e565e1bd42)
+
+## Verdict
+Verdict: CLEAN-BOOT
+  → retire-safe (positive evidence)

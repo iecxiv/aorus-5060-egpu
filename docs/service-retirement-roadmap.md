@@ -25,7 +25,7 @@
 |---|---|---|
 | `aorus-egpu-link-monitor.service` | **RETIRED** ✓ | 2026-05-07 |
 | `aorus-egpu-pcie-tune.service` (Lever H9a) | **RETIRED** ✓ | 2026-05-08 — caused 100% Port A boot failure; Mode B detection covered by Q-watchdog (see `project_port_a_h9a_root_cause_2026_05_08.md`) |
-| `aorus-egpu-observability-watchdog.service` | Active (redesigned passive) | — |
+| `aorus-egpu-observability-watchdog.service` | **RETIRED** ✓ | 2026-05-09 — n=5 cold-cold-boots all `CLEAN-BOOT` verdict (zero observability fires, zero Q-watchdog detections, zero kernel error signals). In-driver Lever Q-watchdog covers the Mode B detection role; userspace observability redundant. Binary + unit preserved as documented archive. Evidence: `archive/observability-evidence/` (5 datapoints), `tools/observability-evidence.sh`. |
 | `aorus-egpu-bridge-link-cap.service` | Active (Gen3+bit5 cap) | — |
 | `aorus-egpu-uvm-keepalive.service` | **RETIRED** ✓ | 2026-05-08 — Patch 0030 UVM-side instrumentation + n=3 single-shot probes + n=3 churn probes (6 total UVM close-path reproductions) all benign; UVM `uvm_va_space_destroy` doesn't touch GSP/WPR2/link, qualitatively different from /dev/nvidia0's close-path teardown. Binary + unit preserved as documented archive. |
 | `nvidia-persistenced.service` (load-bearing role) | **RECLASSIFIED 2026-05-08** — close-path bug class empirically mitigated on current driver stack (n=3 close-path-probe runs 2026-05-08, host stable, fires=0). No longer load-bearing for stability. Remains load-bearing for **warmup latency** (~1.3s GSP-boot tax per first-open after LAST-CLOSE). Keep as performance optimization, not retire. | Architecturally optional |
@@ -393,6 +393,100 @@ Resurrection is a single `systemctl enable --now`.
 **Cross-references:** `archive/phase5-evidence/` (12 datapoints, 2026-05-08 →
 2026-05-09); the wpr2-recovery RETIRED record above (this snapshot service was
 the evidence-collection upstream of that retirement).
+
+---
+
+### `aorus-egpu-observability-watchdog.service` — RETIRED 2026-05-09
+
+**Why it existed:**
+detect Mode B silent host-freezes from userspace.
+Built 2026-05-04 (Gap 1 closer).
+At that time, in-driver Mode B detection did not exist —
+the watchdog was the only signal we had,
+running passively and writing to a forensic record.
+Redesigned 2026-05-07 to read state via sysfs only
+(no `nvidia-smi` calls)
+because the original implementation perturbed the system.
+
+**Layer:** L4
+(helper at `usr/local/sbin/aorus-egpu-observability-watchdog`) +
+L5 (systemd unit, `Type=simple` long-running).
+
+**Why it retired:**
+Mode B detection is now covered in-driver by Lever Q-watchdog
+(kernel kthread with 200ms heartbeat MMIO probe;
+patches 0010 + 0011 + 0013 + 0014 + 0015).
+Q-watchdog deterministically converts Mode B → Mode A,
+which Lever M-recover then handles.
+The userspace watchdog had no further role.
+
+**Evidence (n=5 retire-safe gate):**
+
+n=5 consecutive cold-cold-boots 2026-05-09 across the day,
+every one captured via `tools/observability-evidence.sh`:
+
+| Boot | Verdict |
+|---|---|
+| 2026-05-09T1347011000 | CLEAN-BOOT |
+| 2026-05-09T1511341000 | CLEAN-BOOT |
+| 2026-05-09T1656551000 | CLEAN-BOOT |
+| 2026-05-09T1700501000 | CLEAN-BOOT |
+| 2026-05-09T1704511000 | CLEAN-BOOT |
+
+5/5 retire-safe.
+Zero `OBSERVABILITY-CAUGHT-MISSED-MODEB` events.
+The retirement-blocking case
+("observability fired but Q-watchdog didn't")
+never occurred.
+On every boot, neither the observability watchdog nor Q-watchdog
+fired any detection — Mode B simply did not happen,
+consistent with the converged-stack state.
+
+**Retirement actions taken 2026-05-09:**
+
+- `systemctl disable --now aorus-egpu-observability-watchdog.service`
+  on production
+- `lib/install-manifest.sh`:
+  service moved from `EGPU_SERVICES_ACTIVE` to `EGPU_SERVICES_RETIRED`;
+  binary moved from `EGPU_BINARIES` to `EGPU_BINARIES_RETIRED`
+  (new array introduced this same commit
+  so status.sh iterates only active binaries).
+- `status.sh`:
+  retired-service iterations dropped entirely.
+  Status now reports only on what's load-bearing,
+  not on retired-but-archived state.
+- Binary at `usr/local/sbin/aorus-egpu-observability-watchdog`
+  and unit at
+  `etc/systemd/system/aorus-egpu-observability-watchdog.service`
+  PRESERVED in repo + on disk as documented archive.
+- 5 evidence files retained at `archive/observability-evidence/`
+  alongside `tools/observability-evidence.sh` for any future
+  Mode B regression analysis.
+
+**Resurrection criterion:**
+any future regression observably reproduces a Mode B silent freeze
+that Lever Q-watchdog did NOT catch.
+The signal: a host hang during CUDA workload with no
+`Q-watchdog detected` event in dmesg.
+`systemctl enable --now aorus-egpu-observability-watchdog.service`
+restores the userspace second-opinion observer.
+
+**Architectural meaning:**
+6th userspace service retirement.
+Workaround-services debt now essentially settled —
+2 active services
+(`compute-load-nvidia` for boot orchestration,
+`bridge-link-cap` for Lever H17 LnkCtl2 cap)
+plus reclassified `nvidia-persistenced`
+(warmup-latency only).
+Recovery + detection surface fully in-driver.
+
+**Cross-references:**
+`archive/observability-evidence/` (5 datapoints);
+`tools/observability-evidence.sh` (retirement-evidence collector);
+`docs/services/observability-watchdog.md`;
+Lever Q-watchdog patches 0010-0015 in `patches/`;
+[Lever Q](./lever-catalog.md#lever-q) catalog entry.
 
 ---
 

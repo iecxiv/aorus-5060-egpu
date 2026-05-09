@@ -17,19 +17,29 @@
 
 # ---------------------------------------------------------------- BINARIES --
 # All scripts in repo's usr/local/sbin/. Mode 0755. Installed to /usr/local/sbin/.
+#
+# Split into two arrays: ACTIVE (binaries used by active services / called at
+# runtime) and RETIRED (binaries kept on disk as documented archive — same
+# preservation pattern as retired services). status.sh iterates only ACTIVE;
+# apply.sh + remove.sh iterate both.
 EGPU_BINARIES=(
     aorus-egpu-detect-config
     aorus-egpu-compute-load-nvidia
     aorus-egpu-disable-audio
     aorus-egpu-status
     aorus-egpu-bridge-link-cap
+    aorus-egpu-lever-m
+    aorus-egpu-lever-m-killswitch-restore
+)
+
+# Retired binaries — installed for archival / resurrection only. Each is
+# tied to a retired service (see EGPU_SERVICES_RETIRED below).
+EGPU_BINARIES_RETIRED=(
     aorus-egpu-wpr2-recovery
     aorus-egpu-observability-watchdog
     aorus-egpu-uvm-keepalive
     aorus-egpu-link-monitor
     aorus-egpu-pcie-tune
-    aorus-egpu-lever-m
-    aorus-egpu-lever-m-killswitch-restore
     aorus-egpu-lever-m-phase5-snapshot
 )
 
@@ -45,13 +55,13 @@ EGPU_LIBS=(
 EGPU_SERVICES_ACTIVE=(
     aorus-egpu-compute-load-nvidia.service
     aorus-egpu-bridge-link-cap.service
-    aorus-egpu-observability-watchdog.service
 )
 
 # Retired services — apply.sh installs the unit file as historical archive
 # but leaves it `systemctl disable`d. Resurrection is a single
 # `systemctl enable --now <service>`. See docs/service-retirement-roadmap.md.
 EGPU_SERVICES_RETIRED=(
+    aorus-egpu-observability-watchdog.service
     aorus-egpu-lever-m-phase5-snapshot.service
     aorus-egpu-wpr2-recovery.service
     aorus-egpu-uvm-keepalive.service

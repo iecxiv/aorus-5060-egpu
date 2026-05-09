@@ -94,7 +94,7 @@ for name in "${EGPU_LIBS[@]}"; do
     copy_if_different "usr/local/lib/aorus-egpu/$name" "$(egpu_path_lib "$name")" 0644
 done
 
-for name in "${EGPU_BINARIES[@]}"; do
+for name in "${EGPU_BINARIES[@]}" "${EGPU_BINARIES_RETIRED[@]}"; do
     copy_if_different "usr/local/sbin/$name" "$(egpu_path_binary "$name")" 0755
 done
 
@@ -181,7 +181,7 @@ done
 for name in "${EGPU_DROP_INS[@]}"; do
     restorecon_paths+=("$(egpu_path_dropin "$name")")
 done
-for name in "${EGPU_BINARIES[@]}"; do
+for name in "${EGPU_BINARIES[@]}" "${EGPU_BINARIES_RETIRED[@]}"; do
     restorecon_paths+=("$(egpu_path_binary "$name")")
 done
 
@@ -214,7 +214,7 @@ bin_real="$(readlink -f /usr/local/bin)"
 if [[ "$sbin_real" == "$bin_real" ]]; then
     printf '  /usr/local/sbin and /usr/local/bin resolve to the same directory; no duplicate cleanup needed\n'
 else
-    for bin in "${EGPU_BINARIES[@]}"; do
+    for bin in "${EGPU_BINARIES[@]}" "${EGPU_BINARIES_RETIRED[@]}"; do
         remove_if_exists "/usr/local/bin/$bin"
     done
     rm -f /usr/local/bin/aorus-egpu-status

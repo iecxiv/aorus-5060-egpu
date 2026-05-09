@@ -222,7 +222,7 @@ for name in "${EGPU_SYSCTL_CONFS[@]}"; do
     check_file_match "etc/sysctl.d/$name" "$(egpu_path_sysctl "$name")"
 done
 
-for name in "${EGPU_SERVICES_ACTIVE[@]}" "${EGPU_SERVICES_RETIRED[@]}"; do
+for name in "${EGPU_SERVICES_ACTIVE[@]}"; do
     check_file_match "etc/systemd/system/$name" "$(egpu_path_service "$name")"
 done
 
@@ -266,13 +266,11 @@ check_unit_state() {
 }
 
 # Active services from the manifest must all be enabled; persistenced too.
+# Retired services are intentionally NOT checked here — their unit files are
+# preserved on disk as documented archive but their state is not load-bearing
+# for system health. See docs/service-retirement-roadmap.md.
 for svc in "${EGPU_SERVICES_ACTIVE[@]}" nvidia-persistenced.service; do
     check_unit_state "$svc" enabled
-done
-# Retired services must remain disabled (they're kept on disk as historical
-# archive). See docs/services/ for retirement records + resurrection criteria.
-for svc in "${EGPU_SERVICES_RETIRED[@]}"; do
-    check_unit_state "$svc" disabled
 done
 
 # These units may not exist at all on a clean compute-only install via the
