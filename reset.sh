@@ -157,11 +157,18 @@ probe() {
     read -r bar1_start bar1_end _ < <(awk 'NR==2 {print $1, $2}' "/sys/bus/pci/devices/$EGPU_BDF/resource")
     if [[ -n "${bar1_start:-}" && -n "${bar1_end:-}" ]]; then
         bar1_size=$((bar1_end - bar1_start + 1))
-        local bar1_gib=$((bar1_size / 1024 / 1024 / 1024))
-        if [[ $bar1_size -ge $EXPECTED_BAR1_BYTES ]]; then
-            ok "BAR1 size: ${bar1_gib} GiB (>= expected 32 GiB)"
+        # Format size: GiB if >= 1 GiB, otherwise MiB (small BARs after a shrink
+        # round to "0 GiB" otherwise — actively misleading)
+        local bar1_human
+        if [[ $bar1_size -ge 1073741824 ]]; then
+            bar1_human="$((bar1_size / 1073741824)) GiB"
         else
-            fail "BAR1 too small: ${bar1_gib} GiB (expected 32 GiB) — runtime ReBAR resize required"
+            bar1_human="$((bar1_size / 1048576)) MiB"
+        fi
+        if [[ $bar1_size -ge $EXPECTED_BAR1_BYTES ]]; then
+            ok "BAR1 size: $bar1_human (>= expected 32 GiB)"
+        else
+            fail "BAR1 too small: $bar1_human (expected 32 GiB) — runtime ReBAR resize required"
             verdict=$((verdict > 1 ? verdict : 1))
             recommend_level=2
         fi

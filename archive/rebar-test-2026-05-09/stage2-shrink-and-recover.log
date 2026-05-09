@@ -1,0 +1,84 @@
+=== Stage 2 — Shrink BAR1 then recover via reset.sh L2 ===
+Sat May  9 02:10:12 PM AEST 2026
+
+=== Step 1: Detach + unload nvidia ===
+unbound
+modules now:
+  (none)
+
+=== Step 2: Shrink BAR1 to 256 MiB (size index 8 = 2^8 MiB) ===
+Pre-shrink ReBAR control:
+00000f21
+Pre-shrink BAR1:
+  size=34359738368 bytes (32 GiB)
+
+Writing '8' (256 MiB) to resource1_resize...
+8
+Exit: 0
+
+Post-shrink ReBAR control:
+00000821
+  bits 8-13 should now be 0x08 → size = 256 MiB
+
+Post-shrink BAR1:
+  start=0x0000004000000000 end=0x000000400fffffff size=268435456 bytes
+  ✓ BAR1 confirmed shrunk to <=512 MiB (256 MiB)
+
+=== Step 3: probe should detect degraded BAR1 ===
+
+== Probe — eGPU health check ==
+  [OK]   GPU device present at 0000:04:00.0
+  [OK]   PCI config space responsive (vendor=0x10de)
+  [OK]   PCIe link active on 0000:03:00.0 (Gen1 x4)
+  [FAIL] BAR1 too small: 0 GiB (expected 32 GiB) — runtime ReBAR resize required
+  [WARN] GPU not bound to any driver
+  [WARN] nvidia kernel module NOT loaded
+
+⚠ DEGRADED — recoverable (suggested level: 2)
+Probe exit: 0
+
+=== Step 4: reset.sh --recover --level 2 (the actual recovery test) ===
+
+== L2 — BAR1 resize via resource1_resize ==
+  [INFO] writing size index 15 to /sys/bus/pci/devices/0000:04:00.0/resource1_resize
+  [OK]   BAR1 resize accepted by kernel
+
+== Verify post-recovery state ==
+
+== Probe — eGPU health check ==
+  [OK]   GPU device present at 0000:04:00.0
+  [OK]   PCI config space responsive (vendor=0x10de)
+  [OK]   PCIe link active on 0000:03:00.0 (Gen3 x4)
+  [OK]   BAR1 size: 32 GiB (>= expected 32 GiB)
+  [OK]   GPU bound to nvidia driver
+  [OK]   nvidia kernel module loaded (595.71.05-aorus.12)
+  [INFO] Lever M-recover: fires=0 successes=0 surrenders=0
+  [OK]   nvidia-smi sees GPU: GPU 0: NVIDIA GeForce RTX 5090 (UUID: GPU-90b9424e-7236-fd4d-d903-44e565e1bd42)
+
+✓ HEALTHY
+
+✓ Recovery succeeded at L2
+Recover exit: 0
+
+=== Step 5: Final verification ===
+
+== Probe — eGPU health check ==
+  [OK]   GPU device present at 0000:04:00.0
+  [OK]   PCI config space responsive (vendor=0x10de)
+  [OK]   PCIe link active on 0000:03:00.0 (Gen3 x4)
+  [OK]   BAR1 size: 32 GiB (>= expected 32 GiB)
+  [OK]   GPU bound to nvidia driver
+  [OK]   nvidia kernel module loaded (595.71.05-aorus.12)
+  [INFO] Lever M-recover: fires=0 successes=0 surrenders=0
+  [OK]   nvidia-smi sees GPU: GPU 0: NVIDIA GeForce RTX 5090 (UUID: GPU-90b9424e-7236-fd4d-d903-44e565e1bd42)
+
+✓ HEALTHY
+
+BAR1 raw:
+0x0000004000000000 0x00000047ffffffff 0x000000000014220c
+
+=== nvidia-smi smoke test ===
+GPU 0: NVIDIA GeForce RTX 5090 (UUID: GPU-90b9424e-7236-fd4d-d903-44e565e1bd42)
+
+=== Test summary ===
+Recover exit code: 0 (0 = recovery succeeded)
