@@ -1,0 +1,843 @@
+[    1.108907] obpc kernel: Command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off thunderbolt.dyndbg=+pflm thunderbolt.host_reset=false
+[    1.110680] obpc kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off thunderbolt.dyndbg=+pflm thunderbolt.host_reset=false
+[    1.111342] obpc kernel: ACPI: USB4 _OSC: OS supports USB3+ DisplayPort+ PCIe+ XDomain+
+[    1.111348] obpc kernel: ACPI: USB4 _OSC: OS controls USB3+ DisplayPort+ PCIe+ XDomain+
+[    1.111432] obpc kernel: ACPI: \_SB_.PC00.TBT0: New power resource
+[    1.111437] obpc kernel: ACPI: \_SB_.PC00.TBT1: New power resource
+[    1.113350] obpc kernel: pci 0000:00:07.0: [8086:7ec4] type 01 class 0x060400 PCIe Root Port
+[    1.113423] obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+[    1.113494] obpc kernel: pci 0000:00:07.0:   bridge window [io  0x3000-0x3fff]
+[    1.113564] obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x80000000-0x89efffff]
+[    1.113631] obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+[    1.113698] obpc kernel: pci 0000:00:07.0: PME# supported from D0 D3hot D3cold
+[    1.113766] obpc kernel: pci 0000:00:07.0: PTM enabled (root), 4ns granularity
+[    1.113842] obpc kernel: pci 0000:00:07.2: [8086:7ec6] type 01 class 0x060400 PCIe Root Port
+[    1.113914] obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+[    1.113983] obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x8a000000-0x8fffffff]
+[    1.114055] obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+[    1.114123] obpc kernel: pci 0000:00:07.2: PME# supported from D0 D3hot D3cold
+[    1.114193] obpc kernel: pci 0000:00:07.2: PTM enabled (root), 4ns granularity
+[    1.114846] obpc kernel: pci 0000:00:0d.0: [8086:7ec0] type 00 class 0x0c0330 conventional PCI endpoint
+[    1.114914] obpc kernel: pci 0000:00:0d.0: BAR 0 [mem 0x5840300000-0x584030ffff 64bit]
+[    1.114983] obpc kernel: pci 0000:00:0d.0: PME# supported from D3hot D3cold
+[    1.115061] obpc kernel: pci 0000:00:0d.2: [8086:7ec2] type 00 class 0x0c0340 conventional PCI endpoint
+[    1.115131] obpc kernel: pci 0000:00:0d.2: BAR 0 [mem 0x5840240000-0x584027ffff 64bit]
+[    1.115200] obpc kernel: pci 0000:00:0d.2: BAR 2 [mem 0x5840320000-0x5840320fff 64bit]
+[    1.115269] obpc kernel: pci 0000:00:0d.2: supports D1 D2
+[    1.115337] obpc kernel: pci 0000:00:0d.2: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.115409] obpc kernel: pci 0000:00:0d.3: [8086:7ec3] type 00 class 0x0c0340 conventional PCI endpoint
+[    1.115487] obpc kernel: pci 0000:00:0d.3: BAR 0 [mem 0x5840200000-0x584023ffff 64bit]
+[    1.115561] obpc kernel: pci 0000:00:0d.3: BAR 2 [mem 0x584031f000-0x584031ffff 64bit]
+[    1.115633] obpc kernel: pci 0000:00:0d.3: supports D1 D2
+[    1.115705] obpc kernel: pci 0000:00:0d.3: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.118889] obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+[    1.122361] obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+[    1.122881] obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+[    1.123536] obpc kernel: pci 0000:00:07.0: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+[    1.124125] obpc kernel: pci 0000:00:07.2: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+[    1.126718] obpc kernel: pci 0000:00:07.2: bridge window [io  0x1000-0x0fff] to [bus 2c-55] add_size 1000
+[    1.126786] obpc kernel: pci 0000:00:07.2: bridge window [io  0x4000-0x4fff]: assigned
+[    1.129927] obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+[    1.129995] obpc kernel: pci 0000:00:07.0:   bridge window [io  0x3000-0x3fff]
+[    1.130063] obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x80000000-0x89efffff]
+[    1.130130] obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+[    1.130198] obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+[    1.130265] obpc kernel: pci 0000:00:07.2:   bridge window [io  0x4000-0x4fff]
+[    1.130332] obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x8a000000-0x8fffffff]
+[    1.130398] obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+[    1.133048] obpc kernel: pcieport 0000:00:07.0: PME: Signaling with IRQ 121
+[    1.133117] obpc kernel: pcieport 0000:00:07.0: AER: enabled with IRQ 121
+[    1.133184] obpc kernel: pcieport 0000:00:07.0: pciehp: Slot #12 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+[    1.133253] obpc kernel: pcieport 0000:00:07.2: PME: Signaling with IRQ 122
+[    1.133320] obpc kernel: pcieport 0000:00:07.2: AER: enabled with IRQ 122
+[    1.133387] obpc kernel: pcieport 0000:00:07.2: pciehp: Slot #14 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+[    1.134184] obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+[    1.134251] obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 1
+[    1.134322] obpc kernel: xhci_hcd 0000:00:0d.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+[    1.134389] obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+[    1.134455] obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 2
+[    1.134521] obpc kernel: xhci_hcd 0000:00:0d.0: Host supports USB 3.2 Enhanced SuperSpeed
+[    1.134823] obpc kernel: usb usb1: SerialNumber: 0000:00:0d.0
+[    1.135273] obpc kernel: usb usb2: SerialNumber: 0000:00:0d.0
+[    1.334670] obpc kernel: ACPI: bus type thunderbolt registered
+[    1.335008] obpc kernel: thunderbolt:nhi_probe:1366: thunderbolt 0000:00:0d.2: total paths: 12
+[    1.335366] obpc kernel: thunderbolt:nhi_check_iommu:1230: thunderbolt 0000:00:0d.2: IOMMU DMA protection is disabled
+[    1.341021] obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.2: allocating TX ring 0 of size 10
+[    1.341268] obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.2: allocating RX ring 0 of size 10
+[    1.341354] obpc kernel: thunderbolt:tb_ctl_alloc:690: thunderbolt 0000:00:0d.2: control channel created
+[    1.341445] obpc kernel: thunderbolt:tb_probe:3388: thunderbolt 0000:00:0d.2: using software connection manager
+[    1.341602] obpc kernel: thunderbolt:tb_acpi_add_link:65: thunderbolt 0000:00:0d.2: created link from 0000:00:07.0
+[    1.341702] obpc kernel: thunderbolt:nhi_probe:1402: thunderbolt 0000:00:0d.2: NHI initialized, starting thunderbolt
+[    1.341780] obpc kernel: thunderbolt:tb_ctl_start:733: thunderbolt 0000:00:0d.2: control channel starting...
+[    1.341861] obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.2: starting TX ring 0
+[    1.341972] obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.2: enabling interrupt at register 0x38200 bit 0 (0x0 -> 0x1)
+[    1.342076] obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.2: starting RX ring 0
+[    1.342175] obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.2: enabling interrupt at register 0x38200 bit 12 (0x1 -> 0x1001)
+[    1.342255] obpc kernel: thunderbolt:tb_domain_add:456: thunderbolt 0000:00:0d.2: security level set to user
+[    1.342335] obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.2: current switch config:
+[    1.342414] obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.2:  USB4 Switch: 8087:7ec2 (Revision: 16, TB Version: 32)
+[    1.342492] obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.2:   Max Port Number: 13
+[    1.342584] obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.2:   Config:
+[    1.342663] obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.2:    Upstream Port Number: 7 Depth: 0 Route String: 0x0 Enabled: 1, PlugEventsDelay: 254ms
+[    1.342746] obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.2:    unknown1: 0x0 unknown4: 0x0
+[    1.347013] obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.2: initializing Switch at 0x0 (depth: 0, up port: 7)
+[    1.349027] obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.2: 0: credit allocation parameters:
+[    1.349109] obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.2: 0:  USB3: 32
+[    1.349182] obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.2: 0:  DP AUX: 1
+[    1.349255] obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.2: 0:  DP main: 0
+[    1.349329] obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.2: 0:  PCIe: 64
+[    1.349400] obpc kernel: thunderbolt:usb4_switch_credits_init:806: thunderbolt 0000:00:0d.2: 0:  DMA: 14
+[    1.351004] obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.2: 0: DROM version: 3
+[    1.351084] obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.2: 0: uid: 0xe2109960808747d9
+[    1.353075] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 1: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.353183] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+[    1.353265] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.353340] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x47800000
+[    1.353418] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 120/2
+[    1.355107] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 2: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.355218] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+[    1.355300] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.355376] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x80000000
+[    1.355449] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 0/2
+[    1.356006] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 3: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.356087] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+[    1.356162] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.356244] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x83c00000
+[    1.356360] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 60/2
+[    1.358009] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 4: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.358146] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+[    1.358230] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.358309] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x83c00000
+[    1.358383] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 60/2
+[    1.358457] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 5: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+[    1.358530] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.358611] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.358685] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x100000d
+[    1.358760] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 16/0
+[    1.358833] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 6: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+[    1.358912] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.358988] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.359067] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x100000d
+[    1.359142] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 16/0
+[    1.360021] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 7: 8086:15ea (Revision: 0, TB Version: 1, Type: NHI (0x2))
+[    1.360627] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 11/11
+[    1.361810] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.362304] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x1c00000
+[    1.362715] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 28/0
+[    1.363162] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 8: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.363608] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.364043] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.364380] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.364741] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.365762] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 9: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.366100] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.366430] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.366759] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.367074] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.367335] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 10: not implemented
+[    1.367620] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 11: not implemented
+[    1.367890] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 12: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.368179] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.368437] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.368696] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.368954] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.369194] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 13: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.369464] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.369705] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.369937] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.370193] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.370438] obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.2: 0: running quirk_usb3_maximum_bandwidth [thunderbolt]
+[    1.370686] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 0:12: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.370913] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 0:13: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.371152] obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.2: 0: linked ports 1 <-> 2
+[    1.371365] obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.2: 0: linked ports 3 <-> 4
+[    1.371590] obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.2: 0: TMU: supports uni-directional mode
+[    1.371841] obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.2: 0: TMU: current mode: off
+[    1.375011] obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.2: 0: TMU: mode change off -> uni-directional, LowRes requested
+[    1.376009] obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.2: 0: TMU: mode set to: uni-directional, LowRes
+[    1.376252] obpc kernel: thunderbolt:tb_wait_for_port:537: thunderbolt 0000:00:0d.2: 0:1: is connected, link is up (state: 2)
+[    1.377010] obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.2: current switch config:
+[    1.377241] obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.2:  USB4 Switch: 8087:5786 (Revision: 133, TB Version: 64)
+[    1.377462] obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.2:   Max Port Number: 23
+[    1.377696] obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.2:   Config:
+[    1.377917] obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.2:    Upstream Port Number: 1 Depth: 1 Route String: 0x1 Enabled: 1, PlugEventsDelay: 254ms
+[    1.378143] obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.2:    unknown1: 0x0 unknown4: 0x0
+[    1.383006] obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.2: initializing Switch at 0x1 (depth: 1, up port: 1)
+[    1.383145] obpc kernel: thunderbolt:usb4_switch_setup:260: thunderbolt 0000:00:0d.2: 1: link: USB4
+[    1.383228] obpc kernel: thunderbolt:usb4_switch_setup:265: thunderbolt 0000:00:0d.2: 1: TBT3 support: yes, xHCI: no
+[    1.385007] obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.2: 1: credit allocation parameters:
+[    1.385088] obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.2: 1:  USB3: 20
+[    1.385163] obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.2: 1:  DP AUX: 1
+[    1.385239] obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.2: 1:  DP main: 6
+[    1.385313] obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.2: 1:  PCIe: 76
+[    1.385389] obpc kernel: thunderbolt:usb4_switch_credits_init:810: thunderbolt 0000:00:0d.2: 1:  unknown credit allocation index 0x0, skipping
+[    1.390006] obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.2: 1: DROM version: 1
+[    1.393009] obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.2: 1: uid: 0xe87ca900808714c4
+[    1.394064] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 1: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.394176] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.394262] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+[    1.394340] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x4a000000
+[    1.394415] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.396083] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 2: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.396191] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.396275] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+[    1.396351] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0xca000000
+[    1.396425] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.397077] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 3: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.397185] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.397267] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+[    1.397344] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.397420] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.399074] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 4: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.399184] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.399266] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+[    1.399342] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.399416] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.401072] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 5: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.401179] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.401262] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+[    1.401337] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.401412] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.402091] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 6: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.402200] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.402300] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+[    1.402423] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.402507] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.404007] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 7: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.404087] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.404163] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+[    1.404237] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.404310] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.406007] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 8: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.406116] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.406199] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+[    1.406274] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.406348] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.406422] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 9: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100102))
+[    1.406496] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.406569] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.406642] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+[    1.406714] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.406786] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 10: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.406859] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.406933] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.407008] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+[    1.407081] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.407154] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 11: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+[    1.407228] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.407301] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.407374] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.407445] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.407516] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 12: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+[    1.407589] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.407664] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.407737] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.407808] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.407880] obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:13: disabled by eeprom
+[    1.407953] obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:14: disabled by eeprom
+[    1.408030] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 15: not implemented
+[    1.408119] obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:16: disabled by eeprom
+[    1.408195] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 17: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.408268] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.408343] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.408417] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+[    1.408488] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.408560] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 18: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.408633] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.408727] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.408801] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+[    1.408872] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.408943] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 19: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+[    1.409021] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.409093] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.409165] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.409237] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.409308] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 20: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200102))
+[    1.409380] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.409451] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+[    1.409523] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.409593] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.409665] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 21: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.409737] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.409810] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+[    1.409881] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.409952] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.410027] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 22: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.410100] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.410172] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+[    1.410243] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.410315] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.410387] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 23: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.410459] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.410534] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+[    1.410607] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.410678] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.410750] obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.2: 1: running quirk_usb3_maximum_bandwidth [thunderbolt]
+[    1.410823] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:21: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.410894] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:22: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.410966] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:23: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.411048] obpc kernel: thunderbolt:tb_switch_link_init:2903: thunderbolt 0000:00:0d.2: 1: current link speed 20.0 Gb/s
+[    1.411123] obpc kernel: thunderbolt:tb_switch_link_init:2904: thunderbolt 0000:00:0d.2: 1: current link width symmetric, dual lanes
+[    1.421086] obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.2: 1: TMU: supports uni-directional mode
+[    1.421195] obpc kernel: thunderbolt:tmu_mode_init:367: thunderbolt 0000:00:0d.2: 1: TMU: supports enhanced uni-directional mode
+[    1.421279] obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.2: 1: TMU: current mode: off
+[    1.425064] obpc kernel: thunderbolt 0-1: new device found, vendor=0xed device=0x41b6
+[    1.425189] obpc kernel: thunderbolt 0-1: GIGABYTE AORUS RTX5090 AI BOX
+[    1.428082] obpc kernel: thunderbolt:tb_switch_nvm_add:376: thunderbolt 0000:00:0d.2: 1: NVM version 62.2
+[    1.431121] obpc kernel: thunderbolt:tb_retimer_nvm_authenticate_status:201: thunderbolt 0000:00:0d.2: 0:1: reading NVM authentication status of retimers
+[    1.675008] obpc kernel: thunderbolt:tb_retimer_nvm_add:104: thunderbolt 0-0:1.1: NVM version 26.85
+[    1.675099] obpc kernel: thunderbolt 0-0:1.1: new retimer found, vendor=0x8087 device=0xd9c
+[    1.675176] obpc kernel: thunderbolt:tb_retimer_unset_inbound_sbtx:243: thunderbolt 0000:00:0d.2: 0:1: disabling sideband transactions
+[    1.777112] obpc kernel: thunderbolt:tb_scan_port:1396: thunderbolt 0000:00:0d.2: 1: discovery, not touching CL states
+[    1.777222] obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.2: 1: TMU: mode change off -> bi-directional, HiFi requested
+[    1.777307] obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[0]=0xe0680000
+[    1.777384] obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[1]=0x0002cdac
+[    1.777458] obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[2]=0x03e80000
+[    1.778095] obpc kernel: thunderbolt:tb_switch_tmu_post_time:533: thunderbolt 0000:00:0d.2: 1: TMU: updated local time to 0x2cdace068
+[    1.781007] obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.2: 1: TMU: mode set to: bi-directional, HiFi
+[    1.784006] obpc kernel: thunderbolt:tb_retimer_nvm_authenticate_status:201: thunderbolt 0000:00:0d.2: 1:1: reading NVM authentication status of retimers
+[    1.997009] obpc kernel: thunderbolt:tb_retimer_unset_inbound_sbtx:243: thunderbolt 0000:00:0d.2: 1:1: disabling sideband transactions
+[    2.099090] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:3: is unplugged (state: 7)
+[    2.099413] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:5: is unplugged (state: 7)
+[    2.099570] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:7: is unplugged (state: 7)
+[    2.100016] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 0:3: is unplugged (state: 7)
+[    2.102019] obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering PCIe Up path starting from 0:8
+[    2.102847] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:8:  In HopID: 8 => Out port: 1 Out HopID: 8
+[    2.103491] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:8:   Weight: 1 Priority: 3 Credits: 7 Drop: 0 PM: 0
+[    2.104047] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:8:    Counter enabled: 0 Counter index: 0
+[    2.104574] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:8:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+[    2.105141] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:8:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.105725] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:1:  In HopID: 8 => Out port: 9 Out HopID: 8
+[    2.106334] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+[    2.106899] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:1:    Counter enabled: 0 Counter index: 0
+[    2.107465] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+[    2.107933] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.108353] obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+[    2.108743] obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering PCIe Down path starting from 1:9
+[    2.109160] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:9:  In HopID: 8 => Out port: 1 Out HopID: 8
+[    2.109553] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:9:   Weight: 1 Priority: 3 Credits: 7 Drop: 0 PM: 0
+[    2.109960] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:9:    Counter enabled: 0 Counter index: 0
+[    2.110361] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:9:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+[    2.110758] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:9:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.111161] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:1:  In HopID: 8 => Out port: 8 Out HopID: 8
+[    2.111571] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+[    2.112023] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:1:    Counter enabled: 0 Counter index: 0
+[    2.112505] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+[    2.113015] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.113441] obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+[    2.113829] obpc kernel: thunderbolt:tb_tunnel_discover_pci:482: thunderbolt 0000:00:0d.2: 0:8 <-> 1:9 (PCI): discovered
+[    2.114253] obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering USB3 Down path starting from 0:12
+[    2.114646] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:12:  In HopID: 8 => Out port: 1 Out HopID: 9
+[    2.115045] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:12:   Weight: 3 Priority: 3 Credits: 2 Drop: 0 PM: 0
+[    2.115451] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:12:    Counter enabled: 0 Counter index: 0
+[    2.115841] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:12:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+[    2.116210] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:12:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.116567] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:1:  In HopID: 9 => Out port: 20 Out HopID: 8
+[    2.116907] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+[    2.117247] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:1:    Counter enabled: 0 Counter index: 0
+[    2.117575] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+[    2.117881] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.118203] obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+[    2.118498] obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering USB3 Up path starting from 1:20
+[    2.118799] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:20:  In HopID: 8 => Out port: 1 Out HopID: 9
+[    2.119091] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:20:   Weight: 3 Priority: 3 Credits: 2 Drop: 0 PM: 0
+[    2.119404] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:20:    Counter enabled: 0 Counter index: 0
+[    2.119674] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:20:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+[    2.119942] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:20:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.120202] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:1:  In HopID: 9 => Out port: 12 Out HopID: 8
+[    2.120442] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+[    2.120667] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:1:    Counter enabled: 0 Counter index: 0
+[    2.120876] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+[    2.121092] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.121294] obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+[    2.121489] obpc kernel: thunderbolt:tb_tunnel_discover_usb3:2244: thunderbolt 0000:00:0d.2: 0:12 <-> 1:20 (USB3): currently allocated bandwidth 2048/2048 Mb/s
+[    2.121680] obpc kernel: thunderbolt:tb_tunnel_discover_usb3:2255: thunderbolt 0000:00:0d.2: 0:12 <-> 1:20 (USB3): discovered
+[    2.121873] obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.2: 0:5: DP IN resource available
+[    2.122066] obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.2: 0:6: DP IN resource available
+[    2.122248] obpc kernel: thunderbolt:nhi_probe:1366: thunderbolt 0000:00:0d.3: total paths: 12
+[    2.122429] obpc kernel: thunderbolt:nhi_check_iommu:1230: thunderbolt 0000:00:0d.3: IOMMU DMA protection is disabled
+[    2.122602] obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.3: allocating TX ring 0 of size 10
+[    2.122770] obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.3: allocating RX ring 0 of size 10
+[    2.122936] obpc kernel: thunderbolt:tb_ctl_alloc:690: thunderbolt 0000:00:0d.3: control channel created
+[    2.123111] obpc kernel: thunderbolt:tb_probe:3388: thunderbolt 0000:00:0d.3: using software connection manager
+[    2.123276] obpc kernel: thunderbolt:tb_acpi_add_link:65: thunderbolt 0000:00:0d.3: created link from 0000:00:07.2
+[    2.123437] obpc kernel: thunderbolt:nhi_probe:1402: thunderbolt 0000:00:0d.3: NHI initialized, starting thunderbolt
+[    2.123597] obpc kernel: thunderbolt:tb_ctl_start:733: thunderbolt 0000:00:0d.3: control channel starting...
+[    2.123756] obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.3: starting TX ring 0
+[    2.123915] obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.3: enabling interrupt at register 0x38200 bit 0 (0x0 -> 0x1)
+[    2.124080] obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.3: starting RX ring 0
+[    2.124241] obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.3: enabling interrupt at register 0x38200 bit 12 (0x1 -> 0x1001)
+[    2.124405] obpc kernel: thunderbolt:tb_domain_add:456: thunderbolt 0000:00:0d.3: security level set to user
+[    2.124565] obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.3: current switch config:
+[    2.124726] obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.3:  USB4 Switch: 8087:7ec3 (Revision: 16, TB Version: 32)
+[    2.124885] obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.3:   Max Port Number: 13
+[    2.125050] obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.3:   Config:
+[    2.125212] obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.3:    Upstream Port Number: 7 Depth: 0 Route String: 0x0 Enabled: 1, PlugEventsDelay: 254ms
+[    2.125374] obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.3:    unknown1: 0x0 unknown4: 0x0
+[    2.125534] obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.3: initializing Switch at 0x0 (depth: 0, up port: 7)
+[    2.126104] obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.3: 0: credit allocation parameters:
+[    2.126461] obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.3: 0:  USB3: 32
+[    2.126640] obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.3: 0:  DP AUX: 1
+[    2.126808] obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.3: 0:  DP main: 0
+[    2.126974] obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.3: 0:  PCIe: 64
+[    2.127156] obpc kernel: thunderbolt:usb4_switch_credits_init:806: thunderbolt 0000:00:0d.3: 0:  DMA: 14
+[    2.129107] obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.3: 0: DROM version: 3
+[    2.129506] obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.3: 0: uid: 0xd6528a8180874e85
+[    2.131110] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 1: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    2.131513] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+[    2.131694] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.131869] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+[    2.132052] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+[    2.132217] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 2: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    2.132395] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+[    2.132559] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.132720] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+[    2.132881] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+[    2.134040] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 3: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    2.134443] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+[    2.134635] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.134805] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+[    2.134967] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+[    2.136017] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 4: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    2.136242] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+[    2.136422] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.136587] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+[    2.136750] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+[    2.136912] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 5: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+[    2.137089] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 9/9
+[    2.137253] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.137415] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x100000d
+[    2.137575] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 16/0
+[    2.137737] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 6: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+[    2.137896] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 9/9
+[    2.138067] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.138229] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x100000d
+[    2.138394] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 16/0
+[    2.138555] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 7: 8086:15ea (Revision: 0, TB Version: 1, Type: NHI (0x2))
+[    2.138714] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 11/11
+[    2.138873] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.139037] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x1c00000
+[    2.139203] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 28/0
+[    2.139362] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 8: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    2.139521] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+[    2.139681] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.139842] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+[    2.140009] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+[    2.140170] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 9: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    2.140329] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+[    2.140488] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.140647] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+[    2.140806] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+[    2.140973] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.3:  Port 10: not implemented
+[    2.141139] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.3:  Port 11: not implemented
+[    2.141302] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 12: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    2.141463] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+[    2.141621] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.141780] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+[    2.141938] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+[    2.142103] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 13: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    2.142263] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+[    2.142422] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.142579] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+[    2.142737] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+[    2.142898] obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.3: 0: running quirk_usb3_maximum_bandwidth [thunderbolt]
+[    2.143061] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.3: 0:12: USB3 maximum bandwidth limited to 16376 Mb/s
+[    2.143221] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.3: 0:13: USB3 maximum bandwidth limited to 16376 Mb/s
+[    2.143380] obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.3: 0: linked ports 1 <-> 2
+[    2.143538] obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.3: 0: linked ports 3 <-> 4
+[    2.147113] obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.3: 0: TMU: supports uni-directional mode
+[    2.147519] obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.3: 0: TMU: current mode: off
+[    2.150110] obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.3: 0: TMU: mode change off -> uni-directional, LowRes requested
+[    2.150526] obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.3: 0: TMU: mode set to: uni-directional, LowRes
+[    2.150732] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.3: 0:1: is unplugged (state: 7)
+[    2.150921] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.3: 0:3: is unplugged (state: 7)
+[    2.154111] obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.3: 0:6: DP IN resource available
+[    2.424180] obpc kernel: typec port0: bound usb4_port1 (ops connector_ops [thunderbolt])
+[    4.924219] obpc kernel: input: HDA NVidia HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input17
+[    4.924246] obpc kernel: input: HDA NVidia HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input18
+[    4.924276] obpc kernel: input: HDA NVidia HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input19
+[    4.924296] obpc kernel: input: HDA NVidia HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input20
+[   10.009093] obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+[   28.432007] obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+[   46.300016] obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+[  159.131005] obpc kernel: thunderbolt:tb_cfg_print_error:292: thunderbolt 0000:00:0d.2: 1:2: invalid config space (0) or offset
+May 08 21:43:25 obpc kernel: Command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off thunderbolt.dyndbg=+pflm thunderbolt.host_reset=false
+May 08 21:43:25 obpc kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off thunderbolt.dyndbg=+pflm thunderbolt.host_reset=false
+May 08 21:43:25 obpc kernel: ACPI: USB4 _OSC: OS supports USB3+ DisplayPort+ PCIe+ XDomain+
+May 08 21:43:25 obpc kernel: ACPI: USB4 _OSC: OS controls USB3+ DisplayPort+ PCIe+ XDomain+
+May 08 21:43:25 obpc kernel: ACPI: \_SB_.PC00.TBT0: New power resource
+May 08 21:43:25 obpc kernel: ACPI: \_SB_.PC00.TBT1: New power resource
+May 08 21:43:25 obpc kernel: pci 0000:00:07.0: [8086:7ec4] type 01 class 0x060400 PCIe Root Port
+May 08 21:43:25 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 08 21:43:25 obpc kernel: pci 0000:00:07.0:   bridge window [io  0x3000-0x3fff]
+May 08 21:43:25 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x80000000-0x89efffff]
+May 08 21:43:25 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 21:43:25 obpc kernel: pci 0000:00:07.0: PME# supported from D0 D3hot D3cold
+May 08 21:43:25 obpc kernel: pci 0000:00:07.0: PTM enabled (root), 4ns granularity
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2: [8086:7ec6] type 01 class 0x060400 PCIe Root Port
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x8a000000-0x8fffffff]
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2: PME# supported from D0 D3hot D3cold
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2: PTM enabled (root), 4ns granularity
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.0: [8086:7ec0] type 00 class 0x0c0330 conventional PCI endpoint
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.0: BAR 0 [mem 0x5840300000-0x584030ffff 64bit]
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.0: PME# supported from D3hot D3cold
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.2: [8086:7ec2] type 00 class 0x0c0340 conventional PCI endpoint
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.2: BAR 0 [mem 0x5840240000-0x584027ffff 64bit]
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.2: BAR 2 [mem 0x5840320000-0x5840320fff 64bit]
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.2: supports D1 D2
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.2: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.3: [8086:7ec3] type 00 class 0x0c0340 conventional PCI endpoint
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.3: BAR 0 [mem 0x5840200000-0x584023ffff 64bit]
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.3: BAR 2 [mem 0x584031f000-0x584031ffff 64bit]
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.3: supports D1 D2
+May 08 21:43:25 obpc kernel: pci 0000:00:0d.3: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 21:43:25 obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 08 21:43:25 obpc kernel: pci 0000:00:07.0: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2: bridge window [io  0x1000-0x0fff] to [bus 2c-55] add_size 1000
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2: bridge window [io  0x4000-0x4fff]: assigned
+May 08 21:43:25 obpc kernel: pci 0000:00:07.2:   bridge window [io  0x4000-0x4fff]
+May 08 21:43:25 obpc kernel: pcieport 0000:00:07.0: PME: Signaling with IRQ 121
+May 08 21:43:25 obpc kernel: pcieport 0000:00:07.0: AER: enabled with IRQ 121
+May 08 21:43:25 obpc kernel: pcieport 0000:00:07.0: pciehp: Slot #12 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 21:43:25 obpc kernel: pcieport 0000:00:07.2: PME: Signaling with IRQ 122
+May 08 21:43:25 obpc kernel: pcieport 0000:00:07.2: AER: enabled with IRQ 122
+May 08 21:43:25 obpc kernel: pcieport 0000:00:07.2: pciehp: Slot #14 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 21:43:25 obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+May 08 21:43:25 obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 1
+May 08 21:43:25 obpc kernel: xhci_hcd 0000:00:0d.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+May 08 21:43:25 obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 2
+May 08 21:43:25 obpc kernel: xhci_hcd 0000:00:0d.0: Host supports USB 3.2 Enhanced SuperSpeed
+May 08 21:43:25 obpc kernel: usb usb1: SerialNumber: 0000:00:0d.0
+May 08 21:43:25 obpc kernel: usb usb2: SerialNumber: 0000:00:0d.0
+May 08 21:43:25 obpc dracut-cmdline[340]: Using kernel command line parameters:  rd.driver.pre=btrfs rd.driver.pre=aorus_egpu_trust   BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off thunderbolt.dyndbg=+pflm thunderbolt.host_reset=false
+May 08 21:43:25 obpc kernel: ACPI: bus type thunderbolt registered
+May 08 21:43:25 obpc kernel: thunderbolt:nhi_probe:1366: thunderbolt 0000:00:0d.2: total paths: 12
+May 08 21:43:25 obpc kernel: thunderbolt:nhi_check_iommu:1230: thunderbolt 0000:00:0d.2: IOMMU DMA protection is disabled
+May 08 21:43:25 obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.2: allocating TX ring 0 of size 10
+May 08 21:43:25 obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.2: allocating RX ring 0 of size 10
+May 08 21:43:25 obpc kernel: thunderbolt:tb_ctl_alloc:690: thunderbolt 0000:00:0d.2: control channel created
+May 08 21:43:25 obpc kernel: thunderbolt:tb_probe:3388: thunderbolt 0000:00:0d.2: using software connection manager
+May 08 21:43:25 obpc kernel: thunderbolt:tb_acpi_add_link:65: thunderbolt 0000:00:0d.2: created link from 0000:00:07.0
+May 08 21:43:25 obpc kernel: thunderbolt:nhi_probe:1402: thunderbolt 0000:00:0d.2: NHI initialized, starting thunderbolt
+May 08 21:43:25 obpc kernel: thunderbolt:tb_ctl_start:733: thunderbolt 0000:00:0d.2: control channel starting...
+May 08 21:43:25 obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.2: starting TX ring 0
+May 08 21:43:25 obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.2: enabling interrupt at register 0x38200 bit 0 (0x0 -> 0x1)
+May 08 21:43:25 obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.2: starting RX ring 0
+May 08 21:43:25 obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.2: enabling interrupt at register 0x38200 bit 12 (0x1 -> 0x1001)
+May 08 21:43:25 obpc kernel: thunderbolt:tb_domain_add:456: thunderbolt 0000:00:0d.2: security level set to user
+May 08 21:43:25 obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.2: current switch config:
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.2:  USB4 Switch: 8087:7ec2 (Revision: 16, TB Version: 32)
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.2:   Max Port Number: 13
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.2:   Config:
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.2:    Upstream Port Number: 7 Depth: 0 Route String: 0x0 Enabled: 1, PlugEventsDelay: 254ms
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.2:    unknown1: 0x0 unknown4: 0x0
+May 08 21:43:25 obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.2: initializing Switch at 0x0 (depth: 0, up port: 7)
+May 08 21:43:25 obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.2: 0: credit allocation parameters:
+May 08 21:43:25 obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.2: 0:  USB3: 32
+May 08 21:43:25 obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.2: 0:  DP AUX: 1
+May 08 21:43:25 obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.2: 0:  DP main: 0
+May 08 21:43:25 obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.2: 0:  PCIe: 64
+May 08 21:43:25 obpc kernel: thunderbolt:usb4_switch_credits_init:806: thunderbolt 0000:00:0d.2: 0:  DMA: 14
+May 08 21:43:25 obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.2: 0: DROM version: 3
+May 08 21:43:25 obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.2: 0: uid: 0xe2109960808747d9
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 1: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x47800000
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 120/2
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 2: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x80000000
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 0/2
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 3: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x83c00000
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 60/2
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 4: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 5: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x100000d
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 16/0
+May 08 21:43:25 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 6: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 7: 8086:15ea (Revision: 0, TB Version: 1, Type: NHI (0x2))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 11/11
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x1c00000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 28/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 8: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 9: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 10: not implemented
+May 08 21:43:26 obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 11: not implemented
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 12: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 13: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.2: 0: running quirk_usb3_maximum_bandwidth [thunderbolt]
+May 08 21:43:26 obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 0:12: USB3 maximum bandwidth limited to 16376 Mb/s
+May 08 21:43:26 obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 0:13: USB3 maximum bandwidth limited to 16376 Mb/s
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.2: 0: linked ports 1 <-> 2
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.2: 0: linked ports 3 <-> 4
+May 08 21:43:26 obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.2: 0: TMU: supports uni-directional mode
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.2: 0: TMU: current mode: off
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.2: 0: TMU: mode change off -> uni-directional, LowRes requested
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.2: 0: TMU: mode set to: uni-directional, LowRes
+May 08 21:43:26 obpc kernel: thunderbolt:tb_wait_for_port:537: thunderbolt 0000:00:0d.2: 0:1: is connected, link is up (state: 2)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.2: current switch config:
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.2:  USB4 Switch: 8087:5786 (Revision: 133, TB Version: 64)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.2:   Max Port Number: 23
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.2:   Config:
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.2:    Upstream Port Number: 1 Depth: 1 Route String: 0x1 Enabled: 1, PlugEventsDelay: 254ms
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.2:    unknown1: 0x0 unknown4: 0x0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.2: initializing Switch at 0x1 (depth: 1, up port: 1)
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_setup:260: thunderbolt 0000:00:0d.2: 1: link: USB4
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_setup:265: thunderbolt 0000:00:0d.2: 1: TBT3 support: yes, xHCI: no
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.2: 1: credit allocation parameters:
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.2: 1:  USB3: 20
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.2: 1:  DP AUX: 1
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.2: 1:  DP main: 6
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.2: 1:  PCIe: 76
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:810: thunderbolt 0000:00:0d.2: 1:  unknown credit allocation index 0x0, skipping
+May 08 21:43:26 obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.2: 1: DROM version: 1
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.2: 1: uid: 0xe87ca900808714c4
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 1: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x4a000000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 2: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0xca000000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 3: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 4: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 5: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 6: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 7: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 8: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 9: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100102))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 10: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 11: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 12: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:13: disabled by eeprom
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:14: disabled by eeprom
+May 08 21:43:26 obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 15: not implemented
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:16: disabled by eeprom
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 17: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 18: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 19: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 20: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200102))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 21: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 22: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 23: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.2: 1: running quirk_usb3_maximum_bandwidth [thunderbolt]
+May 08 21:43:26 obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:21: USB3 maximum bandwidth limited to 16376 Mb/s
+May 08 21:43:26 obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:22: USB3 maximum bandwidth limited to 16376 Mb/s
+May 08 21:43:26 obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:23: USB3 maximum bandwidth limited to 16376 Mb/s
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_link_init:2903: thunderbolt 0000:00:0d.2: 1: current link speed 20.0 Gb/s
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_link_init:2904: thunderbolt 0000:00:0d.2: 1: current link width symmetric, dual lanes
+May 08 21:43:26 obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.2: 1: TMU: supports uni-directional mode
+May 08 21:43:26 obpc kernel: thunderbolt:tmu_mode_init:367: thunderbolt 0000:00:0d.2: 1: TMU: supports enhanced uni-directional mode
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.2: 1: TMU: current mode: off
+May 08 21:43:26 obpc kernel: thunderbolt 0-1: new device found, vendor=0xed device=0x41b6
+May 08 21:43:26 obpc kernel: thunderbolt 0-1: GIGABYTE AORUS RTX5090 AI BOX
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_nvm_add:376: thunderbolt 0000:00:0d.2: 1: NVM version 62.2
+May 08 21:43:26 obpc kernel: thunderbolt:tb_retimer_nvm_authenticate_status:201: thunderbolt 0000:00:0d.2: 0:1: reading NVM authentication status of retimers
+May 08 21:43:26 obpc kernel: thunderbolt:tb_retimer_nvm_add:104: thunderbolt 0-0:1.1: NVM version 26.85
+May 08 21:43:26 obpc kernel: thunderbolt 0-0:1.1: new retimer found, vendor=0x8087 device=0xd9c
+May 08 21:43:26 obpc kernel: thunderbolt:tb_retimer_unset_inbound_sbtx:243: thunderbolt 0000:00:0d.2: 0:1: disabling sideband transactions
+May 08 21:43:26 obpc kernel: thunderbolt:tb_scan_port:1396: thunderbolt 0000:00:0d.2: 1: discovery, not touching CL states
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.2: 1: TMU: mode change off -> bi-directional, HiFi requested
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[0]=0xe0680000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[1]=0x0002cdac
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[2]=0x03e80000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_post_time:533: thunderbolt 0000:00:0d.2: 1: TMU: updated local time to 0x2cdace068
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.2: 1: TMU: mode set to: bi-directional, HiFi
+May 08 21:43:26 obpc kernel: thunderbolt:tb_retimer_nvm_authenticate_status:201: thunderbolt 0000:00:0d.2: 1:1: reading NVM authentication status of retimers
+May 08 21:43:26 obpc kernel: thunderbolt:tb_retimer_unset_inbound_sbtx:243: thunderbolt 0000:00:0d.2: 1:1: disabling sideband transactions
+May 08 21:43:26 obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:3: is unplugged (state: 7)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:5: is unplugged (state: 7)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:7: is unplugged (state: 7)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 0:3: is unplugged (state: 7)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering PCIe Up path starting from 0:8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:8:  In HopID: 8 => Out port: 1 Out HopID: 8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:8:   Weight: 1 Priority: 3 Credits: 7 Drop: 0 PM: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:8:    Counter enabled: 0 Counter index: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:8:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:8:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:1:  In HopID: 8 => Out port: 9 Out HopID: 8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:1:    Counter enabled: 0 Counter index: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+May 08 21:43:26 obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering PCIe Down path starting from 1:9
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:9:  In HopID: 8 => Out port: 1 Out HopID: 8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:9:   Weight: 1 Priority: 3 Credits: 7 Drop: 0 PM: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:9:    Counter enabled: 0 Counter index: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:9:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:9:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:1:  In HopID: 8 => Out port: 8 Out HopID: 8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:1:    Counter enabled: 0 Counter index: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_tunnel_discover_pci:482: thunderbolt 0000:00:0d.2: 0:8 <-> 1:9 (PCI): discovered
+May 08 21:43:26 obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering USB3 Down path starting from 0:12
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:12:  In HopID: 8 => Out port: 1 Out HopID: 9
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:12:   Weight: 3 Priority: 3 Credits: 2 Drop: 0 PM: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:12:    Counter enabled: 0 Counter index: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:12:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:12:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:1:  In HopID: 9 => Out port: 20 Out HopID: 8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering USB3 Up path starting from 1:20
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:20:  In HopID: 8 => Out port: 1 Out HopID: 9
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:20:   Weight: 3 Priority: 3 Credits: 2 Drop: 0 PM: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:20:    Counter enabled: 0 Counter index: 0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:20:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:20:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:1:  In HopID: 9 => Out port: 12 Out HopID: 8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_tunnel_discover_usb3:2244: thunderbolt 0000:00:0d.2: 0:12 <-> 1:20 (USB3): currently allocated bandwidth 2048/2048 Mb/s
+May 08 21:43:26 obpc kernel: thunderbolt:tb_tunnel_discover_usb3:2255: thunderbolt 0000:00:0d.2: 0:12 <-> 1:20 (USB3): discovered
+May 08 21:43:26 obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.2: 0:5: DP IN resource available
+May 08 21:43:26 obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.2: 0:6: DP IN resource available
+May 08 21:43:26 obpc kernel: thunderbolt:nhi_probe:1366: thunderbolt 0000:00:0d.3: total paths: 12
+May 08 21:43:26 obpc kernel: thunderbolt:nhi_check_iommu:1230: thunderbolt 0000:00:0d.3: IOMMU DMA protection is disabled
+May 08 21:43:26 obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.3: allocating TX ring 0 of size 10
+May 08 21:43:26 obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.3: allocating RX ring 0 of size 10
+May 08 21:43:26 obpc kernel: thunderbolt:tb_ctl_alloc:690: thunderbolt 0000:00:0d.3: control channel created
+May 08 21:43:26 obpc kernel: thunderbolt:tb_probe:3388: thunderbolt 0000:00:0d.3: using software connection manager
+May 08 21:43:26 obpc kernel: thunderbolt:tb_acpi_add_link:65: thunderbolt 0000:00:0d.3: created link from 0000:00:07.2
+May 08 21:43:26 obpc kernel: thunderbolt:nhi_probe:1402: thunderbolt 0000:00:0d.3: NHI initialized, starting thunderbolt
+May 08 21:43:26 obpc kernel: thunderbolt:tb_ctl_start:733: thunderbolt 0000:00:0d.3: control channel starting...
+May 08 21:43:26 obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.3: starting TX ring 0
+May 08 21:43:26 obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.3: enabling interrupt at register 0x38200 bit 0 (0x0 -> 0x1)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.3: starting RX ring 0
+May 08 21:43:26 obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.3: enabling interrupt at register 0x38200 bit 12 (0x1 -> 0x1001)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_domain_add:456: thunderbolt 0000:00:0d.3: security level set to user
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.3: current switch config:
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.3:  USB4 Switch: 8087:7ec3 (Revision: 16, TB Version: 32)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.3:   Max Port Number: 13
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.3:   Config:
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.3:    Upstream Port Number: 7 Depth: 0 Route String: 0x0 Enabled: 1, PlugEventsDelay: 254ms
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.3:    unknown1: 0x0 unknown4: 0x0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.3: initializing Switch at 0x0 (depth: 0, up port: 7)
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.3: 0: credit allocation parameters:
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.3: 0:  USB3: 32
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.3: 0:  DP AUX: 1
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.3: 0:  DP main: 0
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.3: 0:  PCIe: 64
+May 08 21:43:26 obpc kernel: thunderbolt:usb4_switch_credits_init:806: thunderbolt 0000:00:0d.3: 0:  DMA: 14
+May 08 21:43:26 obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.3: 0: DROM version: 3
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.3: 0: uid: 0xd6528a8180874e85
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 1: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 2: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 3: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 4: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 5: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 9/9
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x100000d
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 16/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 6: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 7: 8086:15ea (Revision: 0, TB Version: 1, Type: NHI (0x2))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 11/11
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x1c00000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 28/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 8: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 9: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.3:  Port 10: not implemented
+May 08 21:43:26 obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.3:  Port 11: not implemented
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 12: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 13: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+May 08 21:43:26 obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.3: 0: running quirk_usb3_maximum_bandwidth [thunderbolt]
+May 08 21:43:26 obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.3: 0:12: USB3 maximum bandwidth limited to 16376 Mb/s
+May 08 21:43:26 obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.3: 0:13: USB3 maximum bandwidth limited to 16376 Mb/s
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.3: 0: linked ports 1 <-> 2
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.3: 0: linked ports 3 <-> 4
+May 08 21:43:26 obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.3: 0: TMU: supports uni-directional mode
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.3: 0: TMU: current mode: off
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.3: 0: TMU: mode change off -> uni-directional, LowRes requested
+May 08 21:43:26 obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.3: 0: TMU: mode set to: uni-directional, LowRes
+May 08 21:43:26 obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.3: 0:1: is unplugged (state: 7)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.3: 0:3: is unplugged (state: 7)
+May 08 21:43:26 obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.3: 0:6: DP IN resource available
+May 08 21:43:27 obpc kernel: typec port0: bound usb4_port1 (ops connector_ops [thunderbolt])
+May 08 11:43:29 obpc mtp-probe[831]: checking bus 2, device 4: "/sys/devices/pci0000:00/0000:00:0d.0/usb2/2-1/2-1.4/2-1.4.4"
+May 08 11:43:29 obpc kernel: input: HDA NVidia HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input17
+May 08 11:43:29 obpc kernel: input: HDA NVidia HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input18
+May 08 11:43:29 obpc kernel: input: HDA NVidia HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input19
+May 08 11:43:29 obpc kernel: input: HDA NVidia HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input20
+May 08 11:43:30 obpc mtp-probe[972]: checking bus 2, device 4: "/sys/devices/pci0000:00/0000:00:0d.0/usb2/2-1/2-1.4/2-1.4.4"
+May 08 11:43:30 obpc systemd[1]: Starting bolt.service - Thunderbolt system service...
+May 08 11:43:30 obpc boltd[1145]: bolt 0.9.11 starting up.
+May 08 11:43:30 obpc boltd[1145]: manager: initializing store
+May 08 11:43:30 obpc boltd[1145]: store: located at: /var/lib/boltd
+May 08 11:43:30 obpc boltd[1145]: config: loading user config
+May 08 11:43:30 obpc boltd[1145]: bouncer: initializing polkit
+May 08 11:43:30 obpc boltd[1145]: udev: initializing udev
+May 08 11:43:30 obpc boltd[1145]: store: loading domains
+May 08 11:43:30 obpc boltd[1145]: store: loading devices
+May 08 11:43:30 obpc boltd[1145]: [c4148780-00a9                            ] store: loading device
+May 08 11:43:30 obpc boltd[1145]: power: state located at: /run/boltd/power
+May 08 11:43:30 obpc boltd[1145]: power: force power support: no
+May 08 11:43:30 obpc boltd[1145]: udev: enumerating devices
+May 08 11:43:30 obpc boltd[1145]: [d9478780-6099-domain0                    ] newly connected [user] (/sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0)
+May 08 11:43:30 obpc boltd[1145]: security level set to 'user'
+May 08 11:43:30 obpc boltd[1145]: [d9478780-6099-domain0                    ] domain: registered (bootacl: 0/0)
+May 08 11:43:30 obpc boltd[1145]: [d9478780-6099-domain0                    ] bootacl: bootacl not supported, no sync
+May 08 11:43:30 obpc boltd[1145]: [d9478780-6099-domain0                    ] udev: uuid is stable: no (for NHI: 0x7ec2)
+May 08 11:43:30 obpc boltd[1145]: global 'generation' set to '4'
+May 08 11:43:30 obpc boltd[1145]: [d9478780-6099-Gen14                      ] device added, status: authorized, at /sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0
+May 08 11:43:30 obpc boltd[1145]: [d9478780-6099-Gen14                      ] labeling device: Intel Gen14
+May 08 11:43:30 obpc boltd[1145]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] parent is d9478780-6099...
+May 08 11:43:30 obpc boltd[1145]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] connected: authorized (/sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0/0-1)
+May 08 11:43:30 obpc boltd[1145]: [854e8780-818a-domain1                    ] newly connected [user] (/sys/devices/pci0000:00/0000:00:0d.3/domain1/1-0)
+May 08 11:43:30 obpc boltd[1145]: [854e8780-818a-domain1                    ] domain: registered (bootacl: 0/0)
+May 08 11:43:30 obpc boltd[1145]: [854e8780-818a-domain1                    ] bootacl: bootacl not supported, no sync
+May 08 11:43:30 obpc boltd[1145]: [854e8780-818a-domain1                    ] udev: uuid is stable: no (for NHI: 0x7ec3)
+May 08 11:43:30 obpc boltd[1145]: [854e8780-818a-Gen14                      ] device added, status: authorized, at /sys/devices/pci0000:00/0000:00:0d.3/domain1/1-0
+May 08 11:43:30 obpc boltd[1145]: [854e8780-818a-Gen14                      ] labeling device: Intel Gen14
+May 08 11:43:30 obpc boltd[1145]: [d9478780-6099-domain0                    ] dbus: exported domain at /org/freedesktop/bolt/domains/d9478780_6099_10e2_ffff_ffffffffffff
+May 08 11:43:30 obpc boltd[1145]: [854e8780-818a-domain1                    ] dbus: exported domain at /org/freedesktop/bolt/domains/854e8780_818a_52d6_ffff_ffffffffffff
+May 08 11:43:30 obpc boltd[1145]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] dbus: exported device at /org/freedesktop/bolt/devices/c4148780_00a9...
+May 08 11:43:30 obpc boltd[1145]: [d9478780-6099-Gen14                      ] dbus: exported device at /org/freedesktop/bolt/devices/d9478780_6099...
+May 08 11:43:30 obpc boltd[1145]: [854e8780-818a-Gen14                      ] dbus: exported device at /org/freedesktop/bolt/devices/854e8780_818a...
+May 08 11:43:30 obpc systemd[1]: Started bolt.service - Thunderbolt system service.
+May 08 11:43:30 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=bolt comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:31 obpc aorus-pcie-tune[1320]: 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 08 11:43:31 obpc aorus-5090-pcie-tune[1311]: [aorus-pcie-tune] 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 08 11:43:32 obpc containerd[1379]: time="2026-05-08T11:43:32.220779374+10:00" level=info msg="loading plugin" id=io.containerd.metadata.v1.bolt type=io.containerd.metadata.v1
+May 08 11:43:32 obpc containerd[1379]: time="2026-05-08T11:43:32.222976771+10:00" level=info msg="loading plugin" id=io.containerd.mount-manager.v1.bolt type=io.containerd.mount-manager.v1
+May 08 11:43:34 obpc ModemManager[1142]: <msg> [base-manager] couldn't check support for device '/sys/devices/pci0000:00/0000:00:0d.0/usb2/2-1/2-1.4/2-1.4.4': not supported by any plugin
+May 08 11:43:34 obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 08 11:43:38 obpc aorus-pcie-tune[1492]: 0000:00:07.0: restored DevCtl2 0x0402 -> 0x0400 (target 0x0400)
+May 08 11:43:38 obpc aorus-5090-pcie-tune[1486]: [aorus-pcie-tune] 0000:00:07.0: restored DevCtl2 0x0402 -> 0x0400 (target 0x0400)
+May 08 11:43:39 obpc systemd[1556]: sys-devices-pci0000:00-0000:00:07.0-0000:02:00.0-0000:03:00.0-0000:04:00.1-sound-card1-controlC1.device: Failed to enqueue SYSTEMD_USER_WANTS job, ignoring: Transaction for sound.target/start is destructive (sound.target has 'stop' job queued, but 'start' is included in transaction).
+May 08 11:43:42 obpc aorus-pcie-tune[4411]: 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 08 11:43:42 obpc aorus-5090-pcie-tune[4403]: [aorus-pcie-tune] 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 08 11:43:53 obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 08 11:43:57 obpc aorus-pcie-tune[4538]: 0000:00:07.0: restored DevCtl2 0x0402 -> 0x0400 (target 0x0400)
+May 08 11:43:57 obpc aorus-5090-pcie-tune[4532]: [aorus-pcie-tune] 0000:00:07.0: restored DevCtl2 0x0402 -> 0x0400 (target 0x0400)
+May 08 11:44:00 obpc aorus-pcie-tune[4603]: 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 08 11:44:00 obpc aorus-5090-pcie-tune[4595]: [aorus-pcie-tune] 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 08 11:44:10 obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 08 11:44:15 obpc aorus-pcie-tune[4722]: 0000:00:07.0: restored DevCtl2 0x0402 -> 0x0400 (target 0x0400)
+May 08 11:44:15 obpc aorus-5090-pcie-tune[4716]: [aorus-pcie-tune] 0000:00:07.0: restored DevCtl2 0x0402 -> 0x0400 (target 0x0400)
+May 08 11:44:18 obpc aorus-pcie-tune[5080]: 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 08 11:44:18 obpc aorus-5090-pcie-tune[5072]: [aorus-pcie-tune] 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 08 11:46:03 obpc kernel: thunderbolt:tb_cfg_print_error:292: thunderbolt 0000:00:0d.2: 1:2: invalid config space (0) or offset
+May 08 11:46:05 obpc sudo[12508]:     root : PWD=/root ; USER=root ; COMMAND=/root/aorus-5090-gpu/tools/event-capture/event-capture.sh --experiment B4-portA-fail-instrumented --changed port=A --changed cmdline=thunderbolt.dyndbg=+pflm,thunderbolt.host_reset=false --changed modopt=NVreg_RmMsg=*,NVreg_RmLogonRC=1 --changed baseline-ref-success=B3-portB-success-WITH-rminit-2026-05-08T011624Z --changed baseline-ref-fail-pre-tooling=B1-dyndbg-portA-2026-05-07T233951Z

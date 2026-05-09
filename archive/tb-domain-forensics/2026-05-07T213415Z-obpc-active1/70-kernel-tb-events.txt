@@ -1,0 +1,73 @@
+May 08 17:29:21 obpc kernel: Command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off
+May 08 17:29:21 obpc kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off
+May 08 17:29:21 obpc kernel: ACPI: \_SB_.PC00.TBT0: New power resource
+May 08 17:29:21 obpc kernel: ACPI: \_SB_.PC00.TBT1: New power resource
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: [8086:7ec4] type 01 class 0x060400 PCIe Root Port
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x8a000000-0x8fffffff]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: PME# supported from D0 D3hot D3cold
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: PTM enabled (root), 4ns granularity
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2: [8086:7ec6] type 01 class 0x060400 PCIe Root Port
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2:   bridge window [io  0x3000-0x3fff]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x80000000-0x89efffff]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2: PME# supported from D0 D3hot D3cold
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2: PTM enabled (root), 4ns granularity
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.0: [8086:7ec0] type 00 class 0x0c0330 conventional PCI endpoint
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.0: BAR 0 [mem 0x5840300000-0x584030ffff 64bit]
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.0: PME# supported from D3hot D3cold
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.2: [8086:7ec2] type 00 class 0x0c0340 conventional PCI endpoint
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.2: BAR 0 [mem 0x5840240000-0x584027ffff 64bit]
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.2: BAR 2 [mem 0x5840320000-0x5840320fff 64bit]
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.2: supports D1 D2
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.2: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.3: [8086:7ec3] type 00 class 0x0c0340 conventional PCI endpoint
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.3: BAR 0 [mem 0x5840200000-0x584023ffff 64bit]
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.3: BAR 2 [mem 0x584031f000-0x584031ffff 64bit]
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.3: supports D1 D2
+May 08 17:29:21 obpc kernel: pci 0000:00:0d.3: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 08 17:29:21 obpc kernel: pci 0000:2e:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.2 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 08 17:29:21 obpc kernel: usbcore: registered new device driver usb
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: bridge window [io  0x1000-0x0fff] to [bus 02-2b] add_size 1000
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: bridge window [io  0x4000-0x4fff]: assigned
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0:   bridge window [io  0x4000-0x4fff]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x8a000000-0x8fffffff]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2:   bridge window [io  0x3000-0x3fff]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x80000000-0x89efffff]
+May 08 17:29:21 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 17:29:21 obpc kernel: pcieport 0000:00:01.0: AER: enabled with IRQ 120
+May 08 17:29:21 obpc kernel: pcieport 0000:00:07.0: PME: Signaling with IRQ 121
+May 08 17:29:21 obpc kernel: pcieport 0000:00:07.0: AER: enabled with IRQ 121
+May 08 17:29:21 obpc kernel: pcieport 0000:00:07.0: pciehp: Slot #12 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 17:29:21 obpc kernel: pcieport 0000:00:07.2: PME: Signaling with IRQ 122
+May 08 17:29:21 obpc kernel: pcieport 0000:00:07.2: AER: enabled with IRQ 122
+May 08 17:29:21 obpc kernel: pcieport 0000:00:07.2: pciehp: Slot #14 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 17:29:21 obpc kernel: pcieport 0000:00:1c.0: AER: enabled with IRQ 123
+May 08 17:29:21 obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+May 08 17:29:21 obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 1
+May 08 17:29:21 obpc kernel: xhci_hcd 0000:00:0d.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+May 08 17:29:21 obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+May 08 17:29:21 obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 2
+May 08 17:29:21 obpc kernel: xhci_hcd 0000:00:0d.0: Host supports USB 3.2 Enhanced SuperSpeed
+May 08 17:29:21 obpc kernel: usb usb1: SerialNumber: 0000:00:0d.0
+May 08 17:29:21 obpc kernel: usb usb2: SerialNumber: 0000:00:0d.0
+May 08 17:29:21 obpc kernel: ACPI: bus type thunderbolt registered
+May 08 17:29:22 obpc kernel: thunderbolt 1-1: new device found, vendor=0xed device=0x41b6
+May 08 17:29:22 obpc kernel: thunderbolt 1-1: GIGABYTE AORUS RTX5090 AI BOX
+May 08 17:29:22 obpc kernel: thunderbolt 1-0:1.1: new retimer found, vendor=0x8087 device=0xd9c
+May 08 17:29:23 obpc kernel: typec port0: bound usb4_port1 (ops connector_ops [thunderbolt])
+May 08 17:29:23 obpc kernel: typec port1: bound usb4_port7 (ops connector_ops [thunderbolt])
+May 08 07:29:25 obpc kernel: usbcore: registered new device driver r8152-cfgselector
+May 08 07:29:25 obpc kernel: input: HDA NVidia HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:07.2/0000:2c:00.0/0000:2d:00.0/0000:2e:00.1/sound/card1/input17
+May 08 07:29:25 obpc kernel: input: HDA NVidia HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:07.2/0000:2c:00.0/0000:2d:00.0/0000:2e:00.1/sound/card1/input18
+May 08 07:29:25 obpc kernel: input: HDA NVidia HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:07.2/0000:2c:00.0/0000:2d:00.0/0000:2e:00.1/sound/card1/input19
+May 08 07:29:25 obpc kernel: input: HDA NVidia HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:07.2/0000:2c:00.0/0000:2d:00.0/0000:2e:00.1/sound/card1/input20

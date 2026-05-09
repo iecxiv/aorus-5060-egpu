@@ -1,0 +1,5 @@
+BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M nvidia.NVreg_AorusLeverMRecoverEnable=0 iommu=off intel_iommu=off
+---
+fbda7a60-8a88-4900-8eb4-9b837659ddcd
+uptime:  15:01:24 up 6 min,  5 users,  load average: 0.31, 0.36, 0.19
+iommu_dma_protection: 0

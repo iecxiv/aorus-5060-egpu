@@ -1,0 +1,459 @@
+May 06 12:56:46 obpc kernel: nvidia: loading out-of-tree module taints kernel.
+May 06 12:56:46 obpc kernel: nvidia: module verification failed: signature and/or required key missing - tainting kernel
+May 06 12:56:46 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 06 12:56:46 obpc kernel: nvidia 0000:04:00.0: enabling device (0000 -> 0003)
+May 06 12:56:46 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 06 12:56:46 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Wed May  6 12:22:19 PM AEST 2026
+May 06 12:56:48 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 06 12:56:48 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 06 12:56:48 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 06 12:56:48 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 06 12:56:48 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 06 12:56:48 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 06 12:56:48 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 06 12:56:48 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006511d50883342 0x0000000000000000          y
+May 06 12:56:48 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006511d50883340 0x0000000000000000           
+May 06 12:56:48 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 06 12:56:48 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 06 12:56:48 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5092c856 0x0006511d5092c856          y
+May 06 12:56:48 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d5092b41f 0x0006511d5092b41f          y
+May 06 12:56:48 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5092b320 0x0006511d5092b320          y
+May 06 12:56:48 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d5092af71 0x0006511d5092af72      1us y
+May 06 12:56:48 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5091466f 0x0006511d5091466f          y
+May 06 12:56:48 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d509145e6 0x0006511d509145e6          y
+May 06 12:56:48 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5091366e 0x0006511d5091366e          y
+May 06 12:56:48 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d50911e6f 0x0006511d50911e6f          y
+May 06 12:56:48 obpc kernel: CPU: 5 UID: 967 PID: 1300 Comm: nvidia-persiste Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 06 12:56:48 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 06 12:56:48 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 06 12:56:48 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 06 12:56:48 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 06 12:56:48 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 06 12:56:48 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 06 12:56:48 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 06 12:56:48 obpc kernel:  nv_start_device+0x249/0x800 [nvidia]
+May 06 12:56:48 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 06 12:56:48 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 06 12:56:48 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 06 12:56:48 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 06 12:56:48 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 06 12:56:48 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 06 12:56:48 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 06 12:56:48 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 06 12:56:48 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 06 12:56:48 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:56:48 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:56:48 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:56:48 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:56:48 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:56:48 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:56:48 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:56:48 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:56:48 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:56:48 obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+May 06 12:56:54 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 06 12:56:54 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 06 12:56:57 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Wed May  6 12:22:19 PM AEST 2026
+May 06 12:57:01 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 06 12:57:01 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 06 12:57:01 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 06 12:57:01 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 06 12:57:01 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 06 12:57:01 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 06 12:57:01 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 06 12:57:01 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006511d514f7126 0x0000000000000000          y
+May 06 12:57:01 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006511d514f7125 0x0000000000000000           
+May 06 12:57:01 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 06 12:57:01 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 06 12:57:01 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d515a370d 0x0006511d515a370d          y
+May 06 12:57:01 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d515a22b7 0x0006511d515a22b7          y
+May 06 12:57:01 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d515a21b4 0x0006511d515a21b4          y
+May 06 12:57:01 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d515a1dfb 0x0006511d515a1dfb          y
+May 06 12:57:01 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5158b20e 0x0006511d5158b20e          y
+May 06 12:57:01 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d5158b180 0x0006511d5158b180          y
+May 06 12:57:01 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5158a1ea 0x0006511d5158a1ea          y
+May 06 12:57:01 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d51583c72 0x0006511d51583c72          y
+May 06 12:57:01 obpc kernel: CPU: 5 UID: 967 PID: 4423 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 06 12:57:01 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 06 12:57:01 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 06 12:57:01 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 06 12:57:01 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 06 12:57:01 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 06 12:57:01 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 06 12:57:01 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 06 12:57:01 obpc kernel:  nv_start_device+0x249/0x800 [nvidia]
+May 06 12:57:01 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 06 12:57:01 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 06 12:57:01 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 06 12:57:01 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 06 12:57:01 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 06 12:57:01 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 06 12:57:01 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 06 12:57:01 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 06 12:57:01 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 06 12:57:01 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:01 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:57:01 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:57:01 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:57:01 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:57:01 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:57:01 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:57:01 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:57:01 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:06 obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+May 06 12:57:12 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 06 12:57:12 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 06 12:57:15 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Wed May  6 12:22:19 PM AEST 2026
+May 06 12:57:17 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 06 12:57:17 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 06 12:57:17 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 06 12:57:17 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 06 12:57:17 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 06 12:57:17 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 06 12:57:17 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 06 12:57:17 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006511d524bcc36 0x0000000000000000          y
+May 06 12:57:17 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006511d524bcc35 0x0000000000000000           
+May 06 12:57:17 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 06 12:57:17 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 06 12:57:17 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5256b20f 0x0006511d5256b20f          y
+May 06 12:57:17 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d52569dd5 0x0006511d52569dd5          y
+May 06 12:57:17 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d52569cd8 0x0006511d52569cd8          y
+May 06 12:57:17 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d5256992b 0x0006511d5256992b          y
+May 06 12:57:17 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d52552e32 0x0006511d52552e32          y
+May 06 12:57:17 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d52552da5 0x0006511d52552da5          y
+May 06 12:57:17 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d52551e14 0x0006511d52551e14          y
+May 06 12:57:17 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d5254b939 0x0006511d5254b939          y
+May 06 12:57:17 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 06 12:57:17 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 06 12:57:17 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 06 12:57:17 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 06 12:57:17 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 06 12:57:17 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 06 12:57:17 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 06 12:57:17 obpc kernel:  nv_start_device+0x249/0x800 [nvidia]
+May 06 12:57:17 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 06 12:57:17 obpc kernel:  nvidia_open_deferred+0x38/0x110 [nvidia]
+May 06 12:57:17 obpc kernel:  _main_loop+0x8d/0x140 [nvidia]
+May 06 12:57:17 obpc kernel:  ? __pfx__main_loop+0x10/0x10 [nvidia]
+May 06 12:57:17 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 06 12:57:17 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 06 12:57:17 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 06 12:57:17 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 06 12:57:17 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 06 12:57:17 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 06 12:57:17 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 06 12:57:17 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:17 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:57:17 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:57:17 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:57:17 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:57:17 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:57:17 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:57:17 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:57:17 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:18 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:57:18 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:57:18 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:57:18 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:57:18 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:57:18 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:57:18 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:57:18 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:23 obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+May 06 12:57:29 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 06 12:57:29 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 06 12:57:32 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Wed May  6 12:22:19 PM AEST 2026
+May 06 12:57:35 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 06 12:57:35 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 06 12:57:35 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 06 12:57:35 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 06 12:57:35 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 06 12:57:35 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 06 12:57:35 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 06 12:57:35 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006511d536080a8 0x0000000000000000          y
+May 06 12:57:35 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006511d536080a7 0x0000000000000000           
+May 06 12:57:35 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 06 12:57:35 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 06 12:57:35 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d536b576e 0x0006511d536b576e          y
+May 06 12:57:35 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d536b432d 0x0006511d536b432d          y
+May 06 12:57:35 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d536b422d 0x0006511d536b422d          y
+May 06 12:57:35 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d536b3e7b 0x0006511d536b3e7b          y
+May 06 12:57:35 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5369d4ad 0x0006511d5369d4ad          y
+May 06 12:57:35 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d5369d425 0x0006511d5369d425          y
+May 06 12:57:35 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511d5369c491 0x0006511d5369c491          y
+May 06 12:57:35 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511d53695fb6 0x0006511d53695fb6          y
+May 06 12:57:35 obpc kernel: CPU: 4 UID: 967 PID: 4997 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 06 12:57:35 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 06 12:57:35 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 06 12:57:35 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 06 12:57:35 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 06 12:57:35 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 06 12:57:35 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 06 12:57:35 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 06 12:57:35 obpc kernel:  nv_start_device+0x249/0x800 [nvidia]
+May 06 12:57:35 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 06 12:57:35 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 06 12:57:35 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 06 12:57:35 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 06 12:57:35 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 06 12:57:35 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 06 12:57:35 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 06 12:57:35 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 06 12:57:35 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 06 12:57:35 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:35 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:57:35 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:57:35 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:57:35 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:57:35 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:57:35 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:57:35 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:57:35 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:35 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:57:35 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:57:35 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:57:35 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:57:35 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:57:35 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:57:35 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:57:35 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:37 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:57:37 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:57:37 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:57:37 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:57:37 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:57:37 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:57:37 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:57:37 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:47 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:57:47 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:57:47 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:57:47 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:57:47 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:57:47 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:57:47 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:57:47 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:57:57 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:57:57 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:57:57 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:57:57 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:57:57 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:57:57 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:57:57 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:57:57 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:58:08 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:58:08 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:58:08 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:58:08 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:58:08 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:58:08 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:58:08 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:58:08 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:58:18 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:58:18 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:58:18 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:58:18 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:58:18 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:58:18 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:58:18 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:58:18 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:58:24 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:58:24 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:58:24 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:58:24 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:58:24 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:58:24 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:58:24 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:58:24 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:58:28 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:58:28 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:58:28 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:58:28 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:58:28 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:58:28 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:58:28 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:58:28 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:58:38 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:58:38 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:58:38 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:58:38 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:58:38 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:58:38 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:58:38 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:58:38 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:58:48 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:58:48 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:58:48 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:58:48 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:58:48 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:58:48 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:58:48 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:58:48 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:58:58 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:58:58 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:58:58 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:58:58 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:58:58 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:58:58 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:58:58 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:58:58 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:59:08 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:59:08 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:59:08 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:59:08 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:59:08 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:59:08 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:59:08 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:59:08 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:59:18 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:59:18 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:59:18 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:59:18 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:59:18 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:59:18 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:59:18 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:59:18 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:59:28 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:59:28 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:59:28 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:59:28 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:59:28 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:59:28 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:59:28 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:59:28 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:59:38 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:59:38 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:59:38 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:59:38 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:59:38 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:59:38 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:59:38 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:59:38 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:59:48 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:59:48 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:59:48 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:59:48 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:59:48 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:59:48 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:59:48 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:59:48 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 12:59:59 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 12:59:59 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 12:59:59 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 12:59:59 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 12:59:59 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 12:59:59 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 12:59:59 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 12:59:59 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:00:09 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:00:09 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:00:09 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:00:09 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:00:09 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:00:09 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:00:09 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:00:09 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:00:19 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:00:19 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:00:19 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:00:19 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:00:19 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:00:19 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:00:19 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:00:19 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:00:29 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:00:29 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:00:29 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:00:29 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:00:29 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:00:29 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:00:29 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:00:29 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:00:39 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:00:39 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:00:39 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:00:39 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:00:39 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:00:39 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:00:39 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:00:39 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:00:49 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:00:49 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:00:49 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:00:49 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:00:49 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:00:49 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:00:49 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:00:49 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:00:59 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:00:59 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:00:59 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:00:59 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:00:59 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:00:59 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:00:59 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:00:59 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:01:09 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:01:09 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:01:09 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:01:09 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:01:09 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:01:09 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:01:09 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:01:09 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:01:19 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:01:19 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:01:19 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:01:19 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:01:19 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:01:19 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:01:19 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:01:19 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:01:29 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:01:29 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:01:29 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:01:29 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:01:29 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:01:29 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:01:29 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:01:29 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:01:40 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:01:40 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:01:40 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:01:40 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:01:40 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:01:40 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:01:40 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:01:40 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:01:50 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:01:50 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:01:50 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:01:50 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:01:50 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:01:50 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:01:50 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:01:50 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:02:00 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:02:00 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:02:00 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:02:00 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:02:00 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:02:00 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:02:00 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:02:00 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:02:10 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:02:10 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:02:10 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:02:10 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:02:10 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:02:10 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:02:10 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:02:10 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 13:02:20 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 13:02:20 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 13:02:20 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 13:02:20 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 13:02:20 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 13:02:20 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 13:02:20 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 13:02:20 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0

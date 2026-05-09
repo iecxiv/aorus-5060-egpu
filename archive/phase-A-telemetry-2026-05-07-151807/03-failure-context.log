@@ -1,0 +1,48 @@
+May 08 01:18:00 obpc kernel: ACPI: DMAR 0x000000005E6FA000 000098 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: Reserving DMAR table memory at [mem 0x5e6fa000-0x5e6fa097]
+May 08 01:18:00 obpc kernel: DMAR: IOMMU disabled
+May 08 01:18:00 obpc kernel: DMAR: Host address width 42
+May 08 01:18:00 obpc kernel: DMAR: DRHD base: 0x000000fc800000 flags: 0x0
+May 08 01:18:00 obpc kernel: DMAR: dmar0: reg_base_addr fc800000 ver 7:0 cap c9de008cee690462 ecap 12ca9a00f0ef5e
+May 08 01:18:00 obpc kernel: DMAR: DRHD base: 0x000000fc801000 flags: 0x1
+May 08 01:18:00 obpc kernel: DMAR: dmar1: reg_base_addr fc801000 ver 7:0 cap c9de008cee690462 ecap 12ca9a00f0efde
+May 08 01:18:00 obpc kernel: DMAR: SATC flags: 0x1
+May 08 01:18:00 obpc kernel: DMAR-IR: IOAPIC id 2 under DRHD base  0xfc801000 IOMMU 1
+May 08 01:18:00 obpc kernel: DMAR-IR: HPET id 0 under DRHD base 0xfc801000
+May 08 01:18:00 obpc kernel: DMAR-IR: Queued invalidation will be enabled to support x2apic and Intr-remapping.
+May 08 01:18:00 obpc kernel: DMAR-IR: Enabled IRQ remapping in x2apic mode
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: DMAR: Skip IOMMU disabling for graphics
+May 07 15:18:07 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 07 15:18:07 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513367d78e52 0x0006513367d78e53      1us y
+May 07 15:18:07 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513367d77a12 0x0006513367d77a12          y
+May 07 15:18:07 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513367d77915 0x0006513367d77915          y
+May 07 15:18:07 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513367d7756e 0x0006513367d7756e          y
+May 07 15:18:07 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513367d60ab0 0x0006513367d60ab0          y
+May 07 15:18:07 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513367d60a23 0x0006513367d60a23          y
+May 07 15:18:07 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513367d5fa93 0x0006513367d5fa93          y
+May 07 15:18:07 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513367d5e29b 0x0006513367d5e29c      1us y
+May 07 15:18:07 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 07 15:18:07 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 07 15:18:07 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 07 15:18:07 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 07 15:18:07 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 07 15:18:07 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 07 15:18:20 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 07 15:18:20 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133689e696f 0x00065133689e696f          y
+May 07 15:18:20 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133689e5716 0x00065133689e5716          y
+May 07 15:18:20 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133689e562a 0x00065133689e562a          y
+May 07 15:18:20 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133689e52cd 0x00065133689e52cd          y
+May 07 15:18:20 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133689d072a 0x00065133689d072a          y
+May 07 15:18:20 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133689d06a2 0x00065133689d06a2          y
+May 07 15:18:20 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133689cf84b 0x00065133689cf84b          y
+May 07 15:18:20 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133689c9bca 0x00065133689c9bca          y
+May 07 15:18:20 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 07 15:18:20 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 07 15:18:20 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 07 15:18:20 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 07 15:18:20 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 07 15:18:20 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)

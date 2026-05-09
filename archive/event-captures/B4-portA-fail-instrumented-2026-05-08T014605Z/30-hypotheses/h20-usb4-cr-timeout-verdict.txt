@@ -1,0 +1,8 @@
+hypothesis_id=H20
+hypothesis_desc=usb4_switch_configuration_valid 50ms CR-bit wait too short
+hypothesis_ref=docs/reliability-hypothesis-ledger.md#h20
+hypothesis_subsystem=thunderbolt
+verdict=INCONCLUSIVE
+fired_hits=0
+negative_hits=0
+min_hits_fired=1

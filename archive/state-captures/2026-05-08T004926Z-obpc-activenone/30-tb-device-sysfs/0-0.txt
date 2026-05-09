@@ -1,0 +1,7 @@
+authorized                     = 1 
+device                         = 0x7eb2 
+device_name                    = Gen14 
+generation                     = 4 
+unique_id                      = ea618780-102d-efd7-ffff-ffffffffffff 
+vendor                         = 0x8087 
+vendor_name                    = Intel 

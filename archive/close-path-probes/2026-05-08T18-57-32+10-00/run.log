@@ -1,0 +1,699 @@
+
+=== preflight ===
+GPU BDF: 0000:04:00.0
+Run ID:  2026-05-08T18-57-32+10-00
+Output:  /root/aorus-5090-gpu/archive/close-path-probes/2026-05-08T18-57-32+10-00
+
+Pre-trigger M-recover counters:
+  fires:        0
+  successes:    0
+  surrenders:   0
+
+=== step 1: baseline state-capture ===
+
+[18:57:32] Output directory: /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085732Z-obpc-active0
+
+[18:57:32] 00 meta — system context
+
+[18:57:32] 01 summary — top-line per-domain table
+
+[18:57:32] 10 NHI PCI -vv
+
+[18:57:32] 11 NHI raw PCI config bytes
+
+[18:57:32] 12 NHI sysfs attributes
+
+[18:57:32] 20 domain sysfs
+
+[18:57:32] 30 TB device sysfs
+
+[18:57:32] 40 DebugFS register dumps
+
+[18:57:32] 41 DROM binary dumps
+
+[18:57:32] 50 ACPI paths
+
+[18:57:32] 60 thunderbolt module params
+/root/aorus-5090-gpu/tools/state-capture/state-capture.sh: line 287: printf: --: invalid option
+printf: usage: printf [-v var] format [arguments]
+
+[18:57:32] 61 cmdline TB-related options
+
+[18:57:32] 70 kernel TB events
+
+[18:57:32] 80 boltctl state
+
+[18:57:32] 90 PCI tree topology
+/root/aorus-5090-gpu/tools/state-capture/state-capture.sh: line 328: printf: --: invalid option
+printf: usage: printf [-v var] format [arguments]
+
+[18:57:32] 91 per-device lspci -vvxxx (TB-tree + GPU)
+
+[18:57:33] 93 PCI sysfs resource + power
+
+[18:57:33] 94 /proc/iomem
+
+[18:57:33] 95 /proc/interrupts
+
+[18:57:33] 96 IOMMU groups
+
+[18:57:33] 97 PCIe Eq + LnkSta2 decoded summary
+
+[18:57:33] 100 module parameters (NVIDIA + TB stack)
+
+[18:57:34] 110 firmware + platform versions
+
+[18:57:34] 120 /proc/driver/nvidia subtree
+
+[18:57:34] 121 TB port counters (debugfs)
+
+[18:57:34] 122 RAPL energy snapshot
+
+[18:57:34] 124 AORUS driver sysfs counters
+
+[18:57:34] 123 thermal zone snapshot
+
+[18:57:34] DONE — dossier: /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085732Z-obpc-active0
+
+=== files captured ===
+00-meta.txt
+01-summary.txt
+100-module-parameters/nvidia_drm.txt
+100-module-parameters/nvidia_modeset.txt
+100-module-parameters/nvidia.txt
+100-module-parameters/nvidia_uvm.txt
+100-module-parameters/thunderbolt_net.txt
+100-module-parameters/thunderbolt.txt
+10-nhi-pci-vv/0000:00:0d.2.txt
+10-nhi-pci-vv/0000:00:0d.3.txt
+110-firmware-versions.txt
+11-nhi-pci-bytes/0000:00:0d.2.txt
+11-nhi-pci-bytes/0000:00:0d.3.txt
+120-nvidia-procfs/capabilities-fabric-imex-mgmt.txt
+120-nvidia-procfs/gpu-0000:04:00.0-information.txt
+120-nvidia-procfs/gpu-0000:04:00.0-registry.txt
+120-nvidia-procfs/params.txt
+120-nvidia-procfs/patches-README.txt
+120-nvidia-procfs/registry.txt
+120-nvidia-procfs/suspend_depth.txt
+120-nvidia-procfs/suspend.txt
+120-nvidia-procfs/version.txt
+120-nvidia-procfs/warnings-README.txt
+121-tb-counters/0-0-port12-counters.txt
+121-tb-counters/0-0-port13-counters.txt
+121-tb-counters/0-0-port1-counters.txt
+121-tb-counters/0-0-port2-counters.txt
+121-tb-counters/0-0-port3-counters.txt
+121-tb-counters/0-0-port4-counters.txt
+121-tb-counters/0-0-port5-counters.txt
+121-tb-counters/0-0-port6-counters.txt
+121-tb-counters/0-0-port7-counters.txt
+121-tb-counters/0-0-port8-counters.txt
+121-tb-counters/0-0-port9-counters.txt
+121-tb-counters/0-1-port10-counters.txt
+121-tb-counters/0-1-port11-counters.txt
+121-tb-counters/0-1-port12-counters.txt
+121-tb-counters/0-1-port17-counters.txt
+121-tb-counters/0-1-port18-counters.txt
+121-tb-counters/0-1-port19-counters.txt
+121-tb-counters/0-1-port1-counters.txt
+121-tb-counters/0-1-port20-counters.txt
+121-tb-counters/0-1-port21-counters.txt
+121-tb-counters/0-1-port22-counters.txt
+121-tb-counters/0-1-port23-counters.txt
+121-tb-counters/0-1-port3-counters.txt
+121-tb-counters/0-1-port5-counters.txt
+121-tb-counters/0-1-port7-counters.txt
+121-tb-counters/0-1-port9-counters.txt
+121-tb-counters/1-0-port12-counters.txt
+121-tb-counters/1-0-port13-counters.txt
+121-tb-counters/1-0-port1-counters.txt
+121-tb-counters/1-0-port2-counters.txt
+121-tb-counters/1-0-port3-counters.txt
+121-tb-counters/1-0-port4-counters.txt
+121-tb-counters/1-0-port5-counters.txt
+121-tb-counters/1-0-port6-counters.txt
+121-tb-counters/1-0-port7-counters.txt
+121-tb-counters/1-0-port8-counters.txt
+121-tb-counters/1-0-port9-counters.txt
+122-rapl-energy.txt
+123-thermal.txt
+124-aorus-sysfs/0000:04:00.0.txt
+124-aorus-sysfs/0000:04:00.1.txt
+12-nhi-sysfs/0000:00:0d.2.txt
+12-nhi-sysfs/0000:00:0d.3.txt
+20-domain-sysfs/domain0.txt
+20-domain-sysfs/domain1.txt
+30-tb-device-sysfs/0-0:1.1.txt
+30-tb-device-sysfs/0-0.txt
+30-tb-device-sysfs/0-1.txt
+30-tb-device-sysfs/1-0.txt
+40-debugfs/0-0/port12/counters.txt
+40-debugfs/0-0/port12/path.txt
+40-debugfs/0-0/port12/regs.txt
+40-debugfs/0-0/port13/counters.txt
+40-debugfs/0-0/port13/path.txt
+40-debugfs/0-0/port13/regs.txt
+40-debugfs/0-0/port1/counters.txt
+40-debugfs/0-0/port1/path.txt
+40-debugfs/0-0/port1/regs.txt
+40-debugfs/0-0/port2/counters.txt
+40-debugfs/0-0/port2/path.txt
+40-debugfs/0-0/port2/regs.txt
+40-debugfs/0-0/port3/counters.txt
+40-debugfs/0-0/port3/path.txt
+40-debugfs/0-0/port3/regs.txt
+40-debugfs/0-0/port4/counters.txt
+40-debugfs/0-0/port4/path.txt
+40-debugfs/0-0/port4/regs.txt
+40-debugfs/0-0/port5/counters.txt
+40-debugfs/0-0/port5/path.txt
+40-debugfs/0-0/port5/regs.txt
+40-debugfs/0-0/port6/counters.txt
+40-debugfs/0-0/port6/path.txt
+40-debugfs/0-0/port6/regs.txt
+40-debugfs/0-0/port7/counters.txt
+40-debugfs/0-0/port7/path.txt
+40-debugfs/0-0/port7/regs.txt
+40-debugfs/0-0/port8/counters.txt
+40-debugfs/0-0/port8/path.txt
+40-debugfs/0-0/port8/regs.txt
+40-debugfs/0-0/port9/counters.txt
+40-debugfs/0-0/port9/path.txt
+40-debugfs/0-0/port9/regs.txt
+40-debugfs/0-0/regs.txt
+40-debugfs/0-1/port10/counters.txt
+40-debugfs/0-1/port10/path.txt
+40-debugfs/0-1/port10/regs.txt
+40-debugfs/0-1/port11/counters.txt
+40-debugfs/0-1/port11/path.txt
+40-debugfs/0-1/port11/regs.txt
+40-debugfs/0-1/port12/counters.txt
+40-debugfs/0-1/port12/path.txt
+40-debugfs/0-1/port12/regs.txt
+40-debugfs/0-1/port17/counters.txt
+40-debugfs/0-1/port17/path.txt
+40-debugfs/0-1/port17/regs.txt
+40-debugfs/0-1/port18/counters.txt
+40-debugfs/0-1/port18/path.txt
+40-debugfs/0-1/port18/regs.txt
+40-debugfs/0-1/port19/counters.txt
+40-debugfs/0-1/port19/path.txt
+40-debugfs/0-1/port19/regs.txt
+40-debugfs/0-1/port1/counters.txt
+40-debugfs/0-1/port1/path.txt
+40-debugfs/0-1/port1/regs.txt
+40-debugfs/0-1/port20/counters.txt
+40-debugfs/0-1/port20/path.txt
+40-debugfs/0-1/port20/regs.txt
+40-debugfs/0-1/port21/counters.txt
+40-debugfs/0-1/port21/path.txt
+40-debugfs/0-1/port21/regs.txt
+40-debugfs/0-1/port22/counters.txt
+40-debugfs/0-1/port22/path.txt
+40-debugfs/0-1/port22/regs.txt
+40-debugfs/0-1/port23/counters.txt
+40-debugfs/0-1/port23/path.txt
+40-debugfs/0-1/port23/regs.txt
+40-debugfs/0-1/port2/path.txt
+40-debugfs/0-1/port2/regs.txt
+40-debugfs/0-1/port3/counters.txt
+40-debugfs/0-1/port3/path.txt
+40-debugfs/0-1/port3/regs.txt
+40-debugfs/0-1/port4/path.txt
+40-debugfs/0-1/port4/regs.txt
+40-debugfs/0-1/port5/counters.txt
+40-debugfs/0-1/port5/path.txt
+40-debugfs/0-1/port5/regs.txt
+40-debugfs/0-1/port6/path.txt
+40-debugfs/0-1/port6/regs.txt
+40-debugfs/0-1/port7/counters.txt
+40-debugfs/0-1/port7/path.txt
+40-debugfs/0-1/port7/regs.txt
+40-debugfs/0-1/port8/path.txt
+40-debugfs/0-1/port8/regs.txt
+40-debugfs/0-1/port9/counters.txt
+40-debugfs/0-1/port9/path.txt
+40-debugfs/0-1/port9/regs.txt
+40-debugfs/0-1/regs.txt
+40-debugfs/1-0/port12/counters.txt
+40-debugfs/1-0/port12/path.txt
+40-debugfs/1-0/port12/regs.txt
+40-debugfs/1-0/port13/counters.txt
+40-debugfs/1-0/port13/path.txt
+40-debugfs/1-0/port13/regs.txt
+40-debugfs/1-0/port1/counters.txt
+40-debugfs/1-0/port1/path.txt
+40-debugfs/1-0/port1/regs.txt
+40-debugfs/1-0/port2/counters.txt
+40-debugfs/1-0/port2/path.txt
+40-debugfs/1-0/port2/regs.txt
+40-debugfs/1-0/port3/counters.txt
+40-debugfs/1-0/port3/path.txt
+40-debugfs/1-0/port3/regs.txt
+40-debugfs/1-0/port4/counters.txt
+40-debugfs/1-0/port4/path.txt
+40-debugfs/1-0/port4/regs.txt
+40-debugfs/1-0/port5/counters.txt
+40-debugfs/1-0/port5/path.txt
+40-debugfs/1-0/port5/regs.txt
+40-debugfs/1-0/port6/counters.txt
+40-debugfs/1-0/port6/path.txt
+40-debugfs/1-0/port6/regs.txt
+40-debugfs/1-0/port7/counters.txt
+40-debugfs/1-0/port7/path.txt
+40-debugfs/1-0/port7/regs.txt
+40-debugfs/1-0/port8/counters.txt
+40-debugfs/1-0/port8/path.txt
+40-debugfs/1-0/port8/regs.txt
+40-debugfs/1-0/port9/counters.txt
+40-debugfs/1-0/port9/path.txt
+40-debugfs/1-0/port9/regs.txt
+40-debugfs/1-0/regs.txt
+41-debugfs-drom-0-0.bin
+41-debugfs-drom-0-1.bin
+41-debugfs-drom-1-0.bin
+50-acpi-paths.txt
+60-module-params.txt
+61-cmdline.txt
+70-kernel-tb-events.txt
+80-boltctl/domains.txt
+80-boltctl/info-a4bf8780-2057-e71c-ffff-ffffffffffff.txt
+80-boltctl/info-c4148780-00a9-7ce8-ffff-ffffffffffff.txt
+80-boltctl/list.txt
+90-pci-tree.txt
+91-pci-config-vvxxx/0000:00:07.0.txt
+91-pci-config-vvxxx/0000:00:07.2.txt
+91-pci-config-vvxxx/0000:02:00.0.txt
+91-pci-config-vvxxx/0000:03:00.0.txt
+91-pci-config-vvxxx/0000:03:01.0.txt
+91-pci-config-vvxxx/0000:03:02.0.txt
+91-pci-config-vvxxx/0000:03:03.0.txt
+91-pci-config-vvxxx/0000:04:00.0.txt
+91-pci-config-vvxxx/0000:04:00.1.txt
+91-pci-config-vvxxx/_index.txt
+92-pci-config-bytes/0000:00:07.0.bin
+92-pci-config-bytes/0000:00:07.2.bin
+92-pci-config-bytes/0000:02:00.0.bin
+92-pci-config-bytes/0000:03:00.0.bin
+92-pci-config-bytes/0000:03:01.0.bin
+92-pci-config-bytes/0000:03:02.0.bin
+92-pci-config-bytes/0000:03:03.0.bin
+92-pci-config-bytes/0000:04:00.0.bin
+92-pci-config-bytes/0000:04:00.1.bin
+93-pci-sysfs/0000:00:07.0.txt
+93-pci-sysfs/0000:00:07.2.txt
+93-pci-sysfs/0000:02:00.0.txt
+93-pci-sysfs/0000:03:00.0.txt
+93-pci-sysfs/0000:03:01.0.txt
+93-pci-sysfs/0000:03:02.0.txt
+93-pci-sysfs/0000:03:03.0.txt
+93-pci-sysfs/0000:04:00.0.txt
+93-pci-sysfs/0000:04:00.1.txt
+94-iomem.txt
+95-interrupts.txt
+96-iommu-groups.txt
+97-pcie-eq-decoded/0000:00:07.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:00:07.2-ext-cfg.txt
+97-pcie-eq-decoded/0000:02:00.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:03:00.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:03:01.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:03:02.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:03:03.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:04:00.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:04:00.1-ext-cfg.txt
+97-pcie-eq-decoded/_summary.txt
+
+=== total size ===
+1.2M	/root/aorus-5090-gpu/archive/state-captures/2026-05-08T085732Z-obpc-active0
+
+To compare with another dossier:
+  diff -r /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085732Z-obpc-active0 OTHER_DOSSIER
+  cmp -l /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085732Z-obpc-active0/41-debugfs-drom-*.bin OTHER_DOSSIER/41-debugfs-drom-*.bin
+linked baseline state -> /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085732Z-obpc-active0
+
+=== step 2: drain GPU consumers ===
+remaining /dev/nvidia* holders:
+
+=== step 3: pre-trigger dmesg snapshot ===
+saved 2181 lines
+
+=== step 4: trigger close-path ===
+running nvidia-smi -L (opens /dev/nvidia0, queries, closes)
+exit code: 0
+output:
+  GPU 0: NVIDIA GeForce RTX 5090 (UUID: GPU-90b9424e-7236-fd4d-d903-44e565e1bd42)
+
+=== step 5: settle (20s) ===
+
+=== step 6: post-trigger dmesg snapshot ===
+saved 2233 lines
+delta: 52 new lines
+
+=== step 7: dmesg delta — close-path + M-recover events ===
+
+=== step 8: post-trigger state-capture ===
+
+[18:57:58] Output directory: /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085758Z-obpc-active0
+
+[18:57:58] 00 meta — system context
+
+[18:57:58] 01 summary — top-line per-domain table
+
+[18:57:58] 10 NHI PCI -vv
+
+[18:57:58] 11 NHI raw PCI config bytes
+
+[18:57:58] 12 NHI sysfs attributes
+
+[18:57:58] 20 domain sysfs
+
+[18:57:58] 30 TB device sysfs
+
+[18:57:58] 40 DebugFS register dumps
+
+[18:57:58] 41 DROM binary dumps
+
+[18:57:58] 50 ACPI paths
+
+[18:57:58] 60 thunderbolt module params
+/root/aorus-5090-gpu/tools/state-capture/state-capture.sh: line 287: printf: --: invalid option
+printf: usage: printf [-v var] format [arguments]
+
+[18:57:58] 61 cmdline TB-related options
+
+[18:57:58] 70 kernel TB events
+
+[18:57:58] 80 boltctl state
+
+[18:57:58] 90 PCI tree topology
+/root/aorus-5090-gpu/tools/state-capture/state-capture.sh: line 328: printf: --: invalid option
+printf: usage: printf [-v var] format [arguments]
+
+[18:57:58] 91 per-device lspci -vvxxx (TB-tree + GPU)
+
+[18:57:58] 93 PCI sysfs resource + power
+
+[18:57:59] 94 /proc/iomem
+
+[18:57:59] 95 /proc/interrupts
+
+[18:57:59] 96 IOMMU groups
+
+[18:57:59] 97 PCIe Eq + LnkSta2 decoded summary
+
+[18:57:59] 100 module parameters (NVIDIA + TB stack)
+
+[18:57:59] 110 firmware + platform versions
+
+[18:57:59] 120 /proc/driver/nvidia subtree
+
+[18:57:59] 121 TB port counters (debugfs)
+
+[18:57:59] 122 RAPL energy snapshot
+
+[18:57:59] 124 AORUS driver sysfs counters
+
+[18:57:59] 123 thermal zone snapshot
+
+[18:58:00] DONE — dossier: /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085758Z-obpc-active0
+
+=== files captured ===
+00-meta.txt
+01-summary.txt
+100-module-parameters/nvidia_drm.txt
+100-module-parameters/nvidia_modeset.txt
+100-module-parameters/nvidia.txt
+100-module-parameters/nvidia_uvm.txt
+100-module-parameters/thunderbolt_net.txt
+100-module-parameters/thunderbolt.txt
+10-nhi-pci-vv/0000:00:0d.2.txt
+10-nhi-pci-vv/0000:00:0d.3.txt
+110-firmware-versions.txt
+11-nhi-pci-bytes/0000:00:0d.2.txt
+11-nhi-pci-bytes/0000:00:0d.3.txt
+120-nvidia-procfs/capabilities-fabric-imex-mgmt.txt
+120-nvidia-procfs/gpu-0000:04:00.0-information.txt
+120-nvidia-procfs/gpu-0000:04:00.0-registry.txt
+120-nvidia-procfs/params.txt
+120-nvidia-procfs/patches-README.txt
+120-nvidia-procfs/registry.txt
+120-nvidia-procfs/suspend_depth.txt
+120-nvidia-procfs/suspend.txt
+120-nvidia-procfs/version.txt
+120-nvidia-procfs/warnings-README.txt
+121-tb-counters/0-0-port12-counters.txt
+121-tb-counters/0-0-port13-counters.txt
+121-tb-counters/0-0-port1-counters.txt
+121-tb-counters/0-0-port2-counters.txt
+121-tb-counters/0-0-port3-counters.txt
+121-tb-counters/0-0-port4-counters.txt
+121-tb-counters/0-0-port5-counters.txt
+121-tb-counters/0-0-port6-counters.txt
+121-tb-counters/0-0-port7-counters.txt
+121-tb-counters/0-0-port8-counters.txt
+121-tb-counters/0-0-port9-counters.txt
+121-tb-counters/0-1-port10-counters.txt
+121-tb-counters/0-1-port11-counters.txt
+121-tb-counters/0-1-port12-counters.txt
+121-tb-counters/0-1-port17-counters.txt
+121-tb-counters/0-1-port18-counters.txt
+121-tb-counters/0-1-port19-counters.txt
+121-tb-counters/0-1-port1-counters.txt
+121-tb-counters/0-1-port20-counters.txt
+121-tb-counters/0-1-port21-counters.txt
+121-tb-counters/0-1-port22-counters.txt
+121-tb-counters/0-1-port23-counters.txt
+121-tb-counters/0-1-port3-counters.txt
+121-tb-counters/0-1-port5-counters.txt
+121-tb-counters/0-1-port7-counters.txt
+121-tb-counters/0-1-port9-counters.txt
+121-tb-counters/1-0-port12-counters.txt
+121-tb-counters/1-0-port13-counters.txt
+121-tb-counters/1-0-port1-counters.txt
+121-tb-counters/1-0-port2-counters.txt
+121-tb-counters/1-0-port3-counters.txt
+121-tb-counters/1-0-port4-counters.txt
+121-tb-counters/1-0-port5-counters.txt
+121-tb-counters/1-0-port6-counters.txt
+121-tb-counters/1-0-port7-counters.txt
+121-tb-counters/1-0-port8-counters.txt
+121-tb-counters/1-0-port9-counters.txt
+122-rapl-energy.txt
+123-thermal.txt
+124-aorus-sysfs/0000:04:00.0.txt
+124-aorus-sysfs/0000:04:00.1.txt
+12-nhi-sysfs/0000:00:0d.2.txt
+12-nhi-sysfs/0000:00:0d.3.txt
+20-domain-sysfs/domain0.txt
+20-domain-sysfs/domain1.txt
+30-tb-device-sysfs/0-0:1.1.txt
+30-tb-device-sysfs/0-0.txt
+30-tb-device-sysfs/0-1.txt
+30-tb-device-sysfs/1-0.txt
+40-debugfs/0-0/port12/counters.txt
+40-debugfs/0-0/port12/path.txt
+40-debugfs/0-0/port12/regs.txt
+40-debugfs/0-0/port13/counters.txt
+40-debugfs/0-0/port13/path.txt
+40-debugfs/0-0/port13/regs.txt
+40-debugfs/0-0/port1/counters.txt
+40-debugfs/0-0/port1/path.txt
+40-debugfs/0-0/port1/regs.txt
+40-debugfs/0-0/port2/counters.txt
+40-debugfs/0-0/port2/path.txt
+40-debugfs/0-0/port2/regs.txt
+40-debugfs/0-0/port3/counters.txt
+40-debugfs/0-0/port3/path.txt
+40-debugfs/0-0/port3/regs.txt
+40-debugfs/0-0/port4/counters.txt
+40-debugfs/0-0/port4/path.txt
+40-debugfs/0-0/port4/regs.txt
+40-debugfs/0-0/port5/counters.txt
+40-debugfs/0-0/port5/path.txt
+40-debugfs/0-0/port5/regs.txt
+40-debugfs/0-0/port6/counters.txt
+40-debugfs/0-0/port6/path.txt
+40-debugfs/0-0/port6/regs.txt
+40-debugfs/0-0/port7/counters.txt
+40-debugfs/0-0/port7/path.txt
+40-debugfs/0-0/port7/regs.txt
+40-debugfs/0-0/port8/counters.txt
+40-debugfs/0-0/port8/path.txt
+40-debugfs/0-0/port8/regs.txt
+40-debugfs/0-0/port9/counters.txt
+40-debugfs/0-0/port9/path.txt
+40-debugfs/0-0/port9/regs.txt
+40-debugfs/0-0/regs.txt
+40-debugfs/0-1/port10/counters.txt
+40-debugfs/0-1/port10/path.txt
+40-debugfs/0-1/port10/regs.txt
+40-debugfs/0-1/port11/counters.txt
+40-debugfs/0-1/port11/path.txt
+40-debugfs/0-1/port11/regs.txt
+40-debugfs/0-1/port12/counters.txt
+40-debugfs/0-1/port12/path.txt
+40-debugfs/0-1/port12/regs.txt
+40-debugfs/0-1/port17/counters.txt
+40-debugfs/0-1/port17/path.txt
+40-debugfs/0-1/port17/regs.txt
+40-debugfs/0-1/port18/counters.txt
+40-debugfs/0-1/port18/path.txt
+40-debugfs/0-1/port18/regs.txt
+40-debugfs/0-1/port19/counters.txt
+40-debugfs/0-1/port19/path.txt
+40-debugfs/0-1/port19/regs.txt
+40-debugfs/0-1/port1/counters.txt
+40-debugfs/0-1/port1/path.txt
+40-debugfs/0-1/port1/regs.txt
+40-debugfs/0-1/port20/counters.txt
+40-debugfs/0-1/port20/path.txt
+40-debugfs/0-1/port20/regs.txt
+40-debugfs/0-1/port21/counters.txt
+40-debugfs/0-1/port21/path.txt
+40-debugfs/0-1/port21/regs.txt
+40-debugfs/0-1/port22/counters.txt
+40-debugfs/0-1/port22/path.txt
+40-debugfs/0-1/port22/regs.txt
+40-debugfs/0-1/port23/counters.txt
+40-debugfs/0-1/port23/path.txt
+40-debugfs/0-1/port23/regs.txt
+40-debugfs/0-1/port2/path.txt
+40-debugfs/0-1/port2/regs.txt
+40-debugfs/0-1/port3/counters.txt
+40-debugfs/0-1/port3/path.txt
+40-debugfs/0-1/port3/regs.txt
+40-debugfs/0-1/port4/path.txt
+40-debugfs/0-1/port4/regs.txt
+40-debugfs/0-1/port5/counters.txt
+40-debugfs/0-1/port5/path.txt
+40-debugfs/0-1/port5/regs.txt
+40-debugfs/0-1/port6/path.txt
+40-debugfs/0-1/port6/regs.txt
+40-debugfs/0-1/port7/counters.txt
+40-debugfs/0-1/port7/path.txt
+40-debugfs/0-1/port7/regs.txt
+40-debugfs/0-1/port8/path.txt
+40-debugfs/0-1/port8/regs.txt
+40-debugfs/0-1/port9/counters.txt
+40-debugfs/0-1/port9/path.txt
+40-debugfs/0-1/port9/regs.txt
+40-debugfs/0-1/regs.txt
+40-debugfs/1-0/port12/counters.txt
+40-debugfs/1-0/port12/path.txt
+40-debugfs/1-0/port12/regs.txt
+40-debugfs/1-0/port13/counters.txt
+40-debugfs/1-0/port13/path.txt
+40-debugfs/1-0/port13/regs.txt
+40-debugfs/1-0/port1/counters.txt
+40-debugfs/1-0/port1/path.txt
+40-debugfs/1-0/port1/regs.txt
+40-debugfs/1-0/port2/counters.txt
+40-debugfs/1-0/port2/path.txt
+40-debugfs/1-0/port2/regs.txt
+40-debugfs/1-0/port3/counters.txt
+40-debugfs/1-0/port3/path.txt
+40-debugfs/1-0/port3/regs.txt
+40-debugfs/1-0/port4/counters.txt
+40-debugfs/1-0/port4/path.txt
+40-debugfs/1-0/port4/regs.txt
+40-debugfs/1-0/port5/counters.txt
+40-debugfs/1-0/port5/path.txt
+40-debugfs/1-0/port5/regs.txt
+40-debugfs/1-0/port6/counters.txt
+40-debugfs/1-0/port6/path.txt
+40-debugfs/1-0/port6/regs.txt
+40-debugfs/1-0/port7/counters.txt
+40-debugfs/1-0/port7/path.txt
+40-debugfs/1-0/port7/regs.txt
+40-debugfs/1-0/port8/counters.txt
+40-debugfs/1-0/port8/path.txt
+40-debugfs/1-0/port8/regs.txt
+40-debugfs/1-0/port9/counters.txt
+40-debugfs/1-0/port9/path.txt
+40-debugfs/1-0/port9/regs.txt
+40-debugfs/1-0/regs.txt
+41-debugfs-drom-0-0.bin
+41-debugfs-drom-0-1.bin
+41-debugfs-drom-1-0.bin
+50-acpi-paths.txt
+60-module-params.txt
+61-cmdline.txt
+70-kernel-tb-events.txt
+80-boltctl/domains.txt
+80-boltctl/info-a4bf8780-2057-e71c-ffff-ffffffffffff.txt
+80-boltctl/info-c4148780-00a9-7ce8-ffff-ffffffffffff.txt
+80-boltctl/list.txt
+90-pci-tree.txt
+91-pci-config-vvxxx/0000:00:07.0.txt
+91-pci-config-vvxxx/0000:00:07.2.txt
+91-pci-config-vvxxx/0000:02:00.0.txt
+91-pci-config-vvxxx/0000:03:00.0.txt
+91-pci-config-vvxxx/0000:03:01.0.txt
+91-pci-config-vvxxx/0000:03:02.0.txt
+91-pci-config-vvxxx/0000:03:03.0.txt
+91-pci-config-vvxxx/0000:04:00.0.txt
+91-pci-config-vvxxx/0000:04:00.1.txt
+91-pci-config-vvxxx/_index.txt
+92-pci-config-bytes/0000:00:07.0.bin
+92-pci-config-bytes/0000:00:07.2.bin
+92-pci-config-bytes/0000:02:00.0.bin
+92-pci-config-bytes/0000:03:00.0.bin
+92-pci-config-bytes/0000:03:01.0.bin
+92-pci-config-bytes/0000:03:02.0.bin
+92-pci-config-bytes/0000:03:03.0.bin
+92-pci-config-bytes/0000:04:00.0.bin
+92-pci-config-bytes/0000:04:00.1.bin
+93-pci-sysfs/0000:00:07.0.txt
+93-pci-sysfs/0000:00:07.2.txt
+93-pci-sysfs/0000:02:00.0.txt
+93-pci-sysfs/0000:03:00.0.txt
+93-pci-sysfs/0000:03:01.0.txt
+93-pci-sysfs/0000:03:02.0.txt
+93-pci-sysfs/0000:03:03.0.txt
+93-pci-sysfs/0000:04:00.0.txt
+93-pci-sysfs/0000:04:00.1.txt
+94-iomem.txt
+95-interrupts.txt
+96-iommu-groups.txt
+97-pcie-eq-decoded/0000:00:07.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:00:07.2-ext-cfg.txt
+97-pcie-eq-decoded/0000:02:00.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:03:00.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:03:01.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:03:02.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:03:03.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:04:00.0-ext-cfg.txt
+97-pcie-eq-decoded/0000:04:00.1-ext-cfg.txt
+97-pcie-eq-decoded/_summary.txt
+
+=== total size ===
+1.2M	/root/aorus-5090-gpu/archive/state-captures/2026-05-08T085758Z-obpc-active0
+
+To compare with another dossier:
+  diff -r /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085758Z-obpc-active0 OTHER_DOSSIER
+  cmp -l /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085758Z-obpc-active0/41-debugfs-drom-*.bin OTHER_DOSSIER/41-debugfs-drom-*.bin
+linked post-trigger state -> /root/aorus-5090-gpu/archive/state-captures/2026-05-08T085758Z-obpc-active0
+
+=== step 9: state diff (baseline vs post-trigger) ===
+saved state diff to 07-state-diff.log
+
+=== step 10: event-capture for this window ===
+experiment name must match [A-Za-z0-9._-]+ (got: close-path-probe-2026-05-08T18-57-32+10-00)
+
+=== step 11: restore GPU consumers ===
+
+=== step 12: post-restore counters ===
+Post-trigger M-recover counters:
+  fires:        0
+  successes:    0
+  surrenders:   0
+
+=== summary ===
+Run dossier: /root/aorus-5090-gpu/archive/close-path-probes/2026-05-08T18-57-32+10-00
+Inspect:
+  - 02-dmesg-pre-trigger.log    state before nvidia-smi
+  - 04-dmesg-post-trigger.log   state after nvidia-smi
+  - 05-dmesg-delta-relevant.log close-path + M-recover events the trigger produced
+  - 07-state-diff.log           sysfs/PCI state diff baseline vs post
+  - 08-event-capture/           hypothesis verdicts

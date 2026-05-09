@@ -1,0 +1,13 @@
+iteration,epoch_utc,metric_name,value,unit
+1,1778215111,host_to_device_memcpy_ce,2.81,GB/s
+1,1778215111,device_to_host_memcpy_ce,3.29,GB/s
+1,1778215111,host_to_device_bidirectional_memcpy_ce,2.47,GB/s
+1,1778215111,host_to_device_memcpy_sm,2.81,GB/s
+1,1778215111,device_to_host_memcpy_sm,3.29,GB/s
+1,1778215111,host_to_device_bidirectional_memcpy_sm,2.44,GB/s
+2,1778215191,host_to_device_memcpy_ce,2.81,GB/s
+2,1778215191,device_to_host_memcpy_ce,3.29,GB/s
+2,1778215191,host_to_device_bidirectional_memcpy_ce,2.47,GB/s
+2,1778215191,host_to_device_memcpy_sm,2.80,GB/s
+2,1778215191,device_to_host_memcpy_sm,3.29,GB/s
+2,1778215191,host_to_device_bidirectional_memcpy_sm,2.44,GB/s

@@ -1,0 +1,29 @@
+May 06 12:56:47 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 06 12:56:47 obpc nvidia-persistenced[1300]: Started (1300)
+May 06 12:56:48 obpc nvidia-persistenced[1300]: device 0000:04:00.0 - failed to open.
+May 06 12:56:48 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 06 12:56:48 obpc systemd[1]: Stopping nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 06 12:56:48 obpc nvidia-persistenced[1300]: Shutdown (1300)
+May 06 12:56:48 obpc systemd[1]: nvidia-persistenced.service: Deactivated successfully.
+May 06 12:56:48 obpc systemd[1]: Stopped nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 06 12:56:48 obpc systemd[1]: nvidia-persistenced.service: Consumed 895ms CPU time, 72.1M memory peak.
+May 06 12:57:00 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 06 12:57:00 obpc nvidia-persistenced[4423]: Started (4423)
+May 06 12:57:01 obpc nvidia-persistenced[4423]: device 0000:04:00.0 - failed to open.
+May 06 12:57:01 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 06 12:57:06 obpc systemd[1]: Stopping nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 06 12:57:06 obpc nvidia-persistenced[4423]: Shutdown (4423)
+May 06 12:57:06 obpc systemd[1]: nvidia-persistenced.service: Deactivated successfully.
+May 06 12:57:06 obpc systemd[1]: Stopped nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 06 12:57:17 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 06 12:57:17 obpc nvidia-persistenced[4620]: Started (4620)
+May 06 12:57:17 obpc nvidia-persistenced[4620]: device 0000:04:00.0 - failed to open.
+May 06 12:57:17 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 06 12:57:23 obpc systemd[1]: Stopping nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 06 12:57:23 obpc nvidia-persistenced[4620]: Shutdown (4620)
+May 06 12:57:23 obpc systemd[1]: nvidia-persistenced.service: Deactivated successfully.
+May 06 12:57:23 obpc systemd[1]: Stopped nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 06 12:57:34 obpc nvidia-persistenced[4997]: Started (4997)
+May 06 12:57:34 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 06 12:57:35 obpc nvidia-persistenced[4997]: device 0000:04:00.0 - failed to open.
+May 06 12:57:35 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.

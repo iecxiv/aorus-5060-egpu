@@ -1,0 +1,2 @@
+May 06 12:56:46 obpc systemd[1]: Started aorus-egpu-observability-watchdog.service - AORUS eGPU observability watchdog (Mode B silent freeze SysRq capture).
+May 06 12:56:46 obpc aorus-egpu-observability-watchdog[1053]: [aorus-obs-wdog] [info] started: poll=10s, nvsmi_timeout=3s, progress_threshold=60s, cooldown=300s

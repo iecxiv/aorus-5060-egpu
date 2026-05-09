@@ -1,0 +1,1842 @@
+May 08 01:18:00 obpc kernel: Linux version 6.19.14-200.fc43.x86_64 (mockbuild@3d94b060593f4389857ed0a29daa3c69) (gcc (GCC) 15.2.1 20260123 (Red Hat 15.2.1-7), GNU ld version 2.45.1-4.fc43) #1 SMP PREEMPT_DYNAMIC Thu Apr 23 17:34:07 UTC 2026
+May 08 01:18:00 obpc kernel: Command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M nvidia.NVreg_AorusLeverMRecoverEnable=0 iommu=off intel_iommu=off
+May 08 01:18:00 obpc kernel: x86/tme: not enabled by BIOS
+May 08 01:18:00 obpc kernel: x86/split lock detection: #AC: crashing the kernel on kernel split_locks and warning on user-space split_locks
+May 08 01:18:00 obpc kernel: BIOS-provided physical RAM map:
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x0000000000000000-0x000000000009efff] usable
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x000000000009f000-0x00000000000fffff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x0000000000100000-0x00000000545f1fff] usable
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000545f2000-0x000000005e6b5fff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x000000005e6b6000-0x000000005e7b7fff] ACPI data
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x000000005e7b8000-0x000000005e93efff] ACPI NVS
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x000000005e93f000-0x0000000063ffefff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x0000000063fff000-0x0000000063ffffff] usable
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x0000000064000000-0x00000000787fffff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000c0000000-0x00000000cfffffff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000fe000000-0x00000000fe010fff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000fe410000-0x00000000fe410fff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000fed00000-0x00000000fed00fff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000fed20000-0x00000000fed7ffff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000fee00000-0x00000000fee00fff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x00000000ff000000-0x00000000ffffffff] reserved
+May 08 01:18:00 obpc kernel: BIOS-e820: [mem 0x0000000100000000-0x000000207fffffff] usable
+May 08 01:18:00 obpc kernel: NX (Execute Disable) protection: active
+May 08 01:18:00 obpc kernel: APIC: Static calls initialized
+May 08 01:18:00 obpc kernel: efi: EFI v2.9 by American Megatrends
+May 08 01:18:00 obpc kernel: efi: ACPI=0x5e8b6000 ACPI 2.0=0x5e8b6014 TPMFinalLog=0x5e822000 SMBIOS=0x62b8d000 SMBIOS 3.0=0x62b8c000 MEMATTR=0x482f7018 ESRT=0x50df1e98 MOKvar=0x63c2e000 RNG=0x5e6eb018 TPMEventLog=0x5e6e0018 
+May 08 01:18:00 obpc kernel: random: crng init done
+May 08 01:18:00 obpc kernel: efi: Remove mem81: MMIO range=[0xc0000000-0xcfffffff] (256MB) from e820 map
+May 08 01:18:00 obpc kernel: e820: remove [mem 0xc0000000-0xcfffffff] reserved
+May 08 01:18:00 obpc kernel: efi: Not removing mem82: MMIO range=[0xfe000000-0xfe010fff] (68KB) from e820 map
+May 08 01:18:00 obpc kernel: efi: Not removing mem83: MMIO range=[0xfe410000-0xfe410fff] (4KB) from e820 map
+May 08 01:18:00 obpc kernel: efi: Not removing mem84: MMIO range=[0xfec00000-0xfec00fff] (4KB) from e820 map
+May 08 01:18:00 obpc kernel: efi: Not removing mem85: MMIO range=[0xfed00000-0xfed00fff] (4KB) from e820 map
+May 08 01:18:00 obpc kernel: efi: Not removing mem87: MMIO range=[0xfee00000-0xfee00fff] (4KB) from e820 map
+May 08 01:18:00 obpc kernel: efi: Remove mem88: MMIO range=[0xff000000-0xffffffff] (16MB) from e820 map
+May 08 01:18:00 obpc kernel: e820: remove [mem 0xff000000-0xffffffff] reserved
+May 08 01:18:00 obpc kernel: secureboot: Secure boot disabled
+May 08 01:18:00 obpc kernel: SMBIOS 3.8.0 present.
+May 08 01:18:00 obpc kernel: DMI: ASUSTeK COMPUTER INC. NUC15CRSU9/NUC15CRSU9, BIOS CRARL579.0029.2026.0115.1719 01/15/2026
+May 08 01:18:00 obpc kernel: DMI: Memory slots populated: 2/2
+May 08 01:18:00 obpc kernel: tsc: Detected 3700.000 MHz processor
+May 08 01:18:00 obpc kernel: tsc: Detected 3686.400 MHz TSC
+May 08 01:18:00 obpc kernel: e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+May 08 01:18:00 obpc kernel: e820: remove [mem 0x000a0000-0x000fffff] usable
+May 08 01:18:00 obpc kernel: last_pfn = 0x2080000 max_arch_pfn = 0x400000000
+May 08 01:18:00 obpc kernel: total RAM covered: 259839M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 64K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 128K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 256K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 512K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 64K         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 128K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 256K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 512K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 128K         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 256K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 512K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 256K         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 512K         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 512K         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 1M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 2M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 4M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 8M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 16M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 16M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 16M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 16M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 16M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 16M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 16M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 16M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 32M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 32M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 32M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 32M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 32M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 32M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 32M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 64M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 64M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 64M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 64M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 128M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 128M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 128M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 128M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 256M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+May 08 01:18:00 obpc kernel:  gran_size: 256M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 256M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 256M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+May 08 01:18:00 obpc kernel:  gran_size: 512M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129276M
+May 08 01:18:00 obpc kernel:  gran_size: 512M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129276M
+May 08 01:18:00 obpc kernel:  gran_size: 512M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129276M
+May 08 01:18:00 obpc kernel:  gran_size: 1G         chunk_size: 1G         num_reg: 10          lose cover RAM: 129784M
+May 08 01:18:00 obpc kernel:  gran_size: 1G         chunk_size: 2G         num_reg: 10          lose cover RAM: 129784M
+May 08 01:18:00 obpc kernel:  gran_size: 2G         chunk_size: 2G         num_reg: 10          lose cover RAM: 130800M
+May 08 01:18:00 obpc kernel: mtrr_cleanup: can not find optimal value
+May 08 01:18:00 obpc kernel: please specify mtrr_gran_size/mtrr_chunk_size
+May 08 01:18:00 obpc kernel: MTRR map: 8 entries (3 fixed + 5 variable; max 23), built from 10 variable MTRRs
+May 08 01:18:00 obpc kernel: x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+May 08 01:18:00 obpc kernel: e820: update [mem 0x70000000-0xffffffff] usable ==> reserved
+May 08 01:18:00 obpc kernel: e820: update [mem 0x2080000000-0x20800fffff] usable ==> reserved
+May 08 01:18:00 obpc kernel: x2apic: enabled by BIOS, switching to x2apic ops
+May 08 01:18:00 obpc kernel: last_pfn = 0x64000 max_arch_pfn = 0x400000000
+May 08 01:18:00 obpc kernel: esrt: Reserving ESRT space from 0x0000000050df1e98 to 0x0000000050df1fe8.
+May 08 01:18:00 obpc kernel: e820: update [mem 0x50df1000-0x50df1fff] usable ==> reserved
+May 08 01:18:00 obpc kernel: Using GB pages for direct mapping
+May 08 01:18:00 obpc kernel: secureboot: Secure boot disabled
+May 08 01:18:00 obpc kernel: RAMDISK: [mem 0x3d1ba000-0x403fbfff]
+May 08 01:18:00 obpc kernel: ACPI: Early table checksum verification disabled
+May 08 01:18:00 obpc kernel: ACPI: RSDP 0x000000005E8B6014 000024 (v02 ASUS  )
+May 08 01:18:00 obpc kernel: ACPI: XSDT 0x000000005E852728 000174 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: FACP 0x000000005E79E000 000114 (v06 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: DSDT 0x000000005E72D000 070E47 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: FACS 0x000000005E939000 000040
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7B5000 000770 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7B4000 0005FB (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7B3000 0001AB (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7B2000 000394 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7B0000 001BAF (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7AE000 001620 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7AC000 001349 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7AB000 000FBB (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7A7000 003BC8 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: DTPR 0x000000005E7A6000 000088 (v01 ASUS   NUC15CR  0000001D      00000000)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7A0000 0053DB (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E79F000 000D03 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: FIDT 0x000000005E72C000 00009C (v01 ASUS   NUC15CR  0000001D AMI  00010013)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E7B7000 00038C (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E729000 00247E (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E71F000 009ADA (v02 ASUS   NUC15CR  00001000 INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: HPET 0x000000005E7B6000 000038 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: APIC 0x000000005E71E000 000358 (v05 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: MCFG 0x000000005E71D000 00003C (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E710000 00C39C (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E70E000 00147F (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E70A000 0038A4 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: UEFI 0x000000005E809000 000048 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: NHLT 0x000000005E709000 0002E3 (v00 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: LPIT 0x000000005E708000 0000CC (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: WDAT 0x000000005E706000 000134 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E705000 000CA6 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E6FF000 005E42 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: DBGP 0x000000005E6FE000 000034 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: DBG2 0x000000005E6FD000 000054 (v00 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E6FB000 001AFE (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: DMAR 0x000000005E6FA000 000098 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: FPDT 0x000000005E6F9000 000044 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E6F7000 001092 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E6F4000 00281A (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E6F1000 0028D3 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: BGRT 0x000000005E6F0000 000038 (v01 ASUS   NUC15CR  0000001D AMI  00010013)
+May 08 01:18:00 obpc kernel: ACPI: SSDT 0x000000005E6EE000 0011A0 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+May 08 01:18:00 obpc kernel: ACPI: PHAT 0x000000005E6ED000 000810 (v01 ASUS   NUC15CR  0000001D MSFT 0100000D)
+May 08 01:18:00 obpc kernel: ACPI: TPM2 0x000000005E6EC000 00004C (v04 ASUS   NUC15CR  0000001D AMI  00000000)
+May 08 01:18:00 obpc kernel: ACPI: WSMT 0x000000005E707000 000028 (v01 ASUS   NUC15CR  0000001D AMI  00010013)
+May 08 01:18:00 obpc kernel: ACPI: Reserving FACP table memory at [mem 0x5e79e000-0x5e79e113]
+May 08 01:18:00 obpc kernel: ACPI: Reserving DSDT table memory at [mem 0x5e72d000-0x5e79de46]
+May 08 01:18:00 obpc kernel: ACPI: Reserving FACS table memory at [mem 0x5e939000-0x5e93903f]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b5000-0x5e7b576f]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b4000-0x5e7b45fa]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b3000-0x5e7b31aa]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b2000-0x5e7b2393]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b0000-0x5e7b1bae]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7ae000-0x5e7af61f]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7ac000-0x5e7ad348]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7ab000-0x5e7abfba]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7a7000-0x5e7aabc7]
+May 08 01:18:00 obpc kernel: ACPI: Reserving DTPR table memory at [mem 0x5e7a6000-0x5e7a6087]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7a0000-0x5e7a53da]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e79f000-0x5e79fd02]
+May 08 01:18:00 obpc kernel: ACPI: Reserving FIDT table memory at [mem 0x5e72c000-0x5e72c09b]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b7000-0x5e7b738b]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e729000-0x5e72b47d]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e71f000-0x5e728ad9]
+May 08 01:18:00 obpc kernel: ACPI: Reserving HPET table memory at [mem 0x5e7b6000-0x5e7b6037]
+May 08 01:18:00 obpc kernel: ACPI: Reserving APIC table memory at [mem 0x5e71e000-0x5e71e357]
+May 08 01:18:00 obpc kernel: ACPI: Reserving MCFG table memory at [mem 0x5e71d000-0x5e71d03b]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e710000-0x5e71c39b]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e70e000-0x5e70f47e]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e70a000-0x5e70d8a3]
+May 08 01:18:00 obpc kernel: ACPI: Reserving UEFI table memory at [mem 0x5e809000-0x5e809047]
+May 08 01:18:00 obpc kernel: ACPI: Reserving NHLT table memory at [mem 0x5e709000-0x5e7092e2]
+May 08 01:18:00 obpc kernel: ACPI: Reserving LPIT table memory at [mem 0x5e708000-0x5e7080cb]
+May 08 01:18:00 obpc kernel: ACPI: Reserving WDAT table memory at [mem 0x5e706000-0x5e706133]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e705000-0x5e705ca5]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6ff000-0x5e704e41]
+May 08 01:18:00 obpc kernel: ACPI: Reserving DBGP table memory at [mem 0x5e6fe000-0x5e6fe033]
+May 08 01:18:00 obpc kernel: ACPI: Reserving DBG2 table memory at [mem 0x5e6fd000-0x5e6fd053]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6fb000-0x5e6fcafd]
+May 08 01:18:00 obpc kernel: ACPI: Reserving DMAR table memory at [mem 0x5e6fa000-0x5e6fa097]
+May 08 01:18:00 obpc kernel: ACPI: Reserving FPDT table memory at [mem 0x5e6f9000-0x5e6f9043]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6f7000-0x5e6f8091]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6f4000-0x5e6f6819]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6f1000-0x5e6f38d2]
+May 08 01:18:00 obpc kernel: ACPI: Reserving BGRT table memory at [mem 0x5e6f0000-0x5e6f0037]
+May 08 01:18:00 obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6ee000-0x5e6ef19f]
+May 08 01:18:00 obpc kernel: ACPI: Reserving PHAT table memory at [mem 0x5e6ed000-0x5e6ed80f]
+May 08 01:18:00 obpc kernel: ACPI: Reserving TPM2 table memory at [mem 0x5e6ec000-0x5e6ec04b]
+May 08 01:18:00 obpc kernel: ACPI: Reserving WSMT table memory at [mem 0x5e707000-0x5e707027]
+May 08 01:18:00 obpc kernel: APIC: Switched APIC routing to: cluster x2apic
+May 08 01:18:00 obpc kernel: No NUMA configuration found
+May 08 01:18:00 obpc kernel: Faking a node at [mem 0x0000000000000000-0x000000207fffffff]
+May 08 01:18:00 obpc kernel: NODE_DATA(0) allocated [mem 0x207ffd5280-0x207fffffff]
+May 08 01:18:00 obpc kernel: crashkernel reserved: 0x000000002d000000 - 0x000000003d000000 (256 MB)
+May 08 01:18:00 obpc kernel: Zone ranges:
+May 08 01:18:00 obpc kernel:   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+May 08 01:18:00 obpc kernel:   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+May 08 01:18:00 obpc kernel:   Normal   [mem 0x0000000100000000-0x000000207fffffff]
+May 08 01:18:00 obpc kernel:   Device   empty
+May 08 01:18:00 obpc kernel: Movable zone start for each node
+May 08 01:18:00 obpc kernel: Early memory node ranges
+May 08 01:18:00 obpc kernel:   node   0: [mem 0x0000000000001000-0x000000000009efff]
+May 08 01:18:00 obpc kernel:   node   0: [mem 0x0000000000100000-0x00000000545f1fff]
+May 08 01:18:00 obpc kernel:   node   0: [mem 0x0000000063fff000-0x0000000063ffffff]
+May 08 01:18:00 obpc kernel:   node   0: [mem 0x0000000100000000-0x000000207fffffff]
+May 08 01:18:00 obpc kernel: Initmem setup node 0 [mem 0x0000000000001000-0x000000207fffffff]
+May 08 01:18:00 obpc kernel: On node 0, zone DMA: 1 pages in unavailable ranges
+May 08 01:18:00 obpc kernel: On node 0, zone DMA: 97 pages in unavailable ranges
+May 08 01:18:00 obpc kernel: On node 0, zone DMA32: 31245 pages in unavailable ranges
+May 08 01:18:00 obpc kernel: On node 0, zone Normal: 16384 pages in unavailable ranges
+May 08 01:18:00 obpc kernel: ACPI: PM-Timer IO Port: 0x1808
+May 08 01:18:00 obpc kernel: ACPI: X2APIC_NMI (uid[0xffffffff] high level lint[0x1])
+May 08 01:18:00 obpc kernel: IOAPIC[0]: apic_id 2, version 32, address 0xfec00000, GSI 0-119
+May 08 01:18:00 obpc kernel: ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+May 08 01:18:00 obpc kernel: ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+May 08 01:18:00 obpc kernel: ACPI: Using ACPI (MADT) for SMP configuration information
+May 08 01:18:00 obpc kernel: ACPI: HPET id: 0x8086a201 base: 0xfed00000
+May 08 01:18:00 obpc kernel: e820: update [mem 0x483a2000-0x483d0fff] usable ==> reserved
+May 08 01:18:00 obpc kernel: TSC deadline timer available
+May 08 01:18:00 obpc kernel: CPU topo: Max. logical packages:   1
+May 08 01:18:00 obpc kernel: CPU topo: Max. logical nodes:      1
+May 08 01:18:00 obpc kernel: CPU topo: Num. nodes per package:  1
+May 08 01:18:00 obpc kernel: CPU topo: Max. logical dies:       1
+May 08 01:18:00 obpc kernel: CPU topo: Max. dies per package:   1
+May 08 01:18:00 obpc kernel: CPU topo: Max. threads per core:   1
+May 08 01:18:00 obpc kernel: CPU topo: Num. cores per package:    16
+May 08 01:18:00 obpc kernel: CPU topo: Num. threads per package:  16
+May 08 01:18:00 obpc kernel: CPU topo: Allowing 16 present CPUs plus 0 hotplug CPUs
+May 08 01:18:00 obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x00000000-0x00000fff]
+May 08 01:18:00 obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x0009f000-0x000fffff]
+May 08 01:18:00 obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x483a2000-0x483d0fff]
+May 08 01:18:00 obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x50df1000-0x50df1fff]
+May 08 01:18:00 obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x545f2000-0x63ffefff]
+May 08 01:18:00 obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x64000000-0xffffffff]
+May 08 01:18:00 obpc kernel: [mem 0x78800000-0xfdffffff] available for PCI devices
+May 08 01:18:00 obpc kernel: Booting paravirtualized kernel on bare hardware
+May 08 01:18:00 obpc kernel: clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1910969940391419 ns
+May 08 01:18:00 obpc kernel: setup_percpu: NR_CPUS:8192 nr_cpumask_bits:16 nr_cpu_ids:16 nr_node_ids:1
+May 08 01:18:00 obpc kernel: percpu: Embedded 84 pages/cpu s221184 r8192 d114688 u524288
+May 08 01:18:00 obpc kernel: pcpu-alloc: s221184 r8192 d114688 u524288 alloc=1*2097152
+May 08 01:18:00 obpc kernel: pcpu-alloc: [0] 00 01 02 03 [0] 04 05 06 07 
+May 08 01:18:00 obpc kernel: pcpu-alloc: [0] 08 09 10 11 [0] 12 13 14 15 
+May 08 01:18:00 obpc kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M nvidia.NVreg_AorusLeverMRecoverEnable=0 iommu=off intel_iommu=off
+May 08 01:18:00 obpc kernel: DMAR: IOMMU disabled
+May 08 01:18:00 obpc kernel: Unknown kernel command line parameters "rhgb", will be passed to user space.
+May 08 01:18:00 obpc kernel: printk: log buffer data + meta data: 262144 + 917504 = 1179648 bytes
+May 08 01:18:00 obpc kernel: Dentry cache hash table entries: 8388608 (order: 14, 67108864 bytes, linear)
+May 08 01:18:00 obpc kernel: Inode-cache hash table entries: 4194304 (order: 13, 33554432 bytes, linear)
+May 08 01:18:00 obpc kernel: Fallback order for Node 0: 0 
+May 08 01:18:00 obpc kernel: Built 1 zonelists, mobility grouping on.  Total pages: 33375633
+May 08 01:18:00 obpc kernel: Policy zone: Normal
+May 08 01:18:00 obpc kernel: mem auto-init: stack:all(zero), heap alloc:on, heap free:off
+May 08 01:18:00 obpc kernel: SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=16, Nodes=1
+May 08 01:18:00 obpc kernel: ftrace: allocating 63440 entries in 248 pages
+May 08 01:18:00 obpc kernel: ftrace: allocated 248 pages with 5 groups
+May 08 01:18:00 obpc kernel: Dynamic Preempt: lazy
+May 08 01:18:00 obpc kernel: rcu: Preemptible hierarchical RCU implementation.
+May 08 01:18:00 obpc kernel: rcu:         RCU event tracing is enabled.
+May 08 01:18:00 obpc kernel: rcu:         RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=16.
+May 08 01:18:00 obpc kernel:         Trampoline variant of Tasks RCU enabled.
+May 08 01:18:00 obpc kernel:         Rude variant of Tasks RCU enabled.
+May 08 01:18:00 obpc kernel:         Tracing variant of Tasks RCU enabled.
+May 08 01:18:00 obpc kernel: rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+May 08 01:18:00 obpc kernel: rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=16
+May 08 01:18:00 obpc kernel: RCU Tasks: Setting shift to 4 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=16.
+May 08 01:18:00 obpc kernel: RCU Tasks Rude: Setting shift to 4 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=16.
+May 08 01:18:00 obpc kernel: RCU Tasks Trace: Setting shift to 4 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=16.
+May 08 01:18:00 obpc kernel: NR_IRQS: 524544, nr_irqs: 2184, preallocated irqs: 16
+May 08 01:18:00 obpc kernel: rcu: srcu_init: Setting srcu_struct sizes based on contention.
+May 08 01:18:00 obpc kernel: kfence: initialized - using 2097152 bytes for 255 objects at 0x(____ptrval____)-0x(____ptrval____)
+May 08 01:18:00 obpc kernel: Console: colour dummy device 80x25
+May 08 01:18:00 obpc kernel: printk: legacy console [tty0] enabled
+May 08 01:18:00 obpc kernel: ACPI: Core revision 20250807
+May 08 01:18:00 obpc kernel: hpet: HPET dysfunctional in PC10. Force disabled.
+May 08 01:18:00 obpc kernel: APIC: Switch to symmetric I/O mode setup
+May 08 01:18:00 obpc kernel: DMAR: Host address width 42
+May 08 01:18:00 obpc kernel: DMAR: DRHD base: 0x000000fc800000 flags: 0x0
+May 08 01:18:00 obpc kernel: DMAR: dmar0: reg_base_addr fc800000 ver 7:0 cap c9de008cee690462 ecap 12ca9a00f0ef5e
+May 08 01:18:00 obpc kernel: DMAR: DRHD base: 0x000000fc801000 flags: 0x1
+May 08 01:18:00 obpc kernel: DMAR: dmar1: reg_base_addr fc801000 ver 7:0 cap c9de008cee690462 ecap 12ca9a00f0efde
+May 08 01:18:00 obpc kernel: DMAR: SATC flags: 0x1
+May 08 01:18:00 obpc kernel: DMAR-IR: IOAPIC id 2 under DRHD base  0xfc801000 IOMMU 1
+May 08 01:18:00 obpc kernel: DMAR-IR: HPET id 0 under DRHD base 0xfc801000
+May 08 01:18:00 obpc kernel: DMAR-IR: Queued invalidation will be enabled to support x2apic and Intr-remapping.
+May 08 01:18:00 obpc kernel: DMAR-IR: Enabled IRQ remapping in x2apic mode
+May 08 01:18:00 obpc kernel: clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles: 0x6a464ae9873, max_idle_ns: 881590529744 ns
+May 08 01:18:00 obpc kernel: Calibrating delay loop (skipped), value calculated using timer frequency.. 7372.80 BogoMIPS (lpj=3686400)
+May 08 01:18:00 obpc kernel: CPU0: Thermal monitoring enabled (TM1)
+May 08 01:18:00 obpc kernel: x86/cpu: User Mode Instruction Prevention (UMIP) activated
+May 08 01:18:00 obpc kernel: CET detected: Indirect Branch Tracking enabled
+May 08 01:18:00 obpc kernel: Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0
+May 08 01:18:00 obpc kernel: Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+May 08 01:18:00 obpc kernel: process: using mwait in idle threads
+May 08 01:18:00 obpc kernel: mitigations: Enabled attack vectors: user_kernel, user_user, guest_host, guest_guest, SMT mitigations: auto
+May 08 01:18:00 obpc kernel: Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl
+May 08 01:18:00 obpc kernel: Spectre V2 : Mitigation: Enhanced / Automatic IBRS
+May 08 01:18:00 obpc kernel: VMSCAPE: Mitigation: IBPB before exit to userspace
+May 08 01:18:00 obpc kernel: Spectre V1 : Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+May 08 01:18:00 obpc kernel: Spectre V2 : mitigation: Enabling conditional Indirect Branch Prediction Barrier
+May 08 01:18:00 obpc kernel: x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+May 08 01:18:00 obpc kernel: x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+May 08 01:18:00 obpc kernel: x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+May 08 01:18:00 obpc kernel: x86/fpu: Supporting XSAVE feature 0x200: 'Protection Keys User registers'
+May 08 01:18:00 obpc kernel: x86/fpu: Supporting XSAVE feature 0x800: 'Control-flow User registers'
+May 08 01:18:00 obpc kernel: x86/fpu: Supporting XSAVE feature 0x1000: 'Control-flow Kernel registers (KVM only)'
+May 08 01:18:00 obpc kernel: x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+May 08 01:18:00 obpc kernel: x86/fpu: xstate_offset[9]:  832, xstate_sizes[9]:    8
+May 08 01:18:00 obpc kernel: x86/fpu: xstate_offset[11]:  840, xstate_sizes[11]:   16
+May 08 01:18:00 obpc kernel: x86/fpu: xstate_offset[12]:  856, xstate_sizes[12]:   24
+May 08 01:18:00 obpc kernel: x86/fpu: Enabled xstate features 0x1a07, context size is 880 bytes, using 'compacted' format.
+May 08 01:18:00 obpc kernel: Freeing SMP alternatives memory: 56K
+May 08 01:18:00 obpc kernel: pid_max: default: 32768 minimum: 301
+May 08 01:18:00 obpc kernel: Yama: becoming mindful.
+May 08 01:18:00 obpc kernel: SELinux:  Initializing.
+May 08 01:18:00 obpc kernel: LSM support for eBPF active
+May 08 01:18:00 obpc kernel: landlock: Up and running.
+May 08 01:18:00 obpc kernel: Mount-cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+May 08 01:18:00 obpc kernel: Mountpoint-cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+May 08 01:18:00 obpc kernel: smpboot: CPU0: Intel(R) Core(TM) Ultra 9 285H (family: 0x6, model: 0xc5, stepping: 0x2)
+May 08 01:18:00 obpc kernel: Performance Events: XSAVE Architectural LBR, PEBS fmt5+-baseline,  AnyThread deprecated, ArrowLake-H Hybrid events, 32-deep LBR, full-width counters, Intel PMU driver.
+May 08 01:18:00 obpc kernel: core: cpu_core PMU driver: 
+May 08 01:18:00 obpc kernel: ... version:                   5
+May 08 01:18:00 obpc kernel: ... bit width:                 48
+May 08 01:18:00 obpc kernel: ... generic counters:          10
+May 08 01:18:00 obpc kernel: ... generic bitmap:            00000000000003ff
+May 08 01:18:00 obpc kernel: ... fixed-purpose counters:    4
+May 08 01:18:00 obpc kernel: ... fixed-purpose bitmap:      000000000000000f
+May 08 01:18:00 obpc kernel: ... value mask:                0000ffffffffffff
+May 08 01:18:00 obpc kernel: ... max period:                00007fffffffffff
+May 08 01:18:00 obpc kernel: ... global_ctrl mask:          0001000f000003ff
+May 08 01:18:00 obpc kernel: signal: max sigframe size: 3632
+May 08 01:18:00 obpc kernel: Estimated ratio of average max frequency by base frequency (times 1024): 1411
+May 08 01:18:00 obpc kernel: rcu: Hierarchical SRCU implementation.
+May 08 01:18:00 obpc kernel: rcu:         Max phase no-delay instances is 400.
+May 08 01:18:00 obpc kernel: Timer migration: 2 hierarchy levels; 8 children per group; 2 crossnode level
+May 08 01:18:00 obpc kernel: NMI watchdog: Enabled. Permanently consumes one hw-PMU counter.
+May 08 01:18:00 obpc kernel: smp: Bringing up secondary CPUs ...
+May 08 01:18:00 obpc kernel: smpboot: x86: Booting SMP configuration:
+May 08 01:18:00 obpc kernel: .... node  #0, CPUs:        #1  #2  #3  #4  #5  #6  #7  #8  #9 #10 #11 #12 #13 #14 #15
+May 08 01:18:00 obpc kernel: core: The event 0x5d0 is not supported as an auto-counter reload event.
+May 08 01:18:00 obpc kernel: core: cpu_atom PMU driver: 
+May 08 01:18:00 obpc kernel: ... version:                   5
+May 08 01:18:00 obpc kernel: ... bit width:                 48
+May 08 01:18:00 obpc kernel: ... generic counters:          8
+May 08 01:18:00 obpc kernel: ... generic bitmap:            00000000000000ff
+May 08 01:18:00 obpc kernel: ... fixed-purpose counters:    6
+May 08 01:18:00 obpc kernel: ... fixed-purpose bitmap:      0000000000000077
+May 08 01:18:00 obpc kernel: ... value mask:                0000ffffffffffff
+May 08 01:18:00 obpc kernel: ... max period:                00007fffffffffff
+May 08 01:18:00 obpc kernel: ... global_ctrl mask:          00000077000000ff
+May 08 01:18:00 obpc kernel: core: cpu_lowpower PMU driver: 
+May 08 01:18:00 obpc kernel: ... version:                   5
+May 08 01:18:00 obpc kernel: ... bit width:                 48
+May 08 01:18:00 obpc kernel: ... generic counters:          8
+May 08 01:18:00 obpc kernel: ... generic bitmap:            00000000000000ff
+May 08 01:18:00 obpc kernel: ... fixed-purpose counters:    3
+May 08 01:18:00 obpc kernel: ... fixed-purpose bitmap:      0000000000000007
+May 08 01:18:00 obpc kernel: ... value mask:                0000ffffffffffff
+May 08 01:18:00 obpc kernel: ... max period:                00007fffffffffff
+May 08 01:18:00 obpc kernel: ... global_ctrl mask:          00000007000000ff
+May 08 01:18:00 obpc kernel: smp: Brought up 1 node, 16 CPUs
+May 08 01:18:00 obpc kernel: smpboot: Total of 16 processors activated (117964.80 BogoMIPS)
+May 08 01:18:00 obpc kernel: Memory: 130694832K/133502532K available (22601K kernel code, 4588K rwdata, 17852K rodata, 5200K init, 5788K bss, 2777552K reserved, 0K cma-reserved)
+May 08 01:18:00 obpc kernel: devtmpfs: initialized
+May 08 01:18:00 obpc kernel: x86/mm: Memory block size: 2048MB
+May 08 01:18:00 obpc kernel: ACPI: PM: Registering ACPI NVS region [mem 0x5e7b8000-0x5e93efff] (1601536 bytes)
+May 08 01:18:00 obpc kernel: clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+May 08 01:18:00 obpc kernel: posixtimers hash table entries: 8192 (order: 5, 131072 bytes, linear)
+May 08 01:18:00 obpc kernel: futex hash table entries: 4096 (262144 bytes on 1 NUMA nodes, total 256 KiB, linear).
+May 08 01:18:00 obpc kernel: PM: RTC time: 15:17:59, date: 2026-05-07
+May 08 01:18:00 obpc kernel: NET: Registered PF_NETLINK/PF_ROUTE protocol family
+May 08 01:18:00 obpc kernel: DMA: preallocated 4096 KiB GFP_KERNEL pool for atomic allocations
+May 08 01:18:00 obpc kernel: DMA: preallocated 4096 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+May 08 01:18:00 obpc kernel: DMA: preallocated 4096 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+May 08 01:18:00 obpc kernel: audit: initializing netlink subsys (disabled)
+May 08 01:18:00 obpc kernel: audit: type=2000 audit(1778167079.013:1): state=initialized audit_enabled=0 res=1
+May 08 01:18:00 obpc kernel: thermal_sys: Registered thermal governor 'fair_share'
+May 08 01:18:00 obpc kernel: thermal_sys: Registered thermal governor 'bang_bang'
+May 08 01:18:00 obpc kernel: thermal_sys: Registered thermal governor 'step_wise'
+May 08 01:18:00 obpc kernel: thermal_sys: Registered thermal governor 'user_space'
+May 08 01:18:00 obpc kernel: cpuidle: using governor menu
+May 08 01:18:00 obpc kernel: efi: Freeing EFI boot services memory: 202068K
+May 08 01:18:00 obpc kernel: acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+May 08 01:18:00 obpc kernel: PCI: ECAM [mem 0xc0000000-0xcfffffff] (base 0xc0000000) for domain 0000 [bus 00-ff]
+May 08 01:18:00 obpc kernel: PCI: Using configuration type 1 for base access
+May 08 01:18:00 obpc kernel: kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+May 08 01:18:00 obpc kernel: HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+May 08 01:18:00 obpc kernel: HugeTLB: 16380 KiB vmemmap can be freed for a 1.00 GiB page
+May 08 01:18:00 obpc kernel: HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+May 08 01:18:00 obpc kernel: HugeTLB: 28 KiB vmemmap can be freed for a 2.00 MiB page
+May 08 01:18:00 obpc kernel: raid6: skipped pq benchmark and selected avx2x4
+May 08 01:18:00 obpc kernel: raid6: using avx2x2 recovery algorithm
+May 08 01:18:00 obpc kernel: ACPI: Added _OSI(Module Device)
+May 08 01:18:00 obpc kernel: ACPI: Added _OSI(Processor Device)
+May 08 01:18:00 obpc kernel: ACPI: Added _OSI(Processor Aggregator Device)
+May 08 01:18:00 obpc kernel: ACPI: 25 ACPI AML tables successfully acquired and loaded
+May 08 01:18:00 obpc kernel: ACPI: USB4 _OSC: OS supports USB3+ DisplayPort+ PCIe+ XDomain+
+May 08 01:18:00 obpc kernel: ACPI: USB4 _OSC: OS controls USB3+ DisplayPort+ PCIe+ XDomain+
+May 08 01:18:00 obpc kernel: ACPI: EC: EC started
+May 08 01:18:00 obpc kernel: ACPI: EC: interrupt blocked
+May 08 01:18:00 obpc kernel: ACPI: EC: EC_CMD/EC_SC=0x66, EC_DATA=0x62
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.LPCB.H_EC: Boot DSDT EC used to handle transactions
+May 08 01:18:00 obpc kernel: ACPI: Interpreter enabled
+May 08 01:18:00 obpc kernel: ACPI: PM: (supports S0 S3 S4 S5)
+May 08 01:18:00 obpc kernel: ACPI: Using IOAPIC for interrupt routing
+May 08 01:18:00 obpc kernel: PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+May 08 01:18:00 obpc kernel: PCI: Ignoring E820 reservations for host bridge windows
+May 08 01:18:00 obpc kernel: ACPI: Enabled 13 GPEs in block 00 to 7F
+May 08 01:18:00 obpc kernel: ACPI: Enabled 8 GPEs in block 80 to DF
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.RP04.PXP_: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.RP05.PXP_: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.RP11.PXP_: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.RP12.PXP_: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.XHCI.RHUB.HS10.BTRT: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.XHCI.RHUB.HS10.DBTR: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.PAUD: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.CNVW.WRST: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.TBT0: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.TBT1: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.D3C_: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_TZ_.FN00: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_TZ_.FN01: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_TZ_.FN02: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_TZ_.FN03: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \_TZ_.FN04: New power resource
+May 08 01:18:00 obpc kernel: ACPI: \PIN_: New power resource
+May 08 01:18:00 obpc kernel: ACPI: PCI Root Bridge [PC00] (domain 0000 [bus 00-fe])
+May 08 01:18:00 obpc kernel: acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI EDR HPX-Type3]
+May 08 01:18:00 obpc kernel: acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug SHPCHotplug PME AER PCIeCapability LTR DPC]
+May 08 01:18:00 obpc kernel: PCI host bridge to bus 0000:00
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: root bus resource [mem 0x80000000-0xbfffffff window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: root bus resource [mem 0x4000000000-0x3ffbfffffff window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: root bus resource [bus 00-fe]
+May 08 01:18:00 obpc kernel: pci 0000:00:00.0: [8086:7d06] type 00 class 0x060000 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0: [8086:7ecc] type 01 class 0x060400 PCIe Root Port
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0:   bridge window [mem 0x90300000-0x903fffff]
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0: PME# supported from D0 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0: PTM enabled (root), 4ns granularity
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: [8086:7d51] type 00 class 0x030000 PCIe Root Complex Integrated Endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: BAR 0 [mem 0x5837000000-0x5837ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: BAR 2 [mem 0x5020000000-0x502fffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: DMAR: Skip IOMMU disabling for graphics
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: PME# supported from D0 D3hot
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: VF BAR 0 [mem 0x5830000000-0x5830ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: VF BAR 0 [mem 0x5830000000-0x5836ffffff 64bit pref]: contains BAR 0 for 7 VFs
+May 08 01:18:00 obpc kernel: pci 0000:00:04.0: [8086:7d03] type 00 class 0x118000 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:04.0: BAR 0 [mem 0x58402c0000-0x58402dffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0: [8086:7ec4] type 01 class 0x060400 PCIe Root Port
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0:   bridge window [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x80000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0: PME# supported from D0 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0: PTM enabled (root), 4ns granularity
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: [8086:7ec6] type 01 class 0x060400 PCIe Root Port
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x8a000000-0x8fffffff]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: PME# supported from D0 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: PTM enabled (root), 4ns granularity
+May 08 01:18:00 obpc kernel: pci 0000:00:08.0: [8086:774c] type 00 class 0x088000 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:08.0: BAR 0 [mem 0x5840322000-0x5840322fff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0a.0: [8086:7d0d] type 00 class 0x118000 PCIe Root Complex Integrated Endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:0a.0: BAR 0 [mem 0x5840280000-0x58402bffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0a.0: enabling Extended Tags
+May 08 01:18:00 obpc kernel: pci 0000:00:0b.0: [8086:7d1d] type 00 class 0x120000 PCIe Root Complex Integrated Endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:0b.0: BAR 0 [mem 0x5838000000-0x583fffffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0b.0: BAR 4 [mem 0x5840321000-0x5840321fff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.0: [8086:7ec0] type 00 class 0x0c0330 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.0: BAR 0 [mem 0x5840300000-0x584030ffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.0: PME# supported from D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.2: [8086:7ec2] type 00 class 0x0c0340 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.2: BAR 0 [mem 0x5840240000-0x584027ffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.2: BAR 2 [mem 0x5840320000-0x5840320fff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.2: supports D1 D2
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.2: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.3: [8086:7ec3] type 00 class 0x0c0340 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.3: BAR 0 [mem 0x5840200000-0x584023ffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.3: BAR 2 [mem 0x584031f000-0x584031ffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.3: supports D1 D2
+May 08 01:18:00 obpc kernel: pci 0000:00:0d.3: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:12.0: [8086:7745] type 00 class 0x070000 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:12.0: BAR 0 [mem 0x58402f0000-0x58402fffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:12.0: PME# supported from D0 D3hot
+May 08 01:18:00 obpc kernel: pci 0000:00:14.0: [8086:777d] type 00 class 0x0c0330 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:14.0: BAR 0 [mem 0x58402e0000-0x58402effff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:14.0: PME# supported from D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:14.2: [8086:777f] type 00 class 0x050000 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:14.2: BAR 0 [mem 0x5840318000-0x584031bfff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:14.2: BAR 2 [mem 0x584031e000-0x584031efff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:14.3: [8086:7740] type 00 class 0x028000 PCIe Root Complex Integrated Endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:14.3: BAR 0 [mem 0x5840314000-0x5840317fff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:14.3: enabling Extended Tags
+May 08 01:18:00 obpc kernel: pci 0000:00:14.3: PME# supported from D0 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:16.0: [8086:7770] type 00 class 0x078000 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:16.0: BAR 0 [mem 0x584031d000-0x584031dfff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:16.0: PME# supported from D3hot
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0: [8086:773c] type 01 class 0x060400 PCIe Root Port
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0: PCI bridge to [bus 56]
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0:   bridge window [mem 0x90000000-0x902fffff]
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0: PME# supported from D0 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0: PTM enabled (root), 4ns granularity
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.0: [8086:7702] type 00 class 0x060100 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.3: [8086:7728] type 00 class 0x040100 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.3: BAR 0 [mem 0x5840310000-0x5840313fff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.3: BAR 4 [mem 0x5840000000-0x58401fffff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.3: PME# supported from D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.4: [8086:7722] type 00 class 0x0c0500 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.4: BAR 0 [mem 0x584031c000-0x584031c0ff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.4: BAR 4 [io  0xefa0-0xefbf]
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.5: [8086:7723] type 00 class 0x0c8000 conventional PCI endpoint
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0xfe010000-0xfe010fff]
+May 08 01:18:00 obpc kernel: pci 0000:01:00.0: [144d:a80c] type 00 class 0x010802 PCIe Endpoint
+May 08 01:18:00 obpc kernel: pci 0000:01:00.0: BAR 0 [mem 0x90300000-0x90303fff 64bit]
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: [8086:5786] type 01 class 0x060400 PCIe Switch Upstream Port
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: PCI bridge to [bus 03-2b]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0:   bridge window [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x80000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: enabling Extended Tags
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: supports D1 D2
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: PTM enabled, 4ns granularity
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: PCI bridge to [bus 04]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0:   bridge window [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x80000000-0x840fffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x4000000000-0x48140fffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: enabling Extended Tags
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: supports D1 D2
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: PCI bridge to [bus 05-11]
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x88000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x4d69600000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: enabling Extended Tags
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: supports D1 D2
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: PCI bridge to [bus 12-1e]
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x86100000-0x87ffffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x4abec00000-0x4d695fffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: enabling Extended Tags
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: supports D1 D2
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: PCI bridge to [bus 1f-2b]
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x84200000-0x860fffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x4814200000-0x4abebfffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: enabling Extended Tags
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: supports D1 D2
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: PCI bridge to [bus 03-2b]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: [10de:2b85] type 00 class 0x030000 PCIe Legacy Endpoint
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4812000000-0x4813ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 5 [io  0x3000-0x307f]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: Enabling HDA controller
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: PME# supported from D0 D3hot
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: contains BAR 0 for 1 VFs
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: contains BAR 2 for 1 VFs
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]: contains BAR 4 for 1 VFs
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 08 01:18:00 obpc kernel: pci 0000:04:00.1: [10de:22e8] type 00 class 0x040300 PCIe Endpoint
+May 08 01:18:00 obpc kernel: pci 0000:04:00.1: BAR 0 [mem 0x84080000-0x84083fff]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: PCI bridge to [bus 04]
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: PCI bridge to [bus 05-11]
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: PCI bridge to [bus 12-1e]
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: PCI bridge to [bus 1f-2b]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 08 01:18:00 obpc kernel: pci 0000:56:00.0: [8086:125c] type 00 class 0x020000 PCIe Endpoint
+May 08 01:18:00 obpc kernel: pci 0000:56:00.0: BAR 0 [mem 0x90100000-0x901fffff]
+May 08 01:18:00 obpc kernel: pci 0000:56:00.0: BAR 3 [mem 0x90200000-0x90203fff]
+May 08 01:18:00 obpc kernel: pci 0000:56:00.0: ROM [mem 0x90000000-0x900fffff pref]
+May 08 01:18:00 obpc kernel: pci 0000:56:00.0: PME# supported from D0 D3hot D3cold
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0: PCI bridge to [bus 56]
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0: Max Payload Size set to  256/ 256 (was  256), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:01:00.0: Max Payload Size set to  256/ 512 (was  256), Max Read Rq  256
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:04:00.1: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0: Max Payload Size set to  256/ 256 (was  256), Max Read Rq  128
+May 08 01:18:00 obpc kernel: pci 0000:56:00.0: Max Payload Size set to  256/ 512 (was  256), Max Read Rq  256
+May 08 01:18:00 obpc kernel: ACPI: PCI: Interrupt link LNKA configured for IRQ 0
+May 08 01:18:00 obpc kernel: ACPI: PCI: Interrupt link LNKB configured for IRQ 1
+May 08 01:18:00 obpc kernel: ACPI: PCI: Interrupt link LNKC configured for IRQ 0
+May 08 01:18:00 obpc kernel: ACPI: PCI: Interrupt link LNKD configured for IRQ 0
+May 08 01:18:00 obpc kernel: ACPI: PCI: Interrupt link LNKE configured for IRQ 0
+May 08 01:18:00 obpc kernel: ACPI: PCI: Interrupt link LNKF configured for IRQ 0
+May 08 01:18:00 obpc kernel: ACPI: PCI: Interrupt link LNKG configured for IRQ 0
+May 08 01:18:00 obpc kernel: ACPI: PCI: Interrupt link LNKH configured for IRQ 0
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PEPD: Duplicate LPS0 _DSM functions (mask: 0x1)
+May 08 01:18:00 obpc kernel: Low-power S0 idle used by default for system suspend
+May 08 01:18:00 obpc kernel: ACPI: EC: interrupt unblocked
+May 08 01:18:00 obpc kernel: ACPI: EC: event unblocked
+May 08 01:18:00 obpc kernel: ACPI: EC: EC_CMD/EC_SC=0x66, EC_DATA=0x62
+May 08 01:18:00 obpc kernel: ACPI: EC: GPE=0x6e
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.LPCB.H_EC: Boot DSDT EC initialization complete
+May 08 01:18:00 obpc kernel: ACPI: \_SB_.PC00.LPCB.H_EC: EC: Used to handle transactions and events
+May 08 01:18:00 obpc kernel: iommu: Default domain type: Translated
+May 08 01:18:00 obpc kernel: iommu: DMA domain TLB invalidation policy: lazy mode
+May 08 01:18:00 obpc kernel: SCSI subsystem initialized
+May 08 01:18:00 obpc kernel: libata version 3.00 loaded.
+May 08 01:18:00 obpc kernel: ACPI: bus type USB registered
+May 08 01:18:00 obpc kernel: usbcore: registered new interface driver usbfs
+May 08 01:18:00 obpc kernel: usbcore: registered new interface driver hub
+May 08 01:18:00 obpc kernel: usbcore: registered new device driver usb
+May 08 01:18:00 obpc kernel: pps_core: LinuxPPS API ver. 1 registered
+May 08 01:18:00 obpc kernel: pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+May 08 01:18:00 obpc kernel: PTP clock support registered
+May 08 01:18:00 obpc kernel: EDAC MC: Ver: 3.0.0
+May 08 01:18:00 obpc kernel: efivars: Registered efivars operations
+May 08 01:18:00 obpc kernel: NetLabel: Initializing
+May 08 01:18:00 obpc kernel: NetLabel:  domain hash size = 128
+May 08 01:18:00 obpc kernel: NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+May 08 01:18:00 obpc kernel: NetLabel:  unlabeled traffic allowed by default
+May 08 01:18:00 obpc kernel: mctp: management component transport protocol core
+May 08 01:18:00 obpc kernel: NET: Registered PF_MCTP protocol family
+May 08 01:18:00 obpc kernel: PCI: Using ACPI for IRQ routing
+May 08 01:18:00 obpc kernel: PCI: pci_cache_line_size set to 64 bytes
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0xfe010000-0xfe010fff]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4812000000-0x4813ffffff 64bit pref]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: pci 0000:04:00.1: BAR 0 [mem 0x84080000-0x84083fff]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: e820: reserve RAM buffer [mem 0x0009f000-0x0009ffff]
+May 08 01:18:00 obpc kernel: e820: reserve RAM buffer [mem 0x483a2000-0x4bffffff]
+May 08 01:18:00 obpc kernel: e820: reserve RAM buffer [mem 0x50df1000-0x53ffffff]
+May 08 01:18:00 obpc kernel: e820: reserve RAM buffer [mem 0x545f2000-0x57ffffff]
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: vgaarb: setting as boot VGA device
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: vgaarb: bridge control possible
+May 08 01:18:00 obpc kernel: pci 0000:00:02.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: vgaarb: bridge control possible
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+May 08 01:18:00 obpc kernel: vgaarb: loaded
+May 08 01:18:00 obpc kernel: Monitor-Mwait will be used to enter C-1 state
+May 08 01:18:00 obpc kernel: Monitor-Mwait will be used to enter C-2 state
+May 08 01:18:00 obpc kernel: Monitor-Mwait will be used to enter C-3 state
+May 08 01:18:00 obpc kernel: clocksource: Switched to clocksource tsc-early
+May 08 01:18:00 obpc kernel: VFS: Disk quotas dquot_6.6.0
+May 08 01:18:00 obpc kernel: VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+May 08 01:18:00 obpc kernel: pnp: PnP ACPI init
+May 08 01:18:00 obpc kernel: system 00:01: [io  0x0680-0x069f] has been reserved
+May 08 01:18:00 obpc kernel: system 00:01: [io  0x164e-0x164f] has been reserved
+May 08 01:18:00 obpc kernel: system 00:02: [io  0x1854-0x1857] has been reserved
+May 08 01:18:00 obpc kernel: system 00:03: [mem 0xfedc0000-0xfedc7fff] has been reserved
+May 08 01:18:00 obpc kernel: system 00:03: [mem 0x00000000-0x00000fff] could not be reserved
+May 08 01:18:00 obpc kernel: system 00:03: [mem 0x00000000-0x00000fff] could not be reserved
+May 08 01:18:00 obpc kernel: system 00:03: [mem 0xc0000000-0xcfffffff] has been reserved
+May 08 01:18:00 obpc kernel: system 00:03: [mem 0xfed20000-0xfed7ffff] could not be reserved
+May 08 01:18:00 obpc kernel: system 00:03: [mem 0xfc800000-0xfc81ffff] could not be reserved
+May 08 01:18:00 obpc kernel: system 00:03: [mem 0xfed45000-0xfed8ffff] could not be reserved
+May 08 01:18:00 obpc kernel: system 00:03: [mem 0xfee00000-0xfeefffff] could not be reserved
+May 08 01:18:00 obpc kernel: system 00:04: [io  0x2000-0x20fe] has been reserved
+May 08 01:18:00 obpc kernel: pnp: PnP ACPI: found 6 devices
+May 08 01:18:00 obpc kernel: clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+May 08 01:18:00 obpc kernel: NET: Registered PF_INET protocol family
+May 08 01:18:00 obpc kernel: IP idents hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+May 08 01:18:00 obpc kernel: tcp_listen_portaddr_hash hash table entries: 65536 (order: 8, 1048576 bytes, linear)
+May 08 01:18:00 obpc kernel: Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+May 08 01:18:00 obpc kernel: TCP established hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+May 08 01:18:00 obpc kernel: TCP bind hash table entries: 65536 (order: 9, 2097152 bytes, linear)
+May 08 01:18:00 obpc kernel: TCP: Hash tables configured (established 524288 bind 65536)
+May 08 01:18:00 obpc kernel: MPTCP token hash table entries: 65536 (order: 9, 1572864 bytes, linear)
+May 08 01:18:00 obpc kernel: UDP hash table entries: 65536 (order: 10, 4194304 bytes, linear)
+May 08 01:18:00 obpc kernel: UDP-Lite hash table entries: 65536 (order: 10, 4194304 bytes, linear)
+May 08 01:18:00 obpc kernel: NET: Registered PF_UNIX/PF_LOCAL protocol family
+May 08 01:18:00 obpc kernel: NET: Registered PF_XDP protocol family
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]: can't claim; no compatible bridge window
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: bridge window [mem 0x800000000-0x1001ffffff 64bit pref] to [bus 04] add_size 12100000 add_align 800000000
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: bridge window [io  0x1000-0x0fff] to [bus 05-11] add_size 1000
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: bridge window [io  0x1000-0x0fff] to [bus 12-1e] add_size 1000
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: bridge window [io  0x1000-0x0fff] to [bus 1f-2b] add_size 1000
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: bridge window [io  0x1000-0x0fff] to [bus 2c-55] add_size 1000
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: bridge window [io  0x4000-0x4fff]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0x89f00000-0x89f00fff]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+May 08 01:18:00 obpc kernel: pci 0000:00:01.0:   bridge window [mem 0x90300000-0x903fffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: bridge window [mem 0x4000000000-0x48140fffff 64bit pref]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: bridge window [mem 0x80000000-0x840fffff]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: bridge window [io  size 0x1000]: can't assign; no space
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: bridge window [io  size 0x1000]: failed to assign
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: bridge window [io  size 0x1000]: can't assign; no space
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: bridge window [io  size 0x1000]: failed to assign
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: bridge window [io  size 0x1000]: can't assign; no space
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: bridge window [io  size 0x1000]: failed to assign
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: bridge window [io  size 0x1000]: can't assign; no space
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: bridge window [io  size 0x1000]: failed to assign
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: bridge window [io  size 0x1000]: can't assign; no space
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: bridge window [io  size 0x1000]: failed to assign
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: bridge window [io  size 0x1000]: can't assign; no space
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: bridge window [io  size 0x1000]: failed to assign
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4810000000-0x4811ffffff 64bit pref]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4812000000-0x4813ffffff 64bit pref]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:04:00.1: BAR 0 [mem 0x84080000-0x84083fff]: assigned
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0: PCI bridge to [bus 04]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0:   bridge window [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x80000000-0x840fffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x4000000000-0x48140fffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0: PCI bridge to [bus 05-11]
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x88000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x4d69600000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0: PCI bridge to [bus 12-1e]
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x86100000-0x87ffffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x4abec00000-0x4d695fffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0: PCI bridge to [bus 1f-2b]
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x84200000-0x860fffff]
+May 08 01:18:00 obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x4814200000-0x4abebfffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0: PCI bridge to [bus 03-2b]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0:   bridge window [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x80000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0:   bridge window [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x80000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2:   bridge window [io  0x4000-0x4fff]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x8a000000-0x8fffffff]
+May 08 01:18:00 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0: PCI bridge to [bus 56]
+May 08 01:18:00 obpc kernel: pci 0000:00:1c.0:   bridge window [mem 0x90000000-0x902fffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7 window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: resource 5 [io  0x0d00-0xffff window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: resource 7 [mem 0x80000000-0xbfffffff window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:00: resource 8 [mem 0x4000000000-0x3ffbfffffff window]
+May 08 01:18:00 obpc kernel: pci_bus 0000:01: resource 1 [mem 0x90300000-0x903fffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:02: resource 0 [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:02: resource 1 [mem 0x80000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:02: resource 2 [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci_bus 0000:03: resource 0 [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:03: resource 1 [mem 0x80000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:03: resource 2 [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci_bus 0000:04: resource 0 [io  0x3000-0x3fff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:04: resource 1 [mem 0x80000000-0x840fffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:04: resource 2 [mem 0x4000000000-0x48140fffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci_bus 0000:05: resource 0 [io  size 0x1000]
+May 08 01:18:00 obpc kernel: pci_bus 0000:05: resource 1 [mem 0x88000000-0x89efffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:05: resource 2 [mem 0x4d69600000-0x5013ffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci_bus 0000:12: resource 0 [io  size 0x1000]
+May 08 01:18:00 obpc kernel: pci_bus 0000:12: resource 1 [mem 0x86100000-0x87ffffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:12: resource 2 [mem 0x4abec00000-0x4d695fffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci_bus 0000:1f: resource 0 [io  size 0x1000]
+May 08 01:18:00 obpc kernel: pci_bus 0000:1f: resource 1 [mem 0x84200000-0x860fffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:1f: resource 2 [mem 0x4814200000-0x4abebfffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci_bus 0000:2c: resource 0 [io  0x4000-0x4fff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:2c: resource 1 [mem 0x8a000000-0x8fffffff]
+May 08 01:18:00 obpc kernel: pci_bus 0000:2c: resource 2 [mem 0x5030000000-0x582fffffff 64bit pref]
+May 08 01:18:00 obpc kernel: pci_bus 0000:56: resource 1 [mem 0x90000000-0x902fffff]
+May 08 01:18:00 obpc kernel: pci 0000:04:00.1: extending delay after power-on from D3hot to 20 msec
+May 08 01:18:00 obpc kernel: pci 0000:04:00.1: D0 power state depends on 0000:04:00.0
+May 08 01:18:00 obpc kernel: PCI: CLS 64 bytes, default 64
+May 08 01:18:00 obpc kernel: clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x6a464ae9873, max_idle_ns: 881590529744 ns
+May 08 01:18:00 obpc kernel: clocksource: Switched to clocksource tsc
+May 08 01:18:00 obpc kernel: platform rtc_cmos: registered platform RTC device (no PNP device found)
+May 08 01:18:00 obpc kernel: Trying to unpack rootfs image as initramfs...
+May 08 01:18:00 obpc kernel: Initialise system trusted keyrings
+May 08 01:18:00 obpc kernel: Key type blacklist registered
+May 08 01:18:00 obpc kernel: workingset: timestamp_bits=36 max_order=25 bucket_order=0
+May 08 01:18:00 obpc kernel: integrity: Platform Keyring initialized
+May 08 01:18:00 obpc kernel: integrity: Machine keyring initialized
+May 08 01:18:00 obpc kernel: cryptd: max_cpu_qlen set to 1000
+May 08 01:18:00 obpc kernel: NET: Registered PF_ALG protocol family
+May 08 01:18:00 obpc kernel: xor: automatically using best checksumming function   avx       
+May 08 01:18:00 obpc kernel: Key type asymmetric registered
+May 08 01:18:00 obpc kernel: Asymmetric key parser 'x509' registered
+May 08 01:18:00 obpc kernel: Block layer SCSI generic (bsg) driver version 0.4 loaded (major 244)
+May 08 01:18:00 obpc kernel: io scheduler mq-deadline registered
+May 08 01:18:00 obpc kernel: io scheduler kyber registered
+May 08 01:18:00 obpc kernel: io scheduler bfq registered
+May 08 01:18:00 obpc kernel: atomic64_test: passed for x86-64 platform with CX8 and with SSE
+May 08 01:18:00 obpc kernel: pcieport 0000:00:01.0: PME: Signaling with IRQ 120
+May 08 01:18:00 obpc kernel: pcieport 0000:00:01.0: AER: enabled with IRQ 120
+May 08 01:18:00 obpc kernel: pcieport 0000:00:07.0: PME: Signaling with IRQ 121
+May 08 01:18:00 obpc kernel: pcieport 0000:00:07.0: AER: enabled with IRQ 121
+May 08 01:18:00 obpc kernel: pcieport 0000:00:07.0: pciehp: Slot #12 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 01:18:00 obpc kernel: pcieport 0000:00:07.2: PME: Signaling with IRQ 122
+May 08 01:18:00 obpc kernel: pcieport 0000:00:07.2: AER: enabled with IRQ 122
+May 08 01:18:00 obpc kernel: pcieport 0000:00:07.2: pciehp: Slot #14 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 01:18:00 obpc kernel: pcieport 0000:00:1c.0: PME: Signaling with IRQ 123
+May 08 01:18:00 obpc kernel: pcieport 0000:00:1c.0: AER: enabled with IRQ 123
+May 08 01:18:00 obpc kernel: pcieport 0000:03:00.0: enabling device (0001 -> 0003)
+May 08 01:18:00 obpc kernel: pcieport 0000:03:01.0: pciehp: Slot #1 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 01:18:00 obpc kernel: pcieport 0000:03:02.0: pciehp: Slot #2 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 01:18:00 obpc kernel: pcieport 0000:03:03.0: pciehp: Slot #3 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 01:18:00 obpc kernel: input: Sleep Button as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input0
+May 08 01:18:00 obpc kernel: ACPI: button: Sleep Button [SLPB]
+May 08 01:18:00 obpc kernel: input: Power Button as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0C:00/input/input1
+May 08 01:18:00 obpc kernel: ACPI: button: Power Button [PWRB]
+May 08 01:18:00 obpc kernel: input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input2
+May 08 01:18:00 obpc kernel: ACPI: button: Power Button [PWRF]
+May 08 01:18:00 obpc kernel: ACPI: thermal: [Firmware Bug]: Invalid critical threshold (-274000)
+May 08 01:18:00 obpc kernel: thermal LNXTHERM:00: registered as thermal_zone0
+May 08 01:18:00 obpc kernel: ACPI: thermal: Thermal Zone [TZ0] (40 C)
+May 08 01:18:00 obpc kernel: thermal LNXTHERM:01: registered as thermal_zone1
+May 08 01:18:00 obpc kernel: ACPI: thermal: Thermal Zone [TZ00] (59 C)
+May 08 01:18:00 obpc kernel: Serial: 8250/16550 driver, 32 ports, IRQ sharing enabled
+May 08 01:18:00 obpc kernel: serial 0000:00:12.0: enabling device (0000 -> 0002)
+May 08 01:18:00 obpc kernel: hpet_acpi_add: no address or irqs in _CRS
+May 08 01:18:00 obpc kernel: Non-volatile memory driver v1.3
+May 08 01:18:00 obpc kernel: Linux agpgart interface v0.103
+May 08 01:18:00 obpc kernel: ACPI: bus type drm_connector registered
+May 08 01:18:00 obpc kernel: CAN device driver interface
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 1
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:0d.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 2
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:0d.0: Host supports USB 3.2 Enhanced SuperSpeed
+May 08 01:18:00 obpc kernel: usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.19
+May 08 01:18:00 obpc kernel: usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+May 08 01:18:00 obpc kernel: usb usb1: Product: xHCI Host Controller
+May 08 01:18:00 obpc kernel: usb usb1: Manufacturer: Linux 6.19.14-200.fc43.x86_64 xhci-hcd
+May 08 01:18:00 obpc kernel: usb usb1: SerialNumber: 0000:00:0d.0
+May 08 01:18:00 obpc kernel: hub 1-0:1.0: USB hub found
+May 08 01:18:00 obpc kernel: hub 1-0:1.0: 1 port detected
+May 08 01:18:00 obpc kernel: usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 6.19
+May 08 01:18:00 obpc kernel: usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+May 08 01:18:00 obpc kernel: usb usb2: Product: xHCI Host Controller
+May 08 01:18:00 obpc kernel: usb usb2: Manufacturer: Linux 6.19.14-200.fc43.x86_64 xhci-hcd
+May 08 01:18:00 obpc kernel: usb usb2: SerialNumber: 0000:00:0d.0
+May 08 01:18:00 obpc kernel: hub 2-0:1.0: USB hub found
+May 08 01:18:00 obpc kernel: hub 2-0:1.0: 4 ports detected
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:14.0: xHCI Host Controller
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 3
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:14.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:14.0: xHCI Host Controller
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 4
+May 08 01:18:00 obpc kernel: xhci_hcd 0000:00:14.0: Host supports USB 3.2 Enhanced SuperSpeed
+May 08 01:18:00 obpc kernel: usb usb3: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.19
+May 08 01:18:00 obpc kernel: usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+May 08 01:18:00 obpc kernel: usb usb3: Product: xHCI Host Controller
+May 08 01:18:00 obpc kernel: usb usb3: Manufacturer: Linux 6.19.14-200.fc43.x86_64 xhci-hcd
+May 08 01:18:00 obpc kernel: usb usb3: SerialNumber: 0000:00:14.0
+May 08 01:18:00 obpc kernel: hub 3-0:1.0: USB hub found
+May 08 01:18:00 obpc kernel: hub 3-0:1.0: 12 ports detected
+May 08 01:18:00 obpc kernel: usb usb4: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 6.19
+May 08 01:18:00 obpc kernel: usb usb4: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+May 08 01:18:00 obpc kernel: usb usb4: Product: xHCI Host Controller
+May 08 01:18:00 obpc kernel: usb usb4: Manufacturer: Linux 6.19.14-200.fc43.x86_64 xhci-hcd
+May 08 01:18:00 obpc kernel: usb usb4: SerialNumber: 0000:00:14.0
+May 08 01:18:00 obpc kernel: hub 4-0:1.0: USB hub found
+May 08 01:18:00 obpc kernel: hub 4-0:1.0: 2 ports detected
+May 08 01:18:00 obpc kernel: usbcore: registered new interface driver usbserial_generic
+May 08 01:18:00 obpc kernel: usbserial: USB Serial support registered for generic
+May 08 01:18:00 obpc kernel: i8042: PNP: No PS/2 controller found.
+May 08 01:18:00 obpc kernel: mousedev: PS/2 mouse device common for all mice
+May 08 01:18:00 obpc kernel: rtc_cmos rtc_cmos: RTC can wake from S4
+May 08 01:18:00 obpc kernel: rtc_cmos rtc_cmos: registered as rtc0
+May 08 01:18:00 obpc kernel: rtc_cmos rtc_cmos: setting system clock to 2026-05-07T15:18:00 UTC (1778167080)
+May 08 01:18:00 obpc kernel: rtc_cmos rtc_cmos: alarms up to one month, y3k, 114 bytes nvram
+May 08 01:18:00 obpc kernel: device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+May 08 01:18:00 obpc kernel: device-mapper: uevent: version 1.0.3
+May 08 01:18:00 obpc kernel: device-mapper: ioctl: 4.50.0-ioctl (2025-04-28) initialised: dm-devel@lists.linux.dev
+May 08 01:18:00 obpc kernel: intel_pstate: Intel P-state driver initializing
+May 08 01:18:00 obpc kernel: Hybrid CPU capacity scaling enabled
+May 08 01:18:00 obpc kernel: processor cpu0: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu1: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu2: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu3: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu4: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu5: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu6: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu7: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu8: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu9: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu10: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu11: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu12: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu13: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu14: EM: created perf domain
+May 08 01:18:00 obpc kernel: processor cpu15: EM: created perf domain
+May 08 01:18:00 obpc kernel: intel_pstate: HWP enabled
+May 08 01:18:00 obpc kernel: simple-framebuffer simple-framebuffer.0: [drm] Registered 1 planes with drm panic
+May 08 01:18:00 obpc kernel: [drm] Initialized simpledrm 1.0.0 for simple-framebuffer.0 on minor 0
+May 08 01:18:00 obpc kernel: fbcon: Deferring console take-over
+May 08 01:18:00 obpc kernel: simple-framebuffer simple-framebuffer.0: [drm] fb0: simpledrmdrmfb frame buffer device
+May 08 01:18:00 obpc kernel: hid: raw HID events driver (C) Jiri Kosina
+May 08 01:18:00 obpc kernel: usbcore: registered new interface driver usbhid
+May 08 01:18:00 obpc kernel: usbhid: USB HID core driver
+May 08 01:18:00 obpc kernel: drop_monitor: Initializing network drop monitor service
+May 08 01:18:00 obpc kernel: Initializing XFRM netlink socket
+May 08 01:18:00 obpc kernel: NET: Registered PF_INET6 protocol family
+May 08 01:18:00 obpc kernel: Segment Routing with IPv6
+May 08 01:18:00 obpc kernel: RPL Segment Routing with IPv6
+May 08 01:18:00 obpc kernel: In-situ OAM (IOAM) with IPv6
+May 08 01:18:00 obpc kernel: mip6: Mobile IPv6
+May 08 01:18:00 obpc kernel: NET: Registered PF_PACKET protocol family
+May 08 01:18:00 obpc kernel: can: controller area network core
+May 08 01:18:00 obpc kernel: NET: Registered PF_CAN protocol family
+May 08 01:18:00 obpc kernel: ENERGY_PERF_BIAS: Set to 'normal', was 'performance'
+May 08 01:18:00 obpc kernel: microcode: Current revision: 0x0000011b
+May 08 01:18:00 obpc kernel: IPI shorthand broadcast: enabled
+May 08 01:18:00 obpc kernel: sched_clock: Marking stable (919000543, 6140779)->(945421626, -20280304)
+May 08 01:18:00 obpc kernel: registered taskstats version 1
+May 08 01:18:00 obpc kernel: Loading compiled-in X.509 certificates
+May 08 01:18:00 obpc kernel: Loaded X.509 cert 'Fedora kernel signing key: 88b80e08bfa3c7a8597e235adbf6de56f0ca4439'
+May 08 01:18:00 obpc kernel: Freeing initrd memory: 51464K
+May 08 01:18:00 obpc kernel: Loaded X.509 cert 'Fedora IMA CA: a8a00c31663f853f9c6ff2564872e378af026b28'
+May 08 01:18:00 obpc kernel: Demotion targets for Node 0: null
+May 08 01:18:00 obpc kernel: page_owner is disabled
+May 08 01:18:00 obpc kernel: Key type .fscrypt registered
+May 08 01:18:00 obpc kernel: Key type fscrypt-provisioning registered
+May 08 01:18:00 obpc kernel: Btrfs loaded, zoned=yes, fsverity=yes
+May 08 01:18:00 obpc kernel: Key type big_key registered
+May 08 01:18:00 obpc kernel: Key type trusted registered
+May 08 01:18:00 obpc kernel: Key type encrypted registered
+May 08 01:18:00 obpc kernel: Loading compiled-in module X.509 certificates
+May 08 01:18:00 obpc kernel: Loaded X.509 cert 'Fedora kernel signing key: 88b80e08bfa3c7a8597e235adbf6de56f0ca4439'
+May 08 01:18:00 obpc kernel: ima: Allocated hash algorithm: sha256
+May 08 01:18:00 obpc kernel: ima: No architecture policies found
+May 08 01:18:00 obpc kernel: evm: Initialising EVM extended attributes:
+May 08 01:18:00 obpc kernel: evm: security.selinux
+May 08 01:18:00 obpc kernel: evm: security.SMACK64 (disabled)
+May 08 01:18:00 obpc kernel: evm: security.SMACK64EXEC (disabled)
+May 08 01:18:00 obpc kernel: evm: security.SMACK64TRANSMUTE (disabled)
+May 08 01:18:00 obpc kernel: evm: security.SMACK64MMAP (disabled)
+May 08 01:18:00 obpc kernel: evm: security.apparmor (disabled)
+May 08 01:18:00 obpc kernel: evm: security.ima
+May 08 01:18:00 obpc kernel: evm: security.capability
+May 08 01:18:00 obpc kernel: evm: HMAC attrs: 0x1
+May 08 01:18:00 obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+May 08 01:18:00 obpc kernel: integrity: Loaded X.509 cert 'ASUS UEFI SW Key Certificate: b0fa6680874410ba479208b6268c10e4'
+May 08 01:18:00 obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+May 08 01:18:00 obpc kernel: integrity: Loaded X.509 cert 'Microsoft Corporation UEFI CA 2011: 13adbf4309bd82709c8cd54f316ed522988a1bd4'
+May 08 01:18:00 obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+May 08 01:18:00 obpc kernel: integrity: Loaded X.509 cert 'Microsoft Windows Production PCA 2011: a92902398e16c49778cd90f99e4f9ae17c55af53'
+May 08 01:18:00 obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+May 08 01:18:00 obpc kernel: integrity: Loaded X.509 cert 'Microsoft Corporation: Windows UEFI CA 2023: aefc5fbbbe055d8f8daa585473499417ab5a5272'
+May 08 01:18:00 obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+May 08 01:18:00 obpc kernel: integrity: Loaded X.509 cert 'Microsoft Option ROM UEFI CA 2023: 514fbf937fa46fb57bf07af8bed84b3b864b1711'
+May 08 01:18:00 obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+May 08 01:18:00 obpc kernel: integrity: Loaded X.509 cert 'Microsoft UEFI CA 2023: 81aa6b3244c935bce0d6628af39827421e32497d'
+May 08 01:18:00 obpc kernel: alg: No test for 842 (842-scomp)
+May 08 01:18:00 obpc kernel: PM:   Magic number: 10:828:284
+May 08 01:18:00 obpc kernel: RAS: Correctable Errors collector initialized.
+May 08 01:18:00 obpc kernel: clk: Disabling unused clocks
+May 08 01:18:00 obpc kernel: PM: genpd: Disabling unused power domains
+May 08 01:18:00 obpc kernel: Freeing unused decrypted memory: 2028K
+May 08 01:18:00 obpc kernel: Freeing unused kernel image (initmem) memory: 5200K
+May 08 01:18:00 obpc kernel: Write protecting the kernel read-only data: 43008k
+May 08 01:18:00 obpc kernel: Freeing unused kernel image (text/rodata gap) memory: 1972K
+May 08 01:18:00 obpc kernel: Freeing unused kernel image (rodata/data gap) memory: 580K
+May 08 01:18:00 obpc kernel: x86/mm: Checked W+X mappings: passed, no W+X pages found.
+May 08 01:18:00 obpc kernel: Run /init as init process
+May 08 01:18:00 obpc kernel:   with arguments:
+May 08 01:18:00 obpc kernel:     /init
+May 08 01:18:00 obpc kernel:     rhgb
+May 08 01:18:00 obpc kernel:   with environment:
+May 08 01:18:00 obpc kernel:     HOME=/
+May 08 01:18:00 obpc kernel:     TERM=linux
+May 08 01:18:00 obpc systemd[1]: Successfully made /usr/ read-only.
+May 08 01:18:00 obpc systemd[1]: systemd 258.7-1.fc43 running in system mode (+PAM +AUDIT +SELINUX -APPARMOR +IMA +IPE +SMACK +SECCOMP -GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN -IPTC +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK +BTF +XKBCOMMON +UTMP +SYSVINIT +LIBARCHIVE)
+May 08 01:18:00 obpc systemd[1]: Detected architecture x86-64.
+May 08 01:18:00 obpc systemd[1]: Running in initrd.
+May 08 01:18:00 obpc systemd[1]: Hostname set to <obpc>.
+May 08 01:18:00 obpc systemd[1]: bpf-restrict-fs: LSM BPF program attached
+May 08 01:18:00 obpc systemd[1]: Queued start job for default target initrd.target.
+May 08 01:18:00 obpc systemd[1]: Expecting device dev-disk-by\x2duuid-34e34fc2\x2d47b6\x2d41bd\x2db739\x2d8a1c79788cb2.device - /dev/disk/by-uuid/34e34fc2-47b6-41bd-b739-8a1c79788cb2...
+May 08 01:18:00 obpc systemd[1]: Reached target initrd-usr-fs.target - Initrd /usr File System.
+May 08 01:18:00 obpc systemd[1]: Reached target slices.target - Slice Units.
+May 08 01:18:00 obpc systemd[1]: Reached target swap.target - Swaps.
+May 08 01:18:00 obpc systemd[1]: Reached target timers.target - Timer Units.
+May 08 01:18:00 obpc systemd[1]: Listening on systemd-journald-dev-log.socket - Journal Socket (/dev/log).
+May 08 01:18:00 obpc systemd[1]: Listening on systemd-journald.socket - Journal Sockets.
+May 08 01:18:00 obpc systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
+May 08 01:18:00 obpc systemd[1]: Listening on systemd-udevd-kernel.socket - udev Kernel Socket.
+May 08 01:18:00 obpc systemd[1]: Reached target sockets.target - Socket Units.
+May 08 01:18:00 obpc systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
+May 08 01:18:00 obpc systemd[1]: memstrack.service - Memstrack Anylazing Service skipped, no trigger condition checks were met.
+May 08 01:18:00 obpc systemd[1]: Starting systemd-journald.service - Journal Service...
+May 08 01:18:00 obpc systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
+May 08 01:18:00 obpc systemd[1]: systemd-pcrphase-initrd.service - TPM PCR Barrier (initrd) skipped, unmet condition check ConditionSecurity=measured-uki
+May 08 01:18:00 obpc systemd[1]: Starting systemd-vconsole-setup.service - Virtual Console Setup...
+May 08 01:18:00 obpc systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+May 08 01:18:00 obpc systemd[1]: Starting systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully...
+May 08 01:18:00 obpc systemd-journald[309]: Collecting audit messages is disabled.
+May 08 01:18:00 obpc systemd[1]: Finished systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully.
+May 08 01:18:00 obpc systemd[1]: Starting systemd-sysusers.service - Create System Users...
+May 08 01:18:00 obpc systemd[1]: Finished systemd-sysusers.service - Create System Users.
+May 08 01:18:00 obpc systemd[1]: Starting systemd-tmpfiles-setup-dev.service - Create Static Device Nodes in /dev...
+May 08 01:18:00 obpc kernel: fuse: init (API version 7.45)
+May 08 01:18:00 obpc kernel: i2c_dev: i2c /dev entries driver
+May 08 01:18:00 obpc systemd[1]: Finished systemd-modules-load.service - Load Kernel Modules.
+May 08 01:18:00 obpc systemd[1]: Starting systemd-sysctl.service - Apply Kernel Variables...
+May 08 01:18:00 obpc systemd[1]: Finished systemd-tmpfiles-setup-dev.service - Create Static Device Nodes in /dev.
+May 08 01:18:00 obpc systemd[1]: Reached target local-fs-pre.target - Preparation for Local File Systems.
+May 08 01:18:00 obpc systemd[1]: Reached target local-fs.target - Local File Systems.
+May 08 01:18:00 obpc systemd[1]: Finished systemd-sysctl.service - Apply Kernel Variables.
+May 08 01:18:00 obpc systemd[1]: Finished systemd-vconsole-setup.service - Virtual Console Setup.
+May 08 01:18:00 obpc systemd[1]: Starting dracut-cmdline-ask.service - dracut ask for additional cmdline parameters...
+May 08 01:18:00 obpc systemd[1]: Finished dracut-cmdline-ask.service - dracut ask for additional cmdline parameters.
+May 08 01:18:00 obpc systemd[1]: Starting dracut-cmdline.service - dracut cmdline hook...
+May 08 01:18:00 obpc systemd[1]: Started systemd-journald.service - Journal Service.
+May 08 01:18:00 obpc kernel: usb 2-1: new SuperSpeed Plus Gen 2x2 USB device number 2 using xhci_hcd
+May 08 01:18:00 obpc kernel: aorus_egpu_trust: loading out-of-tree module taints kernel.
+May 08 01:18:00 obpc kernel: aorus_egpu_trust: module verification failed: signature and/or required key missing - tainting kernel
+May 08 01:18:00 obpc kernel: AORUS eGPU trust override: module loaded (vendor=0x10de device=0x2b85[+0x22e8] PCI fixups registered)
+May 08 01:18:00 obpc kernel: AORUS eGPU trust override: NOTE — for the quirk to take effect on an already-enumerated device, run remove + rescan via sysfs
+May 08 01:18:00 obpc kernel: usb 2-1: New USB device found, idVendor=8087, idProduct=5787, bcdDevice= 0.00
+May 08 01:18:00 obpc kernel: usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+May 08 01:18:00 obpc kernel: usb 2-1: Product: USB3 HUB
+May 08 01:18:00 obpc kernel: usb 2-1: Manufacturer: Intel Corporation
+May 08 01:18:00 obpc kernel: hub 2-1:1.0: USB hub found
+May 08 01:18:00 obpc kernel: hub 2-1:1.0: 4 ports detected
+May 08 01:18:01 obpc kernel: usb 3-1: new high-speed USB device number 2 using xhci_hcd
+May 08 01:18:01 obpc kernel: ACPI: bus type thunderbolt registered
+May 08 01:18:01 obpc kernel: intel_vsec 0000:00:0a.0: enabling device (0000 -> 0002)
+May 08 01:18:01 obpc kernel: Key type psk registered
+May 08 01:18:01 obpc kernel: intel_vpu 0000:00:0b.0: enabling device (0000 -> 0002)
+May 08 01:18:01 obpc kernel: nvme 0000:01:00.0: platform quirk: setting simple suspend
+May 08 01:18:01 obpc kernel: nvme nvme0: pci function 0000:01:00.0
+May 08 01:18:01 obpc kernel: nvme nvme0: D3 entry latency set to 10 seconds
+May 08 01:18:01 obpc kernel: nvme nvme0: 16/0/0 default/read/poll queues
+May 08 01:18:01 obpc kernel:  nvme0n1: p1 p2 p3 p4 p5 p6
+May 08 01:18:01 obpc kernel: intel_vpu 0000:00:0b.0: [drm] Firmware: intel/vpu/vpu_37xx_v1.bin, version: 20260305*MTL_CLIENT_SILICON-NVR+NN-deployment*dbda783919b77553afe5576a59881bca37fb6d7b*dbda783919b77553afe5576a59881bca37fb6d7b*dbda783919b
+May 08 01:18:01 obpc kernel: intel_vpu 0000:00:0b.0: [drm] Scheduler mode: HW
+May 08 01:18:01 obpc kernel: thunderbolt 0-1: new device found, vendor=0xed device=0x41b6
+May 08 01:18:01 obpc kernel: thunderbolt 0-1: GIGABYTE AORUS RTX5090 AI BOX
+May 08 01:18:01 obpc kernel: usb 2-1.4: new SuperSpeed Plus Gen 2x1 USB device number 3 using xhci_hcd
+May 08 01:18:01 obpc kernel: [drm] Initialized intel_vpu 1.0.0 for 0000:00:0b.0 on minor 0
+May 08 01:18:01 obpc kernel: usb 2-1.4: New USB device found, idVendor=0bda, idProduct=0423, bcdDevice= 0.03
+May 08 01:18:01 obpc kernel: usb 2-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+May 08 01:18:01 obpc kernel: usb 2-1.4: Product: 4-Port USB 3.0 Hub
+May 08 01:18:01 obpc kernel: usb 2-1.4: Manufacturer: Generic
+May 08 01:18:01 obpc kernel: hub 2-1.4:1.0: USB hub found
+May 08 01:18:01 obpc kernel: hub 2-1.4:1.0: 4 ports detected
+May 08 01:18:01 obpc kernel: usb 3-1: New USB device found, idVendor=1d5c, idProduct=5801, bcdDevice= 1.01
+May 08 01:18:01 obpc kernel: usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+May 08 01:18:01 obpc kernel: usb 3-1: Product: USB2.0 Hub
+May 08 01:18:01 obpc kernel: usb 3-1: Manufacturer: Fresco Logic, Inc.
+May 08 01:18:01 obpc kernel: hub 3-1:1.0: USB hub found
+May 08 01:18:01 obpc kernel: hub 3-1:1.0: 6 ports detected
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] Found meteorlake (device ID 7d51) integrated display version 14.00 stepping D0
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: vgaarb: deactivate vga console
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] Using Transparent Hugepages
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=io+mem
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] Finished loading DMC firmware i915/mtl_dmc.bin (v2.23)
+May 08 01:18:01 obpc kernel: thunderbolt 0-0:1.1: new retimer found, vendor=0x8087 device=0xd9c
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT0: GuC firmware i915/mtl_guc_70.bin version 70.53.0
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT0: GUC: submission enabled
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT0: GUC: SLPC enabled
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT0: GUC: RC enabled
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT1: GuC firmware i915/mtl_guc_70.bin version 70.53.0
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT1: HuC firmware i915/mtl_huc_gsc.bin version 8.5.4
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT1: HuC: authenticated for clear media
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT1: GUC: submission enabled
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT1: GUC: SLPC enabled
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT1: GUC: RC enabled
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] Protected Xe Path (PXP) protected content support initialized
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] Registered 4 planes with drm panic
+May 08 01:18:01 obpc kernel: [drm] Initialized i915 1.6.0 for 0000:00:02.0 on minor 1
+May 08 01:18:01 obpc kernel: ACPI: video: Video Device [GFX0] (multi-head: yes  rom: no  post: no)
+May 08 01:18:01 obpc kernel: input: Video Bus as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input3
+May 08 01:18:01 obpc kernel: ish-hid {33AECD58-B679-4E54-9BD9-A04D34F0C226}: [hid-ish]: enum_devices_done OK, num_hid_devices=1
+May 08 01:18:01 obpc kernel: hid-generic 001F:8087:0AC2.0001: hidraw0: SENSOR HUB HID v2.00 Device [hid-ishtp 8087:0AC2] on 
+May 08 01:18:01 obpc kernel: hid-sensor-hub 001F:8087:0AC2.0001: hidraw0: SENSOR HUB HID v2.00 Device [hid-ishtp 8087:0AC2] on 
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT1: Loaded GSC firmware i915/mtl_gsc_1.bin (cv1.0, r102.1.15.1926, svn 1)
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] GT1: HuC: authenticated for all workloads
+May 08 01:18:01 obpc kernel: usb 3-2: new full-speed USB device number 3 using xhci_hcd
+May 08 01:18:01 obpc kernel: fbcon: i915drmfb (fb0) is primary device
+May 08 01:18:01 obpc kernel: fbcon: Deferring console take-over
+May 08 01:18:01 obpc kernel: i915 0000:00:02.0: [drm] fb0: i915drmfb frame buffer device
+May 08 01:18:01 obpc kernel: BTRFS: device label fedora devid 1 transid 23348 /dev/nvme0n1p6 (259:6) scanned by mount (528)
+May 08 01:18:01 obpc kernel: BTRFS info (device nvme0n1p6): first mount of filesystem 34e34fc2-47b6-41bd-b739-8a1c79788cb2
+May 08 01:18:01 obpc kernel: BTRFS info (device nvme0n1p6): using crc32c (crc32c-lib) checksum algorithm
+May 08 01:18:01 obpc kernel: BTRFS info (device nvme0n1p6): enabling ssd optimizations
+May 08 01:18:01 obpc kernel: BTRFS info (device nvme0n1p6): turning on async discard
+May 08 01:18:01 obpc kernel: BTRFS info (device nvme0n1p6): enabling free space tree
+May 08 01:18:02 obpc kernel: usb 3-2: New USB device found, idVendor=19f5, idProduct=3246, bcdDevice= 1.20
+May 08 01:18:02 obpc kernel: usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+May 08 01:18:02 obpc kernel: usb 3-2: Product: NuPhy Air75 V2
+May 08 01:18:02 obpc kernel: usb 3-2: Manufacturer: NuPhy
+May 08 01:18:02 obpc kernel: input: NuPhy NuPhy Air75 V2 as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.0/0003:19F5:3246.0002/input/input4
+May 08 01:18:02 obpc kernel: usb 3-1.3: new full-speed USB device number 4 using xhci_hcd
+May 08 01:18:02 obpc kernel: hid-generic 0003:19F5:3246.0002: input,hidraw1: USB HID v1.11 Keyboard [NuPhy NuPhy Air75 V2] on usb-0000:00:14.0-2/input0
+May 08 01:18:02 obpc kernel: hid-generic 0003:19F5:3246.0003: hiddev96,hidraw2: USB HID v1.11 Device [NuPhy NuPhy Air75 V2] on usb-0000:00:14.0-2/input1
+May 08 01:18:02 obpc kernel: input: NuPhy NuPhy Air75 V2 Mouse as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.2/0003:19F5:3246.0004/input/input5
+May 08 01:18:02 obpc kernel: input: NuPhy NuPhy Air75 V2 System Control as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.2/0003:19F5:3246.0004/input/input6
+May 08 01:18:02 obpc kernel: typec port0: bound usb3-port1 (ops connector_ops)
+May 08 01:18:02 obpc kernel: typec port0: bound usb2-port1 (ops connector_ops)
+May 08 01:18:02 obpc kernel: typec port0: bound usb4_port1 (ops connector_ops [thunderbolt])
+May 08 01:18:02 obpc kernel: input: NuPhy NuPhy Air75 V2 Consumer Control as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.2/0003:19F5:3246.0004/input/input7
+May 08 01:18:02 obpc kernel: input: NuPhy NuPhy Air75 V2 Keyboard as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.2/0003:19F5:3246.0004/input/input8
+May 08 01:18:02 obpc kernel: usb 3-1.3: New USB device found, idVendor=0414, idProduct=7a61, bcdDevice= 1.00
+May 08 01:18:02 obpc kernel: usb 3-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+May 08 01:18:02 obpc kernel: usb 3-1.3: Product: USB-HID Device
+May 08 01:18:02 obpc kernel: usb 3-1.3: Manufacturer: HOLTEK
+May 08 01:18:02 obpc kernel: usb 3-1.3: SerialNumber: 000000000000
+May 08 01:18:02 obpc kernel: usbhid 3-1.3:1.0: fixing wrong optional hid class descriptors count
+May 08 01:18:02 obpc kernel: hid-generic 0003:0414:7A61.0005: hiddev97,hidraw3: USB HID v1.11 Device [HOLTEK USB-HID Device] on usb-0000:00:14.0-1.3/input0
+May 08 01:18:02 obpc kernel: usbhid 3-1.3:1.1: couldn't find an input interrupt endpoint
+May 08 01:18:02 obpc kernel: input: HOLTEK USB-HID Device as /devices/pci0000:00/0000:00:14.0/usb3/3-1/3-1.3/3-1.3:1.2/0003:0414:7A61.0006/input/input9
+May 08 01:18:02 obpc kernel: hid-generic 0003:19F5:3246.0004: input,hidraw4: USB HID v1.11 Mouse [NuPhy NuPhy Air75 V2] on usb-0000:00:14.0-2/input2
+May 08 01:18:02 obpc kernel: hid-generic 0003:0414:7A61.0006: input,hidraw5: USB HID v1.11 Mouse [HOLTEK USB-HID Device] on usb-0000:00:14.0-1.3/input2
+May 08 01:18:02 obpc kernel: hid-generic 0003:19F5:3246.0007: hiddev98,hidraw6: USB HID v1.11 Device [NuPhy NuPhy Air75 V2] on usb-0000:00:14.0-2/input3
+May 08 01:18:02 obpc kernel: usb 3-1.4: new high-speed USB device number 5 using xhci_hcd
+May 08 01:18:02 obpc kernel: usb 3-1.4: New USB device found, idVendor=0bda, idProduct=5423, bcdDevice= 0.03
+May 08 01:18:02 obpc kernel: usb 3-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+May 08 01:18:02 obpc kernel: usb 3-1.4: Product: 4-Port USB 2.0 Hub
+May 08 01:18:02 obpc kernel: usb 3-1.4: Manufacturer: Generic
+May 08 01:18:02 obpc kernel: hub 3-1.4:1.0: USB hub found
+May 08 01:18:02 obpc kernel: hub 3-1.4:1.0: 5 ports detected
+May 08 01:18:02 obpc kernel: usb 3-3: new high-speed USB device number 6 using xhci_hcd
+May 08 01:18:02 obpc kernel: usb 2-1.4.4: new SuperSpeed USB device number 4 using xhci_hcd
+May 08 01:18:02 obpc kernel: usb 2-1.4.4: New USB device found, idVendor=0bda, idProduct=8153, bcdDevice=31.00
+May 08 01:18:02 obpc kernel: usb 2-1.4.4: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+May 08 01:18:02 obpc kernel: usb 2-1.4.4: Product: USB 10/100/1000 LAN
+May 08 01:18:03 obpc kernel: usb 2-1.4.4: Manufacturer: Realtek
+May 08 01:18:03 obpc kernel: usb 2-1.4.4: SerialNumber: 001000001
+May 08 01:18:03 obpc kernel: usb 3-3: New USB device found, idVendor=0451, idProduct=8242, bcdDevice= 1.00
+May 08 01:18:03 obpc kernel: usb 3-3: New USB device strings: Mfr=0, Product=0, SerialNumber=1
+May 08 01:18:03 obpc kernel: usb 3-3: SerialNumber: E6010071B0CE
+May 08 01:18:03 obpc kernel: hub 3-3:1.0: USB hub found
+May 08 01:18:03 obpc kernel: hub 3-3:1.0: 4 ports detected
+May 08 01:18:03 obpc kernel: usb 3-1.5: new full-speed USB device number 7 using xhci_hcd
+May 08 01:18:03 obpc kernel: usb 3-1.5: New USB device found, idVendor=0414, idProduct=7a62, bcdDevice=10.22
+May 08 01:18:03 obpc kernel: usb 3-1.5: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+May 08 01:18:03 obpc kernel: usb 3-1.5: Product: DMC Device
+May 08 01:18:03 obpc kernel: usb 3-1.5: Manufacturer: Gigabyte
+May 08 01:18:03 obpc kernel: usb 3-1.5: SerialNumber: 1234
+May 08 01:18:03 obpc kernel: usb 3-10: new full-speed USB device number 8 using xhci_hcd
+May 08 01:18:03 obpc kernel: usb 3-10: New USB device found, idVendor=8087, idProduct=0037, bcdDevice= 0.00
+May 08 01:18:03 obpc kernel: usb 3-10: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+May 08 01:18:03 obpc kernel: usb 3-3.4: new high-speed USB device number 9 using xhci_hcd
+May 07 15:18:04 obpc systemd-journald[309]: Received SIGTERM from PID 1 (systemd).
+May 07 15:18:04 obpc kernel: audit: type=1404 audit(1778167083.579:2): enforcing=1 old_enforcing=0 auid=4294967295 ses=4294967295 enabled=1 old-enabled=1 lsm=selinux res=1
+May 07 15:18:04 obpc kernel: usb 3-3.4: New USB device found, idVendor=0bda, idProduct=8153, bcdDevice=31.00
+May 07 15:18:04 obpc kernel: usb 3-3.4: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+May 07 15:18:04 obpc kernel: usb 3-3.4: Product: USB 10/100/1000 LAN
+May 07 15:18:04 obpc kernel: usb 3-3.4: Manufacturer: Realtek
+May 07 15:18:04 obpc kernel: usb 3-3.4: SerialNumber: 001000001
+May 07 15:18:04 obpc kernel: SELinux:  Permission firmware_load in class system not defined in policy.
+May 07 15:18:04 obpc kernel: SELinux:  Permission kexec_image_load in class system not defined in policy.
+May 07 15:18:04 obpc kernel: SELinux:  Permission kexec_initramfs_load in class system not defined in policy.
+May 07 15:18:04 obpc kernel: SELinux:  Permission policy_load in class system not defined in policy.
+May 07 15:18:04 obpc kernel: SELinux:  Permission x509_certificate_load in class system not defined in policy.
+May 07 15:18:04 obpc kernel: SELinux:  Permission allowed in class io_uring not defined in policy.
+May 07 15:18:04 obpc kernel: SELinux:  Class memfd_file not defined in policy.
+May 07 15:18:04 obpc kernel: SELinux: the above unknown classes and permissions will be allowed
+May 07 15:18:04 obpc kernel: SELinux:  policy capability network_peer_controls=1
+May 07 15:18:04 obpc kernel: SELinux:  policy capability open_perms=1
+May 07 15:18:04 obpc kernel: SELinux:  policy capability extended_socket_class=1
+May 07 15:18:04 obpc kernel: SELinux:  policy capability always_check_network=0
+May 07 15:18:04 obpc kernel: SELinux:  policy capability cgroup_seclabel=1
+May 07 15:18:04 obpc kernel: SELinux:  policy capability nnp_nosuid_transition=1
+May 07 15:18:04 obpc kernel: SELinux:  policy capability genfs_seclabel_symlinks=1
+May 07 15:18:04 obpc kernel: SELinux:  policy capability ioctl_skip_cloexec=0
+May 07 15:18:04 obpc kernel: SELinux:  policy capability userspace_initial_context=0
+May 07 15:18:04 obpc kernel: SELinux:  policy capability netlink_xperm=0
+May 07 15:18:04 obpc kernel: SELinux:  policy capability netif_wildcard=0
+May 07 15:18:04 obpc kernel: SELinux:  policy capability genfs_seclabel_wildcard=0
+May 07 15:18:04 obpc kernel: SELinux:  policy capability functionfs_seclabel=0
+May 07 15:18:04 obpc kernel: SELinux:  policy capability memfd_class=0
+May 07 15:18:04 obpc kernel: audit: type=1403 audit(1778167083.682:3): auid=4294967295 ses=4294967295 lsm=selinux res=1
+May 07 15:18:04 obpc systemd[1]: Successfully loaded SELinux policy in 104.349ms.
+May 07 15:18:04 obpc systemd[1]: RTC configured in localtime, applying delta of 600 minutes to system time.
+May 07 15:18:04 obpc systemd[1]: Relabeled /dev/, /dev/shm/, /run/ in 11.880ms.
+May 07 15:18:04 obpc systemd[1]: systemd 258.7-1.fc43 running in system mode (+PAM +AUDIT +SELINUX -APPARMOR +IMA +IPE +SMACK +SECCOMP -GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN -IPTC +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK +BTF +XKBCOMMON +UTMP +SYSVINIT +LIBARCHIVE)
+May 07 15:18:04 obpc systemd[1]: Detected architecture x86-64.
+May 07 15:18:04 obpc systemd[1]: bpf-restrict-fs: LSM BPF program attached
+May 07 15:18:04 obpc kernel: zram: Added device: zram0
+May 07 15:18:04 obpc kernel: audit: type=1400 audit(1778131084.350:4): avc:  denied  { getattr } for  pid=1 comm="systemd" path="socket:[13463]" dev="sockfs" ino=13463 scontext=system_u:system_r:init_t:s0 tcontext=system_u:system_r:kernel_t:s0 tclass=netlink_kobject_uevent_socket permissive=0
+May 07 15:18:04 obpc systemd[1]: initrd-switch-root.service: Deactivated successfully.
+May 07 15:18:04 obpc systemd[1]: Stopped initrd-switch-root.service - Switch Root.
+May 07 15:18:04 obpc systemd[1]: systemd-journald.service: Scheduled restart job, restart counter is at 1.
+May 07 15:18:04 obpc systemd[1]: Created slice machine.slice - Virtual Machine and Container Slice.
+May 07 15:18:04 obpc systemd[1]: Created slice system-akmods\x2dkeygen.slice - Slice /system/akmods-keygen.
+May 07 15:18:04 obpc systemd[1]: Created slice system-getty.slice - Slice /system/getty.
+May 07 15:18:04 obpc systemd[1]: Created slice system-sshd\x2dkeygen.slice - Slice /system/sshd-keygen.
+May 07 15:18:04 obpc systemd[1]: Created slice system-systemd\x2dfsck.slice - Slice /system/systemd-fsck.
+May 07 15:18:04 obpc systemd[1]: Created slice system-systemd\x2dzram\x2dsetup.slice - Slice /system/systemd-zram-setup.
+May 07 15:18:04 obpc systemd[1]: Created slice user.slice - User and Session Slice.
+May 07 15:18:04 obpc systemd[1]: systemd-ask-password-console.path - Dispatch Password Requests to Console Directory Watch skipped, unmet condition check ConditionPathExists=!/run/plymouth/pid
+May 07 15:18:04 obpc systemd[1]: Started systemd-ask-password-wall.path - Forward Password Requests to Wall Directory Watch.
+May 07 15:18:04 obpc systemd[1]: Set up automount proc-sys-fs-binfmt_misc.automount - Arbitrary Executable File Formats File System Automount Point.
+May 07 15:18:04 obpc systemd[1]: Expecting device dev-disk-by\x2duuid-14FA\x2d2AE2.device - /dev/disk/by-uuid/14FA-2AE2...
+May 07 15:18:04 obpc systemd[1]: Expecting device dev-disk-by\x2duuid-34e34fc2\x2d47b6\x2d41bd\x2db739\x2d8a1c79788cb2.device - /dev/disk/by-uuid/34e34fc2-47b6-41bd-b739-8a1c79788cb2...
+May 07 15:18:04 obpc systemd[1]: Expecting device dev-disk-by\x2duuid-4f4f2b07\x2d3901\x2d49ac\x2d9aed\x2d085b94bd2b3a.device - /dev/disk/by-uuid/4f4f2b07-3901-49ac-9aed-085b94bd2b3a...
+May 07 15:18:04 obpc systemd[1]: Expecting device dev-zram0.device - /dev/zram0...
+May 07 15:18:04 obpc systemd[1]: Reached target cryptsetup.target - Local Encrypted Volumes.
+May 07 15:18:04 obpc systemd[1]: Reached target getty.target - Login Prompts.
+May 07 15:18:04 obpc systemd[1]: Reached target imports.target - Image Downloads.
+May 07 15:18:04 obpc systemd[1]: Stopped target initrd-switch-root.target - Switch Root.
+May 07 15:18:04 obpc systemd[1]: Stopped target initrd-fs.target - Initrd File Systems.
+May 07 15:18:04 obpc systemd[1]: Stopped target initrd-root-fs.target - Initrd Root File System.
+May 07 15:18:04 obpc systemd[1]: Reached target integritysetup.target - Local Integrity Protected Volumes.
+May 07 15:18:04 obpc systemd[1]: Reached target slices.target - Slice Units.
+May 07 15:18:04 obpc systemd[1]: Reached target veritysetup.target - Local Verity Protected Volumes.
+May 07 15:18:04 obpc systemd[1]: Listening on dm-event.socket - Device-mapper event daemon FIFOs.
+May 07 15:18:04 obpc systemd[1]: Listening on lvm2-lvmpolld.socket - LVM2 poll daemon socket.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-ask-password.socket - Query the User Interactively for a Password.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-coredump.socket - Process Core Dump Socket.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-creds.socket - Credential Encryption/Decryption.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-factory-reset.socket - Factory Reset Management.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-journald-audit.socket - Journal Audit Socket.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-oomd.socket - Userspace Out-Of-Memory (OOM) Killer Socket.
+May 07 15:18:04 obpc systemd[1]: systemd-pcrextend.socket - TPM PCR Measurements skipped, unmet condition check ConditionSecurity=measured-uki
+May 07 15:18:04 obpc systemd[1]: systemd-pcrlock.socket - Make TPM PCR Policy skipped, unmet condition check ConditionSecurity=measured-uki
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-resolved-monitor.socket - Resolve Monitor Varlink Socket.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-resolved-varlink.socket - Resolve Service Varlink Socket.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-udevd-varlink.socket - udev Varlink Socket.
+May 07 15:18:04 obpc systemd[1]: Listening on systemd-userdbd.socket - User Database Manager Socket.
+May 07 15:18:04 obpc systemd[1]: Mounting dev-hugepages.mount - Huge Pages File System...
+May 07 15:18:04 obpc systemd[1]: Mounting dev-mqueue.mount - POSIX Message Queue File System...
+May 07 15:18:04 obpc systemd[1]: Mounting sys-kernel-debug.mount - Kernel Debug File System...
+May 07 15:18:04 obpc systemd[1]: Mounting sys-kernel-tracing.mount - Kernel Trace File System...
+May 07 15:18:04 obpc systemd[1]: auth-rpcgss-module.service - Kernel Module supporting RPCSEC_GSS skipped, unmet condition check ConditionPathExists=/etc/krb5.keytab
+May 07 15:18:04 obpc systemd[1]: fips-crypto-policy-overlay.service - Bind-mount FIPS crypto-policy in FIPS mode skipped, unmet condition check ConditionKernelCommandLine=fips=1
+May 07 15:18:04 obpc systemd[1]: iscsi-starter.service skipped, unmet condition check ConditionDirectoryNotEmpty=/var/lib/iscsi/nodes
+May 07 15:18:04 obpc systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
+May 07 15:18:04 obpc systemd[1]: Starting lvm2-monitor.service - Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
+May 07 15:18:04 obpc systemd[1]: modprobe@configfs.service - Load Kernel Module configfs skipped, unmet condition check ConditionKernelModuleLoaded=!configfs
+May 07 15:18:04 obpc systemd[1]: modprobe@dm_mod.service - Load Kernel Module dm_mod skipped, unmet condition check ConditionKernelModuleLoaded=!dm_mod
+May 07 15:18:04 obpc systemd[1]: modprobe@drm.service - Load Kernel Module drm skipped, unmet condition check ConditionKernelModuleLoaded=!drm
+May 07 15:18:04 obpc systemd[1]: modprobe@efi_pstore.service - Load Kernel Module efi_pstore skipped, unmet condition check ConditionKernelModuleLoaded=!efi_pstore
+May 07 15:18:04 obpc systemd[1]: modprobe@fuse.service - Load Kernel Module fuse skipped, unmet condition check ConditionKernelModuleLoaded=!fuse
+May 07 15:18:04 obpc systemd[1]: Mounting sys-fs-fuse-connections.mount - FUSE Control File System...
+May 07 15:18:04 obpc systemd[1]: Starting modprobe@loop.service - Load Kernel Module loop...
+May 07 15:18:04 obpc systemd[1]: plymouth-switch-root.service: Deactivated successfully.
+May 07 15:18:04 obpc systemd[1]: Stopped plymouth-switch-root.service - Plymouth switch root service.
+May 07 15:18:04 obpc systemd[1]: systemd-fsck-root.service: Deactivated successfully.
+May 07 15:18:04 obpc systemd[1]: Stopped systemd-fsck-root.service - File System Check on Root Device.
+May 07 15:18:04 obpc systemd[1]: systemd-hibernate-clear.service - Clear Stale Hibernate Storage Info skipped, unmet condition check ConditionPathExists=/sys/firmware/efi/efivars/HibernateLocation-8cf2644b-4b0b-428f-9387-6d876050dc67
+May 07 15:18:04 obpc systemd[1]: Starting systemd-journald.service - Journal Service...
+May 07 15:18:04 obpc systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
+May 07 15:18:04 obpc systemd[1]: systemd-pcrmachine.service - TPM PCR Machine ID Measurement skipped, unmet condition check ConditionSecurity=measured-uki
+May 07 15:18:04 obpc systemd[1]: Starting systemd-remount-fs.service - Remount Root and Kernel File Systems...
+May 07 15:18:04 obpc systemd[1]: systemd-tpm2-setup-early.service - Early TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-uki
+May 07 15:18:04 obpc systemd[1]: Starting systemd-udev-load-credentials.service - Load udev Rules from Credentials...
+May 07 15:18:04 obpc systemd[1]: Starting systemd-udev-trigger.service - Coldplug All udev Devices...
+May 07 15:18:04 obpc systemd[1]: Mounted dev-hugepages.mount - Huge Pages File System.
+May 07 15:18:04 obpc systemd[1]: Mounted dev-mqueue.mount - POSIX Message Queue File System.
+May 07 15:18:04 obpc systemd[1]: Mounted sys-kernel-debug.mount - Kernel Debug File System.
+May 07 15:18:04 obpc systemd[1]: Mounted sys-kernel-tracing.mount - Kernel Trace File System.
+May 07 15:18:04 obpc systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+May 07 15:18:04 obpc systemd[1]: Mounted sys-fs-fuse-connections.mount - FUSE Control File System.
+May 07 15:18:04 obpc systemd[1]: Starting systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully...
+May 07 15:18:04 obpc kernel: loop: module loaded
+May 07 15:18:04 obpc kernel: BTRFS info (device nvme0n1p6 state M): use zstd compression, level 1
+May 07 15:18:04 obpc systemd[1]: modprobe@loop.service: Deactivated successfully.
+May 07 15:18:04 obpc systemd[1]: Finished modprobe@loop.service - Load Kernel Module loop.
+May 07 15:18:04 obpc systemd[1]: Finished systemd-remount-fs.service - Remount Root and Kernel File Systems.
+May 07 15:18:04 obpc systemd[1]: iscsi-onboot.service - Special handling of early boot iSCSI sessions skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/class/iscsi_session
+May 07 15:18:04 obpc systemd[1]: systemd-hwdb-update.service - Rebuild Hardware Database skipped, unmet condition check ConditionNeedsUpdate=/etc
+May 07 15:18:04 obpc systemd[1]: systemd-pstore.service - Platform Persistent Storage Archival skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/fs/pstore
+May 07 15:18:04 obpc systemd[1]: Starting systemd-random-seed.service - Load/Save OS Random Seed...
+May 07 15:18:04 obpc systemd[1]: systemd-repart.service - Repartition Root Disk skipped, no trigger condition checks were met.
+May 07 15:18:04 obpc systemd[1]: systemd-tpm2-setup.service - TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-uki
+May 07 15:18:04 obpc systemd[1]: Finished systemd-modules-load.service - Load Kernel Modules.
+May 07 15:18:04 obpc systemd[1]: Starting systemd-sysctl.service - Apply Kernel Variables...
+May 07 15:18:04 obpc systemd[1]: Finished systemd-udev-load-credentials.service - Load udev Rules from Credentials.
+May 07 15:18:04 obpc systemd-journald[655]: Collecting audit messages is enabled.
+May 07 15:18:04 obpc systemd-journald[655]: /run/log/journal/243e6986d52044a7a496dd3e0b8b7ecc/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+May 07 15:18:04 obpc systemd[1]: Finished systemd-sysctl.service - Apply Kernel Variables.
+May 07 15:18:04 obpc kernel: audit: type=1130 audit(1778131084.428:5): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-sysctl comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:04 obpc systemd[1]: Started systemd-journald.service - Journal Service.
+May 07 15:18:04 obpc kernel: audit: type=1130 audit(1778131084.429:6): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-journald comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:04 obpc kernel: audit: type=1130 audit(1778131084.433:7): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-random-seed comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:04 obpc systemd-journald[655]: Received client request to flush runtime journal.
+May 07 15:18:04 obpc kernel: audit: type=1334 audit(1778131084.436:8): prog-id=51 op=LOAD
+May 07 15:18:04 obpc kernel: audit: type=1334 audit(1778131084.436:9): prog-id=52 op=LOAD
+May 07 15:18:04 obpc kernel: audit: type=1334 audit(1778131084.436:10): prog-id=53 op=LOAD
+May 07 15:18:04 obpc systemd-journald[655]: /var/log/journal/243e6986d52044a7a496dd3e0b8b7ecc/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+May 07 15:18:04 obpc systemd-journald[655]: Rotating system journal.
+May 07 15:18:04 obpc kernel: zram0: detected capacity change from 0 to 16777216
+May 07 15:18:04 obpc kernel: usbcore: registered new device driver r8152-cfgselector
+May 07 15:18:04 obpc kernel: Adding 8388604k swap on /dev/zram0.  Priority:100 extents:1 across:8388604k SSDsc
+May 07 15:18:04 obpc kernel: Bluetooth: Core ver 2.22
+May 07 15:18:04 obpc kernel: NET: Registered PF_BLUETOOTH protocol family
+May 07 15:18:04 obpc kernel: Bluetooth: HCI device and connection manager initialized
+May 07 15:18:04 obpc kernel: Bluetooth: HCI socket layer initialized
+May 07 15:18:04 obpc kernel: Bluetooth: L2CAP socket layer initialized
+May 07 15:18:04 obpc kernel: Bluetooth: SCO socket layer initialized
+May 07 15:18:04 obpc kernel: intel_pmc_ssram_telemetry 0000:00:14.2: enabling device (0000 -> 0002)
+May 07 15:18:04 obpc kernel: input: Intel HID events as /devices/platform/INTC10CB:00/input/input10
+May 07 15:18:04 obpc kernel: intel-hid INTC10CB:00: failed to enable HID power button
+May 07 15:18:04 obpc kernel: usbcore: registered new interface driver btusb
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Firmware timestamp 2026.8 buildtype 1 build 105597
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Firmware SHA1: 0x08f159a0
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: DSM reset method type: 0x00
+May 07 15:18:04 obpc kernel: r8152-cfgselector 2-1.4.4: reset SuperSpeed USB device number 4 using xhci_hcd
+May 07 15:18:04 obpc kernel: pci 0000:00:08.0: Setting to D3hot
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Found device firmware: intel/ibt-0093-0291.sfi
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Boot Address: 0x100800
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Firmware Version: 125-8.26
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Firmware already loaded
+May 07 15:18:04 obpc kernel: intel_pmc_core INT33A1:00:  initialized
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Fseq status: Success (0x00)
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Fseq executed: 00.00.04.202
+May 07 15:18:04 obpc kernel: Bluetooth: hci0: Fseq BT Top: 00.00.04.202
+May 07 15:18:04 obpc kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PC00.LPCB.HEC.DPTF.FCHG], AE_NOT_FOUND (20250807/psargs-332)
+May 07 15:18:04 obpc kernel: ACPI Error: Aborting method \_SB.IETM.CHRG.PPSS due to previous error (AE_NOT_FOUND) (20250807/psparse-529)
+May 07 15:18:04 obpc kernel: resource: resource sanity check: requesting [mem 0x00000000fedc0000-0x00000000fedcffff], which spans more than pnp 00:03 [mem 0xfedc0000-0xfedc7fff]
+May 07 15:18:04 obpc kernel: caller igen6_register_mcis+0x4b/0x2d0 [igen6_edac] mapping multiple BARs
+May 07 15:18:04 obpc kernel: EDAC MC0: Giving out device to module igen6_edac controller Intel_client_SoC MC#0: DEV 0000:00:00.0 (INTERRUPT)
+May 07 15:18:04 obpc kernel: EDAC MC1: Giving out device to module igen6_edac controller Intel_client_SoC MC#1: DEV 0000:00:00.0 (INTERRUPT)
+May 07 15:18:04 obpc kernel: EDAC igen6: v2.5.1
+May 07 15:18:04 obpc kernel: r8152 2-1.4.4:1.0 eth0: v1.12.13
+May 07 15:18:04 obpc kernel: Intel(R) 2.5G Ethernet Linux Driver
+May 07 15:18:04 obpc kernel: Copyright(c) 2018 Intel Corporation.
+May 07 15:18:04 obpc kernel: igc 0000:56:00.0: enabling device (0000 -> 0002)
+May 07 15:18:04 obpc kernel: igc 0000:56:00.0: PTM enabled, 4ns granularity
+May 07 15:18:04 obpc kernel: i801_smbus 0000:00:1f.4: SPD Write Disable is set
+May 07 15:18:04 obpc kernel: i801_smbus 0000:00:1f.4: SMBus using PCI interrupt
+May 07 15:18:04 obpc kernel: input: PC Speaker as /devices/platform/pcspkr/input/input11
+May 07 15:18:04 obpc kernel: i2c i2c-13: Successfully instantiated SPD at 0x50
+May 07 15:18:04 obpc kernel: igc 0000:56:00.0 (unnamed net_device) (uninitialized): PHC added
+May 07 15:18:04 obpc kernel: asus_wmi: ASUS WMI generic driver loaded
+May 07 15:18:04 obpc kernel: r8152-cfgselector 3-3.4: reset high-speed USB device number 9 using xhci_hcd
+May 07 15:18:04 obpc kernel: intel_rapl_msr: PL4 support detected.
+May 07 15:18:04 obpc kernel: intel_rapl_common: Found RAPL domain package
+May 07 15:18:04 obpc kernel: intel_rapl_common: Found RAPL domain core
+May 07 15:18:04 obpc kernel: intel_rapl_common: Found RAPL domain uncore
+May 07 15:18:04 obpc kernel: intel_rapl_common: Found RAPL domain psys
+May 07 15:18:04 obpc kernel: spd5118 13-0050: DDR5 temperature sensor: vendor 0x06:0x32 revision 1.6
+May 07 15:18:04 obpc kernel: RAPL PMU: API unit is 2^-32 Joules, 4 fixed counters, 655360 ms ovfl timer
+May 07 15:18:04 obpc kernel: RAPL PMU: hw unit of domain pp0-core 2^-14 Joules
+May 07 15:18:04 obpc kernel: RAPL PMU: hw unit of domain package 2^-14 Joules
+May 07 15:18:04 obpc kernel: RAPL PMU: hw unit of domain pp1-gpu 2^-14 Joules
+May 07 15:18:04 obpc kernel: RAPL PMU: hw unit of domain psys 2^-14 Joules
+May 07 15:18:04 obpc kernel: proc_thermal_pci 0000:00:04.0: enabling device (0000 -> 0002)
+May 07 15:18:04 obpc kernel: intel_rapl_common: Found RAPL domain package
+May 07 15:18:04 obpc kernel: mei_gsc_proxy 0000:00:16.0-0f73db04-97ab-4125-b893-e904ad0d5464: bound 0000:00:02.0 (ops i915_gsc_proxy_component_ops [i915])
+May 07 15:18:04 obpc kernel: spi-nor spi0.0: supply vcc not found, using dummy regulator
+May 07 15:18:04 obpc kernel: spd5118 13-0052: DDR5 temperature sensor: vendor 0x06:0x32 revision 1.6
+May 07 15:18:04 obpc kernel: Creating 1 MTD partitions on "0000:00:1f.5":
+May 07 15:18:04 obpc kernel: 0x000000000000-0x000002000000 : "BIOS"
+May 07 15:18:04 obpc kernel: asus_armoury: No matching power limits found for this system
+May 07 15:18:04 obpc kernel: asus_wmi: Initialization: 0x1
+May 07 15:18:04 obpc kernel: asus_wmi: SFUN value: 0x21
+May 07 15:18:04 obpc kernel: asus-nb-wmi asus-nb-wmi: Detected ATK, not ASUSWMI, use DSTS
+May 07 15:18:04 obpc kernel: asus-nb-wmi asus-nb-wmi: Using throttle_thermal_policy for platform_profile support
+May 07 15:18:04 obpc kernel: input: Asus WMI hotkeys as /devices/platform/asus-nb-wmi/input/input12
+May 07 15:18:04 obpc kernel: asus_wmi: fan_curve_get_factory_default (0x00110024) failed: -19
+May 07 15:18:04 obpc kernel: asus_wmi: fan_curve_get_factory_default (0x00110025) failed: -19
+May 07 15:18:04 obpc kernel: asus_wmi: fan_curve_get_factory_default (0x00110032) failed: -19
+May 07 15:18:04 obpc kernel: kauditd_printk_skb: 15 callbacks suppressed
+May 07 15:18:04 obpc kernel: audit: type=1130 audit(1778131084.969:26): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-vconsole-setup comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:05 obpc kernel: snd_hda_intel 0000:00:1f.3: enabling device (0000 -> 0002)
+May 07 15:18:05 obpc kernel: snd_hda_intel 0000:00:1f.3: bound 0000:00:02.0 (ops intel_audio_component_bind_ops [i915])
+May 07 15:18:05 obpc kernel: snd_hda_intel 0000:04:00.1: enabling device (0000 -> 0002)
+May 07 15:18:05 obpc kernel: snd_hda_intel 0000:04:00.1: Disabling MSI
+May 07 15:18:05 obpc kernel: snd_hda_intel 0000:04:00.1: Handle vga_switcheroo audio client
+May 07 15:18:05 obpc kernel: cfg80211: Loading compiled-in X.509 certificates for regulatory database
+May 07 15:18:05 obpc kernel: igc 0000:56:00.0: 4.000 Gb/s available PCIe bandwidth (5.0 GT/s PCIe x1 link)
+May 07 15:18:05 obpc kernel: igc 0000:56:00.0 eth1: MAC: 88:ae:dd:69:58:58
+May 07 15:18:05 obpc kernel: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+May 07 15:18:05 obpc kernel: Loaded X.509 cert 'wens: 61c038651aabdcf94bd0ac7ff06c7248db18c600'
+May 07 15:18:05 obpc kernel: igc 0000:56:00.0 enp86s0: renamed from eth1
+May 07 15:18:05 obpc kernel: iwlwifi 0000:00:14.3: enabling device (0000 -> 0002)
+May 07 15:18:05 obpc kernel: iwlwifi 0000:00:14.3: Detected crf-id 0x2001910, cnv-id 0x80930 wfpm id 0x80005b20
+May 07 15:18:05 obpc kernel: iwlwifi 0000:00:14.3: PCI dev 7740/00e4, rev=0x461, rfid=0x20112200
+May 07 15:18:05 obpc kernel: iwlwifi 0000:00:14.3: Detected Intel(R) Wi-Fi 7 BE201 320MHz
+May 07 15:18:05 obpc kernel: input: HDA Intel PCH HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input13
+May 07 15:18:05 obpc kernel: input: HDA Intel PCH HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input14
+May 07 15:18:05 obpc kernel: input: HDA Intel PCH HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input15
+May 07 15:18:05 obpc kernel: input: HDA Intel PCH HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input16
+May 07 15:18:05 obpc kernel: input: HDA NVidia HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input17
+May 07 15:18:05 obpc kernel: input: HDA NVidia HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input18
+May 07 15:18:05 obpc kernel: input: HDA NVidia HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input19
+May 07 15:18:05 obpc kernel: input: HDA NVidia HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input20
+May 07 15:18:05 obpc kernel: r8152 3-3.4:1.0 eth1: v1.12.13
+May 07 15:18:05 obpc kernel: usbcore: registered new interface driver r8152
+May 07 15:18:05 obpc kernel: usbcore: registered new interface driver cdc_ether
+May 07 15:18:05 obpc kernel: usbcore: registered new interface driver r8153_ecm
+May 07 15:18:05 obpc kernel: iwlwifi 0000:00:14.3: loaded firmware version 101.6e695a70.0 bz-b0-fm-c0-c101.ucode op_mode iwlmld
+May 07 15:18:05 obpc kernel: audit: type=1130 audit(1778131085.104:27): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-rfkill comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:05 obpc kernel: r8152 3-3.4:1.0 enp0s20f0u3u4: renamed from eth1
+May 07 15:18:05 obpc kernel: r8152 2-1.4.4:1.0 enp0s13f0u1u4u4: renamed from eth0
+May 07 15:18:05 obpc kernel: audit: type=1130 audit(1778131085.161:28): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-udev-settle comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:05 obpc kernel: EXT4-fs (nvme0n1p5): mounted filesystem 4f4f2b07-3901-49ac-9aed-085b94bd2b3a r/w with ordered data mode. Quota mode: none.
+May 07 15:18:05 obpc kernel: audit: type=1130 audit(1778131085.439:29): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-userdb-load-credentials comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:05 obpc kernel: audit: type=1130 audit(1778131085.445:30): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=plymouth-read-write comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:05 obpc kernel: audit: type=1130 audit(1778131085.487:31): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 07 15:18:05 obpc kernel: audit: type=1334 audit(1778131085.489:32): prog-id=56 op=LOAD
+May 07 15:18:05 obpc kernel: audit: type=1334 audit(1778131085.489:33): prog-id=57 op=LOAD
+May 07 15:18:05 obpc kernel: audit: type=1334 audit(1778131085.489:34): prog-id=58 op=LOAD
+May 07 15:18:05 obpc kernel: audit: type=1334 audit(1778131085.501:35): prog-id=59 op=LOAD
+May 07 15:18:05 obpc kernel: iwlwifi 0000:00:14.3: Detected RF FM, rfid=0x20112200
+May 07 15:18:05 obpc kernel: iwlwifi 0000:00:14.3: base HW address: 28:92:00:f7:c7:d6
+May 07 15:18:05 obpc kernel: iwlwifi 0000:00:14.3 wlo1: renamed from wlan0
+May 07 15:18:05 obpc kernel: Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+May 07 15:18:05 obpc kernel: Bluetooth: BNEP filters: protocol multicast
+May 07 15:18:05 obpc kernel: Bluetooth: BNEP socket layer initialized
+May 07 15:18:05 obpc kernel: Bluetooth: MGMT ver 1.23
+May 07 15:18:05 obpc kernel: nvme nvme0: using unchecked data buffer
+May 07 15:18:05 obpc kernel: NET: Registered PF_QIPCRTR protocol family
+May 07 15:18:06 obpc kernel: Consider using thermal netlink events interface
+May 07 15:18:06 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 07 15:18:06 obpc kernel: 
+May 07 15:18:06 obpc kernel: nvidia 0000:04:00.0: enabling device (0000 -> 0003)
+May 07 15:18:06 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1044(Speed=4 Width=x4 Active=N) Br_LnkSta=0x3044(Speed=4 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 07 15:18:06 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 07 15:18:06 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 03:16:11 PM AEST 2026
+May 07 15:18:06 obpc kernel: RPC: Registered named UNIX socket transport module.
+May 07 15:18:06 obpc kernel: RPC: Registered udp transport module.
+May 07 15:18:06 obpc kernel: RPC: Registered tcp transport module.
+May 07 15:18:06 obpc kernel: RPC: Registered tcp-with-tls transport module.
+May 07 15:18:06 obpc kernel: RPC: Registered tcp NFSv4.1 backchannel transport module.
+May 07 15:18:06 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1044(Speed=4 Width=x4 Active=N) Br_LnkSta=0x3044(Speed=4 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 07 15:18:06 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1044(Speed=4 Width=x4 Active=N) Br_LnkSta=0x3044(Speed=4 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 07 15:18:07 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+                               trigger_offset:      0x00110094
+                               trigger_value:       0xffffffff
+                               pmc_boot_0_read:     0xffffffff
+                               pmc_boot_0_expected: 0x1b2000a1
+                               pre_state: os_pci_disconnected=0, gpu_is_lost=0
+                               actions: gpuSetDisconnectedProperties + os_pci_set_disconnected called
+                               All subsequent MMIO reads will short-circuit via Q-passive
+May 07 15:18:07 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 07 15:18:07 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 07 15:18:07 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 07 15:18:07 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 07 15:18:07 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 07 15:18:07 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 07 15:18:07 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006513367ccfb2e 0x0000000000000000          y
+May 07 15:18:07 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006513367ccfb2d 0x0000000000000000           
+May 07 15:18:07 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 07 15:18:07 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 07 15:18:07 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513367d78e52 0x0006513367d78e53      1us y
+May 07 15:18:07 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513367d77a12 0x0006513367d77a12          y
+May 07 15:18:07 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513367d77915 0x0006513367d77915          y
+May 07 15:18:07 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513367d7756e 0x0006513367d7756e          y
+May 07 15:18:07 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513367d60ab0 0x0006513367d60ab0          y
+May 07 15:18:07 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513367d60a23 0x0006513367d60a23          y
+May 07 15:18:07 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513367d5fa93 0x0006513367d5fa93          y
+May 07 15:18:07 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513367d5e29b 0x0006513367d5e29c      1us y
+May 07 15:18:07 obpc kernel: CPU: 2 UID: 967 PID: 1307 Comm: nvidia-persiste Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 07 15:18:07 obpc kernel: Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+May 07 15:18:07 obpc kernel: Hardware name: ASUSTeK COMPUTER INC. NUC15CRSU9/NUC15CRSU9, BIOS CRARL579.0029.2026.0115.1719 01/15/2026
+May 07 15:18:07 obpc kernel: Call Trace:
+May 07 15:18:07 obpc kernel:  <TASK>
+May 07 15:18:07 obpc kernel:  dump_stack_lvl+0x5d/0x80
+May 07 15:18:07 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 07 15:18:07 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 07 15:18:07 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 07 15:18:07 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 07 15:18:07 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 07 15:18:07 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 07 15:18:07 obpc kernel:  ? up+0x53/0xa0
+May 07 15:18:07 obpc kernel:  ? down+0x1e/0x60
+May 07 15:18:07 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 07 15:18:07 obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+May 07 15:18:07 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 07 15:18:07 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 07 15:18:07 obpc kernel:  chrdev_open+0xad/0x240
+May 07 15:18:07 obpc kernel:  ? __pfx_chrdev_open+0x10/0x10
+May 07 15:18:07 obpc kernel:  do_dentry_open+0x176/0x4b0
+May 07 15:18:07 obpc kernel:  vfs_open+0x30/0x100
+May 07 15:18:07 obpc kernel:  do_open+0x155/0x3e0
+May 07 15:18:07 obpc kernel:  path_openat+0x10a/0x2a0
+May 07 15:18:07 obpc kernel:  do_filp_open+0xd8/0x180
+May 07 15:18:07 obpc kernel:  ? alloc_fd+0xbd/0x110
+May 07 15:18:07 obpc kernel:  do_sys_openat2+0x88/0xf0
+May 07 15:18:07 obpc kernel:  __x64_sys_openat+0x61/0xa0
+May 07 15:18:07 obpc kernel:  do_syscall_64+0x7e/0x690
+May 07 15:18:07 obpc kernel:  ? do_syscall_64+0xbb/0x690
+May 07 15:18:07 obpc kernel:  ? nv_procfs_read_lock_params+0x81/0xa0 [nvidia]
+May 07 15:18:07 obpc kernel:  ? proc_reg_read+0x5a/0xb0
+May 07 15:18:07 obpc kernel:  ? vfs_read+0xbf/0x390
+May 07 15:18:07 obpc kernel:  ? do_syscall_64+0xbb/0x690
+May 07 15:18:07 obpc kernel:  ? seq_lseek+0x44/0x100
+May 07 15:18:07 obpc kernel:  ? proc_reg_llseek+0x4e/0x90
+May 07 15:18:07 obpc kernel:  ? ksys_lseek+0x46/0xb0
+May 07 15:18:07 obpc kernel:  ? ksys_read+0x73/0xf0
+May 07 15:18:07 obpc kernel:  ? do_syscall_64+0xbb/0x690
+May 07 15:18:07 obpc kernel:  ? irqentry_exit+0x6d/0x540
+May 07 15:18:07 obpc kernel:  ? exc_page_fault+0x7e/0x1a0
+May 07 15:18:07 obpc kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+May 07 15:18:07 obpc kernel: RIP: 0033:0x7febe4635c5e
+May 07 15:18:07 obpc kernel: Code: 4d 89 d8 e8 34 bd 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05 <c9> c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e fa
+May 07 15:18:07 obpc kernel: RSP: 002b:00007fffe37a6910 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+May 07 15:18:07 obpc kernel: RAX: ffffffffffffffda RBX: 0000000000080002 RCX: 00007febe4635c5e
+May 07 15:18:07 obpc kernel: RDX: 0000000000080002 RSI: 00007fffe37a69e0 RDI: ffffffffffffff9c
+May 07 15:18:07 obpc kernel: RBP: 00007fffe37a6920 R08: 0000000000000000 R09: 0000000000000000
+May 07 15:18:07 obpc kernel: R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
+May 07 15:18:07 obpc kernel: R13: 00007fffe37a69e0 R14: 00007fffe37a6b2c R15: 00007febe3dfe380
+May 07 15:18:07 obpc kernel:  </TASK>
+May 07 15:18:07 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 07 15:18:07 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 07 15:18:07 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 07 15:18:07 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 07 15:18:07 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 07 15:18:07 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x00000000 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x7044(Speed=4 Width=x4 Active=Y) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:07 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 07 15:18:07 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 07 15:18:07 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 07 15:18:07 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 07 15:18:07 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 07 15:18:07 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:07 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 07 15:18:07 obpc kernel: NVOC: __nvoc_objDelete: Child class OBJIOVASPACE not freed from parent class OBJVMM.
+May 07 15:18:07 obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+May 07 15:18:07 obpc kernel: i915 0000:00:02.0: vgaarb: VGA decodes changed: olddecodes=none,decodes=io+mem:owns=io+mem
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: [10de:2b85] type 00 class 0x030000 PCIe Legacy Endpoint
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4810000000-0x4811ffffff 64bit pref]
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: BAR 5 [io  0x3000-0x307f]
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: Enabling HDA controller
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: PME# supported from D0 D3hot
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: contains BAR 0 for 1 VFs
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: contains BAR 2 for 1 VFs
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4812000000-0x4813ffffff 64bit pref]
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4812000000-0x4813ffffff 64bit pref]: contains BAR 4 for 1 VFs
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: vgaarb: bridge control possible
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+May 07 15:18:09 obpc kernel: i915 0000:00:02.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=io+mem
+May 07 15:18:09 obpc kernel: pcieport 0000:03:01.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:09 obpc kernel: pcieport 0000:03:01.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:09 obpc kernel: pcieport 0000:03:02.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:09 obpc kernel: pcieport 0000:03:02.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:09 obpc kernel: pcieport 0000:03:03.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:09 obpc kernel: pcieport 0000:03:03.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:09 obpc kernel: pcieport 0000:03:01.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:09 obpc kernel: pcieport 0000:03:01.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:09 obpc kernel: pcieport 0000:03:02.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:09 obpc kernel: pcieport 0000:03:02.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:09 obpc kernel: pcieport 0000:03:03.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:09 obpc kernel: pcieport 0000:03:03.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]: assigned
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: assigned
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]: assigned
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4810000000-0x4811ffffff 64bit pref]: assigned
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4812000000-0x4813ffffff 64bit pref]: assigned
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]: assigned
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: assigned
+May 07 15:18:09 obpc kernel: pci 0000:04:00.0: BAR 5 [io  0x3000-0x307f]: assigned
+May 07 15:18:13 obpc kernel: wlo1: authenticate with 94:2a:6f:04:dc:6c (local address=56:fa:1b:8d:80:ed)
+May 07 15:18:13 obpc kernel: wlo1: send auth to 94:2a:6f:04:dc:6c (try 1/3)
+May 07 15:18:13 obpc kernel: wlo1: authenticate with 94:2a:6f:04:dc:6c (local address=56:fa:1b:8d:80:ed)
+May 07 15:18:13 obpc kernel: wlo1: send auth to 94:2a:6f:04:dc:6c (try 1/3)
+May 07 15:18:13 obpc kernel: wlo1: authenticated
+May 07 15:18:13 obpc kernel: wlo1: associate with 94:2a:6f:04:dc:6c (try 1/3)
+May 07 15:18:13 obpc kernel: wlo1: RX AssocResp from 94:2a:6f:04:dc:6c (capab=0x1111 status=0 aid=1)
+May 07 15:18:13 obpc kernel: wlo1: associated
+May 07 15:18:13 obpc kernel: wlo1: Limiting TX power to 27 (30 - 3) dBm as advertised by 94:2a:6f:04:dc:6c
+May 07 15:18:14 obpc kernel: evm: overlay not supported
+May 07 15:18:14 obpc kernel: block nvme0n1: the capability attribute has been deprecated.
+May 07 15:18:14 obpc kernel: bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+May 07 15:18:14 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 07 15:18:14 obpc kernel: 
+May 07 15:18:14 obpc kernel: Bluetooth: RFCOMM TTY layer initialized
+May 07 15:18:14 obpc kernel: Bluetooth: RFCOMM socket layer initialized
+May 07 15:18:14 obpc kernel: Bluetooth: RFCOMM ver 1.11
+May 07 15:18:14 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:14 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 07 15:18:15 obpc kernel: rfkill: input handler disabled
+May 07 15:18:17 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 03:16:11 PM AEST 2026
+May 07 15:18:18 obpc kernel: wireguard: WireGuard 1.0.0 loaded. See www.wireguard.com for information.
+May 07 15:18:18 obpc kernel: wireguard: Copyright (C) 2015-2019 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+May 07 15:18:19 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:19 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:20 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+                               trigger_offset:      0x00110094
+                               trigger_value:       0xffffffff
+                               pmc_boot_0_read:     0xffffffff
+                               pmc_boot_0_expected: 0x1b2000a1
+                               pre_state: os_pci_disconnected=0, gpu_is_lost=0
+                               actions: gpuSetDisconnectedProperties + os_pci_set_disconnected called
+                               All subsequent MMIO reads will short-circuit via Q-passive
+May 07 15:18:20 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 07 15:18:20 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 07 15:18:20 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 07 15:18:20 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 07 15:18:20 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 07 15:18:20 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 07 15:18:20 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x000651336892ca5f 0x0000000000000000          y
+May 07 15:18:20 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x000651336892ca5d 0x0000000000000000           
+May 07 15:18:20 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 07 15:18:20 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 07 15:18:20 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133689e696f 0x00065133689e696f          y
+May 07 15:18:20 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133689e5716 0x00065133689e5716          y
+May 07 15:18:20 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133689e562a 0x00065133689e562a          y
+May 07 15:18:20 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133689e52cd 0x00065133689e52cd          y
+May 07 15:18:20 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133689d072a 0x00065133689d072a          y
+May 07 15:18:20 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133689d06a2 0x00065133689d06a2          y
+May 07 15:18:20 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133689cf84b 0x00065133689cf84b          y
+May 07 15:18:20 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133689c9bca 0x00065133689c9bca          y
+May 07 15:18:20 obpc kernel: CPU: 2 UID: 967 PID: 4436 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 07 15:18:20 obpc kernel: Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+May 07 15:18:20 obpc kernel: Hardware name: ASUSTeK COMPUTER INC. NUC15CRSU9/NUC15CRSU9, BIOS CRARL579.0029.2026.0115.1719 01/15/2026
+May 07 15:18:20 obpc kernel: Call Trace:
+May 07 15:18:20 obpc kernel:  <TASK>
+May 07 15:18:20 obpc kernel:  dump_stack_lvl+0x5d/0x80
+May 07 15:18:20 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 07 15:18:20 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 07 15:18:20 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 07 15:18:20 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 07 15:18:20 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 07 15:18:20 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 07 15:18:20 obpc kernel:  ? up+0x53/0xa0
+May 07 15:18:20 obpc kernel:  ? down+0x1e/0x60
+May 07 15:18:20 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 07 15:18:20 obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+May 07 15:18:20 obpc kernel:  ? avc_has_perm+0x59/0xf0
+May 07 15:18:20 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 07 15:18:20 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 07 15:18:20 obpc kernel:  chrdev_open+0xad/0x240
+May 07 15:18:20 obpc kernel:  ? __pfx_chrdev_open+0x10/0x10
+May 07 15:18:20 obpc kernel:  do_dentry_open+0x176/0x4b0
+May 07 15:18:20 obpc kernel:  vfs_open+0x30/0x100
+May 07 15:18:20 obpc kernel:  do_open+0x155/0x3e0
+May 07 15:18:20 obpc kernel:  path_openat+0x10a/0x2a0
+May 07 15:18:20 obpc kernel:  do_filp_open+0xd8/0x180
+May 07 15:18:20 obpc kernel:  ? alloc_fd+0xbd/0x110
+May 07 15:18:20 obpc kernel:  do_sys_openat2+0x88/0xf0
+May 07 15:18:20 obpc kernel:  __x64_sys_openat+0x61/0xa0
+May 07 15:18:20 obpc kernel:  do_syscall_64+0x7e/0x690
+May 07 15:18:20 obpc kernel:  ? do_syscall_64+0xbb/0x690
+May 07 15:18:20 obpc kernel:  ? __d_lookup+0x87/0xd0
+May 07 15:18:20 obpc kernel:  ? d_lookup+0x29/0x50
+May 07 15:18:20 obpc kernel:  ? lookup_dcache+0x21/0x80
+May 07 15:18:20 obpc kernel:  ? dput.part.0+0x27/0x110
+May 07 15:18:20 obpc kernel:  ? lookup_one_qstr_excl+0x61/0xf0
+May 07 15:18:20 obpc kernel:  ? dput.part.0+0x27/0x110
+May 07 15:18:20 obpc kernel:  ? mntput+0x21/0x60
+May 07 15:18:20 obpc kernel:  ? filename_create+0x115/0x170
+May 07 15:18:20 obpc kernel:  ? do_symlinkat+0x13a/0x1d0
+May 07 15:18:20 obpc kernel:  ? __x64_sys_symlink+0x72/0xb0
+May 07 15:18:20 obpc kernel:  ? do_syscall_64+0xbb/0x690
+May 07 15:18:20 obpc kernel:  ? do_syscall_64+0xbb/0x690
+May 07 15:18:20 obpc kernel:  ? exc_page_fault+0x7e/0x1a0
+May 07 15:18:20 obpc kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+May 07 15:18:20 obpc kernel: RIP: 0033:0x7f156fb85c5e
+May 07 15:18:20 obpc kernel: Code: 4d 89 d8 e8 34 bd 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05 <c9> c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e fa
+May 07 15:18:20 obpc kernel: RSP: 002b:00007ffffd564c80 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+May 07 15:18:20 obpc kernel: RAX: ffffffffffffffda RBX: 0000000000080002 RCX: 00007f156fb85c5e
+May 07 15:18:20 obpc kernel: RDX: 0000000000080002 RSI: 00007ffffd564d50 RDI: ffffffffffffff9c
+May 07 15:18:20 obpc kernel: RBP: 00007ffffd564c90 R08: 0000000000000000 R09: 0000000000000000
+May 07 15:18:20 obpc kernel: R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
+May 07 15:18:20 obpc kernel: R13: 00007ffffd564d50 R14: 00007ffffd564e9c R15: 00007f156f351380
+May 07 15:18:20 obpc kernel:  </TASK>
+May 07 15:18:20 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 07 15:18:20 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 07 15:18:20 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 07 15:18:20 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 07 15:18:20 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 07 15:18:20 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0xffffffff WPR2=0xffffffff WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x7843(Speed=3 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x7841(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x7841(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:20 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 07 15:18:20 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 07 15:18:20 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 07 15:18:20 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 07 15:18:20 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 07 15:18:20 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:20 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 07 15:18:25 obpc kernel: NVOC: __nvoc_objDelete: Child class OBJIOVASPACE not freed from parent class OBJVMM.
+May 07 15:18:25 obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+May 07 15:18:25 obpc kernel: i915 0000:00:02.0: vgaarb: VGA decodes changed: olddecodes=none,decodes=io+mem:owns=io+mem
+May 07 15:18:27 obpc kernel: rfkill: input handler enabled
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: [10de:2b85] type 00 class 0x030000 PCIe Legacy Endpoint
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4810000000-0x4811ffffff 64bit pref]
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: BAR 5 [io  0x3000-0x307f]
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: Enabling HDA controller
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: PME# supported from D0 D3hot
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: contains BAR 0 for 1 VFs
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: contains BAR 2 for 1 VFs
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4812000000-0x4813ffffff 64bit pref]
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4812000000-0x4813ffffff 64bit pref]: contains BAR 4 for 1 VFs
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: vgaarb: bridge control possible
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+May 07 15:18:27 obpc kernel: i915 0000:00:02.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=io+mem
+May 07 15:18:27 obpc kernel: pcieport 0000:03:01.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:27 obpc kernel: pcieport 0000:03:01.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:27 obpc kernel: pcieport 0000:03:02.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:27 obpc kernel: pcieport 0000:03:02.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:27 obpc kernel: pcieport 0000:03:03.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:27 obpc kernel: pcieport 0000:03:03.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:27 obpc kernel: pcieport 0000:03:01.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:27 obpc kernel: pcieport 0000:03:01.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:27 obpc kernel: pcieport 0000:03:02.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:27 obpc kernel: pcieport 0000:03:02.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:27 obpc kernel: pcieport 0000:03:03.0: bridge window [io  size 0x1000]: can't assign; no space
+May 07 15:18:27 obpc kernel: pcieport 0000:03:03.0: bridge window [io  size 0x1000]: failed to assign
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]: assigned
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: assigned
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]: assigned
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4810000000-0x4811ffffff 64bit pref]: assigned
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4812000000-0x4813ffffff 64bit pref]: assigned
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]: assigned
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: assigned
+May 07 15:18:27 obpc kernel: pci 0000:04:00.0: BAR 5 [io  0x3000-0x307f]: assigned
+May 07 15:18:28 obpc kernel: rfkill: input handler disabled
+May 07 15:18:32 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 07 15:18:32 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:32 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 07 15:18:35 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 03:16:11 PM AEST 2026
+May 07 15:18:36 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:36 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:37 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-OK     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+May 07 15:18:39 obpc kernel: NOTICE: Automounting of tracing to debugfs is deprecated and will be removed in 2030

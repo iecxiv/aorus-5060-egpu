@@ -1,0 +1,60 @@
+## iteration 2  start_epoch_utc=1778215191
+## cmd: /usr/local/bin/nvbandwidth -t 0 -t 1 -t 2 -t 16 -t 17 -t 18
+
+nvbandwidth Version: v0.9
+Built from Git version: v0.9
+
+CUDA Runtime Version: 13020
+CUDA Driver Version: 13020
+Driver Version: 595.71.05
+
+obpc
+Device 0: NVIDIA GeForce RTX 5090 (00000000:04:00)
+
+Running host_to_device_memcpy_ce.
+memcpy CE CPU(row) -> GPU(column) bandwidth (GB/s)
+           0
+ 0      2.81
+
+SUM host_to_device_memcpy_ce 2.81
+
+Running device_to_host_memcpy_ce.
+memcpy CE CPU(row) <- GPU(column) bandwidth (GB/s)
+           0
+ 0      3.29
+
+SUM device_to_host_memcpy_ce 3.29
+
+Running host_to_device_bidirectional_memcpy_ce.
+memcpy CE CPU(row) <-> GPU(column) bandwidth (GB/s)
+           0
+ 0      2.47
+
+SUM host_to_device_bidirectional_memcpy_ce 2.47
+
+Running host_to_device_memcpy_sm.
+memcpy SM CPU(row) -> GPU(column) bandwidth (GB/s)
+           0
+ 0      2.80
+
+SUM host_to_device_memcpy_sm 2.80
+
+Running device_to_host_memcpy_sm.
+memcpy SM CPU(row) <- GPU(column) bandwidth (GB/s)
+           0
+ 0      3.29
+
+SUM device_to_host_memcpy_sm 3.29
+
+Running host_to_device_bidirectional_memcpy_sm.
+memcpy SM CPU(row) <-> GPU(column) bandwidth (GB/s)
+           0
+ 0      2.44
+
+SUM host_to_device_bidirectional_memcpy_sm 2.44
+
+NOTE: The reported results may not reflect the full capabilities of the platform.
+Performance can vary with software drivers, hardware clocks, and system topology.
+
+
+## exit_rc=0 end_epoch_utc=1778215272

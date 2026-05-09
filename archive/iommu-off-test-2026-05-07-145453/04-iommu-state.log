@@ -1,0 +1,3 @@
+May 08 00:54:53 obpc kernel: DMAR: IOMMU disabled
+May 08 00:54:53 obpc kernel: DMAR-IR: Queued invalidation will be enabled to support x2apic and Intr-remapping.
+May 08 00:54:53 obpc kernel: DMAR-IR: Enabled IRQ remapping in x2apic mode

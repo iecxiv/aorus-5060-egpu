@@ -1,0 +1,1944 @@
+[    1.170087] obpc kernel: Linux version 6.19.14-200.fc43.x86_64 (mockbuild@3d94b060593f4389857ed0a29daa3c69) (gcc (GCC) 15.2.1 20260123 (Red Hat 15.2.1-7), GNU ld version 2.45.1-4.fc43) #1 SMP PREEMPT_DYNAMIC Thu Apr 23 17:34:07 UTC 2026
+[    1.170119] obpc kernel: Command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off thunderbolt.dyndbg=+pflm thunderbolt.host_reset=false
+[    1.170225] obpc kernel: x86/tme: not enabled by BIOS
+[    1.170231] obpc kernel: x86/split lock detection: #AC: crashing the kernel on kernel split_locks and warning on user-space split_locks
+[    1.170236] obpc kernel: BIOS-provided physical RAM map:
+[    1.170241] obpc kernel: BIOS-e820: [mem 0x0000000000000000-0x000000000009efff] usable
+[    1.170246] obpc kernel: BIOS-e820: [mem 0x000000000009f000-0x00000000000fffff] reserved
+[    1.170250] obpc kernel: BIOS-e820: [mem 0x0000000000100000-0x00000000545f1fff] usable
+[    1.170254] obpc kernel: BIOS-e820: [mem 0x00000000545f2000-0x000000005e6b5fff] reserved
+[    1.170258] obpc kernel: BIOS-e820: [mem 0x000000005e6b6000-0x000000005e7b7fff] ACPI data
+[    1.170263] obpc kernel: BIOS-e820: [mem 0x000000005e7b8000-0x000000005e93efff] ACPI NVS
+[    1.170267] obpc kernel: BIOS-e820: [mem 0x000000005e93f000-0x0000000063ffefff] reserved
+[    1.170271] obpc kernel: BIOS-e820: [mem 0x0000000063fff000-0x0000000063ffffff] usable
+[    1.170275] obpc kernel: BIOS-e820: [mem 0x0000000064000000-0x00000000787fffff] reserved
+[    1.170281] obpc kernel: BIOS-e820: [mem 0x00000000c0000000-0x00000000cfffffff] reserved
+[    1.170285] obpc kernel: BIOS-e820: [mem 0x00000000fe000000-0x00000000fe010fff] reserved
+[    1.170290] obpc kernel: BIOS-e820: [mem 0x00000000fe410000-0x00000000fe410fff] reserved
+[    1.170294] obpc kernel: BIOS-e820: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+[    1.170298] obpc kernel: BIOS-e820: [mem 0x00000000fed00000-0x00000000fed00fff] reserved
+[    1.170302] obpc kernel: BIOS-e820: [mem 0x00000000fed20000-0x00000000fed7ffff] reserved
+[    1.170307] obpc kernel: BIOS-e820: [mem 0x00000000fee00000-0x00000000fee00fff] reserved
+[    1.170311] obpc kernel: BIOS-e820: [mem 0x00000000ff000000-0x00000000ffffffff] reserved
+[    1.170315] obpc kernel: BIOS-e820: [mem 0x0000000100000000-0x000000207fffffff] usable
+[    1.170319] obpc kernel: NX (Execute Disable) protection: active
+[    1.170323] obpc kernel: APIC: Static calls initialized
+[    1.170327] obpc kernel: efi: EFI v2.9 by American Megatrends
+[    1.170332] obpc kernel: efi: ACPI=0x5e8b6000 ACPI 2.0=0x5e8b6014 TPMFinalLog=0x5e822000 SMBIOS=0x62b8d000 SMBIOS 3.0=0x62b8c000 MEMATTR=0x482f6018 ESRT=0x50df1e98 MOKvar=0x63c2e000 RNG=0x5e6eb018 TPMEventLog=0x5e6e0018 
+[    1.170337] obpc kernel: random: crng init done
+[    1.170341] obpc kernel: efi: Remove mem79: MMIO range=[0xc0000000-0xcfffffff] (256MB) from e820 map
+[    1.170345] obpc kernel: e820: remove [mem 0xc0000000-0xcfffffff] reserved
+[    1.170351] obpc kernel: efi: Not removing mem80: MMIO range=[0xfe000000-0xfe010fff] (68KB) from e820 map
+[    1.170354] obpc kernel: efi: Not removing mem81: MMIO range=[0xfe410000-0xfe410fff] (4KB) from e820 map
+[    1.170358] obpc kernel: efi: Not removing mem82: MMIO range=[0xfec00000-0xfec00fff] (4KB) from e820 map
+[    1.170363] obpc kernel: efi: Not removing mem83: MMIO range=[0xfed00000-0xfed00fff] (4KB) from e820 map
+[    1.170367] obpc kernel: efi: Not removing mem85: MMIO range=[0xfee00000-0xfee00fff] (4KB) from e820 map
+[    1.170371] obpc kernel: efi: Remove mem86: MMIO range=[0xff000000-0xffffffff] (16MB) from e820 map
+[    1.170375] obpc kernel: e820: remove [mem 0xff000000-0xffffffff] reserved
+[    1.170379] obpc kernel: secureboot: Secure boot disabled
+[    1.170384] obpc kernel: SMBIOS 3.8.0 present.
+[    1.170388] obpc kernel: DMI: ASUSTeK COMPUTER INC. NUC15CRSU9/NUC15CRSU9, BIOS CRARL579.0029.2026.0115.1719 01/15/2026
+[    1.170394] obpc kernel: DMI: Memory slots populated: 2/2
+[    1.170398] obpc kernel: tsc: Detected 3700.000 MHz processor
+[    1.170402] obpc kernel: tsc: Detected 3686.400 MHz TSC
+[    1.170406] obpc kernel: e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[    1.170413] obpc kernel: e820: remove [mem 0x000a0000-0x000fffff] usable
+[    1.170419] obpc kernel: last_pfn = 0x2080000 max_arch_pfn = 0x400000000
+[    1.170426] obpc kernel: total RAM covered: 259839M
+[    1.170434] obpc kernel:  gran_size: 64K         chunk_size: 64K         num_reg: 10          lose cover RAM: 129022M
+[    1.170441] obpc kernel:  gran_size: 64K         chunk_size: 128K         num_reg: 10          lose cover RAM: 129022M
+[    1.170448] obpc kernel:  gran_size: 64K         chunk_size: 256K         num_reg: 10          lose cover RAM: 129022M
+[    1.170455] obpc kernel:  gran_size: 64K         chunk_size: 512K         num_reg: 10          lose cover RAM: 129022M
+[    1.170458] obpc kernel:  gran_size: 64K         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+[    1.170465] obpc kernel:  gran_size: 64K         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+[    1.170469] obpc kernel:  gran_size: 64K         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+[    1.170476] obpc kernel:  gran_size: 64K         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+[    1.170481] obpc kernel:  gran_size: 64K         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170486] obpc kernel:  gran_size: 64K         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170491] obpc kernel:  gran_size: 64K         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170498] obpc kernel:  gran_size: 64K         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170503] obpc kernel:  gran_size: 64K         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170507] obpc kernel:  gran_size: 64K         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170513] obpc kernel:  gran_size: 64K         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170516] obpc kernel:  gran_size: 64K         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170522] obpc kernel:  gran_size: 128K         chunk_size: 128K         num_reg: 10          lose cover RAM: 129022M
+[    1.170527] obpc kernel:  gran_size: 128K         chunk_size: 256K         num_reg: 10          lose cover RAM: 129022M
+[    1.170532] obpc kernel:  gran_size: 128K         chunk_size: 512K         num_reg: 10          lose cover RAM: 129022M
+[    1.170535] obpc kernel:  gran_size: 128K         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+[    1.170541] obpc kernel:  gran_size: 128K         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+[    1.170545] obpc kernel:  gran_size: 128K         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+[    1.170548] obpc kernel:  gran_size: 128K         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+[    1.170554] obpc kernel:  gran_size: 128K         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170558] obpc kernel:  gran_size: 128K         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170564] obpc kernel:  gran_size: 128K         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170569] obpc kernel:  gran_size: 128K         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170576] obpc kernel:  gran_size: 128K         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170580] obpc kernel:  gran_size: 128K         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170585] obpc kernel:  gran_size: 128K         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170589] obpc kernel:  gran_size: 128K         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170594] obpc kernel:  gran_size: 256K         chunk_size: 256K         num_reg: 10          lose cover RAM: 129022M
+[    1.170600] obpc kernel:  gran_size: 256K         chunk_size: 512K         num_reg: 10          lose cover RAM: 129022M
+[    1.170605] obpc kernel:  gran_size: 256K         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+[    1.170611] obpc kernel:  gran_size: 256K         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+[    1.170614] obpc kernel:  gran_size: 256K         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+[    1.170619] obpc kernel:  gran_size: 256K         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+[    1.170625] obpc kernel:  gran_size: 256K         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170630] obpc kernel:  gran_size: 256K         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170636] obpc kernel:  gran_size: 256K         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170641] obpc kernel:  gran_size: 256K         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170645] obpc kernel:  gran_size: 256K         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170652] obpc kernel:  gran_size: 256K         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170656] obpc kernel:  gran_size: 256K         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170663] obpc kernel:  gran_size: 256K         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170667] obpc kernel:  gran_size: 512K         chunk_size: 512K         num_reg: 10          lose cover RAM: 129022M
+[    1.170674] obpc kernel:  gran_size: 512K         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+[    1.170679] obpc kernel:  gran_size: 512K         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+[    1.170682] obpc kernel:  gran_size: 512K         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+[    1.170689] obpc kernel:  gran_size: 512K         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+[    1.170694] obpc kernel:  gran_size: 512K         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170701] obpc kernel:  gran_size: 512K         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170704] obpc kernel:  gran_size: 512K         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170710] obpc kernel:  gran_size: 512K         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170715] obpc kernel:  gran_size: 512K         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170719] obpc kernel:  gran_size: 512K         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170726] obpc kernel:  gran_size: 512K         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170730] obpc kernel:  gran_size: 512K         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170737] obpc kernel:  gran_size: 1M         chunk_size: 1M         num_reg: 10          lose cover RAM: 129022M
+[    1.170741] obpc kernel:  gran_size: 1M         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+[    1.170746] obpc kernel:  gran_size: 1M         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+[    1.170750] obpc kernel:  gran_size: 1M         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+[    1.170755] obpc kernel:  gran_size: 1M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170762] obpc kernel:  gran_size: 1M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170766] obpc kernel:  gran_size: 1M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170771] obpc kernel:  gran_size: 1M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170774] obpc kernel:  gran_size: 1M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170781] obpc kernel:  gran_size: 1M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170786] obpc kernel:  gran_size: 1M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170791] obpc kernel:  gran_size: 1M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170796] obpc kernel:  gran_size: 2M         chunk_size: 2M         num_reg: 10          lose cover RAM: 129022M
+[    1.170803] obpc kernel:  gran_size: 2M         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+[    1.170810] obpc kernel:  gran_size: 2M         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+[    1.170814] obpc kernel:  gran_size: 2M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170820] obpc kernel:  gran_size: 2M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170825] obpc kernel:  gran_size: 2M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170829] obpc kernel:  gran_size: 2M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170834] obpc kernel:  gran_size: 2M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170839] obpc kernel:  gran_size: 2M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170846] obpc kernel:  gran_size: 2M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170850] obpc kernel:  gran_size: 2M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170857] obpc kernel:  gran_size: 4M         chunk_size: 4M         num_reg: 10          lose cover RAM: 129022M
+[    1.170860] obpc kernel:  gran_size: 4M         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+[    1.170864] obpc kernel:  gran_size: 4M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170870] obpc kernel:  gran_size: 4M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170873] obpc kernel:  gran_size: 4M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170878] obpc kernel:  gran_size: 4M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170881] obpc kernel:  gran_size: 4M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170886] obpc kernel:  gran_size: 4M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170893] obpc kernel:  gran_size: 4M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170898] obpc kernel:  gran_size: 4M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170901] obpc kernel:  gran_size: 8M         chunk_size: 8M         num_reg: 10          lose cover RAM: 129022M
+[    1.170906] obpc kernel:  gran_size: 8M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170911] obpc kernel:  gran_size: 8M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170916] obpc kernel:  gran_size: 8M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170920] obpc kernel:  gran_size: 8M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170926] obpc kernel:  gran_size: 8M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170929] obpc kernel:  gran_size: 8M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170936] obpc kernel:  gran_size: 8M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170941] obpc kernel:  gran_size: 8M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170945] obpc kernel:  gran_size: 16M         chunk_size: 16M         num_reg: 10          lose cover RAM: 129022M
+[    1.170952] obpc kernel:  gran_size: 16M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170955] obpc kernel:  gran_size: 16M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170962] obpc kernel:  gran_size: 16M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.170966] obpc kernel:  gran_size: 16M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.170973] obpc kernel:  gran_size: 16M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.170977] obpc kernel:  gran_size: 16M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.170981] obpc kernel:  gran_size: 16M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.170987] obpc kernel:  gran_size: 32M         chunk_size: 32M         num_reg: 10          lose cover RAM: 129022M
+[    1.170992] obpc kernel:  gran_size: 32M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.170999] obpc kernel:  gran_size: 32M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.171005] obpc kernel:  gran_size: 32M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.171011] obpc kernel:  gran_size: 32M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.171015] obpc kernel:  gran_size: 32M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.171019] obpc kernel:  gran_size: 32M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.171023] obpc kernel:  gran_size: 64M         chunk_size: 64M         num_reg: 10          lose cover RAM: 129022M
+[    1.171028] obpc kernel:  gran_size: 64M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.171035] obpc kernel:  gran_size: 64M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.171039] obpc kernel:  gran_size: 64M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.171043] obpc kernel:  gran_size: 64M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.171050] obpc kernel:  gran_size: 64M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.171054] obpc kernel:  gran_size: 128M         chunk_size: 128M         num_reg: 10          lose cover RAM: 129022M
+[    1.171060] obpc kernel:  gran_size: 128M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.171063] obpc kernel:  gran_size: 128M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.171069] obpc kernel:  gran_size: 128M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.171073] obpc kernel:  gran_size: 128M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.171079] obpc kernel:  gran_size: 256M         chunk_size: 256M         num_reg: 10          lose cover RAM: 129022M
+[    1.171082] obpc kernel:  gran_size: 256M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129020M
+[    1.171087] obpc kernel:  gran_size: 256M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129020M
+[    1.171094] obpc kernel:  gran_size: 256M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129020M
+[    1.171097] obpc kernel:  gran_size: 512M         chunk_size: 512M         num_reg: 10          lose cover RAM: 129276M
+[    1.171103] obpc kernel:  gran_size: 512M         chunk_size: 1G         num_reg: 10          lose cover RAM: 129276M
+[    1.171107] obpc kernel:  gran_size: 512M         chunk_size: 2G         num_reg: 10          lose cover RAM: 129276M
+[    1.171113] obpc kernel:  gran_size: 1G         chunk_size: 1G         num_reg: 10          lose cover RAM: 129784M
+[    1.171118] obpc kernel:  gran_size: 1G         chunk_size: 2G         num_reg: 10          lose cover RAM: 129784M
+[    1.171124] obpc kernel:  gran_size: 2G         chunk_size: 2G         num_reg: 10          lose cover RAM: 130800M
+[    1.171128] obpc kernel: mtrr_cleanup: can not find optimal value
+[    1.171132] obpc kernel: please specify mtrr_gran_size/mtrr_chunk_size
+[    1.171137] obpc kernel: MTRR map: 8 entries (3 fixed + 5 variable; max 23), built from 10 variable MTRRs
+[    1.171141] obpc kernel: x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+[    1.171148] obpc kernel: e820: update [mem 0x70000000-0xffffffff] usable ==> reserved
+[    1.171155] obpc kernel: e820: update [mem 0x2080000000-0x20800fffff] usable ==> reserved
+[    1.171160] obpc kernel: x2apic: enabled by BIOS, switching to x2apic ops
+[    1.171167] obpc kernel: last_pfn = 0x64000 max_arch_pfn = 0x400000000
+[    1.171174] obpc kernel: esrt: Reserving ESRT space from 0x0000000050df1e98 to 0x0000000050df1fe8.
+[    1.171178] obpc kernel: e820: update [mem 0x50df1000-0x50df1fff] usable ==> reserved
+[    1.171184] obpc kernel: Using GB pages for direct mapping
+[    1.171188] obpc kernel: secureboot: Secure boot disabled
+[    1.171193] obpc kernel: RAMDISK: [mem 0x3d22c000-0x4046efff]
+[    1.171198] obpc kernel: ACPI: Early table checksum verification disabled
+[    1.171202] obpc kernel: ACPI: RSDP 0x000000005E8B6014 000024 (v02 ASUS  )
+[    1.171205] obpc kernel: ACPI: XSDT 0x000000005E852728 000174 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171212] obpc kernel: ACPI: FACP 0x000000005E79E000 000114 (v06 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171217] obpc kernel: ACPI: DSDT 0x000000005E72D000 070E47 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171222] obpc kernel: ACPI: FACS 0x000000005E939000 000040
+[    1.171229] obpc kernel: ACPI: SSDT 0x000000005E7B5000 000770 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171236] obpc kernel: ACPI: SSDT 0x000000005E7B4000 0005FB (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171242] obpc kernel: ACPI: SSDT 0x000000005E7B3000 0001AB (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171246] obpc kernel: ACPI: SSDT 0x000000005E7B2000 000394 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171254] obpc kernel: ACPI: SSDT 0x000000005E7B0000 001BAF (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171259] obpc kernel: ACPI: SSDT 0x000000005E7AE000 001620 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171264] obpc kernel: ACPI: SSDT 0x000000005E7AC000 001349 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171271] obpc kernel: ACPI: SSDT 0x000000005E7AB000 000FBB (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171275] obpc kernel: ACPI: SSDT 0x000000005E7A7000 003BC8 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171282] obpc kernel: ACPI: DTPR 0x000000005E7A6000 000088 (v01 ASUS   NUC15CR  0000001D      00000000)
+[    1.171287] obpc kernel: ACPI: SSDT 0x000000005E7A0000 0053DB (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171292] obpc kernel: ACPI: SSDT 0x000000005E79F000 000D03 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171299] obpc kernel: ACPI: FIDT 0x000000005E72C000 00009C (v01 ASUS   NUC15CR  0000001D AMI  00010013)
+[    1.171302] obpc kernel: ACPI: SSDT 0x000000005E7B7000 00038C (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171306] obpc kernel: ACPI: SSDT 0x000000005E729000 00247E (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171312] obpc kernel: ACPI: SSDT 0x000000005E71F000 009ADA (v02 ASUS   NUC15CR  00001000 INTL 20210930)
+[    1.171319] obpc kernel: ACPI: HPET 0x000000005E7B6000 000038 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171322] obpc kernel: ACPI: APIC 0x000000005E71E000 000358 (v05 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171327] obpc kernel: ACPI: MCFG 0x000000005E71D000 00003C (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171332] obpc kernel: ACPI: SSDT 0x000000005E710000 00C39C (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171338] obpc kernel: ACPI: SSDT 0x000000005E70E000 00147F (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171346] obpc kernel: ACPI: SSDT 0x000000005E70A000 0038A4 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171352] obpc kernel: ACPI: UEFI 0x000000005E809000 000048 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171358] obpc kernel: ACPI: NHLT 0x000000005E709000 0002E3 (v00 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171362] obpc kernel: ACPI: LPIT 0x000000005E708000 0000CC (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171367] obpc kernel: ACPI: WDAT 0x000000005E706000 000134 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171372] obpc kernel: ACPI: SSDT 0x000000005E705000 000CA6 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171379] obpc kernel: ACPI: SSDT 0x000000005E6FF000 005E42 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171385] obpc kernel: ACPI: DBGP 0x000000005E6FE000 000034 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171391] obpc kernel: ACPI: DBG2 0x000000005E6FD000 000054 (v00 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171397] obpc kernel: ACPI: SSDT 0x000000005E6FB000 001AFE (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171402] obpc kernel: ACPI: DMAR 0x000000005E6FA000 000098 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171407] obpc kernel: ACPI: FPDT 0x000000005E6F9000 000044 (v01 ASUS   NUC15CR  0000001D AMI  01000013)
+[    1.171412] obpc kernel: ACPI: SSDT 0x000000005E6F7000 001092 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171418] obpc kernel: ACPI: SSDT 0x000000005E6F4000 00281A (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171423] obpc kernel: ACPI: SSDT 0x000000005E6F1000 0028D3 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171429] obpc kernel: ACPI: BGRT 0x000000005E6F0000 000038 (v01 ASUS   NUC15CR  0000001D AMI  00010013)
+[    1.171435] obpc kernel: ACPI: SSDT 0x000000005E6EE000 0011A0 (v02 ASUS   NUC15CR  0000001D INTL 20210930)
+[    1.171440] obpc kernel: ACPI: PHAT 0x000000005E6ED000 000810 (v01 ASUS   NUC15CR  0000001D MSFT 0100000D)
+[    1.171445] obpc kernel: ACPI: TPM2 0x000000005E6EC000 00004C (v04 ASUS   NUC15CR  0000001D AMI  00000000)
+[    1.171449] obpc kernel: ACPI: WSMT 0x000000005E707000 000028 (v01 ASUS   NUC15CR  0000001D AMI  00010013)
+[    1.171455] obpc kernel: ACPI: Reserving FACP table memory at [mem 0x5e79e000-0x5e79e113]
+[    1.171461] obpc kernel: ACPI: Reserving DSDT table memory at [mem 0x5e72d000-0x5e79de46]
+[    1.171468] obpc kernel: ACPI: Reserving FACS table memory at [mem 0x5e939000-0x5e93903f]
+[    1.171471] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b5000-0x5e7b576f]
+[    1.171478] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b4000-0x5e7b45fa]
+[    1.171482] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b3000-0x5e7b31aa]
+[    1.171486] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b2000-0x5e7b2393]
+[    1.171491] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b0000-0x5e7b1bae]
+[    1.171495] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7ae000-0x5e7af61f]
+[    1.171498] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7ac000-0x5e7ad348]
+[    1.171503] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7ab000-0x5e7abfba]
+[    1.171508] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7a7000-0x5e7aabc7]
+[    1.171512] obpc kernel: ACPI: Reserving DTPR table memory at [mem 0x5e7a6000-0x5e7a6087]
+[    1.171517] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7a0000-0x5e7a53da]
+[    1.171521] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e79f000-0x5e79fd02]
+[    1.171525] obpc kernel: ACPI: Reserving FIDT table memory at [mem 0x5e72c000-0x5e72c09b]
+[    1.171530] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e7b7000-0x5e7b738b]
+[    1.171534] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e729000-0x5e72b47d]
+[    1.171539] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e71f000-0x5e728ad9]
+[    1.171543] obpc kernel: ACPI: Reserving HPET table memory at [mem 0x5e7b6000-0x5e7b6037]
+[    1.171546] obpc kernel: ACPI: Reserving APIC table memory at [mem 0x5e71e000-0x5e71e357]
+[    1.171550] obpc kernel: ACPI: Reserving MCFG table memory at [mem 0x5e71d000-0x5e71d03b]
+[    1.171554] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e710000-0x5e71c39b]
+[    1.171560] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e70e000-0x5e70f47e]
+[    1.171563] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e70a000-0x5e70d8a3]
+[    1.171566] obpc kernel: ACPI: Reserving UEFI table memory at [mem 0x5e809000-0x5e809047]
+[    1.171570] obpc kernel: ACPI: Reserving NHLT table memory at [mem 0x5e709000-0x5e7092e2]
+[    1.171575] obpc kernel: ACPI: Reserving LPIT table memory at [mem 0x5e708000-0x5e7080cb]
+[    1.171578] obpc kernel: ACPI: Reserving WDAT table memory at [mem 0x5e706000-0x5e706133]
+[    1.171580] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e705000-0x5e705ca5]
+[    1.171585] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6ff000-0x5e704e41]
+[    1.171590] obpc kernel: ACPI: Reserving DBGP table memory at [mem 0x5e6fe000-0x5e6fe033]
+[    1.171593] obpc kernel: ACPI: Reserving DBG2 table memory at [mem 0x5e6fd000-0x5e6fd053]
+[    1.171597] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6fb000-0x5e6fcafd]
+[    1.171601] obpc kernel: ACPI: Reserving DMAR table memory at [mem 0x5e6fa000-0x5e6fa097]
+[    1.171607] obpc kernel: ACPI: Reserving FPDT table memory at [mem 0x5e6f9000-0x5e6f9043]
+[    1.171610] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6f7000-0x5e6f8091]
+[    1.171613] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6f4000-0x5e6f6819]
+[    1.171615] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6f1000-0x5e6f38d2]
+[    1.171621] obpc kernel: ACPI: Reserving BGRT table memory at [mem 0x5e6f0000-0x5e6f0037]
+[    1.171624] obpc kernel: ACPI: Reserving SSDT table memory at [mem 0x5e6ee000-0x5e6ef19f]
+[    1.171628] obpc kernel: ACPI: Reserving PHAT table memory at [mem 0x5e6ed000-0x5e6ed80f]
+[    1.171634] obpc kernel: ACPI: Reserving TPM2 table memory at [mem 0x5e6ec000-0x5e6ec04b]
+[    1.171637] obpc kernel: ACPI: Reserving WSMT table memory at [mem 0x5e707000-0x5e707027]
+[    1.171640] obpc kernel: APIC: Switched APIC routing to: cluster x2apic
+[    1.171644] obpc kernel: No NUMA configuration found
+[    1.171649] obpc kernel: Faking a node at [mem 0x0000000000000000-0x000000207fffffff]
+[    1.171653] obpc kernel: NODE_DATA(0) allocated [mem 0x207ffd5280-0x207fffffff]
+[    1.171659] obpc kernel: crashkernel reserved: 0x000000002d000000 - 0x000000003d000000 (256 MB)
+[    1.171662] obpc kernel: Zone ranges:
+[    1.171667] obpc kernel:   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+[    1.171670] obpc kernel:   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+[    1.171674] obpc kernel:   Normal   [mem 0x0000000100000000-0x000000207fffffff]
+[    1.171679] obpc kernel:   Device   empty
+[    1.171686] obpc kernel: Movable zone start for each node
+[    1.171691] obpc kernel: Early memory node ranges
+[    1.171696] obpc kernel:   node   0: [mem 0x0000000000001000-0x000000000009efff]
+[    1.171699] obpc kernel:   node   0: [mem 0x0000000000100000-0x00000000545f1fff]
+[    1.171702] obpc kernel:   node   0: [mem 0x0000000063fff000-0x0000000063ffffff]
+[    1.171707] obpc kernel:   node   0: [mem 0x0000000100000000-0x000000207fffffff]
+[    1.171710] obpc kernel: Initmem setup node 0 [mem 0x0000000000001000-0x000000207fffffff]
+[    1.171714] obpc kernel: On node 0, zone DMA: 1 pages in unavailable ranges
+[    1.171720] obpc kernel: On node 0, zone DMA: 97 pages in unavailable ranges
+[    1.171724] obpc kernel: On node 0, zone DMA32: 31245 pages in unavailable ranges
+[    1.171729] obpc kernel: On node 0, zone Normal: 16384 pages in unavailable ranges
+[    1.171734] obpc kernel: ACPI: PM-Timer IO Port: 0x1808
+[    1.171739] obpc kernel: ACPI: X2APIC_NMI (uid[0xffffffff] high level lint[0x1])
+[    1.171744] obpc kernel: IOAPIC[0]: apic_id 2, version 32, address 0xfec00000, GSI 0-119
+[    1.171749] obpc kernel: ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+[    1.171754] obpc kernel: ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+[    1.171760] obpc kernel: ACPI: Using ACPI (MADT) for SMP configuration information
+[    1.171765] obpc kernel: ACPI: HPET id: 0x8086a201 base: 0xfed00000
+[    1.171770] obpc kernel: e820: update [mem 0x483a2000-0x483d0fff] usable ==> reserved
+[    1.171775] obpc kernel: TSC deadline timer available
+[    1.171779] obpc kernel: CPU topo: Max. logical packages:   1
+[    1.171785] obpc kernel: CPU topo: Max. logical nodes:      1
+[    1.171790] obpc kernel: CPU topo: Num. nodes per package:  1
+[    1.171795] obpc kernel: CPU topo: Max. logical dies:       1
+[    1.171799] obpc kernel: CPU topo: Max. dies per package:   1
+[    1.171803] obpc kernel: CPU topo: Max. threads per core:   1
+[    1.171809] obpc kernel: CPU topo: Num. cores per package:    16
+[    1.171812] obpc kernel: CPU topo: Num. threads per package:  16
+[    1.171816] obpc kernel: CPU topo: Allowing 16 present CPUs plus 0 hotplug CPUs
+[    1.171821] obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x00000000-0x00000fff]
+[    1.171826] obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x0009f000-0x000fffff]
+[    1.171830] obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x483a2000-0x483d0fff]
+[    1.171834] obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x50df1000-0x50df1fff]
+[    1.171838] obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x545f2000-0x63ffefff]
+[    1.171845] obpc kernel: PM: hibernation: Registered nosave memory: [mem 0x64000000-0xffffffff]
+[    1.171848] obpc kernel: [mem 0x78800000-0xfdffffff] available for PCI devices
+[    1.171852] obpc kernel: Booting paravirtualized kernel on bare hardware
+[    1.171857] obpc kernel: clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1910969940391419 ns
+[    1.171863] obpc kernel: setup_percpu: NR_CPUS:8192 nr_cpumask_bits:16 nr_cpu_ids:16 nr_node_ids:1
+[    1.171869] obpc kernel: percpu: Embedded 84 pages/cpu s221184 r8192 d114688 u524288
+[    1.171874] obpc kernel: pcpu-alloc: s221184 r8192 d114688 u524288 alloc=1*2097152
+[    1.171880] obpc kernel: pcpu-alloc: [0] 00 01 02 03 [0] 04 05 06 07 
+[    1.171885] obpc kernel: pcpu-alloc: [0] 08 09 10 11 [0] 12 13 14 15 
+[    1.171891] obpc kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off thunderbolt.dyndbg=+pflm thunderbolt.host_reset=false
+[    1.171907] obpc kernel: DMAR: IOMMU disabled
+[    1.171911] obpc kernel: Unknown kernel command line parameters "rhgb", will be passed to user space.
+[    1.171917] obpc kernel: printk: log buffer data + meta data: 262144 + 917504 = 1179648 bytes
+[    1.171920] obpc kernel: Dentry cache hash table entries: 8388608 (order: 14, 67108864 bytes, linear)
+[    1.171925] obpc kernel: Inode-cache hash table entries: 4194304 (order: 13, 33554432 bytes, linear)
+[    1.171928] obpc kernel: Fallback order for Node 0: 0 
+[    1.171934] obpc kernel: Built 1 zonelists, mobility grouping on.  Total pages: 33375633
+[    1.171939] obpc kernel: Policy zone: Normal
+[    1.171942] obpc kernel: mem auto-init: stack:all(zero), heap alloc:on, heap free:off
+[    1.171946] obpc kernel: SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=16, Nodes=1
+[    1.171953] obpc kernel: ftrace: allocating 63440 entries in 248 pages
+[    1.171962] obpc kernel: ftrace: allocated 248 pages with 5 groups
+[    1.171966] obpc kernel: Dynamic Preempt: lazy
+[    1.171970] obpc kernel: rcu: Preemptible hierarchical RCU implementation.
+[    1.171976] obpc kernel: rcu:         RCU event tracing is enabled.
+[    1.171981] obpc kernel: rcu:         RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=16.
+[    1.171985] obpc kernel:         Trampoline variant of Tasks RCU enabled.
+[    1.171990] obpc kernel:         Rude variant of Tasks RCU enabled.
+[    1.171993] obpc kernel:         Tracing variant of Tasks RCU enabled.
+[    1.171997] obpc kernel: rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+[    1.172006] obpc kernel: rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=16
+[    1.172010] obpc kernel: RCU Tasks: Setting shift to 4 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=16.
+[    1.172014] obpc kernel: RCU Tasks Rude: Setting shift to 4 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=16.
+[    1.172018] obpc kernel: RCU Tasks Trace: Setting shift to 4 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=16.
+[    1.172025] obpc kernel: NR_IRQS: 524544, nr_irqs: 2184, preallocated irqs: 16
+[    1.172030] obpc kernel: rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    1.172036] obpc kernel: kfence: initialized - using 2097152 bytes for 255 objects at 0x(____ptrval____)-0x(____ptrval____)
+[    1.172043] obpc kernel: Console: colour dummy device 80x25
+[    1.172048] obpc kernel: printk: legacy console [tty0] enabled
+[    1.172055] obpc kernel: ACPI: Core revision 20250807
+[    1.172061] obpc kernel: hpet: HPET dysfunctional in PC10. Force disabled.
+[    1.172066] obpc kernel: APIC: Switch to symmetric I/O mode setup
+[    1.172072] obpc kernel: DMAR: Host address width 42
+[    1.172076] obpc kernel: DMAR: DRHD base: 0x000000fc800000 flags: 0x0
+[    1.172081] obpc kernel: DMAR: dmar0: reg_base_addr fc800000 ver 7:0 cap c9de008cee690462 ecap 12ca9a00f0ef5e
+[    1.172086] obpc kernel: DMAR: DRHD base: 0x000000fc801000 flags: 0x1
+[    1.172092] obpc kernel: DMAR: dmar1: reg_base_addr fc801000 ver 7:0 cap c9de008cee690462 ecap 12ca9a00f0efde
+[    1.172096] obpc kernel: DMAR: SATC flags: 0x1
+[    1.172100] obpc kernel: DMAR-IR: IOAPIC id 2 under DRHD base  0xfc801000 IOMMU 1
+[    1.172106] obpc kernel: DMAR-IR: HPET id 0 under DRHD base 0xfc801000
+[    1.172111] obpc kernel: DMAR-IR: Queued invalidation will be enabled to support x2apic and Intr-remapping.
+[    1.172114] obpc kernel: DMAR-IR: Enabled IRQ remapping in x2apic mode
+[    1.172120] obpc kernel: clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles: 0x6a464ae9873, max_idle_ns: 881590529744 ns
+[    1.172124] obpc kernel: Calibrating delay loop (skipped), value calculated using timer frequency.. 7372.80 BogoMIPS (lpj=3686400)
+[    1.172130] obpc kernel: CPU0: Thermal monitoring enabled (TM1)
+[    1.172137] obpc kernel: x86/cpu: User Mode Instruction Prevention (UMIP) activated
+[    1.172141] obpc kernel: CET detected: Indirect Branch Tracking enabled
+[    1.172146] obpc kernel: Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0
+[    1.172152] obpc kernel: Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+[    1.172156] obpc kernel: process: using mwait in idle threads
+[    1.172159] obpc kernel: mitigations: Enabled attack vectors: user_kernel, user_user, guest_host, guest_guest, SMT mitigations: auto
+[    1.172165] obpc kernel: Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl
+[    1.172169] obpc kernel: Spectre V2 : Mitigation: Enhanced / Automatic IBRS
+[    1.172173] obpc kernel: VMSCAPE: Mitigation: IBPB before exit to userspace
+[    1.172176] obpc kernel: Spectre V1 : Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+[    1.172181] obpc kernel: Spectre V2 : mitigation: Enabling conditional Indirect Branch Prediction Barrier
+[    1.172185] obpc kernel: x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    1.172190] obpc kernel: x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    1.172193] obpc kernel: x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    1.172196] obpc kernel: x86/fpu: Supporting XSAVE feature 0x200: 'Protection Keys User registers'
+[    1.172201] obpc kernel: x86/fpu: Supporting XSAVE feature 0x800: 'Control-flow User registers'
+[    1.172204] obpc kernel: x86/fpu: Supporting XSAVE feature 0x1000: 'Control-flow Kernel registers (KVM only)'
+[    1.172208] obpc kernel: x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    1.172213] obpc kernel: x86/fpu: xstate_offset[9]:  832, xstate_sizes[9]:    8
+[    1.172217] obpc kernel: x86/fpu: xstate_offset[11]:  840, xstate_sizes[11]:   16
+[    1.172222] obpc kernel: x86/fpu: xstate_offset[12]:  856, xstate_sizes[12]:   24
+[    1.172226] obpc kernel: x86/fpu: Enabled xstate features 0x1a07, context size is 880 bytes, using 'compacted' format.
+[    1.172231] obpc kernel: Freeing SMP alternatives memory: 56K
+[    1.172235] obpc kernel: pid_max: default: 32768 minimum: 301
+[    1.172240] obpc kernel: Yama: becoming mindful.
+[    1.172244] obpc kernel: SELinux:  Initializing.
+[    1.172247] obpc kernel: LSM support for eBPF active
+[    1.172251] obpc kernel: landlock: Up and running.
+[    1.172255] obpc kernel: Mount-cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    1.172260] obpc kernel: Mountpoint-cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    1.172264] obpc kernel: smpboot: CPU0: Intel(R) Core(TM) Ultra 9 285H (family: 0x6, model: 0xc5, stepping: 0x2)
+[    1.172268] obpc kernel: Performance Events: XSAVE Architectural LBR, PEBS fmt5+-baseline,  AnyThread deprecated, ArrowLake-H Hybrid events, 32-deep LBR, full-width counters, Intel PMU driver.
+[    1.172271] obpc kernel: core: cpu_core PMU driver: 
+[    1.172274] obpc kernel: ... version:                   5
+[    1.172277] obpc kernel: ... bit width:                 48
+[    1.172282] obpc kernel: ... generic counters:          10
+[    1.172286] obpc kernel: ... generic bitmap:            00000000000003ff
+[    1.172289] obpc kernel: ... fixed-purpose counters:    4
+[    1.172293] obpc kernel: ... fixed-purpose bitmap:      000000000000000f
+[    1.172297] obpc kernel: ... value mask:                0000ffffffffffff
+[    1.172301] obpc kernel: ... max period:                00007fffffffffff
+[    1.172304] obpc kernel: ... global_ctrl mask:          0001000f000003ff
+[    1.172307] obpc kernel: signal: max sigframe size: 3632
+[    1.172311] obpc kernel: Estimated ratio of average max frequency by base frequency (times 1024): 1411
+[    1.172316] obpc kernel: rcu: Hierarchical SRCU implementation.
+[    1.172319] obpc kernel: rcu:         Max phase no-delay instances is 400.
+[    1.172323] obpc kernel: Timer migration: 2 hierarchy levels; 8 children per group; 2 crossnode level
+[    1.172327] obpc kernel: NMI watchdog: Enabled. Permanently consumes one hw-PMU counter.
+[    1.172330] obpc kernel: smp: Bringing up secondary CPUs ...
+[    1.172334] obpc kernel: smpboot: x86: Booting SMP configuration:
+[    1.172338] obpc kernel: .... node  #0, CPUs:        #1  #2  #3  #4  #5  #6  #7  #8  #9 #10 #11 #12 #13 #14 #15
+[    1.172341] obpc kernel: core: The event 0x5d0 is not supported as an auto-counter reload event.
+[    1.172346] obpc kernel: core: cpu_atom PMU driver: 
+[    1.172350] obpc kernel: ... version:                   5
+[    1.172353] obpc kernel: ... bit width:                 48
+[    1.172356] obpc kernel: ... generic counters:          8
+[    1.172359] obpc kernel: ... generic bitmap:            00000000000000ff
+[    1.172362] obpc kernel: ... fixed-purpose counters:    6
+[    1.172365] obpc kernel: ... fixed-purpose bitmap:      0000000000000077
+[    1.172369] obpc kernel: ... value mask:                0000ffffffffffff
+[    1.172373] obpc kernel: ... max period:                00007fffffffffff
+[    1.172376] obpc kernel: ... global_ctrl mask:          00000077000000ff
+[    1.172379] obpc kernel: core: cpu_lowpower PMU driver: 
+[    1.172381] obpc kernel: ... version:                   5
+[    1.172384] obpc kernel: ... bit width:                 48
+[    1.172387] obpc kernel: ... generic counters:          8
+[    1.172390] obpc kernel: ... generic bitmap:            00000000000000ff
+[    1.172393] obpc kernel: ... fixed-purpose counters:    3
+[    1.172397] obpc kernel: ... fixed-purpose bitmap:      0000000000000007
+[    1.172401] obpc kernel: ... value mask:                0000ffffffffffff
+[    1.172404] obpc kernel: ... max period:                00007fffffffffff
+[    1.172407] obpc kernel: ... global_ctrl mask:          00000007000000ff
+[    1.172411] obpc kernel: smp: Brought up 1 node, 16 CPUs
+[    1.172417] obpc kernel: smpboot: Total of 16 processors activated (117964.80 BogoMIPS)
+[    1.172421] obpc kernel: Memory: 130694964K/133502532K available (22601K kernel code, 4588K rwdata, 17852K rodata, 5200K init, 5788K bss, 2777552K reserved, 0K cma-reserved)
+[    1.172426] obpc kernel: devtmpfs: initialized
+[    1.172431] obpc kernel: x86/mm: Memory block size: 2048MB
+[    1.172436] obpc kernel: ACPI: PM: Registering ACPI NVS region [mem 0x5e7b8000-0x5e93efff] (1601536 bytes)
+[    1.172440] obpc kernel: clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    1.172444] obpc kernel: posixtimers hash table entries: 8192 (order: 5, 131072 bytes, linear)
+[    1.172447] obpc kernel: futex hash table entries: 4096 (262144 bytes on 1 NUMA nodes, total 256 KiB, linear).
+[    1.172450] obpc kernel: PM: RTC time: 14:05:14, date: 2026-05-08
+[    1.172456] obpc kernel: NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    1.172462] obpc kernel: DMA: preallocated 4096 KiB GFP_KERNEL pool for atomic allocations
+[    1.172468] obpc kernel: DMA: preallocated 4096 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    1.172472] obpc kernel: DMA: preallocated 4096 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+[    1.172477] obpc kernel: audit: initializing netlink subsys (disabled)
+[    1.172482] obpc kernel: audit: type=2000 audit(1778249113.012:1): state=initialized audit_enabled=0 res=1
+[    1.172486] obpc kernel: thermal_sys: Registered thermal governor 'fair_share'
+[    1.172492] obpc kernel: thermal_sys: Registered thermal governor 'bang_bang'
+[    1.172495] obpc kernel: thermal_sys: Registered thermal governor 'step_wise'
+[    1.172501] obpc kernel: thermal_sys: Registered thermal governor 'user_space'
+[    1.172504] obpc kernel: cpuidle: using governor menu
+[    1.172507] obpc kernel: efi: Freeing EFI boot services memory: 202076K
+[    1.172512] obpc kernel: acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    1.172518] obpc kernel: PCI: ECAM [mem 0xc0000000-0xcfffffff] (base 0xc0000000) for domain 0000 [bus 00-ff]
+[    1.172522] obpc kernel: PCI: Using configuration type 1 for base access
+[    1.172528] obpc kernel: kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+[    1.172532] obpc kernel: HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+[    1.172538] obpc kernel: HugeTLB: 16380 KiB vmemmap can be freed for a 1.00 GiB page
+[    1.172542] obpc kernel: HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    1.172545] obpc kernel: HugeTLB: 28 KiB vmemmap can be freed for a 2.00 MiB page
+[    1.172548] obpc kernel: raid6: skipped pq benchmark and selected avx2x4
+[    1.172553] obpc kernel: raid6: using avx2x2 recovery algorithm
+[    1.172556] obpc kernel: ACPI: Added _OSI(Module Device)
+[    1.172560] obpc kernel: ACPI: Added _OSI(Processor Device)
+[    1.172563] obpc kernel: ACPI: Added _OSI(Processor Aggregator Device)
+[    1.172566] obpc kernel: ACPI: 25 ACPI AML tables successfully acquired and loaded
+[    1.172573] obpc kernel: ACPI: USB4 _OSC: OS supports USB3+ DisplayPort+ PCIe+ XDomain+
+[    1.172577] obpc kernel: ACPI: USB4 _OSC: OS controls USB3+ DisplayPort+ PCIe+ XDomain+
+[    1.172583] obpc kernel: ACPI: EC: EC started
+[    1.172587] obpc kernel: ACPI: EC: interrupt blocked
+[    1.172593] obpc kernel: ACPI: EC: EC_CMD/EC_SC=0x66, EC_DATA=0x62
+[    1.172599] obpc kernel: ACPI: \_SB_.PC00.LPCB.H_EC: Boot DSDT EC used to handle transactions
+[    1.172605] obpc kernel: ACPI: Interpreter enabled
+[    1.172610] obpc kernel: ACPI: PM: (supports S0 S3 S4 S5)
+[    1.172615] obpc kernel: ACPI: Using IOAPIC for interrupt routing
+[    1.172618] obpc kernel: PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[    1.172622] obpc kernel: PCI: Ignoring E820 reservations for host bridge windows
+[    1.172625] obpc kernel: ACPI: Enabled 13 GPEs in block 00 to 7F
+[    1.172628] obpc kernel: ACPI: Enabled 8 GPEs in block 80 to DF
+[    1.172635] obpc kernel: ACPI: \_SB_.PC00.RP04.PXP_: New power resource
+[    1.172641] obpc kernel: ACPI: \_SB_.PC00.RP05.PXP_: New power resource
+[    1.172644] obpc kernel: ACPI: \_SB_.PC00.RP11.PXP_: New power resource
+[    1.172651] obpc kernel: ACPI: \_SB_.PC00.RP12.PXP_: New power resource
+[    1.172657] obpc kernel: ACPI: \_SB_.PC00.XHCI.RHUB.HS10.BTRT: New power resource
+[    1.172662] obpc kernel: ACPI: \_SB_.PC00.XHCI.RHUB.HS10.DBTR: New power resource
+[    1.172665] obpc kernel: ACPI: \_SB_.PC00.PAUD: New power resource
+[    1.172670] obpc kernel: ACPI: \_SB_.PC00.CNVW.WRST: New power resource
+[    1.172674] obpc kernel: ACPI: \_SB_.PC00.TBT0: New power resource
+[    1.172678] obpc kernel: ACPI: \_SB_.PC00.TBT1: New power resource
+[    1.172681] obpc kernel: ACPI: \_SB_.PC00.D3C_: New power resource
+[    1.172688] obpc kernel: ACPI: \_TZ_.FN00: New power resource
+[    1.172694] obpc kernel: ACPI: \_TZ_.FN01: New power resource
+[    1.172698] obpc kernel: ACPI: \_TZ_.FN02: New power resource
+[    1.172703] obpc kernel: ACPI: \_TZ_.FN03: New power resource
+[    1.172708] obpc kernel: ACPI: \_TZ_.FN04: New power resource
+[    1.172712] obpc kernel: ACPI: \PIN_: New power resource
+[    1.172716] obpc kernel: ACPI: PCI Root Bridge [PC00] (domain 0000 [bus 00-fe])
+[    1.172852] obpc kernel: acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI EDR HPX-Type3]
+[    1.172927] obpc kernel: acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug SHPCHotplug PME AER PCIeCapability LTR DPC]
+[    1.172933] obpc kernel: PCI host bridge to bus 0000:00
+[    1.173026] obpc kernel: pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+[    1.173091] obpc kernel: pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+[    1.173152] obpc kernel: pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+[    1.173211] obpc kernel: pci_bus 0000:00: root bus resource [mem 0x80000000-0xbfffffff window]
+[    1.173272] obpc kernel: pci_bus 0000:00: root bus resource [mem 0x4000000000-0x3ffbfffffff window]
+[    1.173333] obpc kernel: pci_bus 0000:00: root bus resource [bus 00-fe]
+[    1.173416] obpc kernel: pci 0000:00:00.0: [8086:7d06] type 00 class 0x060000 conventional PCI endpoint
+[    1.173497] obpc kernel: pci 0000:00:01.0: [8086:7ecc] type 01 class 0x060400 PCIe Root Port
+[    1.173565] obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+[    1.173637] obpc kernel: pci 0000:00:01.0:   bridge window [mem 0x90300000-0x903fffff]
+[    1.173711] obpc kernel: pci 0000:00:01.0: PME# supported from D0 D3hot D3cold
+[    1.173783] obpc kernel: pci 0000:00:01.0: PTM enabled (root), 4ns granularity
+[    1.173857] obpc kernel: pci 0000:00:02.0: [8086:7d51] type 00 class 0x030000 PCIe Root Complex Integrated Endpoint
+[    1.173926] obpc kernel: pci 0000:00:02.0: BAR 0 [mem 0x5837000000-0x5837ffffff 64bit pref]
+[    1.173996] obpc kernel: pci 0000:00:02.0: BAR 2 [mem 0x5020000000-0x502fffffff 64bit pref]
+[    1.174067] obpc kernel: pci 0000:00:02.0: DMAR: Skip IOMMU disabling for graphics
+[    1.174134] obpc kernel: pci 0000:00:02.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
+[    1.174202] obpc kernel: pci 0000:00:02.0: PME# supported from D0 D3hot
+[    1.174269] obpc kernel: pci 0000:00:02.0: VF BAR 0 [mem 0x5830000000-0x5830ffffff 64bit pref]
+[    1.174337] obpc kernel: pci 0000:00:02.0: VF BAR 0 [mem 0x5830000000-0x5836ffffff 64bit pref]: contains BAR 0 for 7 VFs
+[    1.174411] obpc kernel: pci 0000:00:04.0: [8086:7d03] type 00 class 0x118000 conventional PCI endpoint
+[    1.174480] obpc kernel: pci 0000:00:04.0: BAR 0 [mem 0x58402c0000-0x58402dffff 64bit]
+[    1.174553] obpc kernel: pci 0000:00:07.0: [8086:7ec4] type 01 class 0x060400 PCIe Root Port
+[    1.174619] obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+[    1.174686] obpc kernel: pci 0000:00:07.0:   bridge window [io  0x3000-0x3fff]
+[    1.174753] obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x80000000-0x89efffff]
+[    1.174818] obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+[    1.174883] obpc kernel: pci 0000:00:07.0: PME# supported from D0 D3hot D3cold
+[    1.174947] obpc kernel: pci 0000:00:07.0: PTM enabled (root), 4ns granularity
+[    1.175022] obpc kernel: pci 0000:00:07.2: [8086:7ec6] type 01 class 0x060400 PCIe Root Port
+[    1.175089] obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+[    1.175157] obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x8a000000-0x8fffffff]
+[    1.175224] obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+[    1.175294] obpc kernel: pci 0000:00:07.2: PME# supported from D0 D3hot D3cold
+[    1.175364] obpc kernel: pci 0000:00:07.2: PTM enabled (root), 4ns granularity
+[    1.175435] obpc kernel: pci 0000:00:08.0: [8086:774c] type 00 class 0x088000 conventional PCI endpoint
+[    1.175507] obpc kernel: pci 0000:00:08.0: BAR 0 [mem 0x5840322000-0x5840322fff 64bit]
+[    1.175588] obpc kernel: pci 0000:00:0a.0: [8086:7d0d] type 00 class 0x118000 PCIe Root Complex Integrated Endpoint
+[    1.175657] obpc kernel: pci 0000:00:0a.0: BAR 0 [mem 0x5840280000-0x58402bffff 64bit]
+[    1.175723] obpc kernel: pci 0000:00:0a.0: enabling Extended Tags
+[    1.175798] obpc kernel: pci 0000:00:0b.0: [8086:7d1d] type 00 class 0x120000 PCIe Root Complex Integrated Endpoint
+[    1.175866] obpc kernel: pci 0000:00:0b.0: BAR 0 [mem 0x5838000000-0x583fffffff 64bit]
+[    1.175933] obpc kernel: pci 0000:00:0b.0: BAR 4 [mem 0x5840321000-0x5840321fff 64bit]
+[    1.176016] obpc kernel: pci 0000:00:0d.0: [8086:7ec0] type 00 class 0x0c0330 conventional PCI endpoint
+[    1.176085] obpc kernel: pci 0000:00:0d.0: BAR 0 [mem 0x5840300000-0x584030ffff 64bit]
+[    1.176152] obpc kernel: pci 0000:00:0d.0: PME# supported from D3hot D3cold
+[    1.176226] obpc kernel: pci 0000:00:0d.2: [8086:7ec2] type 00 class 0x0c0340 conventional PCI endpoint
+[    1.176296] obpc kernel: pci 0000:00:0d.2: BAR 0 [mem 0x5840240000-0x584027ffff 64bit]
+[    1.176360] obpc kernel: pci 0000:00:0d.2: BAR 2 [mem 0x5840320000-0x5840320fff 64bit]
+[    1.176429] obpc kernel: pci 0000:00:0d.2: supports D1 D2
+[    1.176498] obpc kernel: pci 0000:00:0d.2: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.176577] obpc kernel: pci 0000:00:0d.3: [8086:7ec3] type 00 class 0x0c0340 conventional PCI endpoint
+[    1.176650] obpc kernel: pci 0000:00:0d.3: BAR 0 [mem 0x5840200000-0x584023ffff 64bit]
+[    1.176719] obpc kernel: pci 0000:00:0d.3: BAR 2 [mem 0x584031f000-0x584031ffff 64bit]
+[    1.176791] obpc kernel: pci 0000:00:0d.3: supports D1 D2
+[    1.176859] obpc kernel: pci 0000:00:0d.3: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.176932] obpc kernel: pci 0000:00:12.0: [8086:7745] type 00 class 0x070000 conventional PCI endpoint
+[    1.176997] obpc kernel: pci 0000:00:12.0: BAR 0 [mem 0x58402f0000-0x58402fffff 64bit]
+[    1.177064] obpc kernel: pci 0000:00:12.0: PME# supported from D0 D3hot
+[    1.177140] obpc kernel: pci 0000:00:14.0: [8086:777d] type 00 class 0x0c0330 conventional PCI endpoint
+[    1.177207] obpc kernel: pci 0000:00:14.0: BAR 0 [mem 0x58402e0000-0x58402effff 64bit]
+[    1.177273] obpc kernel: pci 0000:00:14.0: PME# supported from D3hot D3cold
+[    1.177345] obpc kernel: pci 0000:00:14.2: [8086:777f] type 00 class 0x050000 conventional PCI endpoint
+[    1.177414] obpc kernel: pci 0000:00:14.2: BAR 0 [mem 0x5840318000-0x584031bfff 64bit]
+[    1.177478] obpc kernel: pci 0000:00:14.2: BAR 2 [mem 0x584031e000-0x584031efff 64bit]
+[    1.177549] obpc kernel: pci 0000:00:14.3: [8086:7740] type 00 class 0x028000 PCIe Root Complex Integrated Endpoint
+[    1.177614] obpc kernel: pci 0000:00:14.3: BAR 0 [mem 0x5840314000-0x5840317fff 64bit]
+[    1.177690] obpc kernel: pci 0000:00:14.3: enabling Extended Tags
+[    1.177765] obpc kernel: pci 0000:00:14.3: PME# supported from D0 D3hot D3cold
+[    1.177844] obpc kernel: pci 0000:00:16.0: [8086:7770] type 00 class 0x078000 conventional PCI endpoint
+[    1.177913] obpc kernel: pci 0000:00:16.0: BAR 0 [mem 0x584031d000-0x584031dfff 64bit]
+[    1.177979] obpc kernel: pci 0000:00:16.0: PME# supported from D3hot
+[    1.178054] obpc kernel: pci 0000:00:1c.0: [8086:773c] type 01 class 0x060400 PCIe Root Port
+[    1.178121] obpc kernel: pci 0000:00:1c.0: PCI bridge to [bus 56]
+[    1.178189] obpc kernel: pci 0000:00:1c.0:   bridge window [mem 0x90000000-0x902fffff]
+[    1.178254] obpc kernel: pci 0000:00:1c.0: PME# supported from D0 D3hot D3cold
+[    1.178319] obpc kernel: pci 0000:00:1c.0: PTM enabled (root), 4ns granularity
+[    1.178390] obpc kernel: pci 0000:00:1f.0: [8086:7702] type 00 class 0x060100 conventional PCI endpoint
+[    1.178461] obpc kernel: pci 0000:00:1f.3: [8086:7728] type 00 class 0x040100 conventional PCI endpoint
+[    1.178529] obpc kernel: pci 0000:00:1f.3: BAR 0 [mem 0x5840310000-0x5840313fff 64bit]
+[    1.178597] obpc kernel: pci 0000:00:1f.3: BAR 4 [mem 0x5840000000-0x58401fffff 64bit]
+[    1.178662] obpc kernel: pci 0000:00:1f.3: PME# supported from D3hot D3cold
+[    1.178735] obpc kernel: pci 0000:00:1f.4: [8086:7722] type 00 class 0x0c0500 conventional PCI endpoint
+[    1.178803] obpc kernel: pci 0000:00:1f.4: BAR 0 [mem 0x584031c000-0x584031c0ff 64bit]
+[    1.178870] obpc kernel: pci 0000:00:1f.4: BAR 4 [io  0xefa0-0xefbf]
+[    1.178939] obpc kernel: pci 0000:00:1f.5: [8086:7723] type 00 class 0x0c8000 conventional PCI endpoint
+[    1.179007] obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0xfe010000-0xfe010fff]
+[    1.179083] obpc kernel: pci 0000:01:00.0: [144d:a80c] type 00 class 0x010802 PCIe Endpoint
+[    1.179155] obpc kernel: pci 0000:01:00.0: BAR 0 [mem 0x90300000-0x90303fff 64bit]
+[    1.179225] obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+[    1.179302] obpc kernel: pci 0000:02:00.0: [8086:5786] type 01 class 0x060400 PCIe Switch Upstream Port
+[    1.179373] obpc kernel: pci 0000:02:00.0: PCI bridge to [bus 03-2b]
+[    1.179443] obpc kernel: pci 0000:02:00.0:   bridge window [io  0x3000-0x3fff]
+[    1.179515] obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x80000000-0x89efffff]
+[    1.179593] obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+[    1.179662] obpc kernel: pci 0000:02:00.0: enabling Extended Tags
+[    1.179735] obpc kernel: pci 0000:02:00.0: supports D1 D2
+[    1.179803] obpc kernel: pci 0000:02:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.179877] obpc kernel: pci 0000:02:00.0: PTM enabled, 4ns granularity
+[    1.179946] obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+[    1.180026] obpc kernel: pci 0000:03:00.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+[    1.180100] obpc kernel: pci 0000:03:00.0: PCI bridge to [bus 04]
+[    1.180172] obpc kernel: pci 0000:03:00.0:   bridge window [io  0x3000-0x3fff]
+[    1.180242] obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x80000000-0x840fffff]
+[    1.180312] obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x4000000000-0x48140fffff 64bit pref]
+[    1.180383] obpc kernel: pci 0000:03:00.0: enabling Extended Tags
+[    1.180454] obpc kernel: pci 0000:03:00.0: supports D1 D2
+[    1.180526] obpc kernel: pci 0000:03:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.180603] obpc kernel: pci 0000:03:01.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+[    1.180674] obpc kernel: pci 0000:03:01.0: PCI bridge to [bus 05-11]
+[    1.180745] obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x88000000-0x89efffff]
+[    1.180818] obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x4d69600000-0x5013ffffff 64bit pref]
+[    1.180890] obpc kernel: pci 0000:03:01.0: enabling Extended Tags
+[    1.180960] obpc kernel: pci 0000:03:01.0: supports D1 D2
+[    1.181033] obpc kernel: pci 0000:03:01.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.181115] obpc kernel: pci 0000:03:02.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+[    1.181187] obpc kernel: pci 0000:03:02.0: PCI bridge to [bus 12-1e]
+[    1.181257] obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x86100000-0x87ffffff]
+[    1.181327] obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x4abec00000-0x4d695fffff 64bit pref]
+[    1.181397] obpc kernel: pci 0000:03:02.0: enabling Extended Tags
+[    1.181469] obpc kernel: pci 0000:03:02.0: supports D1 D2
+[    1.181539] obpc kernel: pci 0000:03:02.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.181617] obpc kernel: pci 0000:03:03.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+[    1.181690] obpc kernel: pci 0000:03:03.0: PCI bridge to [bus 1f-2b]
+[    1.181760] obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x84200000-0x860fffff]
+[    1.181830] obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x4814200000-0x4abebfffff 64bit pref]
+[    1.181902] obpc kernel: pci 0000:03:03.0: enabling Extended Tags
+[    1.181975] obpc kernel: pci 0000:03:03.0: supports D1 D2
+[    1.182060] obpc kernel: pci 0000:03:03.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.182130] obpc kernel: pci 0000:02:00.0: PCI bridge to [bus 03-2b]
+[    1.182209] obpc kernel: pci 0000:04:00.0: [10de:2b85] type 00 class 0x030000 PCIe Legacy Endpoint
+[    1.182285] obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]
+[    1.182361] obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]
+[    1.182436] obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4812000000-0x4813ffffff 64bit pref]
+[    1.182510] obpc kernel: pci 0000:04:00.0: BAR 5 [io  0x3000-0x307f]
+[    1.182585] obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]
+[    1.182660] obpc kernel: pci 0000:04:00.0: Enabling HDA controller
+[    1.182732] obpc kernel: pci 0000:04:00.0: PME# supported from D0 D3hot
+[    1.182804] obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]
+[    1.182876] obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: contains BAR 0 for 1 VFs
+[    1.182948] obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]
+[    1.183025] obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: contains BAR 2 for 1 VFs
+[    1.183098] obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]
+[    1.183169] obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]: contains BAR 4 for 1 VFs
+[    1.183242] obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+[    1.183322] obpc kernel: pci 0000:04:00.1: [10de:22e8] type 00 class 0x040300 PCIe Endpoint
+[    1.183396] obpc kernel: pci 0000:04:00.1: BAR 0 [mem 0x84080000-0x84083fff]
+[    1.183473] obpc kernel: pci 0000:03:00.0: PCI bridge to [bus 04]
+[    1.183545] obpc kernel: pci 0000:03:01.0: PCI bridge to [bus 05-11]
+[    1.183622] obpc kernel: pci 0000:03:02.0: PCI bridge to [bus 12-1e]
+[    1.183695] obpc kernel: pci 0000:03:03.0: PCI bridge to [bus 1f-2b]
+[    1.183763] obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+[    1.183840] obpc kernel: pci 0000:56:00.0: [8086:125c] type 00 class 0x020000 PCIe Endpoint
+[    1.183915] obpc kernel: pci 0000:56:00.0: BAR 0 [mem 0x90100000-0x901fffff]
+[    1.183985] obpc kernel: pci 0000:56:00.0: BAR 3 [mem 0x90200000-0x90203fff]
+[    1.184059] obpc kernel: pci 0000:56:00.0: ROM [mem 0x90000000-0x900fffff pref]
+[    1.184128] obpc kernel: pci 0000:56:00.0: PME# supported from D0 D3hot D3cold
+[    1.184195] obpc kernel: pci 0000:00:1c.0: PCI bridge to [bus 56]
+[    1.184264] obpc kernel: pci 0000:00:01.0: Max Payload Size set to  256/ 256 (was  256), Max Read Rq  128
+[    1.184338] obpc kernel: pci 0000:01:00.0: Max Payload Size set to  256/ 512 (was  256), Max Read Rq  256
+[    1.184407] obpc kernel: pci 0000:00:07.0: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+[    1.184480] obpc kernel: pci 0000:02:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+[    1.184551] obpc kernel: pci 0000:03:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+[    1.184624] obpc kernel: pci 0000:04:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+[    1.184699] obpc kernel: pci 0000:04:00.1: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+[    1.184771] obpc kernel: pci 0000:03:01.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+[    1.184843] obpc kernel: pci 0000:03:02.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+[    1.184918] obpc kernel: pci 0000:03:03.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+[    1.184984] obpc kernel: pci 0000:00:07.2: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+[    1.185055] obpc kernel: pci 0000:00:1c.0: Max Payload Size set to  256/ 256 (was  256), Max Read Rq  128
+[    1.185122] obpc kernel: pci 0000:56:00.0: Max Payload Size set to  256/ 512 (was  256), Max Read Rq  256
+[    1.185127] obpc kernel: ACPI: PCI: Interrupt link LNKA configured for IRQ 0
+[    1.185130] obpc kernel: ACPI: PCI: Interrupt link LNKB configured for IRQ 1
+[    1.185134] obpc kernel: ACPI: PCI: Interrupt link LNKC configured for IRQ 0
+[    1.185137] obpc kernel: ACPI: PCI: Interrupt link LNKD configured for IRQ 0
+[    1.185141] obpc kernel: ACPI: PCI: Interrupt link LNKE configured for IRQ 0
+[    1.185144] obpc kernel: ACPI: PCI: Interrupt link LNKF configured for IRQ 0
+[    1.185149] obpc kernel: ACPI: PCI: Interrupt link LNKG configured for IRQ 0
+[    1.185153] obpc kernel: ACPI: PCI: Interrupt link LNKH configured for IRQ 0
+[    1.185157] obpc kernel: ACPI: \_SB_.PEPD: Duplicate LPS0 _DSM functions (mask: 0x1)
+[    1.185160] obpc kernel: Low-power S0 idle used by default for system suspend
+[    1.185165] obpc kernel: ACPI: EC: interrupt unblocked
+[    1.185170] obpc kernel: ACPI: EC: event unblocked
+[    1.185175] obpc kernel: ACPI: EC: EC_CMD/EC_SC=0x66, EC_DATA=0x62
+[    1.185179] obpc kernel: ACPI: EC: GPE=0x6e
+[    1.185183] obpc kernel: ACPI: \_SB_.PC00.LPCB.H_EC: Boot DSDT EC initialization complete
+[    1.185188] obpc kernel: ACPI: \_SB_.PC00.LPCB.H_EC: EC: Used to handle transactions and events
+[    1.185191] obpc kernel: iommu: Default domain type: Translated
+[    1.185195] obpc kernel: iommu: DMA domain TLB invalidation policy: lazy mode
+[    1.185198] obpc kernel: SCSI subsystem initialized
+[    1.185203] obpc kernel: libata version 3.00 loaded.
+[    1.185207] obpc kernel: ACPI: bus type USB registered
+[    1.185210] obpc kernel: usbcore: registered new interface driver usbfs
+[    1.185213] obpc kernel: usbcore: registered new interface driver hub
+[    1.185218] obpc kernel: usbcore: registered new device driver usb
+[    1.185221] obpc kernel: pps_core: LinuxPPS API ver. 1 registered
+[    1.185224] obpc kernel: pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    1.185227] obpc kernel: PTP clock support registered
+[    1.185233] obpc kernel: EDAC MC: Ver: 3.0.0
+[    1.185236] obpc kernel: efivars: Registered efivars operations
+[    1.185239] obpc kernel: NetLabel: Initializing
+[    1.185242] obpc kernel: NetLabel:  domain hash size = 128
+[    1.185245] obpc kernel: NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    1.185248] obpc kernel: NetLabel:  unlabeled traffic allowed by default
+[    1.185252] obpc kernel: mctp: management component transport protocol core
+[    1.185255] obpc kernel: NET: Registered PF_MCTP protocol family
+[    1.185258] obpc kernel: PCI: Using ACPI for IRQ routing
+[    1.185261] obpc kernel: PCI: pci_cache_line_size set to 64 bytes
+[    1.185326] obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0xfe010000-0xfe010fff]: can't claim; no compatible bridge window
+[    1.185401] obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]: can't claim; no compatible bridge window
+[    1.185475] obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]: can't claim; no compatible bridge window
+[    1.185550] obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4812000000-0x4813ffffff 64bit pref]: can't claim; no compatible bridge window
+[    1.185622] obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: can't claim; no compatible bridge window
+[    1.185697] obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: can't claim; no compatible bridge window
+[    1.185772] obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]: can't claim; no compatible bridge window
+[    1.185844] obpc kernel: pci 0000:04:00.1: BAR 0 [mem 0x84080000-0x84083fff]: can't claim; no compatible bridge window
+[    1.185849] obpc kernel: e820: reserve RAM buffer [mem 0x0009f000-0x0009ffff]
+[    1.185852] obpc kernel: e820: reserve RAM buffer [mem 0x483a2000-0x4bffffff]
+[    1.185857] obpc kernel: e820: reserve RAM buffer [mem 0x50df1000-0x53ffffff]
+[    1.185861] obpc kernel: e820: reserve RAM buffer [mem 0x545f2000-0x57ffffff]
+[    1.185928] obpc kernel: pci 0000:00:02.0: vgaarb: setting as boot VGA device
+[    1.185993] obpc kernel: pci 0000:00:02.0: vgaarb: bridge control possible
+[    1.186069] obpc kernel: pci 0000:00:02.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+[    1.186140] obpc kernel: pci 0000:04:00.0: vgaarb: bridge control possible
+[    1.186213] obpc kernel: pci 0000:04:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+[    1.186218] obpc kernel: vgaarb: loaded
+[    1.186221] obpc kernel: Monitor-Mwait will be used to enter C-1 state
+[    1.186227] obpc kernel: Monitor-Mwait will be used to enter C-2 state
+[    1.186230] obpc kernel: Monitor-Mwait will be used to enter C-3 state
+[    1.186234] obpc kernel: clocksource: Switched to clocksource tsc-early
+[    1.186240] obpc kernel: VFS: Disk quotas dquot_6.6.0
+[    1.186245] obpc kernel: VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    1.186248] obpc kernel: pnp: PnP ACPI init
+[    1.186324] obpc kernel: system 00:01: [io  0x0680-0x069f] has been reserved
+[    1.186389] obpc kernel: system 00:01: [io  0x164e-0x164f] has been reserved
+[    1.186460] obpc kernel: system 00:02: [io  0x1854-0x1857] has been reserved
+[    1.186528] obpc kernel: system 00:03: [mem 0xfedc0000-0xfedc7fff] has been reserved
+[    1.186592] obpc kernel: system 00:03: [mem 0x00000000-0x00000fff] could not be reserved
+[    1.186654] obpc kernel: system 00:03: [mem 0x00000000-0x00000fff] could not be reserved
+[    1.186713] obpc kernel: system 00:03: [mem 0xc0000000-0xcfffffff] has been reserved
+[    1.186775] obpc kernel: system 00:03: [mem 0xfed20000-0xfed7ffff] could not be reserved
+[    1.186838] obpc kernel: system 00:03: [mem 0xfc800000-0xfc81ffff] could not be reserved
+[    1.186899] obpc kernel: system 00:03: [mem 0xfed45000-0xfed8ffff] could not be reserved
+[    1.186959] obpc kernel: system 00:03: [mem 0xfee00000-0xfeefffff] could not be reserved
+[    1.187026] obpc kernel: system 00:04: [io  0x2000-0x20fe] has been reserved
+[    1.187033] obpc kernel: pnp: PnP ACPI: found 6 devices
+[    1.187039] obpc kernel: clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+[    1.187042] obpc kernel: NET: Registered PF_INET protocol family
+[    1.187047] obpc kernel: IP idents hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+[    1.187052] obpc kernel: tcp_listen_portaddr_hash hash table entries: 65536 (order: 8, 1048576 bytes, linear)
+[    1.187056] obpc kernel: Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    1.187059] obpc kernel: TCP established hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+[    1.187064] obpc kernel: TCP bind hash table entries: 65536 (order: 9, 2097152 bytes, linear)
+[    1.187069] obpc kernel: TCP: Hash tables configured (established 524288 bind 65536)
+[    1.187074] obpc kernel: MPTCP token hash table entries: 65536 (order: 9, 1572864 bytes, linear)
+[    1.187079] obpc kernel: UDP hash table entries: 65536 (order: 10, 4194304 bytes, linear)
+[    1.187082] obpc kernel: UDP-Lite hash table entries: 65536 (order: 10, 4194304 bytes, linear)
+[    1.187086] obpc kernel: NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    1.187089] obpc kernel: NET: Registered PF_XDP protocol family
+[    1.187162] obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]: can't claim; no compatible bridge window
+[    1.187234] obpc kernel: pci 0000:03:00.0: bridge window [mem 0x800000000-0x1001ffffff 64bit pref] to [bus 04] add_size 12100000 add_align 800000000
+[    1.187305] obpc kernel: pci 0000:03:01.0: bridge window [io  0x1000-0x0fff] to [bus 05-11] add_size 1000
+[    1.187378] obpc kernel: pci 0000:03:02.0: bridge window [io  0x1000-0x0fff] to [bus 12-1e] add_size 1000
+[    1.187448] obpc kernel: pci 0000:03:03.0: bridge window [io  0x1000-0x0fff] to [bus 1f-2b] add_size 1000
+[    1.187514] obpc kernel: pci 0000:00:07.2: bridge window [io  0x1000-0x0fff] to [bus 2c-55] add_size 1000
+[    1.187578] obpc kernel: pci 0000:00:07.2: bridge window [io  0x4000-0x4fff]: assigned
+[    1.187642] obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0x89f00000-0x89f00fff]: assigned
+[    1.187707] obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+[    1.187772] obpc kernel: pci 0000:00:01.0:   bridge window [mem 0x90300000-0x903fffff]
+[    1.187843] obpc kernel: pci 0000:03:00.0: bridge window [mem 0x4000000000-0x48140fffff 64bit pref]: assigned
+[    1.187916] obpc kernel: pci 0000:03:00.0: bridge window [mem 0x80000000-0x840fffff]: assigned
+[    1.187988] obpc kernel: pci 0000:03:01.0: bridge window [io  size 0x1000]: can't assign; no space
+[    1.188065] obpc kernel: pci 0000:03:01.0: bridge window [io  size 0x1000]: failed to assign
+[    1.188135] obpc kernel: pci 0000:03:02.0: bridge window [io  size 0x1000]: can't assign; no space
+[    1.188205] obpc kernel: pci 0000:03:02.0: bridge window [io  size 0x1000]: failed to assign
+[    1.188276] obpc kernel: pci 0000:03:03.0: bridge window [io  size 0x1000]: can't assign; no space
+[    1.188347] obpc kernel: pci 0000:03:03.0: bridge window [io  size 0x1000]: failed to assign
+[    1.188417] obpc kernel: pci 0000:03:03.0: bridge window [io  size 0x1000]: can't assign; no space
+[    1.188486] obpc kernel: pci 0000:03:03.0: bridge window [io  size 0x1000]: failed to assign
+[    1.188555] obpc kernel: pci 0000:03:02.0: bridge window [io  size 0x1000]: can't assign; no space
+[    1.188628] obpc kernel: pci 0000:03:02.0: bridge window [io  size 0x1000]: failed to assign
+[    1.188698] obpc kernel: pci 0000:03:01.0: bridge window [io  size 0x1000]: can't assign; no space
+[    1.188769] obpc kernel: pci 0000:03:01.0: bridge window [io  size 0x1000]: failed to assign
+[    1.188841] obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]: assigned
+[    1.188913] obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: assigned
+[    1.188986] obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]: assigned
+[    1.189062] obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4810000000-0x4811ffffff 64bit pref]: assigned
+[    1.189134] obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4812000000-0x4813ffffff 64bit pref]: assigned
+[    1.189207] obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]: assigned
+[    1.189279] obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: assigned
+[    1.189351] obpc kernel: pci 0000:04:00.1: BAR 0 [mem 0x84080000-0x84083fff]: assigned
+[    1.189421] obpc kernel: pci 0000:03:00.0: PCI bridge to [bus 04]
+[    1.189490] obpc kernel: pci 0000:03:00.0:   bridge window [io  0x3000-0x3fff]
+[    1.189561] obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x80000000-0x840fffff]
+[    1.189629] obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x4000000000-0x48140fffff 64bit pref]
+[    1.189699] obpc kernel: pci 0000:03:01.0: PCI bridge to [bus 05-11]
+[    1.189770] obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x88000000-0x89efffff]
+[    1.189842] obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x4d69600000-0x5013ffffff 64bit pref]
+[    1.189913] obpc kernel: pci 0000:03:02.0: PCI bridge to [bus 12-1e]
+[    1.189981] obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x86100000-0x87ffffff]
+[    1.190055] obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x4abec00000-0x4d695fffff 64bit pref]
+[    1.190126] obpc kernel: pci 0000:03:03.0: PCI bridge to [bus 1f-2b]
+[    1.190197] obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x84200000-0x860fffff]
+[    1.190269] obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x4814200000-0x4abebfffff 64bit pref]
+[    1.190336] obpc kernel: pci 0000:02:00.0: PCI bridge to [bus 03-2b]
+[    1.190403] obpc kernel: pci 0000:02:00.0:   bridge window [io  0x3000-0x3fff]
+[    1.190471] obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x80000000-0x89efffff]
+[    1.190538] obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+[    1.190605] obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+[    1.190670] obpc kernel: pci 0000:00:07.0:   bridge window [io  0x3000-0x3fff]
+[    1.190734] obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x80000000-0x89efffff]
+[    1.190799] obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+[    1.190864] obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+[    1.190929] obpc kernel: pci 0000:00:07.2:   bridge window [io  0x4000-0x4fff]
+[    1.190995] obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x8a000000-0x8fffffff]
+[    1.191062] obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+[    1.191127] obpc kernel: pci 0000:00:1c.0: PCI bridge to [bus 56]
+[    1.191192] obpc kernel: pci 0000:00:1c.0:   bridge window [mem 0x90000000-0x902fffff]
+[    1.191257] obpc kernel: pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7 window]
+[    1.191318] obpc kernel: pci_bus 0000:00: resource 5 [io  0x0d00-0xffff window]
+[    1.191377] obpc kernel: pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff window]
+[    1.191439] obpc kernel: pci_bus 0000:00: resource 7 [mem 0x80000000-0xbfffffff window]
+[    1.191498] obpc kernel: pci_bus 0000:00: resource 8 [mem 0x4000000000-0x3ffbfffffff window]
+[    1.191568] obpc kernel: pci_bus 0000:01: resource 1 [mem 0x90300000-0x903fffff]
+[    1.191637] obpc kernel: pci_bus 0000:02: resource 0 [io  0x3000-0x3fff]
+[    1.191699] obpc kernel: pci_bus 0000:02: resource 1 [mem 0x80000000-0x89efffff]
+[    1.191764] obpc kernel: pci_bus 0000:02: resource 2 [mem 0x4000000000-0x5013ffffff 64bit pref]
+[    1.191835] obpc kernel: pci_bus 0000:03: resource 0 [io  0x3000-0x3fff]
+[    1.191901] obpc kernel: pci_bus 0000:03: resource 1 [mem 0x80000000-0x89efffff]
+[    1.191966] obpc kernel: pci_bus 0000:03: resource 2 [mem 0x4000000000-0x5013ffffff 64bit pref]
+[    1.192046] obpc kernel: pci_bus 0000:04: resource 0 [io  0x3000-0x3fff]
+[    1.192114] obpc kernel: pci_bus 0000:04: resource 1 [mem 0x80000000-0x840fffff]
+[    1.192181] obpc kernel: pci_bus 0000:04: resource 2 [mem 0x4000000000-0x48140fffff 64bit pref]
+[    1.192255] obpc kernel: pci_bus 0000:05: resource 0 [io  size 0x1000]
+[    1.192325] obpc kernel: pci_bus 0000:05: resource 1 [mem 0x88000000-0x89efffff]
+[    1.192392] obpc kernel: pci_bus 0000:05: resource 2 [mem 0x4d69600000-0x5013ffffff 64bit pref]
+[    1.192465] obpc kernel: pci_bus 0000:12: resource 0 [io  size 0x1000]
+[    1.192532] obpc kernel: pci_bus 0000:12: resource 1 [mem 0x86100000-0x87ffffff]
+[    1.192599] obpc kernel: pci_bus 0000:12: resource 2 [mem 0x4abec00000-0x4d695fffff 64bit pref]
+[    1.192672] obpc kernel: pci_bus 0000:1f: resource 0 [io  size 0x1000]
+[    1.192741] obpc kernel: pci_bus 0000:1f: resource 1 [mem 0x84200000-0x860fffff]
+[    1.192808] obpc kernel: pci_bus 0000:1f: resource 2 [mem 0x4814200000-0x4abebfffff 64bit pref]
+[    1.192879] obpc kernel: pci_bus 0000:2c: resource 0 [io  0x4000-0x4fff]
+[    1.192943] obpc kernel: pci_bus 0000:2c: resource 1 [mem 0x8a000000-0x8fffffff]
+[    1.193006] obpc kernel: pci_bus 0000:2c: resource 2 [mem 0x5030000000-0x582fffffff 64bit pref]
+[    1.193074] obpc kernel: pci_bus 0000:56: resource 1 [mem 0x90000000-0x902fffff]
+[    1.193147] obpc kernel: pci 0000:04:00.1: extending delay after power-on from D3hot to 20 msec
+[    1.193219] obpc kernel: pci 0000:04:00.1: D0 power state depends on 0000:04:00.0
+[    1.193226] obpc kernel: PCI: CLS 64 bytes, default 64
+[    1.193230] obpc kernel: Trying to unpack rootfs image as initramfs...
+[    1.193235] obpc kernel: clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x6a464ae9873, max_idle_ns: 881590529744 ns
+[    1.193240] obpc kernel: clocksource: Switched to clocksource tsc
+[    1.193314] obpc kernel: platform rtc_cmos: registered platform RTC device (no PNP device found)
+[    1.193320] obpc kernel: Initialise system trusted keyrings
+[    1.193323] obpc kernel: Key type blacklist registered
+[    1.193327] obpc kernel: workingset: timestamp_bits=36 max_order=25 bucket_order=0
+[    1.193332] obpc kernel: integrity: Platform Keyring initialized
+[    1.193337] obpc kernel: integrity: Machine keyring initialized
+[    1.193342] obpc kernel: cryptd: max_cpu_qlen set to 1000
+[    1.193345] obpc kernel: NET: Registered PF_ALG protocol family
+[    1.193350] obpc kernel: xor: automatically using best checksumming function   avx       
+[    1.193355] obpc kernel: Key type asymmetric registered
+[    1.193358] obpc kernel: Asymmetric key parser 'x509' registered
+[    1.193362] obpc kernel: Block layer SCSI generic (bsg) driver version 0.4 loaded (major 244)
+[    1.193366] obpc kernel: io scheduler mq-deadline registered
+[    1.193370] obpc kernel: io scheduler kyber registered
+[    1.193373] obpc kernel: io scheduler bfq registered
+[    1.193380] obpc kernel: atomic64_test: passed for x86-64 platform with CX8 and with SSE
+[    1.193446] obpc kernel: pcieport 0000:00:01.0: PME: Signaling with IRQ 120
+[    1.193513] obpc kernel: pcieport 0000:00:01.0: AER: enabled with IRQ 120
+[    1.193578] obpc kernel: pcieport 0000:00:07.0: PME: Signaling with IRQ 121
+[    1.193644] obpc kernel: pcieport 0000:00:07.0: AER: enabled with IRQ 121
+[    1.193709] obpc kernel: pcieport 0000:00:07.0: pciehp: Slot #12 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+[    1.193773] obpc kernel: pcieport 0000:00:07.2: PME: Signaling with IRQ 122
+[    1.193839] obpc kernel: pcieport 0000:00:07.2: AER: enabled with IRQ 122
+[    1.193906] obpc kernel: pcieport 0000:00:07.2: pciehp: Slot #14 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+[    1.193969] obpc kernel: pcieport 0000:00:1c.0: PME: Signaling with IRQ 123
+[    1.194035] obpc kernel: pcieport 0000:00:1c.0: AER: enabled with IRQ 123
+[    1.194106] obpc kernel: pcieport 0000:03:00.0: enabling device (0001 -> 0003)
+[    1.194177] obpc kernel: pcieport 0000:03:01.0: pciehp: Slot #1 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+[    1.194247] obpc kernel: pcieport 0000:03:02.0: pciehp: Slot #2 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+[    1.194316] obpc kernel: pcieport 0000:03:03.0: pciehp: Slot #3 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+[    1.194322] obpc kernel: input: Sleep Button as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input0
+[    1.194327] obpc kernel: ACPI: button: Sleep Button [SLPB]
+[    1.194330] obpc kernel: input: Power Button as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0C:00/input/input1
+[    1.194335] obpc kernel: ACPI: button: Power Button [PWRB]
+[    1.194341] obpc kernel: input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input2
+[    1.194345] obpc kernel: ACPI: button: Power Button [PWRF]
+[    1.194350] obpc kernel: ACPI: thermal: [Firmware Bug]: Invalid critical threshold (-274000)
+[    1.194439] obpc kernel: thermal LNXTHERM:00: registered as thermal_zone0
+[    1.194444] obpc kernel: ACPI: thermal: Thermal Zone [TZ0] (40 C)
+[    1.194519] obpc kernel: thermal LNXTHERM:01: registered as thermal_zone1
+[    1.194525] obpc kernel: ACPI: thermal: Thermal Zone [TZ00] (87 C)
+[    1.194528] obpc kernel: Serial: 8250/16550 driver, 32 ports, IRQ sharing enabled
+[    1.194593] obpc kernel: serial 0000:00:12.0: enabling device (0000 -> 0002)
+[    1.194599] obpc kernel: hpet_acpi_add: no address or irqs in _CRS
+[    1.194603] obpc kernel: Non-volatile memory driver v1.3
+[    1.194608] obpc kernel: Linux agpgart interface v0.103
+[    1.194612] obpc kernel: ACPI: bus type drm_connector registered
+[    1.194616] obpc kernel: CAN device driver interface
+[    1.194682] obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+[    1.194748] obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 1
+[    1.194812] obpc kernel: xhci_hcd 0000:00:0d.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+[    1.194877] obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+[    1.194941] obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 2
+[    1.195006] obpc kernel: xhci_hcd 0000:00:0d.0: Host supports USB 3.2 Enhanced SuperSpeed
+[    1.195075] obpc kernel: usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.19
+[    1.195133] obpc kernel: usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.195188] obpc kernel: usb usb1: Product: xHCI Host Controller
+[    1.195242] obpc kernel: usb usb1: Manufacturer: Linux 6.19.14-200.fc43.x86_64 xhci-hcd
+[    1.195296] obpc kernel: usb usb1: SerialNumber: 0000:00:0d.0
+[    1.195382] obpc kernel: hub 1-0:1.0: USB hub found
+[    1.195455] obpc kernel: hub 1-0:1.0: 1 port detected
+[    1.195518] obpc kernel: usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 6.19
+[    1.195577] obpc kernel: usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.195631] obpc kernel: usb usb2: Product: xHCI Host Controller
+[    1.195684] obpc kernel: usb usb2: Manufacturer: Linux 6.19.14-200.fc43.x86_64 xhci-hcd
+[    1.195737] obpc kernel: usb usb2: SerialNumber: 0000:00:0d.0
+[    1.195814] obpc kernel: hub 2-0:1.0: USB hub found
+[    1.195885] obpc kernel: hub 2-0:1.0: 4 ports detected
+[    1.195954] obpc kernel: xhci_hcd 0000:00:14.0: xHCI Host Controller
+[    1.196042] obpc kernel: xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 3
+[    1.196111] obpc kernel: xhci_hcd 0000:00:14.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+[    1.196178] obpc kernel: xhci_hcd 0000:00:14.0: xHCI Host Controller
+[    1.196243] obpc kernel: xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 4
+[    1.196307] obpc kernel: xhci_hcd 0000:00:14.0: Host supports USB 3.2 Enhanced SuperSpeed
+[    1.196368] obpc kernel: usb usb3: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.19
+[    1.196424] obpc kernel: usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.196477] obpc kernel: usb usb3: Product: xHCI Host Controller
+[    1.196532] obpc kernel: usb usb3: Manufacturer: Linux 6.19.14-200.fc43.x86_64 xhci-hcd
+[    1.196585] obpc kernel: usb usb3: SerialNumber: 0000:00:14.0
+[    1.196661] obpc kernel: hub 3-0:1.0: USB hub found
+[    1.196732] obpc kernel: hub 3-0:1.0: 12 ports detected
+[    1.196793] obpc kernel: usb usb4: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 6.19
+[    1.196848] obpc kernel: usb usb4: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.196900] obpc kernel: usb usb4: Product: xHCI Host Controller
+[    1.196957] obpc kernel: usb usb4: Manufacturer: Linux 6.19.14-200.fc43.x86_64 xhci-hcd
+[    1.197014] obpc kernel: usb usb4: SerialNumber: 0000:00:14.0
+[    1.197233] obpc kernel: hub 4-0:1.0: USB hub found
+[    1.197573] obpc kernel: hub 4-0:1.0: 2 ports detected
+[    1.197587] obpc kernel: usbcore: registered new interface driver usbserial_generic
+[    1.197597] obpc kernel: usbserial: USB Serial support registered for generic
+[    1.197605] obpc kernel: i8042: PNP: No PS/2 controller found.
+[    1.197612] obpc kernel: mousedev: PS/2 mouse device common for all mice
+[    1.197740] obpc kernel: rtc_cmos rtc_cmos: RTC can wake from S4
+[    1.197852] obpc kernel: rtc_cmos rtc_cmos: registered as rtc0
+[    1.197955] obpc kernel: rtc_cmos rtc_cmos: setting system clock to 2026-05-08T14:05:14 UTC (1778249114)
+[    1.198063] obpc kernel: rtc_cmos rtc_cmos: alarms up to one month, y3k, 114 bytes nvram
+[    1.198076] obpc kernel: device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+[    1.198084] obpc kernel: device-mapper: uevent: version 1.0.3
+[    1.198092] obpc kernel: device-mapper: ioctl: 4.50.0-ioctl (2025-04-28) initialised: dm-devel@lists.linux.dev
+[    1.198100] obpc kernel: intel_pstate: Intel P-state driver initializing
+[    1.198107] obpc kernel: Hybrid CPU capacity scaling enabled
+[    1.198282] obpc kernel: processor cpu0: EM: created perf domain
+[    1.198446] obpc kernel: processor cpu1: EM: created perf domain
+[    1.198629] obpc kernel: processor cpu2: EM: created perf domain
+[    1.198802] obpc kernel: processor cpu3: EM: created perf domain
+[    1.198949] obpc kernel: processor cpu4: EM: created perf domain
+[    1.199101] obpc kernel: processor cpu5: EM: created perf domain
+[    1.199252] obpc kernel: processor cpu6: EM: created perf domain
+[    1.199400] obpc kernel: processor cpu7: EM: created perf domain
+[    1.199578] obpc kernel: processor cpu8: EM: created perf domain
+[    1.199758] obpc kernel: processor cpu9: EM: created perf domain
+[    1.199925] obpc kernel: processor cpu10: EM: created perf domain
+[    1.200069] obpc kernel: processor cpu11: EM: created perf domain
+[    1.200214] obpc kernel: processor cpu12: EM: created perf domain
+[    1.200354] obpc kernel: processor cpu13: EM: created perf domain
+[    1.200496] obpc kernel: processor cpu14: EM: created perf domain
+[    1.200636] obpc kernel: processor cpu15: EM: created perf domain
+[    1.200649] obpc kernel: intel_pstate: HWP enabled
+[    1.200764] obpc kernel: simple-framebuffer simple-framebuffer.0: [drm] Registered 1 planes with drm panic
+[    1.200774] obpc kernel: [drm] Initialized simpledrm 1.0.0 for simple-framebuffer.0 on minor 0
+[    1.200784] obpc kernel: fbcon: Deferring console take-over
+[    1.200885] obpc kernel: simple-framebuffer simple-framebuffer.0: [drm] fb0: simpledrmdrmfb frame buffer device
+[    1.200895] obpc kernel: hid: raw HID events driver (C) Jiri Kosina
+[    1.200903] obpc kernel: usbcore: registered new interface driver usbhid
+[    1.200910] obpc kernel: usbhid: USB HID core driver
+[    1.200918] obpc kernel: drop_monitor: Initializing network drop monitor service
+[    1.200926] obpc kernel: Initializing XFRM netlink socket
+[    1.200933] obpc kernel: NET: Registered PF_INET6 protocol family
+[    1.200943] obpc kernel: Segment Routing with IPv6
+[    1.200950] obpc kernel: RPL Segment Routing with IPv6
+[    1.200958] obpc kernel: In-situ OAM (IOAM) with IPv6
+[    1.200968] obpc kernel: mip6: Mobile IPv6
+[    1.200976] obpc kernel: NET: Registered PF_PACKET protocol family
+[    1.200984] obpc kernel: can: controller area network core
+[    1.200991] obpc kernel: NET: Registered PF_CAN protocol family
+[    1.200999] obpc kernel: ENERGY_PERF_BIAS: Set to 'normal', was 'performance'
+[    1.201011] obpc kernel: microcode: Current revision: 0x0000011b
+[    1.201021] obpc kernel: IPI shorthand broadcast: enabled
+[    1.201028] obpc kernel: sched_clock: Marking stable (922000796, 6148388)->(948195363, -20046179)
+[    1.201036] obpc kernel: registered taskstats version 1
+[    1.201043] obpc kernel: Loading compiled-in X.509 certificates
+[    1.201052] obpc kernel: Loaded X.509 cert 'Fedora kernel signing key: 88b80e08bfa3c7a8597e235adbf6de56f0ca4439'
+[    1.201059] obpc kernel: Freeing initrd memory: 51468K
+[    1.201067] obpc kernel: Loaded X.509 cert 'Fedora IMA CA: a8a00c31663f853f9c6ff2564872e378af026b28'
+[    1.201074] obpc kernel: Demotion targets for Node 0: null
+[    1.201082] obpc kernel: page_owner is disabled
+[    1.201091] obpc kernel: Key type .fscrypt registered
+[    1.201098] obpc kernel: Key type fscrypt-provisioning registered
+[    1.201106] obpc kernel: Btrfs loaded, zoned=yes, fsverity=yes
+[    1.201113] obpc kernel: Key type big_key registered
+[    1.201121] obpc kernel: Key type trusted registered
+[    1.201128] obpc kernel: Key type encrypted registered
+[    1.201135] obpc kernel: Loading compiled-in module X.509 certificates
+[    1.201143] obpc kernel: Loaded X.509 cert 'Fedora kernel signing key: 88b80e08bfa3c7a8597e235adbf6de56f0ca4439'
+[    1.201153] obpc kernel: ima: Allocated hash algorithm: sha256
+[    1.201163] obpc kernel: ima: No architecture policies found
+[    1.201170] obpc kernel: evm: Initialising EVM extended attributes:
+[    1.201178] obpc kernel: evm: security.selinux
+[    1.201185] obpc kernel: evm: security.SMACK64 (disabled)
+[    1.201193] obpc kernel: evm: security.SMACK64EXEC (disabled)
+[    1.201200] obpc kernel: evm: security.SMACK64TRANSMUTE (disabled)
+[    1.201207] obpc kernel: evm: security.SMACK64MMAP (disabled)
+[    1.201214] obpc kernel: evm: security.apparmor (disabled)
+[    1.201220] obpc kernel: evm: security.ima
+[    1.201228] obpc kernel: evm: security.capability
+[    1.201237] obpc kernel: evm: HMAC attrs: 0x1
+[    1.201244] obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+[    1.201251] obpc kernel: integrity: Loaded X.509 cert 'ASUS UEFI SW Key Certificate: b0fa6680874410ba479208b6268c10e4'
+[    1.201259] obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+[    1.201266] obpc kernel: integrity: Loaded X.509 cert 'Microsoft Corporation UEFI CA 2011: 13adbf4309bd82709c8cd54f316ed522988a1bd4'
+[    1.201274] obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+[    1.201281] obpc kernel: integrity: Loaded X.509 cert 'Microsoft Windows Production PCA 2011: a92902398e16c49778cd90f99e4f9ae17c55af53'
+[    1.201288] obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+[    1.201299] obpc kernel: integrity: Loaded X.509 cert 'Microsoft Corporation: Windows UEFI CA 2023: aefc5fbbbe055d8f8daa585473499417ab5a5272'
+[    1.201321] obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+[    1.201330] obpc kernel: integrity: Loaded X.509 cert 'Microsoft Option ROM UEFI CA 2023: 514fbf937fa46fb57bf07af8bed84b3b864b1711'
+[    1.201338] obpc kernel: integrity: Loading X.509 certificate: UEFI:db
+[    1.201345] obpc kernel: integrity: Loaded X.509 cert 'Microsoft UEFI CA 2023: 81aa6b3244c935bce0d6628af39827421e32497d'
+[    1.201352] obpc kernel: alg: No test for 842 (842-scomp)
+[    1.201363] obpc kernel: PM:   Magic number: 10:591:80
+[    1.201372] obpc kernel: RAS: Correctable Errors collector initialized.
+[    1.201379] obpc kernel: clk: Disabling unused clocks
+[    1.201390] obpc kernel: PM: genpd: Disabling unused power domains
+[    1.201400] obpc kernel: Freeing unused decrypted memory: 2028K
+[    1.201408] obpc kernel: Freeing unused kernel image (initmem) memory: 5200K
+[    1.201415] obpc kernel: Write protecting the kernel read-only data: 43008k
+[    1.201422] obpc kernel: Freeing unused kernel image (text/rodata gap) memory: 1972K
+[    1.201430] obpc kernel: Freeing unused kernel image (rodata/data gap) memory: 580K
+[    1.201437] obpc kernel: x86/mm: Checked W+X mappings: passed, no W+X pages found.
+[    1.201447] obpc kernel: Run /init as init process
+[    1.201454] obpc kernel:   with arguments:
+[    1.201462] obpc kernel:     /init
+[    1.201469] obpc kernel:     rhgb
+[    1.201477] obpc kernel:   with environment:
+[    1.201484] obpc kernel:     HOME=/
+[    1.201491] obpc kernel:     TERM=linux
+[    1.201500] obpc systemd[1]: Successfully made /usr/ read-only.
+[    1.201516] obpc systemd[1]: systemd 258.7-1.fc43 running in system mode (+PAM +AUDIT +SELINUX -APPARMOR +IMA +IPE +SMACK +SECCOMP -GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN -IPTC +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK +BTF +XKBCOMMON +UTMP +SYSVINIT +LIBARCHIVE)
+[    1.201528] obpc systemd[1]: Detected architecture x86-64.
+[    1.201536] obpc systemd[1]: Running in initrd.
+[    1.201544] obpc systemd[1]: Hostname set to <obpc>.
+[    1.201552] obpc systemd[1]: bpf-restrict-fs: LSM BPF program attached
+[    1.201561] obpc systemd[1]: Queued start job for default target initrd.target.
+[    1.201571] obpc systemd[1]: Expecting device dev-disk-by\x2duuid-34e34fc2\x2d47b6\x2d41bd\x2db739\x2d8a1c79788cb2.device - /dev/disk/by-uuid/34e34fc2-47b6-41bd-b739-8a1c79788cb2...
+[    1.201579] obpc systemd[1]: Reached target initrd-usr-fs.target - Initrd /usr File System.
+[    1.201589] obpc systemd[1]: Reached target slices.target - Slice Units.
+[    1.201600] obpc systemd[1]: Reached target swap.target - Swaps.
+[    1.201608] obpc systemd[1]: Reached target timers.target - Timer Units.
+[    1.201616] obpc systemd[1]: Listening on systemd-journald-dev-log.socket - Journal Socket (/dev/log).
+[    1.201624] obpc systemd[1]: Listening on systemd-journald.socket - Journal Sockets.
+[    1.201633] obpc systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
+[    1.201641] obpc systemd[1]: Listening on systemd-udevd-kernel.socket - udev Kernel Socket.
+[    1.201649] obpc systemd[1]: Reached target sockets.target - Socket Units.
+[    1.201659] obpc systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
+[    1.201667] obpc systemd[1]: memstrack.service - Memstrack Anylazing Service skipped, no trigger condition checks were met.
+[    1.201676] obpc systemd[1]: Starting systemd-journald.service - Journal Service...
+[    1.201684] obpc systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
+[    1.201692] obpc systemd[1]: systemd-pcrphase-initrd.service - TPM PCR Barrier (initrd) skipped, unmet condition check ConditionSecurity=measured-uki
+[    1.201701] obpc systemd[1]: Starting systemd-vconsole-setup.service - Virtual Console Setup...
+[    1.201709] obpc systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+[    1.201717] obpc systemd[1]: Starting systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully...
+[    1.201749] obpc systemd-journald[309]: Collecting audit messages is disabled.
+[    1.201773] obpc systemd[1]: Finished systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully.
+[    1.201782] obpc systemd[1]: Starting systemd-sysusers.service - Create System Users...
+[    1.201790] obpc systemd[1]: Finished systemd-sysusers.service - Create System Users.
+[    1.201804] obpc systemd[1]: Starting systemd-tmpfiles-setup-dev.service - Create Static Device Nodes in /dev...
+[    1.201812] obpc kernel: fuse: init (API version 7.45)
+[    1.201819] obpc kernel: i2c_dev: i2c /dev entries driver
+[    1.201827] obpc systemd[1]: Finished systemd-modules-load.service - Load Kernel Modules.
+[    1.201835] obpc systemd[1]: Starting systemd-sysctl.service - Apply Kernel Variables...
+[    1.201843] obpc systemd[1]: Finished systemd-tmpfiles-setup-dev.service - Create Static Device Nodes in /dev.
+[    1.201852] obpc systemd[1]: Reached target local-fs-pre.target - Preparation for Local File Systems.
+[    1.201862] obpc systemd[1]: Reached target local-fs.target - Local File Systems.
+[    1.201872] obpc systemd[1]: Finished systemd-vconsole-setup.service - Virtual Console Setup.
+[    1.201881] obpc systemd[1]: Starting dracut-cmdline-ask.service - dracut ask for additional cmdline parameters...
+[    1.201889] obpc systemd[1]: Finished systemd-sysctl.service - Apply Kernel Variables.
+[    1.201897] obpc systemd[1]: Finished dracut-cmdline-ask.service - dracut ask for additional cmdline parameters.
+[    1.201905] obpc systemd[1]: Starting dracut-cmdline.service - dracut cmdline hook...
+[    1.203039] obpc systemd[1]: Started systemd-journald.service - Journal Service.
+[    1.203054] obpc kernel: usb 3-1: new high-speed USB device number 2 using xhci_hcd
+[    1.222008] obpc kernel: aorus_egpu_trust: loading out-of-tree module taints kernel.
+[    1.222026] obpc kernel: aorus_egpu_trust: module verification failed: signature and/or required key missing - tainting kernel
+[    1.223007] obpc kernel: AORUS eGPU trust override: module loaded (vendor=0x10de device=0x2b85[+0x22e8] PCI fixups registered)
+[    1.223022] obpc kernel: AORUS eGPU trust override: NOTE — for the quirk to take effect on an already-enumerated device, run remove + rescan via sysfs
+[    1.350027] obpc kernel: usb 2-1: new SuperSpeed Plus Gen 2x2 USB device number 2 using xhci_hcd
+[    1.361010] obpc kernel: usb 2-1: New USB device found, idVendor=8087, idProduct=5787, bcdDevice= 0.00
+[    1.361178] obpc kernel: usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    1.361285] obpc kernel: usb 2-1: Product: USB3 HUB
+[    1.361724] obpc kernel: usb 2-1: Manufacturer: Intel Corporation
+[    1.367011] obpc kernel: hub 2-1:1.0: USB hub found
+[    1.367173] obpc kernel: hub 2-1:1.0: 4 ports detected
+[    1.370011] obpc kernel: intel_vsec 0000:00:0a.0: enabling device (0000 -> 0002)
+[    1.390013] obpc kernel: ACPI: bus type thunderbolt registered
+[    1.390057] obpc kernel: thunderbolt:nhi_probe:1366: thunderbolt 0000:00:0d.2: total paths: 12
+[    1.390662] obpc kernel: thunderbolt:nhi_check_iommu:1230: thunderbolt 0000:00:0d.2: IOMMU DMA protection is disabled
+[    1.391277] obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.2: allocating TX ring 0 of size 10
+[    1.391354] obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.2: allocating RX ring 0 of size 10
+[    1.391414] obpc kernel: thunderbolt:tb_ctl_alloc:690: thunderbolt 0000:00:0d.2: control channel created
+[    1.391475] obpc kernel: thunderbolt:tb_probe:3388: thunderbolt 0000:00:0d.2: using software connection manager
+[    1.391529] obpc kernel: thunderbolt:tb_acpi_add_link:65: thunderbolt 0000:00:0d.2: created link from 0000:00:07.0
+[    1.391581] obpc kernel: thunderbolt:nhi_probe:1402: thunderbolt 0000:00:0d.2: NHI initialized, starting thunderbolt
+[    1.391630] obpc kernel: thunderbolt:tb_ctl_start:733: thunderbolt 0000:00:0d.2: control channel starting...
+[    1.391683] obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.2: starting TX ring 0
+[    1.391741] obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.2: enabling interrupt at register 0x38200 bit 0 (0x0 -> 0x1)
+[    1.391797] obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.2: starting RX ring 0
+[    1.391978] obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.2: enabling interrupt at register 0x38200 bit 12 (0x1 -> 0x1001)
+[    1.392105] obpc kernel: thunderbolt:tb_domain_add:456: thunderbolt 0000:00:0d.2: security level set to user
+[    1.398054] obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.2: current switch config:
+[    1.398138] obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.2:  USB4 Switch: 8087:7ec2 (Revision: 16, TB Version: 32)
+[    1.398204] obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.2:   Max Port Number: 13
+[    1.398266] obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.2:   Config:
+[    1.398320] obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.2:    Upstream Port Number: 7 Depth: 0 Route String: 0x0 Enabled: 1, PlugEventsDelay: 254ms
+[    1.398379] obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.2:    unknown1: 0x0 unknown4: 0x0
+[    1.398436] obpc kernel: usb 3-1: New USB device found, idVendor=1d5c, idProduct=5801, bcdDevice= 1.01
+[    1.398500] obpc kernel: usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    1.398548] obpc kernel: usb 3-1: Product: USB2.0 Hub
+[    1.398624] obpc kernel: usb 3-1: Manufacturer: Fresco Logic, Inc.
+[    1.398706] obpc kernel: intel_vpu 0000:00:0b.0: enabling device (0000 -> 0002)
+[    1.398774] obpc kernel: Key type psk registered
+[    1.398779] obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.2: initializing Switch at 0x0 (depth: 0, up port: 7)
+[    1.398833] obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.2: 0: credit allocation parameters:
+[    1.398888] obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.2: 0:  USB3: 32
+[    1.398941] obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.2: 0:  DP AUX: 1
+[    1.398993] obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.2: 0:  DP main: 0
+[    1.399052] obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.2: 0:  PCIe: 64
+[    1.399107] obpc kernel: thunderbolt:usb4_switch_credits_init:806: thunderbolt 0000:00:0d.2: 0:  DMA: 14
+[    1.399162] obpc kernel: hub 3-1:1.0: USB hub found
+[    1.399231] obpc kernel: hub 3-1:1.0: 6 ports detected
+[    1.400020] obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.2: 0: DROM version: 3
+[    1.400153] obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.2: 0: uid: 0x1369de1080879d30
+[    1.402014] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 1: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.402096] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+[    1.402157] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.402215] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x47800000
+[    1.402276] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 120/2
+[    1.404019] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 2: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.404144] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+[    1.404241] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.404323] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x80000000
+[    1.404406] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 0/2
+[    1.406009] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 3: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.406106] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+[    1.406165] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.406223] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x83c00000
+[    1.406279] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 60/2
+[    1.410027] obpc kernel: nvme 0000:01:00.0: platform quirk: setting simple suspend
+[    1.410148] obpc kernel: nvme nvme0: pci function 0000:01:00.0
+[    1.412007] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 4: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.412093] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 19/19
+[    1.412170] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.412243] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x83c00000
+[    1.412316] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 60/2
+[    1.412389] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 5: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+[    1.412461] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.412533] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.412604] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x100000d
+[    1.412678] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 16/0
+[    1.412751] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 6: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+[    1.412824] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.412895] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.412967] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x100000d
+[    1.413043] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 16/0
+[    1.413115] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 7: 8086:15ea (Revision: 0, TB Version: 1, Type: NHI (0x2))
+[    1.413186] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 11/11
+[    1.413256] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 16
+[    1.413328] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x1c00000
+[    1.413400] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 28/0
+[    1.413473] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 8: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.413544] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.413615] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.413686] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.413757] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.413830] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 9: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.413904] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.413975] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.414050] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.414122] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.414202] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 10: not implemented
+[    1.414279] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 11: not implemented
+[    1.414354] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 12: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.414426] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.414500] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.414573] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.414646] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.414718] obpc kernel: nvme nvme0: D3 entry latency set to 10 seconds
+[    1.414781] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 13: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.414856] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.414930] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.415008] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.415080] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.415157] obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.2: 0: running quirk_usb3_maximum_bandwidth [thunderbolt]
+[    1.415233] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 0:12: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.415321] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 0:13: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.415410] obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.2: 0: linked ports 1 <-> 2
+[    1.415489] obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.2: 0: linked ports 3 <-> 4
+[    1.415572] obpc kernel: intel_vpu 0000:00:0b.0: [drm] Firmware: intel/vpu/vpu_37xx_v1.bin, version: 20260305*MTL_CLIENT_SILICON-NVR+NN-deployment*dbda783919b77553afe5576a59881bca37fb6d7b*dbda783919b77553afe5576a59881bca37fb6d7b*dbda783919b
+[    1.415653] obpc kernel: intel_vpu 0000:00:0b.0: [drm] Scheduler mode: HW
+[    1.417006] obpc kernel: nvme nvme0: 16/0/0 default/read/poll queues
+[    1.420041] obpc kernel:  nvme0n1: p1 p2 p3 p4 p5 p6
+[    1.429009] obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.2: 0: TMU: supports uni-directional mode
+[    1.430007] obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.2: 0: TMU: current mode: off
+[    1.433015] obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.2: 0: TMU: mode change off -> uni-directional, LowRes requested
+[    1.433273] obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.2: 0: TMU: mode set to: uni-directional, LowRes
+[    1.434011] obpc kernel: thunderbolt:tb_wait_for_port:537: thunderbolt 0000:00:0d.2: 0:1: is connected, link is up (state: 2)
+[    1.435007] obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.2: current switch config:
+[    1.435170] obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.2:  USB4 Switch: 8087:5786 (Revision: 133, TB Version: 64)
+[    1.435308] obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.2:   Max Port Number: 23
+[    1.435436] obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.2:   Config:
+[    1.435568] obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.2:    Upstream Port Number: 1 Depth: 1 Route String: 0x1 Enabled: 1, PlugEventsDelay: 254ms
+[    1.435705] obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.2:    unknown1: 0x0 unknown4: 0x0
+[    1.439015] obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.2: initializing Switch at 0x1 (depth: 1, up port: 1)
+[    1.439201] obpc kernel: thunderbolt:usb4_switch_setup:260: thunderbolt 0000:00:0d.2: 1: link: USB4
+[    1.439349] obpc kernel: thunderbolt:usb4_switch_setup:265: thunderbolt 0000:00:0d.2: 1: TBT3 support: yes, xHCI: no
+[    1.441010] obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.2: 1: credit allocation parameters:
+[    1.441138] obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.2: 1:  USB3: 20
+[    1.441266] obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.2: 1:  DP AUX: 1
+[    1.441391] obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.2: 1:  DP main: 6
+[    1.441515] obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.2: 1:  PCIe: 76
+[    1.441635] obpc kernel: thunderbolt:usb4_switch_credits_init:810: thunderbolt 0000:00:0d.2: 1:  unknown credit allocation index 0x0, skipping
+[    1.446012] obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.2: 1: DROM version: 1
+[    1.449011] obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.2: 1: uid: 0xe87ca900808714c4
+[    1.451008] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 1: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.451170] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.451309] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+[    1.451447] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x4a000000
+[    1.451574] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.452006] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 2: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.452161] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.452290] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+[    1.452416] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0xca000000
+[    1.452539] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.454007] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 3: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.454131] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.454256] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+[    1.454377] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.454504] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.456008] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 4: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.456154] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.456305] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+[    1.456428] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.456549] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.457006] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 5: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.457136] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.457257] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+[    1.457382] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.457505] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.459007] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 6: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.459137] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.459259] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+[    1.459381] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.459501] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.460006] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 7: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.460129] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.460251] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 4
+[    1.460373] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.460493] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.462007] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 8: 0:5780 (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    1.462131] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 31/31
+[    1.462252] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 0
+[    1.462373] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x8a000000
+[    1.462495] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 160/2
+[    1.462617] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 9: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100102))
+[    1.462739] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.462861] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.462981] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+[    1.463107] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.463229] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 10: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.463350] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.463472] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.463591] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+[    1.463713] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.463833] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 11: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+[    1.463955] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.464081] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.464203] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.464324] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.464444] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 12: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+[    1.464566] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.464687] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.464808] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.464929] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.465059] obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:13: disabled by eeprom
+[    1.465180] obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:14: disabled by eeprom
+[    1.465303] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.2:  Port 15: not implemented
+[    1.465426] obpc kernel: thunderbolt:tb_switch_add:3331: thunderbolt 0000:00:0d.2: 1:16: disabled by eeprom
+[    1.465548] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 17: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.465668] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.465787] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.465906] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+[    1.466031] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.466151] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 18: 0:5780 (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    1.466274] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.466392] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.466513] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x40800000
+[    1.466630] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.466749] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 19: 0:5780 (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0102))
+[    1.466870] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 9/9
+[    1.466988] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 2
+[    1.467113] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.467234] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.467352] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 20: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200102))
+[    1.467472] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.467595] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+[    1.467714] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.467831] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.467951] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 21: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.468075] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.468197] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+[    1.468318] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.468441] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.468560] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 22: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.468681] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.468801] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+[    1.468919] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.469036] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.469150] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.2:  Port 23: 0:5780 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    1.469265] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.2:   Max hop id (in/out): 8/8
+[    1.469381] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.2:   Max counters: 1
+[    1.469500] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.2:   NFC Credits: 0x800000
+[    1.469611] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.2:   Credits (total/control): 8/0
+[    1.469724] obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.2: 1: running quirk_usb3_maximum_bandwidth [thunderbolt]
+[    1.469837] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:21: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.469950] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:22: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.470069] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.2: 1:23: USB3 maximum bandwidth limited to 16376 Mb/s
+[    1.470184] obpc kernel: thunderbolt:tb_switch_link_init:2903: thunderbolt 0000:00:0d.2: 1: current link speed 20.0 Gb/s
+[    1.470299] obpc kernel: thunderbolt:tb_switch_link_init:2904: thunderbolt 0000:00:0d.2: 1: current link width symmetric, dual lanes
+[    1.478010] obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.2: 1: TMU: supports uni-directional mode
+[    1.478121] obpc kernel: thunderbolt:tmu_mode_init:367: thunderbolt 0000:00:0d.2: 1: TMU: supports enhanced uni-directional mode
+[    1.479008] obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.2: 1: TMU: current mode: off
+[    1.482009] obpc kernel: thunderbolt 0-1: new device found, vendor=0xed device=0x41b6
+[    1.482134] obpc kernel: thunderbolt 0-1: GIGABYTE AORUS RTX5090 AI BOX
+[    1.485010] obpc kernel: thunderbolt:tb_switch_nvm_add:376: thunderbolt 0000:00:0d.2: 1: NVM version 62.2
+[    1.488009] obpc kernel: thunderbolt:tb_retimer_nvm_authenticate_status:201: thunderbolt 0000:00:0d.2: 0:1: reading NVM authentication status of retimers
+[    1.524009] obpc kernel: [drm] Initialized intel_vpu 1.0.0 for 0000:00:0b.0 on minor 0
+[    1.581006] obpc kernel: usb 3-2: new full-speed USB device number 3 using xhci_hcd
+[    1.649006] obpc kernel: usb 2-1.4: new SuperSpeed Plus Gen 2x1 USB device number 3 using xhci_hcd
+[    1.672009] obpc kernel: usb 2-1.4: New USB device found, idVendor=0bda, idProduct=0423, bcdDevice= 0.03
+[    1.672143] obpc kernel: usb 2-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    1.672221] obpc kernel: usb 2-1.4: Product: 4-Port USB 3.0 Hub
+[    1.672291] obpc kernel: usb 2-1.4: Manufacturer: Generic
+[    1.685013] obpc kernel: hub 2-1.4:1.0: USB hub found
+[    1.685115] obpc kernel: hub 2-1.4:1.0: 4 ports detected
+[    1.698005] obpc kernel: i915 0000:00:02.0: [drm] Found meteorlake (device ID 7d51) integrated display version 14.00 stepping D0
+[    1.718376] obpc kernel: i915 0000:00:02.0: vgaarb: deactivate vga console
+[    1.718462] obpc kernel: i915 0000:00:02.0: [drm] Using Transparent Hugepages
+[    1.732010] obpc kernel: i915 0000:00:02.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=io+mem
+[    1.732103] obpc kernel: thunderbolt:tb_retimer_nvm_add:104: thunderbolt 0-0:1.1: NVM version 26.85
+[    1.732186] obpc kernel: thunderbolt 0-0:1.1: new retimer found, vendor=0x8087 device=0xd9c
+[    1.732260] obpc kernel: thunderbolt:tb_retimer_unset_inbound_sbtx:243: thunderbolt 0000:00:0d.2: 0:1: disabling sideband transactions
+[    1.743066] obpc kernel: i915 0000:00:02.0: [drm] Finished loading DMC firmware i915/mtl_dmc.bin (v2.23)
+[    1.767005] obpc kernel: usb 3-2: New USB device found, idVendor=19f5, idProduct=3246, bcdDevice= 1.20
+[    1.767087] obpc kernel: usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    1.767152] obpc kernel: usb 3-2: Product: NuPhy Air75 V2
+[    1.767212] obpc kernel: usb 3-2: Manufacturer: NuPhy
+[    1.769005] obpc kernel: input: NuPhy NuPhy Air75 V2 as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.0/0003:19F5:3246.0001/input/input3
+[    1.825008] obpc kernel: i915 0000:00:02.0: [drm] GT0: GuC firmware i915/mtl_guc_70.bin version 70.53.0
+[    1.834009] obpc kernel: thunderbolt:tb_scan_port:1396: thunderbolt 0000:00:0d.2: 1: discovery, not touching CL states
+[    1.834090] obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.2: 1: TMU: mode change off -> bi-directional, HiFi requested
+[    1.834168] obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[0]=0x7a480000
+[    1.834241] obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[1]=0x0002d04c
+[    1.834312] obpc kernel: thunderbolt:tb_switch_tmu_post_time:473: thunderbolt 0000:00:0d.2: 0: TMU: local_time[2]=0x03e80000
+[    1.834384] obpc kernel: thunderbolt:tb_switch_tmu_post_time:533: thunderbolt 0000:00:0d.2: 1: TMU: updated local time to 0x2d04c7a48
+[    1.835075] obpc kernel: i915 0000:00:02.0: [drm] GT0: GUC: submission enabled
+[    1.835185] obpc kernel: i915 0000:00:02.0: [drm] GT0: GUC: SLPC enabled
+[    1.835265] obpc kernel: i915 0000:00:02.0: [drm] GT0: GUC: RC enabled
+[    1.837008] obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.2: 1: TMU: mode set to: bi-directional, HiFi
+[    1.840010] obpc kernel: i915 0000:00:02.0: [drm] GT1: GuC firmware i915/mtl_guc_70.bin version 70.53.0
+[    1.840119] obpc kernel: i915 0000:00:02.0: [drm] GT1: HuC firmware i915/mtl_huc_gsc.bin version 8.5.4
+[    1.840195] obpc kernel: thunderbolt:tb_retimer_nvm_authenticate_status:201: thunderbolt 0000:00:0d.2: 1:1: reading NVM authentication status of retimers
+[    1.860022] obpc kernel: hid-generic 0003:19F5:3246.0001: input,hidraw0: USB HID v1.11 Keyboard [NuPhy NuPhy Air75 V2] on usb-0000:00:14.0-2/input0
+[    1.861073] obpc kernel: hid-generic 0003:19F5:3246.0002: hiddev96,hidraw1: USB HID v1.11 Device [NuPhy NuPhy Air75 V2] on usb-0000:00:14.0-2/input1
+[    1.862067] obpc kernel: input: NuPhy NuPhy Air75 V2 Mouse as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.2/0003:19F5:3246.0003/input/input4
+[    1.862080] obpc kernel: input: NuPhy NuPhy Air75 V2 System Control as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.2/0003:19F5:3246.0003/input/input5
+[    1.863093] obpc kernel: i915 0000:00:02.0: [drm] GT1: HuC: authenticated for clear media
+[    1.863202] obpc kernel: i915 0000:00:02.0: [drm] GT1: GUC: submission enabled
+[    1.863284] obpc kernel: i915 0000:00:02.0: [drm] GT1: GUC: SLPC enabled
+[    1.863359] obpc kernel: i915 0000:00:02.0: [drm] GT1: GUC: RC enabled
+[    1.866070] obpc kernel: i915 0000:00:02.0: [drm] Protected Xe Path (PXP) protected content support initialized
+[    1.914006] obpc kernel: input: NuPhy NuPhy Air75 V2 Consumer Control as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.2/0003:19F5:3246.0003/input/input6
+[    1.914019] obpc kernel: input: NuPhy NuPhy Air75 V2 Keyboard as /devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.2/0003:19F5:3246.0003/input/input7
+[    1.937012] obpc kernel: usb 3-1.3: new full-speed USB device number 4 using xhci_hcd
+[    1.942004] obpc kernel: hid-generic 0003:19F5:3246.0003: input,hidraw2: USB HID v1.11 Mouse [NuPhy NuPhy Air75 V2] on usb-0000:00:14.0-2/input2
+[    1.942111] obpc kernel: hid-generic 0003:19F5:3246.0004: hiddev97,hidraw3: USB HID v1.11 Device [NuPhy NuPhy Air75 V2] on usb-0000:00:14.0-2/input3
+[    1.952008] obpc kernel: i915 0000:00:02.0: [drm] Registered 4 planes with drm panic
+[    1.952115] obpc kernel: [drm] Initialized i915 1.6.0 for 0000:00:02.0 on minor 1
+[    1.954007] obpc kernel: ACPI: video: Video Device [GFX0] (multi-head: yes  rom: no  post: no)
+[    1.954013] obpc kernel: input: Video Bus as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input8
+[    2.004372] obpc kernel: i915 0000:00:02.0: [drm] GT1: Loaded GSC firmware i915/mtl_gsc_1.bin (cv1.0, r102.1.15.1926, svn 1)
+[    2.024005] obpc kernel: usb 3-1.3: New USB device found, idVendor=0414, idProduct=7a61, bcdDevice= 1.00
+[    2.024082] obpc kernel: usb 3-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[    2.024146] obpc kernel: usb 3-1.3: Product: USB-HID Device
+[    2.024210] obpc kernel: usb 3-1.3: Manufacturer: HOLTEK
+[    2.024272] obpc kernel: usb 3-1.3: SerialNumber: 000000000000
+[    2.025005] obpc kernel: i915 0000:00:02.0: [drm] GT1: HuC: authenticated for all workloads
+[    2.031004] obpc kernel: usbhid 3-1.3:1.0: fixing wrong optional hid class descriptors count
+[    2.031103] obpc kernel: hid-generic 0003:0414:7A61.0005: hiddev98,hidraw4: USB HID v1.11 Device [HOLTEK USB-HID Device] on usb-0000:00:14.0-1.3/input0
+[    2.031193] obpc kernel: usbhid 3-1.3:1.1: couldn't find an input interrupt endpoint
+[    2.031278] obpc kernel: input: HOLTEK USB-HID Device as /devices/pci0000:00/0000:00:14.0/usb3/3-1/3-1.3/3-1.3:1.2/0003:0414:7A61.0006/input/input9
+[    2.031283] obpc kernel: hid-generic 0003:0414:7A61.0006: input,hidraw5: USB HID v1.11 Mouse [HOLTEK USB-HID Device] on usb-0000:00:14.0-1.3/input2
+[    2.044005] obpc kernel: ish-hid {33AECD58-B679-4E54-9BD9-A04D34F0C226}: [hid-ish]: enum_devices_done OK, num_hid_devices=1
+[    2.046004] obpc kernel: hid-generic 001F:8087:0AC2.0007: hidraw6: SENSOR HUB HID v2.00 Device [hid-ishtp 8087:0AC2] on 
+[    2.049007] obpc kernel: hid-sensor-hub 001F:8087:0AC2.0007: hidraw6: SENSOR HUB HID v2.00 Device [hid-ishtp 8087:0AC2] on 
+[    2.053003] obpc kernel: thunderbolt:tb_retimer_unset_inbound_sbtx:243: thunderbolt 0000:00:0d.2: 1:1: disabling sideband transactions
+[    2.067299] obpc kernel: fbcon: i915drmfb (fb0) is primary device
+[    2.067347] obpc kernel: fbcon: Deferring console take-over
+[    2.067358] obpc kernel: i915 0000:00:02.0: [drm] fb0: i915drmfb frame buffer device
+[    2.156016] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:3: is unplugged (state: 7)
+[    2.156307] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:5: is unplugged (state: 7)
+[    2.156471] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 1:7: is unplugged (state: 7)
+[    2.157011] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.2: 0:3: is unplugged (state: 7)
+[    2.158015] obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering PCIe Up path starting from 0:8
+[    2.158248] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:8:  In HopID: 8 => Out port: 1 Out HopID: 8
+[    2.158426] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:8:   Weight: 1 Priority: 3 Credits: 7 Drop: 0 PM: 0
+[    2.158585] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:8:    Counter enabled: 0 Counter index: 0
+[    2.158712] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:8:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+[    2.158839] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:8:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.158968] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:1:  In HopID: 8 => Out port: 9 Out HopID: 8
+[    2.159099] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+[    2.159222] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:1:    Counter enabled: 0 Counter index: 0
+[    2.159343] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+[    2.159495] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.159632] obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+[    2.159748] obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering PCIe Down path starting from 1:9
+[    2.159864] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:9:  In HopID: 8 => Out port: 1 Out HopID: 8
+[    2.159980] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:9:   Weight: 1 Priority: 3 Credits: 7 Drop: 0 PM: 0
+[    2.160100] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:9:    Counter enabled: 0 Counter index: 0
+[    2.160219] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:9:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+[    2.160333] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:9:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.160447] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:1:  In HopID: 8 => Out port: 8 Out HopID: 8
+[    2.160560] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+[    2.160679] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:1:    Counter enabled: 0 Counter index: 0
+[    2.160794] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+[    2.160911] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.161023] obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+[    2.161131] obpc kernel: thunderbolt:tb_tunnel_discover_pci:482: thunderbolt 0000:00:0d.2: 0:8 <-> 1:9 (PCI): discovered
+[    2.161240] obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering USB3 Down path starting from 0:12
+[    2.162043] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:12:  In HopID: 8 => Out port: 1 Out HopID: 9
+[    2.162149] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:12:   Weight: 3 Priority: 3 Credits: 2 Drop: 0 PM: 0
+[    2.162229] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:12:    Counter enabled: 0 Counter index: 0
+[    2.162307] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:12:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+[    2.162380] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:12:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.162467] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:1:  In HopID: 9 => Out port: 20 Out HopID: 8
+[    2.162540] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+[    2.162612] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:1:    Counter enabled: 0 Counter index: 0
+[    2.162683] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+[    2.162754] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.162827] obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+[    2.164006] obpc kernel: thunderbolt:tb_path_discover:169: thunderbolt 0000:00:0d.2: discovering USB3 Up path starting from 1:20
+[    2.164084] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 1:20:  In HopID: 8 => Out port: 1 Out HopID: 9
+[    2.164156] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 1:20:   Weight: 3 Priority: 3 Credits: 2 Drop: 0 PM: 0
+[    2.164227] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 1:20:    Counter enabled: 0 Counter index: 0
+[    2.164297] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 1:20:   Flow Control (In/Eg): 1/1 Shared Buffer (In/Eg): 0/0
+[    2.164368] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 1:20:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.164438] obpc kernel: thunderbolt:tb_dump_hop:20: thunderbolt 0000:00:0d.2: 0:1:  In HopID: 9 => Out port: 12 Out HopID: 8
+[    2.164510] obpc kernel: thunderbolt:tb_dump_hop:22: thunderbolt 0000:00:0d.2: 0:1:   Weight: 1 Priority: 3 Credits: 32 Drop: 0 PM: 0
+[    2.164581] obpc kernel: thunderbolt:tb_dump_hop:25: thunderbolt 0000:00:0d.2: 0:1:    Counter enabled: 0 Counter index: 0
+[    2.164652] obpc kernel: thunderbolt:tb_dump_hop:27: thunderbolt 0000:00:0d.2: 0:1:   Flow Control (In/Eg): 1/0 Shared Buffer (In/Eg): 0/0
+[    2.164722] obpc kernel: thunderbolt:tb_dump_hop:30: thunderbolt 0000:00:0d.2: 0:1:   Unknown1: 0x0 Unknown2: 0x0 Unknown3: 0x0
+[    2.164792] obpc kernel: thunderbolt:tb_path_discover:210: thunderbolt 0000:00:0d.2: path discovery complete
+[    2.167009] obpc kernel: thunderbolt:tb_tunnel_discover_usb3:2244: thunderbolt 0000:00:0d.2: 0:12 <-> 1:20 (USB3): currently allocated bandwidth 2048/2048 Mb/s
+[    2.167111] obpc kernel: thunderbolt:tb_tunnel_discover_usb3:2255: thunderbolt 0000:00:0d.2: 0:12 <-> 1:20 (USB3): discovered
+[    2.170005] obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.2: 0:5: DP IN resource available
+[    2.172007] obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.2: 0:6: DP IN resource available
+[    2.172093] obpc kernel: thunderbolt:nhi_probe:1366: thunderbolt 0000:00:0d.3: total paths: 12
+[    2.172171] obpc kernel: thunderbolt:nhi_check_iommu:1230: thunderbolt 0000:00:0d.3: IOMMU DMA protection is disabled
+[    2.172243] obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.3: allocating TX ring 0 of size 10
+[    2.172314] obpc kernel: thunderbolt:tb_ring_alloc:587: thunderbolt 0000:00:0d.3: allocating RX ring 0 of size 10
+[    2.172385] obpc kernel: thunderbolt:tb_ctl_alloc:690: thunderbolt 0000:00:0d.3: control channel created
+[    2.172456] obpc kernel: thunderbolt:tb_probe:3388: thunderbolt 0000:00:0d.3: using software connection manager
+[    2.172527] obpc kernel: thunderbolt:tb_acpi_add_link:65: thunderbolt 0000:00:0d.3: created link from 0000:00:07.2
+[    2.172598] obpc kernel: thunderbolt:nhi_probe:1402: thunderbolt 0000:00:0d.3: NHI initialized, starting thunderbolt
+[    2.172670] obpc kernel: thunderbolt:tb_ctl_start:733: thunderbolt 0000:00:0d.3: control channel starting...
+[    2.172740] obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.3: starting TX ring 0
+[    2.172810] obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.3: enabling interrupt at register 0x38200 bit 0 (0x0 -> 0x1)
+[    2.172881] obpc kernel: thunderbolt:tb_ring_start:700: thunderbolt 0000:00:0d.3: starting RX ring 0
+[    2.172951] obpc kernel: thunderbolt:ring_interrupt_active:142: thunderbolt 0000:00:0d.3: enabling interrupt at register 0x38200 bit 12 (0x1 -> 0x1001)
+[    2.173026] obpc kernel: thunderbolt:tb_domain_add:456: thunderbolt 0000:00:0d.3: security level set to user
+[    2.173098] obpc kernel: thunderbolt:tb_switch_alloc:2488: thunderbolt 0000:00:0d.3: current switch config:
+[    2.173187] obpc kernel: thunderbolt:tb_dump_switch:1570: thunderbolt 0000:00:0d.3:  USB4 Switch: 8087:7ec3 (Revision: 16, TB Version: 32)
+[    2.173370] obpc kernel: thunderbolt:tb_dump_switch:1573: thunderbolt 0000:00:0d.3:   Max Port Number: 13
+[    2.173506] obpc kernel: thunderbolt:tb_dump_switch:1574: thunderbolt 0000:00:0d.3:   Config:
+[    2.173592] obpc kernel: thunderbolt:tb_dump_switch:1575: thunderbolt 0000:00:0d.3:    Upstream Port Number: 7 Depth: 0 Route String: 0x0 Enabled: 1, PlugEventsDelay: 254ms
+[    2.173667] obpc kernel: thunderbolt:tb_dump_switch:1580: thunderbolt 0000:00:0d.3:    unknown1: 0x0 unknown4: 0x0
+[    2.177150] obpc kernel: BTRFS: device label fedora devid 1 transid 24701 /dev/nvme0n1p6 (259:6) scanned by mount (528)
+[    2.177265] obpc kernel: thunderbolt:tb_switch_configure:2618: thunderbolt 0000:00:0d.3: initializing Switch at 0x0 (depth: 0, up port: 7)
+[    2.177881] obpc kernel: BTRFS info (device nvme0n1p6): first mount of filesystem 34e34fc2-47b6-41bd-b739-8a1c79788cb2
+[    2.177910] obpc kernel: BTRFS info (device nvme0n1p6): using crc32c (crc32c-lib) checksum algorithm
+[    2.177934] obpc kernel: thunderbolt:usb4_switch_credits_init:780: thunderbolt 0000:00:0d.3: 0: credit allocation parameters:
+[    2.178353] obpc kernel: thunderbolt:usb4_switch_credits_init:790: thunderbolt 0000:00:0d.3: 0:  USB3: 32
+[    2.178712] obpc kernel: thunderbolt:usb4_switch_credits_init:794: thunderbolt 0000:00:0d.3: 0:  DP AUX: 1
+[    2.179071] obpc kernel: thunderbolt:usb4_switch_credits_init:798: thunderbolt 0000:00:0d.3: 0:  DP main: 0
+[    2.179419] obpc kernel: thunderbolt:usb4_switch_credits_init:802: thunderbolt 0000:00:0d.3: 0:  PCIe: 64
+[    2.179759] obpc kernel: thunderbolt:usb4_switch_credits_init:806: thunderbolt 0000:00:0d.3: 0:  DMA: 14
+[    2.181099] obpc kernel: thunderbolt:tb_drom_parse:640: thunderbolt 0000:00:0d.3: 0: DROM version: 3
+[    2.181572] obpc kernel: thunderbolt:tb_switch_add:3321: thunderbolt 0000:00:0d.3: 0: uid: 0x75f823518087885e
+[    2.183016] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 1: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    2.183393] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+[    2.183766] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.184160] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+[    2.184589] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+[    2.184968] obpc kernel: BTRFS info (device nvme0n1p6): enabling ssd optimizations
+[    2.184997] obpc kernel: BTRFS info (device nvme0n1p6): turning on async discard
+[    2.185037] obpc kernel: BTRFS info (device nvme0n1p6): enabling free space tree
+[    2.185073] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 2: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    2.185453] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+[    2.185833] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.186269] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+[    2.186781] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+[    2.187250] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 3: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    2.187834] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+[    2.188290] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.188648] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+[    2.189033] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+[    2.189377] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 4: 8087:15ea (Revision: 0, TB Version: 1, Type: Port (0x1))
+[    2.189766] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 19/19
+[    2.190072] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.190342] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x83c00000
+[    2.190600] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 60/2
+[    2.190898] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 5: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+[    2.191286] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 9/9
+[    2.191559] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.191796] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x100000d
+[    2.192022] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 16/0
+[    2.192231] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 6: 8087:15ea (Revision: 0, TB Version: 1, Type: DP/HDMI (0xe0101))
+[    2.192440] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 9/9
+[    2.192633] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.192819] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x100000d
+[    2.192995] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 16/0
+[    2.193206] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 7: 8086:15ea (Revision: 0, TB Version: 1, Type: NHI (0x2))
+[    2.193473] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 11/11
+[    2.193702] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 16
+[    2.193958] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x1c00000
+[    2.194249] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 28/0
+[    2.194482] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 8: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    2.194703] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+[    2.194949] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.195201] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+[    2.195440] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+[    2.195646] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 9: 8087:15ea (Revision: 0, TB Version: 1, Type: PCIe (0x100101))
+[    2.195855] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+[    2.196090] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.196265] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+[    2.196419] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+[    2.196570] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.3:  Port 10: not implemented
+[    2.196736] obpc kernel: thunderbolt:tb_init_port:717: thunderbolt 0000:00:0d.3:  Port 11: not implemented
+[    2.196892] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 12: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    2.197064] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+[    2.197259] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.197528] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+[    2.197797] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+[    2.197972] obpc kernel: thunderbolt:tb_dump_port:449: thunderbolt 0000:00:0d.3:  Port 13: 8087:0 (Revision: 0, TB Version: 1, Type: USB (0x200101))
+[    2.198142] obpc kernel: thunderbolt:tb_dump_port:454: thunderbolt 0000:00:0d.3:   Max hop id (in/out): 8/8
+[    2.198294] obpc kernel: thunderbolt:tb_dump_port:456: thunderbolt 0000:00:0d.3:   Max counters: 2
+[    2.198443] obpc kernel: thunderbolt:tb_dump_port:457: thunderbolt 0000:00:0d.3:   NFC Credits: 0x800000
+[    2.198598] obpc kernel: thunderbolt:tb_dump_port:458: thunderbolt 0000:00:0d.3:   Credits (total/control): 8/0
+[    2.198748] obpc kernel: thunderbolt:tb_check_quirks:134: thunderbolt 0000:00:0d.3: 0: running quirk_usb3_maximum_bandwidth [thunderbolt]
+[    2.198898] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.3: 0:12: USB3 maximum bandwidth limited to 16376 Mb/s
+[    2.199064] obpc kernel: thunderbolt:quirk_usb3_maximum_bandwidth:41: thunderbolt 0000:00:0d.3: 0:13: USB3 maximum bandwidth limited to 16376 Mb/s
+[    2.199226] obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.3: 0: linked ports 1 <-> 2
+[    2.199384] obpc kernel: thunderbolt:tb_switch_default_link_ports:2844: thunderbolt 0000:00:0d.3: 0: linked ports 3 <-> 4
+[    2.199534] obpc kernel: usb 3-3: new high-speed USB device number 5 using xhci_hcd
+[    2.199612] obpc kernel: thunderbolt:tmu_mode_init:364: thunderbolt 0000:00:0d.3: 0: TMU: supports uni-directional mode
+[    2.199769] obpc kernel: thunderbolt:tb_switch_tmu_init:435: thunderbolt 0000:00:0d.3: 0: TMU: current mode: off
+[    2.203028] obpc kernel: thunderbolt:tb_switch_tmu_configure:1066: thunderbolt 0000:00:0d.3: 0: TMU: mode change off -> uni-directional, LowRes requested
+[    2.204027] obpc kernel: thunderbolt:tb_switch_tmu_enable:1014: thunderbolt 0000:00:0d.3: 0: TMU: mode set to: uni-directional, LowRes
+[    2.204266] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.3: 0:1: is unplugged (state: 7)
+[    2.204452] obpc kernel: thunderbolt:tb_wait_for_port:529: thunderbolt 0000:00:0d.3: 0:3: is unplugged (state: 7)
+[    2.208038] obpc kernel: thunderbolt:tb_add_dp_resources:134: thunderbolt 0000:00:0d.3: 0:6: DP IN resource available
+[    2.382010] obpc kernel: usb 3-3: New USB device found, idVendor=0451, idProduct=8242, bcdDevice= 1.00
+[    2.382170] obpc kernel: usb 3-3: New USB device strings: Mfr=0, Product=0, SerialNumber=1
+[    2.382238] obpc kernel: usb 3-3: SerialNumber: E6010071B0CE
+[    2.383005] obpc kernel: hub 3-3:1.0: USB hub found
+[    2.383104] obpc kernel: hub 3-3:1.0: 4 ports detected
+[    2.457014] obpc kernel: usb 3-1.4: new high-speed USB device number 6 using xhci_hcd
+[    2.538092] obpc kernel: typec port0: bound usb3-port1 (ops connector_ops)
+[    2.538208] obpc kernel: typec port0: bound usb2-port1 (ops connector_ops)
+[    2.538284] obpc kernel: typec port0: bound usb4_port1 (ops connector_ops [thunderbolt])
+[    2.544067] obpc kernel: usb 3-1.4: New USB device found, idVendor=0bda, idProduct=5423, bcdDevice= 0.03
+[    2.544172] obpc kernel: usb 3-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    2.544243] obpc kernel: usb 3-1.4: Product: 4-Port USB 2.0 Hub
+[    2.544306] obpc kernel: usb 3-1.4: Manufacturer: Generic
+[    2.545071] obpc kernel: hub 3-1.4:1.0: USB hub found
+[    2.545187] obpc kernel: hub 3-1.4:1.0: 5 ports detected
+[    2.655061] obpc kernel: usb 3-10: new full-speed USB device number 7 using xhci_hcd
+[    2.779008] obpc kernel: usb 3-10: New USB device found, idVendor=8087, idProduct=0037, bcdDevice= 0.00
+[    2.779094] obpc kernel: usb 3-10: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[    2.854006] obpc kernel: usb 3-1.5: new full-speed USB device number 8 using xhci_hcd
+[    3.735710] obpc systemd-journald[309]: Received SIGTERM from PID 1 (systemd).
+[    3.738082] obpc kernel: audit: type=1404 audit(1778249116.515:2): enforcing=1 old_enforcing=0 auid=4294967295 ses=4294967295 enabled=1 old-enabled=1 lsm=selinux res=1
+[    3.738324] obpc kernel: usb 3-1.5: New USB device found, idVendor=0414, idProduct=7a62, bcdDevice=10.22
+[    3.738479] obpc kernel: usb 3-1.5: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[    3.738638] obpc kernel: usb 3-1.5: Product: DMC Device
+[    3.738758] obpc kernel: usb 3-1.5: Manufacturer: Gigabyte
+[    3.738878] obpc kernel: usb 3-1.5: SerialNumber: 1234
+[    3.738896] obpc kernel: SELinux:  Permission firmware_load in class system not defined in policy.
+[    3.738914] obpc kernel: SELinux:  Permission kexec_image_load in class system not defined in policy.
+[    3.738930] obpc kernel: SELinux:  Permission kexec_initramfs_load in class system not defined in policy.
+[    3.738946] obpc kernel: SELinux:  Permission policy_load in class system not defined in policy.
+[    3.738961] obpc kernel: SELinux:  Permission x509_certificate_load in class system not defined in policy.
+[    3.738970] obpc kernel: SELinux:  Permission allowed in class io_uring not defined in policy.
+[    3.738983] obpc kernel: SELinux:  Class memfd_file not defined in policy.
+[    3.739005] obpc kernel: SELinux: the above unknown classes and permissions will be allowed
+[    3.739023] obpc kernel: SELinux:  policy capability network_peer_controls=1
+[    3.739038] obpc kernel: SELinux:  policy capability open_perms=1
+[    3.739051] obpc kernel: SELinux:  policy capability extended_socket_class=1
+[    3.739064] obpc kernel: SELinux:  policy capability always_check_network=0
+[    3.739078] obpc kernel: SELinux:  policy capability cgroup_seclabel=1
+[    3.739091] obpc kernel: SELinux:  policy capability nnp_nosuid_transition=1
+[    3.739104] obpc kernel: SELinux:  policy capability genfs_seclabel_symlinks=1
+[    3.739115] obpc kernel: SELinux:  policy capability ioctl_skip_cloexec=0
+[    3.739132] obpc kernel: SELinux:  policy capability userspace_initial_context=0
+[    3.739147] obpc kernel: SELinux:  policy capability netlink_xperm=0
+[    3.739162] obpc kernel: SELinux:  policy capability netif_wildcard=0
+[    3.739177] obpc kernel: SELinux:  policy capability genfs_seclabel_wildcard=0
+[    3.739190] obpc kernel: SELinux:  policy capability functionfs_seclabel=0
+[    3.739201] obpc kernel: SELinux:  policy capability memfd_class=0
+[    3.739211] obpc kernel: audit: type=1403 audit(1778249116.592:3): auid=4294967295 ses=4294967295 lsm=selinux res=1
+[    3.739228] obpc systemd[1]: Successfully loaded SELinux policy in 77.586ms.
+[    3.739402] obpc kernel: usb 3-3.4: new high-speed USB device number 9 using xhci_hcd
+[    3.739428] obpc systemd[1]: RTC configured in localtime, applying delta of 600 minutes to system time.
+[    3.739443] obpc systemd[1]: Relabeled /dev/, /dev/shm/, /run/ in 11.847ms.
+[    3.739556] obpc kernel: usb 3-3.4: New USB device found, idVendor=0bda, idProduct=8153, bcdDevice=31.00
+[    3.739669] obpc kernel: usb 3-3.4: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[    3.739778] obpc kernel: usb 3-3.4: Product: USB 10/100/1000 LAN
+[    3.739886] obpc kernel: usb 3-3.4: Manufacturer: Realtek
+[    3.739995] obpc kernel: usb 3-3.4: SerialNumber: 001000001
+[    3.740018] obpc systemd[1]: systemd 258.7-1.fc43 running in system mode (+PAM +AUDIT +SELINUX -APPARMOR +IMA +IPE +SMACK +SECCOMP -GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN -IPTC +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK +BTF +XKBCOMMON +UTMP +SYSVINIT +LIBARCHIVE)
+[    3.740033] obpc systemd[1]: Detected architecture x86-64.
+[    3.740046] obpc systemd[1]: bpf-restrict-fs: LSM BPF program attached
+[    3.740209] obpc kernel: usb 2-1.4.4: new SuperSpeed USB device number 4 using xhci_hcd
+[    3.740334] obpc kernel: usb 2-1.4.4: New USB device found, idVendor=0bda, idProduct=8153, bcdDevice=31.00
+[    3.740441] obpc kernel: usb 2-1.4.4: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[    3.740543] obpc kernel: usb 2-1.4.4: Product: USB 10/100/1000 LAN
+[    3.740642] obpc kernel: usb 2-1.4.4: Manufacturer: Realtek
+[    3.740743] obpc kernel: usb 2-1.4.4: SerialNumber: 001000001
+[    3.740754] obpc kernel: zram: Added device: zram0
+[    3.740768] obpc kernel: audit: type=1400 audit(1778213117.249:4): avc:  denied  { getattr } for  pid=1 comm="systemd" path="socket:[17962]" dev="sockfs" ino=17962 scontext=system_u:system_r:init_t:s0 tcontext=system_u:system_r:kernel_t:s0 tclass=netlink_kobject_uevent_socket permissive=0
+[    3.740781] obpc systemd[1]: initrd-switch-root.service: Deactivated successfully.
+[    3.740795] obpc systemd[1]: Stopped initrd-switch-root.service - Switch Root.
+[    3.740809] obpc systemd[1]: systemd-journald.service: Scheduled restart job, restart counter is at 1.
+[    3.740821] obpc systemd[1]: Created slice machine.slice - Virtual Machine and Container Slice.
+[    3.740837] obpc systemd[1]: Created slice system-akmods\x2dkeygen.slice - Slice /system/akmods-keygen.
+[    3.740847] obpc systemd[1]: Created slice system-getty.slice - Slice /system/getty.
+[    3.740860] obpc systemd[1]: Created slice system-sshd\x2dkeygen.slice - Slice /system/sshd-keygen.
+[    3.740873] obpc systemd[1]: Created slice system-systemd\x2dfsck.slice - Slice /system/systemd-fsck.
+[    3.740886] obpc systemd[1]: Created slice system-systemd\x2dzram\x2dsetup.slice - Slice /system/systemd-zram-setup.
+[    3.740900] obpc systemd[1]: Created slice user.slice - User and Session Slice.
+[    3.740912] obpc systemd[1]: systemd-ask-password-console.path - Dispatch Password Requests to Console Directory Watch skipped, unmet condition check ConditionPathExists=!/run/plymouth/pid
+[    3.740925] obpc systemd[1]: Started systemd-ask-password-wall.path - Forward Password Requests to Wall Directory Watch.
+[    3.740941] obpc systemd[1]: Set up automount proc-sys-fs-binfmt_misc.automount - Arbitrary Executable File Formats File System Automount Point.
+[    3.740952] obpc systemd[1]: Expecting device dev-disk-by\x2duuid-14FA\x2d2AE2.device - /dev/disk/by-uuid/14FA-2AE2...
+[    3.740963] obpc systemd[1]: Expecting device dev-disk-by\x2duuid-34e34fc2\x2d47b6\x2d41bd\x2db739\x2d8a1c79788cb2.device - /dev/disk/by-uuid/34e34fc2-47b6-41bd-b739-8a1c79788cb2...
+[    3.740977] obpc systemd[1]: Expecting device dev-disk-by\x2duuid-4f4f2b07\x2d3901\x2d49ac\x2d9aed\x2d085b94bd2b3a.device - /dev/disk/by-uuid/4f4f2b07-3901-49ac-9aed-085b94bd2b3a...
+[    3.740987] obpc systemd[1]: Expecting device dev-zram0.device - /dev/zram0...
+[    3.740999] obpc systemd[1]: Reached target cryptsetup.target - Local Encrypted Volumes.
+[    3.741015] obpc systemd[1]: Reached target getty.target - Login Prompts.
+[    3.741029] obpc systemd[1]: Reached target imports.target - Image Downloads.
+[    3.741043] obpc systemd[1]: Stopped target initrd-switch-root.target - Switch Root.
+[    3.741055] obpc systemd[1]: Stopped target initrd-fs.target - Initrd File Systems.
+[    3.741066] obpc systemd[1]: Stopped target initrd-root-fs.target - Initrd Root File System.
+[    3.741080] obpc systemd[1]: Reached target integritysetup.target - Local Integrity Protected Volumes.
+[    3.741092] obpc systemd[1]: Reached target slices.target - Slice Units.
+[    3.741104] obpc systemd[1]: Reached target veritysetup.target - Local Verity Protected Volumes.
+[    3.741118] obpc systemd[1]: Listening on dm-event.socket - Device-mapper event daemon FIFOs.
+[    3.741128] obpc systemd[1]: Listening on lvm2-lvmpolld.socket - LVM2 poll daemon socket.
+[    3.741143] obpc systemd[1]: Listening on systemd-ask-password.socket - Query the User Interactively for a Password.
+[    3.741158] obpc systemd[1]: Listening on systemd-coredump.socket - Process Core Dump Socket.
+[    3.741168] obpc systemd[1]: Listening on systemd-creds.socket - Credential Encryption/Decryption.
+[    3.741182] obpc systemd[1]: Listening on systemd-factory-reset.socket - Factory Reset Management.
+[    3.741194] obpc systemd[1]: Listening on systemd-journald-audit.socket - Journal Audit Socket.
+[    3.741208] obpc systemd[1]: Listening on systemd-oomd.socket - Userspace Out-Of-Memory (OOM) Killer Socket.
+[    3.741220] obpc systemd[1]: systemd-pcrextend.socket - TPM PCR Measurements skipped, unmet condition check ConditionSecurity=measured-uki
+[    3.741234] obpc systemd[1]: systemd-pcrlock.socket - Make TPM PCR Policy skipped, unmet condition check ConditionSecurity=measured-uki
+[    3.741244] obpc systemd[1]: Listening on systemd-resolved-monitor.socket - Resolve Monitor Varlink Socket.
+[    3.741256] obpc systemd[1]: Listening on systemd-resolved-varlink.socket - Resolve Service Varlink Socket.
+[    3.741266] obpc systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
+[    3.741276] obpc systemd[1]: Listening on systemd-udevd-varlink.socket - udev Varlink Socket.
+[    3.741288] obpc systemd[1]: Listening on systemd-userdbd.socket - User Database Manager Socket.
+[    3.741300] obpc systemd[1]: Mounting dev-hugepages.mount - Huge Pages File System...
+[    3.741312] obpc systemd[1]: Mounting dev-mqueue.mount - POSIX Message Queue File System...
+[    3.741323] obpc systemd[1]: Mounting sys-kernel-debug.mount - Kernel Debug File System...
+[    3.741335] obpc systemd[1]: Mounting sys-kernel-tracing.mount - Kernel Trace File System...
+[    3.741347] obpc systemd[1]: auth-rpcgss-module.service - Kernel Module supporting RPCSEC_GSS skipped, unmet condition check ConditionPathExists=/etc/krb5.keytab
+[    3.741362] obpc systemd[1]: fips-crypto-policy-overlay.service - Bind-mount FIPS crypto-policy in FIPS mode skipped, unmet condition check ConditionKernelCommandLine=fips=1
+[    3.741376] obpc systemd[1]: iscsi-starter.service skipped, unmet condition check ConditionDirectoryNotEmpty=/var/lib/iscsi/nodes
+[    3.741386] obpc systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
+[    3.741396] obpc systemd[1]: Starting lvm2-monitor.service - Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
+[    3.741410] obpc systemd[1]: modprobe@configfs.service - Load Kernel Module configfs skipped, unmet condition check ConditionKernelModuleLoaded=!configfs
+[    3.741425] obpc systemd[1]: modprobe@dm_mod.service - Load Kernel Module dm_mod skipped, unmet condition check ConditionKernelModuleLoaded=!dm_mod
+[    3.741436] obpc systemd[1]: modprobe@drm.service - Load Kernel Module drm skipped, unmet condition check ConditionKernelModuleLoaded=!drm
+[    3.741448] obpc systemd[1]: modprobe@efi_pstore.service - Load Kernel Module efi_pstore skipped, unmet condition check ConditionKernelModuleLoaded=!efi_pstore
+[    3.741460] obpc systemd[1]: modprobe@fuse.service - Load Kernel Module fuse skipped, unmet condition check ConditionKernelModuleLoaded=!fuse
+[    3.741470] obpc systemd[1]: Mounting sys-fs-fuse-connections.mount - FUSE Control File System...
+[    3.741482] obpc systemd[1]: Starting modprobe@loop.service - Load Kernel Module loop...
+[    3.741496] obpc systemd[1]: plymouth-switch-root.service: Deactivated successfully.
+[    3.741510] obpc systemd[1]: Stopped plymouth-switch-root.service - Plymouth switch root service.
+[    3.741526] obpc systemd[1]: systemd-fsck-root.service: Deactivated successfully.
+[    3.741538] obpc systemd[1]: Stopped systemd-fsck-root.service - File System Check on Root Device.
+[    3.741548] obpc systemd[1]: systemd-hibernate-clear.service - Clear Stale Hibernate Storage Info skipped, unmet condition check ConditionPathExists=/sys/firmware/efi/efivars/HibernateLocation-8cf2644b-4b0b-428f-9387-6d876050dc67
+[    3.741563] obpc systemd[1]: Starting systemd-journald.service - Journal Service...
+[    3.741574] obpc systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
+[    3.741583] obpc systemd[1]: systemd-pcrmachine.service - TPM PCR Machine ID Measurement skipped, unmet condition check ConditionSecurity=measured-uki
+[    3.741592] obpc systemd[1]: Starting systemd-remount-fs.service - Remount Root and Kernel File Systems...
+[    3.741601] obpc systemd[1]: systemd-tpm2-setup-early.service - Early TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-uki
+[    3.741615] obpc systemd[1]: Starting systemd-udev-load-credentials.service - Load udev Rules from Credentials...
+[    3.741628] obpc systemd[1]: Starting systemd-udev-trigger.service - Coldplug All udev Devices...
+[    3.741641] obpc systemd[1]: Mounted dev-hugepages.mount - Huge Pages File System.
+[    3.741649] obpc systemd[1]: Mounted dev-mqueue.mount - POSIX Message Queue File System.
+[    3.741660] obpc systemd[1]: Mounted sys-kernel-debug.mount - Kernel Debug File System.
+[    3.741670] obpc systemd[1]: Mounted sys-kernel-tracing.mount - Kernel Trace File System.
+[    3.741679] obpc systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+[    3.741688] obpc systemd[1]: Mounted sys-fs-fuse-connections.mount - FUSE Control File System.
+[    3.741700] obpc systemd[1]: Starting systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully...
+[    3.741709] obpc kernel: BTRFS info (device nvme0n1p6 state M): use zstd compression, level 1
+[    3.741716] obpc systemd[1]: Finished systemd-modules-load.service - Load Kernel Modules.
+[    3.741730] obpc systemd[1]: Finished systemd-remount-fs.service - Remount Root and Kernel File Systems.
+[    3.741739] obpc systemd[1]: iscsi-onboot.service - Special handling of early boot iSCSI sessions skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/class/iscsi_session
+[    3.741748] obpc systemd[1]: systemd-hwdb-update.service - Rebuild Hardware Database skipped, unmet condition check ConditionNeedsUpdate=/etc
+[    3.741757] obpc systemd[1]: systemd-pstore.service - Platform Persistent Storage Archival skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/fs/pstore
+[    3.741766] obpc systemd[1]: Starting systemd-random-seed.service - Load/Save OS Random Seed...
+[    3.741777] obpc kernel: loop: module loaded
+[    3.741788] obpc systemd[1]: Starting systemd-sysctl.service - Apply Kernel Variables...
+[    3.741797] obpc systemd[1]: systemd-tpm2-setup.service - TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-uki
+[    3.741811] obpc systemd[1]: modprobe@loop.service: Deactivated successfully.
+[    3.741824] obpc systemd[1]: Finished modprobe@loop.service - Load Kernel Module loop.
+[    3.741832] obpc systemd[1]: systemd-repart.service - Repartition Root Disk skipped, no trigger condition checks were met.
+[    3.741841] obpc systemd[1]: Finished systemd-udev-load-credentials.service - Load udev Rules from Credentials.
+[    3.741867] obpc systemd-journald[656]: Collecting audit messages is enabled.
+[    3.741899] obpc systemd[1]: Finished systemd-sysctl.service - Apply Kernel Variables.
+[    3.741912] obpc kernel: audit: type=1130 audit(1778213117.328:5): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-sysctl comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[    3.741923] obpc systemd-journald[656]: /run/log/journal/243e6986d52044a7a496dd3e0b8b7ecc/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+[    3.741942] obpc kernel: audit: type=1334 audit(1778213117.333:6): prog-id=48 op=LOAD
+[    3.741951] obpc kernel: audit: type=1334 audit(1778213117.333:7): prog-id=49 op=LOAD
+[    3.741963] obpc kernel: audit: type=1334 audit(1778213117.333:8): prog-id=50 op=LOAD
+[    3.741973] obpc systemd[1]: Starting systemd-userdbd.service - User Database Manager...
+[    3.741985] obpc systemd[1]: Finished systemd-random-seed.service - Load/Save OS Random Seed.
+[    3.741995] obpc kernel: audit: type=1130 audit(1778213117.334:9): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-random-seed comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[    3.743023] obpc systemd[1]: Started systemd-journald.service - Journal Service.
+[    3.743067] obpc kernel: audit: type=1130 audit(1778213117.337:10): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-journald comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[    3.912550] obpc systemd-journald[656]: Received client request to flush runtime journal.
+[    3.912762] obpc systemd-journald[656]: /var/log/journal/243e6986d52044a7a496dd3e0b8b7ecc/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+[    3.912896] obpc systemd-journald[656]: Rotating system journal.
+[    3.936012] obpc kernel: zram0: detected capacity change from 0 to 16777216
+[    3.975011] obpc kernel: usbcore: registered new device driver r8152-cfgselector
+[    3.985024] obpc kernel: Adding 8388604k swap on /dev/zram0.  Priority:100 extents:1 across:8388604k SSDsc
+[    4.003022] obpc kernel: Bluetooth: Core ver 2.22
+[    4.004019] obpc kernel: NET: Registered PF_BLUETOOTH protocol family
+[    4.004091] obpc kernel: Bluetooth: HCI device and connection manager initialized
+[    4.004119] obpc kernel: Bluetooth: HCI socket layer initialized
+[    4.004148] obpc kernel: Bluetooth: L2CAP socket layer initialized
+[    4.004173] obpc kernel: Bluetooth: SCO socket layer initialized
+[    4.009039] obpc kernel: intel_pmc_ssram_telemetry 0000:00:14.2: enabling device (0000 -> 0002)
+[    4.010358] obpc kernel: input: Intel HID events as /devices/platform/INTC10CB:00/input/input10
+[    4.010378] obpc kernel: intel-hid INTC10CB:00: failed to enable HID power button
+[    4.034010] obpc kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PC00.LPCB.HEC.DPTF.FCHG], AE_NOT_FOUND (20250807/psargs-332)
+[    4.034064] obpc kernel: ACPI Error: Aborting method \_SB.IETM.CHRG.PPSS due to previous error (AE_NOT_FOUND) (20250807/psparse-529)
+[    4.037007] obpc kernel: pci 0000:00:08.0: Setting to D3hot
+[    4.042010] obpc kernel: Bluetooth: hci0: Firmware timestamp 2026.8 buildtype 1 build 105597
+[    4.042039] obpc kernel: Bluetooth: hci0: Firmware SHA1: 0x08f159a0
+[    4.043016] obpc kernel: Bluetooth: hci0: DSM reset method type: 0x00
+[    4.043049] obpc kernel: usbcore: registered new interface driver btusb
+[    4.049012] obpc kernel: intel_pmc_core INT33A1:00:  initialized
+[    4.056014] obpc kernel: resource: resource sanity check: requesting [mem 0x00000000fedc0000-0x00000000fedcffff], which spans more than pnp 00:03 [mem 0xfedc0000-0xfedc7fff]
+[    4.056048] obpc kernel: caller igen6_register_mcis+0x4b/0x2d0 [igen6_edac] mapping multiple BARs
+[    4.056065] obpc kernel: EDAC MC0: Giving out device to module igen6_edac controller Intel_client_SoC MC#0: DEV 0000:00:00.0 (INTERRUPT)
+[    4.056082] obpc kernel: EDAC MC1: Giving out device to module igen6_edac controller Intel_client_SoC MC#1: DEV 0000:00:00.0 (INTERRUPT)
+[    4.056094] obpc kernel: EDAC igen6: v2.5.1
+[    4.075042] obpc kernel: r8152-cfgselector 3-3.4: reset high-speed USB device number 9 using xhci_hcd
+[    4.079016] obpc kernel: i801_smbus 0000:00:1f.4: SPD Write Disable is set
+[    4.081912] obpc kernel: i801_smbus 0000:00:1f.4: SMBus using PCI interrupt
+[    4.085635] obpc kernel: Bluetooth: hci0: Found device firmware: intel/ibt-0093-0291.sfi
+[    4.085702] obpc kernel: Bluetooth: hci0: Boot Address: 0x100800
+[    4.085732] obpc kernel: Bluetooth: hci0: Firmware Version: 125-8.26
+[    4.085758] obpc kernel: Bluetooth: hci0: Firmware already loaded
+[    4.085786] obpc kernel: Bluetooth: hci0: Fseq status: Success (0x00)
+[    4.085817] obpc kernel: Bluetooth: hci0: Fseq executed: 00.00.04.202
+[    4.085839] obpc kernel: Bluetooth: hci0: Fseq BT Top: 00.00.04.202
+[    4.087022] obpc kernel: i2c i2c-13: Successfully instantiated SPD at 0x50
+[    4.095013] obpc kernel: Intel(R) 2.5G Ethernet Linux Driver
+[    4.095067] obpc kernel: Copyright(c) 2018 Intel Corporation.
+[    4.095087] obpc kernel: igc 0000:56:00.0: enabling device (0000 -> 0002)
+[    4.095268] obpc kernel: igc 0000:56:00.0: PTM enabled, 4ns granularity
+[    4.112012] obpc kernel: input: PC Speaker as /devices/platform/pcspkr/input/input11
+[    4.112058] obpc kernel: asus_wmi: ASUS WMI generic driver loaded
+[    4.123035] obpc kernel: proc_thermal_pci 0000:00:04.0: enabling device (0000 -> 0002)
+[    4.125354] obpc kernel: intel_rapl_common: Found RAPL domain package
+[    4.141068] obpc kernel: asus_armoury: No matching power limits found for this system
+[    4.141121] obpc kernel: RAPL PMU: API unit is 2^-32 Joules, 4 fixed counters, 655360 ms ovfl timer
+[    4.141135] obpc kernel: RAPL PMU: hw unit of domain pp0-core 2^-14 Joules
+[    4.141146] obpc kernel: RAPL PMU: hw unit of domain package 2^-14 Joules
+[    4.141156] obpc kernel: RAPL PMU: hw unit of domain pp1-gpu 2^-14 Joules
+[    4.141161] obpc kernel: RAPL PMU: hw unit of domain psys 2^-14 Joules
+[    4.141167] obpc kernel: intel_rapl_msr: PL4 support detected.
+[    4.141178] obpc kernel: intel_rapl_common: Found RAPL domain package
+[    4.141188] obpc kernel: intel_rapl_common: Found RAPL domain core
+[    4.141195] obpc kernel: intel_rapl_common: Found RAPL domain uncore
+[    4.141202] obpc kernel: intel_rapl_common: Found RAPL domain psys
+[    4.146009] obpc kernel: igc 0000:56:00.0 (unnamed net_device) (uninitialized): PHC added
+[    4.147008] obpc kernel: asus_wmi: Initialization: 0x1
+[    4.147040] obpc kernel: asus_wmi: SFUN value: 0x21
+[    4.147051] obpc kernel: asus-nb-wmi asus-nb-wmi: Detected ATK, not ASUSWMI, use DSTS
+[    4.149008] obpc kernel: asus-nb-wmi asus-nb-wmi: Using throttle_thermal_policy for platform_profile support
+[    4.150010] obpc kernel: input: Asus WMI hotkeys as /devices/platform/asus-nb-wmi/input/input12
+[    4.150036] obpc kernel: asus_wmi: fan_curve_get_factory_default (0x00110024) failed: -19
+[    4.150052] obpc kernel: asus_wmi: fan_curve_get_factory_default (0x00110025) failed: -19
+[    4.150061] obpc kernel: asus_wmi: fan_curve_get_factory_default (0x00110032) failed: -19
+[    4.154023] obpc kernel: cfg80211: Loading compiled-in X.509 certificates for regulatory database
+[    4.154088] obpc kernel: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+[    4.154110] obpc kernel: Loaded X.509 cert 'wens: 61c038651aabdcf94bd0ac7ff06c7248db18c600'
+[    4.161010] obpc kernel: mei_gsc_proxy 0000:00:16.0-0f73db04-97ab-4125-b893-e904ad0d5464: bound 0000:00:02.0 (ops i915_gsc_proxy_component_ops [i915])
+[    4.161110] obpc kernel: spd5118 13-0050: DDR5 temperature sensor: vendor 0x06:0x32 revision 1.6
+[    4.168012] obpc kernel: spi-nor spi0.0: supply vcc not found, using dummy regulator
+[    4.168192] obpc kernel: spd5118 13-0052: DDR5 temperature sensor: vendor 0x06:0x32 revision 1.6
+[    4.170020] obpc kernel: igc 0000:56:00.0: 4.000 Gb/s available PCIe bandwidth (5.0 GT/s PCIe x1 link)
+[    4.170483] obpc kernel: igc 0000:56:00.0 eth0: MAC: 88:ae:dd:69:58:58
+[    4.170805] obpc kernel: Creating 1 MTD partitions on "0000:00:1f.5":
+[    4.170841] obpc kernel: 0x000000000000-0x000002000000 : "BIOS"
+[    4.173024] obpc kernel: igc 0000:56:00.0 enp86s0: renamed from eth0
+[    4.179041] obpc kernel: iwlwifi 0000:00:14.3: enabling device (0000 -> 0002)
+[    4.180020] obpc kernel: iwlwifi 0000:00:14.3: Detected crf-id 0x2001910, cnv-id 0x80930 wfpm id 0x80005b20
+[    4.180355] obpc kernel: iwlwifi 0000:00:14.3: PCI dev 7740/00e4, rev=0x461, rfid=0x20112200
+[    4.180631] obpc kernel: iwlwifi 0000:00:14.3: Detected Intel(R) Wi-Fi 7 BE201 320MHz
+[    4.207025] obpc kernel: r8152 3-3.4:1.0 eth0: v1.12.13
+[    4.214007] obpc kernel: snd_hda_intel 0000:00:1f.3: enabling device (0000 -> 0002)
+[    4.214179] obpc kernel: snd_hda_intel 0000:00:1f.3: bound 0000:00:02.0 (ops intel_audio_component_bind_ops [i915])
+[    4.214297] obpc kernel: snd_hda_intel 0000:04:00.1: enabling device (0000 -> 0002)
+[    4.214425] obpc kernel: snd_hda_intel 0000:04:00.1: Disabling MSI
+[    4.214530] obpc kernel: snd_hda_intel 0000:04:00.1: Handle vga_switcheroo audio client
+[    4.217009] obpc kernel: iwlwifi 0000:00:14.3: loaded firmware version 101.6e695a70.0 bz-b0-fm-c0-c101.ucode op_mode iwlmld
+[    4.259059] obpc kernel: input: HDA NVidia HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input17
+[    4.259097] obpc kernel: input: HDA NVidia HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input18
+[    4.259113] obpc kernel: input: HDA NVidia HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input19
+[    4.259119] obpc kernel: input: HDA NVidia HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:07.0/0000:02:00.0/0000:03:00.0/0000:04:00.1/sound/card1/input20
+[    4.262013] obpc kernel: input: HDA Intel PCH HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input13
+[    4.262062] obpc kernel: input: HDA Intel PCH HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input14
+[    4.262069] obpc kernel: input: HDA Intel PCH HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input15
+[    4.262084] obpc kernel: input: HDA Intel PCH HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:1f.3/sound/card0/input16
+[    4.271017] obpc kernel: r8152-cfgselector 2-1.4.4: reset SuperSpeed USB device number 4 using xhci_hcd
+[    4.669050] obpc kernel: iwlwifi 0000:00:14.3: Detected RF FM, rfid=0x20112200
+[    4.733003] obpc kernel: EXT4-fs (nvme0n1p5): mounted filesystem 4f4f2b07-3901-49ac-9aed-085b94bd2b3a r/w with ordered data mode. Quota mode: none.
+[    4.772007] obpc kernel: iwlwifi 0000:00:14.3: base HW address: 28:92:00:f7:c7:d6
+[    4.832019] obpc kernel: r8152 2-1.4.4:1.0 eth1: v1.12.13
+[    4.832201] obpc kernel: usbcore: registered new interface driver r8152
+[    4.840013] obpc kernel: usbcore: registered new interface driver cdc_ether
+[    4.841008] obpc kernel: iwlwifi 0000:00:14.3 wlo1: renamed from wlan0
+[    4.843124] obpc kernel: usbcore: registered new interface driver r8153_ecm
+[    4.902005] obpc kernel: r8152 3-3.4:1.0 enp0s20f0u3u4: renamed from eth0
+[    4.911011] obpc kernel: r8152 2-1.4.4:1.0 enp0s13f0u1u4u4: renamed from eth1
+[    5.045221] obpc kernel: Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[    5.045246] obpc kernel: Bluetooth: BNEP filters: protocol multicast
+[    5.045253] obpc kernel: Bluetooth: BNEP socket layer initialized
+[    5.047009] obpc kernel: Bluetooth: MGMT ver 1.23
+[    5.056226] obpc kernel: nvme nvme0: using unchecked data buffer
+[    5.166014] obpc kernel: NET: Registered PF_QIPCRTR protocol family
+[    5.419014] obpc kernel: Consider using thermal netlink events interface
+[    5.696016] obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+[    5.700010] obpc kernel: 
+[    5.700036] obpc kernel: nvidia 0000:04:00.0: enabling device (0000 -> 0003)
+[    5.700272] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS UncMaskClear (G3-H): GPU AER UncMask 0x00400000 -> 0x00000000 (matching Windows; un-masks Internal Error so Unc Non-Fatal fires instead of Cor=0x2000 demotion)
+[    5.700304] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[    5.700311] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG-AER]: site=probe-end          GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+[    5.700316] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG-AER2]: site=probe-end          Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00000000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent
+[    5.700327] obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+[    5.711010] obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Fri May  8 01:58:25 PM AEST 2026
+[    5.756021] obpc kernel: RPC: Registered named UNIX socket transport module.
+[    5.756073] obpc kernel: RPC: Registered udp transport module.
+[    5.756080] obpc kernel: RPC: Registered tcp transport module.
+[    5.756086] obpc kernel: RPC: Registered tcp-with-tls transport module.
+[    5.756091] obpc kernel: RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    6.224005] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[    6.224026] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+[    6.224033] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER2]: site=startdev-entry     Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00000000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent
+[    6.225003] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[    6.225010] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+[    6.225016] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER2]: site=pre-rmInit         Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00000000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent
+[    7.566184] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-OK     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[    7.566224] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER2]: site=post-rmInit-OK     Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00000000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent
+[   12.828046] obpc kernel: wlo1: authenticate with 94:2a:6f:04:dc:6c (local address=56:fa:1b:8d:80:ed)
+[   12.828170] obpc kernel: wlo1: send auth to 94:2a:6f:04:dc:6c (try 1/3)
+[   12.922104] obpc kernel: wlo1: authenticate with 94:2a:6f:04:dc:6c (local address=56:fa:1b:8d:80:ed)
+[   12.922124] obpc kernel: wlo1: send auth to 94:2a:6f:04:dc:6c (try 1/3)
+[   12.927193] obpc kernel: wlo1: authenticated
+[   12.927244] obpc kernel: wlo1: associate with 94:2a:6f:04:dc:6c (try 1/3)
+[   12.945105] obpc kernel: wlo1: RX AssocResp from 94:2a:6f:04:dc:6c (capab=0x1111 status=0 aid=1)
+[   12.947084] obpc kernel: wlo1: associated
+[   12.968096] obpc kernel: wlo1: Limiting TX power to 27 (30 - 3) dBm as advertised by 94:2a:6f:04:dc:6c
+[   13.406316] obpc kernel: evm: overlay not supported
+[   13.674161] obpc kernel: block nvme0n1: the capability attribute has been deprecated.
+[   13.719021] obpc kernel: bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+[   13.796012] obpc kernel: Bluetooth: RFCOMM TTY layer initialized
+[   13.796031] obpc kernel: Bluetooth: RFCOMM socket layer initialized
+[   13.796042] obpc kernel: Bluetooth: RFCOMM ver 1.11
+[   14.317014] obpc kernel: rfkill: input handler disabled
+[   17.641016] obpc kernel: wireguard: WireGuard 1.0.0 loaded. See www.wireguard.com for information.
+[   17.641106] obpc kernel: wireguard: Copyright (C) 2015-2019 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+[  141.640614] obpc kernel: rfkill: input handler enabled
+[  142.436009] obpc kernel: rfkill: input handler disabled
+[  144.394009] obpc kernel: input: Surface Arc Mouse as /devices/virtual/misc/uhid/0005:045E:0932.0008/input/input21
+[  144.394061] obpc kernel: input: Surface Arc Mouse Keyboard as /devices/virtual/misc/uhid/0005:045E:0932.0008/input/input22
+[  144.394072] obpc kernel: input: Surface Arc Mouse as /devices/virtual/misc/uhid/0005:045E:0932.0008/input/input23
+[  144.394085] obpc kernel: input: Surface Arc Mouse as /devices/virtual/misc/uhid/0005:045E:0932.0008/input/input25
+[  144.394093] obpc kernel: hid-generic 0005:045E:0932.0008: input,hidraw7: BLUETOOTH HID v2.02 Mouse [Surface Arc Mouse] on 28:92:00:f7:c7:da
+[  154.973109] obpc kernel: NOTICE: Automounting of tracing to debugfs is deprecated and will be removed in 2030
+[  637.817016] obpc kernel: thunderbolt:tb_cfg_print_error:292: thunderbolt 0000:00:0d.2: 1:2: invalid config space (0) or offset

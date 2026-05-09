@@ -1,0 +1,103 @@
+May 08 18:38:36 obpc kernel: Command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off
+May 08 18:38:36 obpc kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off
+May 08 18:38:36 obpc kernel: ACPI: USB4 _OSC: OS supports USB3+ DisplayPort+ PCIe+ XDomain+
+May 08 18:38:36 obpc kernel: ACPI: USB4 _OSC: OS controls USB3+ DisplayPort+ PCIe+ XDomain+
+May 08 18:38:36 obpc kernel: ACPI: \_SB_.PC00.TBT0: New power resource
+May 08 18:38:36 obpc kernel: ACPI: \_SB_.PC00.TBT1: New power resource
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0: [8086:7ec4] type 01 class 0x060400 PCIe Root Port
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x8a000000-0x8fffffff]
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0: PME# supported from D0 D3hot D3cold
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0: PTM enabled (root), 4ns granularity
+May 08 18:38:36 obpc kernel: pci 0000:00:07.2: [8086:7ec6] type 01 class 0x060400 PCIe Root Port
+May 08 18:38:36 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 08 18:38:36 obpc kernel: pci 0000:00:07.2:   bridge window [io  0x3000-0x3fff]
+May 08 18:38:36 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x80000000-0x89efffff]
+May 08 18:38:36 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 08 18:38:36 obpc kernel: pci 0000:00:07.2: PME# supported from D0 D3hot D3cold
+May 08 18:38:36 obpc kernel: pci 0000:00:07.2: PTM enabled (root), 4ns granularity
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.0: [8086:7ec0] type 00 class 0x0c0330 conventional PCI endpoint
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.0: BAR 0 [mem 0x5840300000-0x584030ffff 64bit]
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.0: PME# supported from D3hot D3cold
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.2: [8086:7ec2] type 00 class 0x0c0340 conventional PCI endpoint
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.2: BAR 0 [mem 0x5840240000-0x584027ffff 64bit]
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.2: BAR 2 [mem 0x5840320000-0x5840320fff 64bit]
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.2: supports D1 D2
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.2: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.3: [8086:7ec3] type 00 class 0x0c0340 conventional PCI endpoint
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.3: BAR 0 [mem 0x5840200000-0x584023ffff 64bit]
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.3: BAR 2 [mem 0x584031f000-0x584031ffff 64bit]
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.3: supports D1 D2
+May 08 18:38:36 obpc kernel: pci 0000:00:0d.3: PME# supported from D0 D1 D2 D3hot D3cold
+May 08 18:38:36 obpc kernel: pci 0000:2e:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.2 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 08 18:38:36 obpc kernel: pci 0000:00:07.2: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0: bridge window [io  0x1000-0x0fff] to [bus 02-2b] add_size 1000
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0: bridge window [io  0x4000-0x4fff]: assigned
+May 08 18:38:36 obpc kernel: pci 0000:00:07.0:   bridge window [io  0x4000-0x4fff]
+May 08 18:38:36 obpc kernel: pcieport 0000:00:07.0: PME: Signaling with IRQ 121
+May 08 18:38:36 obpc kernel: pcieport 0000:00:07.0: AER: enabled with IRQ 121
+May 08 18:38:36 obpc kernel: pcieport 0000:00:07.0: pciehp: Slot #12 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 18:38:36 obpc kernel: pcieport 0000:00:07.2: PME: Signaling with IRQ 122
+May 08 18:38:36 obpc kernel: pcieport 0000:00:07.2: AER: enabled with IRQ 122
+May 08 18:38:36 obpc kernel: pcieport 0000:00:07.2: pciehp: Slot #14 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+May 08 18:38:36 obpc kernel: xhci_hcd 0000:00:0d.0: xHCI Host Controller
+May 08 18:38:36 obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 1
+May 08 18:38:36 obpc kernel: xhci_hcd 0000:00:0d.0: hcc params 0x20007fc1 hci version 0x120 quirks 0x0000000200009810
+May 08 18:38:36 obpc kernel: xhci_hcd 0000:00:0d.0: new USB bus registered, assigned bus number 2
+May 08 18:38:36 obpc kernel: xhci_hcd 0000:00:0d.0: Host supports USB 3.2 Enhanced SuperSpeed
+May 08 18:38:36 obpc kernel: usb usb1: SerialNumber: 0000:00:0d.0
+May 08 18:38:36 obpc kernel: usb usb2: SerialNumber: 0000:00:0d.0
+May 08 18:38:36 obpc kernel: ACPI: bus type thunderbolt registered
+May 08 18:38:37 obpc kernel: thunderbolt 1-1: new device found, vendor=0xed device=0x41b6
+May 08 18:38:37 obpc kernel: thunderbolt 1-1: GIGABYTE AORUS RTX5090 AI BOX
+May 08 18:38:37 obpc kernel: thunderbolt 1-0:1.1: new retimer found, vendor=0x8087 device=0xd9c
+May 08 18:38:38 obpc kernel: typec port0: bound usb4_port1 (ops connector_ops [thunderbolt])
+May 08 18:38:38 obpc kernel: typec port1: bound usb4_port7 (ops connector_ops [thunderbolt])
+May 08 08:38:40 obpc kernel: input: HDA NVidia HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:07.2/0000:2c:00.0/0000:2d:00.0/0000:2e:00.1/sound/card1/input17
+May 08 08:38:40 obpc kernel: input: HDA NVidia HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:07.2/0000:2c:00.0/0000:2d:00.0/0000:2e:00.1/sound/card1/input18
+May 08 08:38:40 obpc kernel: input: HDA NVidia HDMI/DP,pcm=8 as /devices/pci0000:00/0000:00:07.2/0000:2c:00.0/0000:2d:00.0/0000:2e:00.1/sound/card1/input19
+May 08 08:38:40 obpc kernel: input: HDA NVidia HDMI/DP,pcm=9 as /devices/pci0000:00/0000:00:07.2/0000:2c:00.0/0000:2d:00.0/0000:2e:00.1/sound/card1/input20
+May 08 18:38:36 obpc dracut-cmdline[341]: Using kernel command line parameters:  rd.driver.pre=btrfs rd.driver.pre=aorus_egpu_trust   BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off
+May 08 08:38:40 obpc mtp-probe[833]: checking bus 2, device 4: "/sys/devices/pci0000:00/0000:00:0d.0/usb2/2-3/2-3.4/2-3.4.4"
+May 08 08:38:41 obpc mtp-probe[975]: checking bus 2, device 4: "/sys/devices/pci0000:00/0000:00:0d.0/usb2/2-3/2-3.4/2-3.4.4"
+May 08 08:38:41 obpc systemd[1]: Starting bolt.service - Thunderbolt system service...
+May 08 08:38:41 obpc boltd[1147]: bolt 0.9.11 starting up.
+May 08 08:38:41 obpc boltd[1147]: manager: initializing store
+May 08 08:38:41 obpc boltd[1147]: store: located at: /var/lib/boltd
+May 08 08:38:41 obpc boltd[1147]: config: loading user config
+May 08 08:38:41 obpc boltd[1147]: bouncer: initializing polkit
+May 08 08:38:41 obpc boltd[1147]: udev: initializing udev
+May 08 08:38:41 obpc boltd[1147]: store: loading domains
+May 08 08:38:41 obpc boltd[1147]: store: loading devices
+May 08 08:38:41 obpc boltd[1147]: [c4148780-00a9                            ] store: loading device
+May 08 08:38:41 obpc boltd[1147]: power: state located at: /run/boltd/power
+May 08 08:38:41 obpc boltd[1147]: power: force power support: no
+May 08 08:38:41 obpc boltd[1147]: udev: enumerating devices
+May 08 08:38:41 obpc boltd[1147]: [80868780-001f-domain0                    ] newly connected [user] (/sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0)
+May 08 08:38:41 obpc boltd[1147]: security level set to 'user'
+May 08 08:38:41 obpc boltd[1147]: [80868780-001f-domain0                    ] domain: registered (bootacl: 0/0)
+May 08 08:38:41 obpc boltd[1147]: [80868780-001f-domain0                    ] bootacl: bootacl not supported, no sync
+May 08 08:38:41 obpc boltd[1147]: [80868780-001f-domain0                    ] udev: uuid is stable: no (for NHI: 0x7ec2)
+May 08 08:38:41 obpc boltd[1147]: global 'generation' set to '4'
+May 08 08:38:41 obpc boltd[1147]: [80868780-001f-Gen14                      ] device added, status: authorized, at /sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0
+May 08 08:38:41 obpc boltd[1147]: [80868780-001f-Gen14                      ] labeling device: Intel Gen14
+May 08 08:38:41 obpc boltd[1147]: [41908780-9140-domain1                    ] newly connected [user] (/sys/devices/pci0000:00/0000:00:0d.3/domain1/1-0)
+May 08 08:38:41 obpc boltd[1147]: [41908780-9140-domain1                    ] domain: registered (bootacl: 0/0)
+May 08 08:38:41 obpc boltd[1147]: [41908780-9140-domain1                    ] bootacl: bootacl not supported, no sync
+May 08 08:38:41 obpc boltd[1147]: [41908780-9140-domain1                    ] udev: uuid is stable: no (for NHI: 0x7ec3)
+May 08 08:38:41 obpc boltd[1147]: [41908780-9140-Gen14                      ] device added, status: authorized, at /sys/devices/pci0000:00/0000:00:0d.3/domain1/1-0
+May 08 08:38:41 obpc boltd[1147]: [41908780-9140-Gen14                      ] labeling device: Intel Gen14
+May 08 08:38:41 obpc boltd[1147]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] parent is 41908780-9140...
+May 08 08:38:41 obpc boltd[1147]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] connected: authorized (/sys/devices/pci0000:00/0000:00:0d.3/domain1/1-0/1-1)
+May 08 08:38:41 obpc boltd[1147]: [80868780-001f-domain0                    ] dbus: exported domain at /org/freedesktop/bolt/domains/80868780_001f_2ec2_ffff_ffffffffffff
+May 08 08:38:41 obpc boltd[1147]: [41908780-9140-domain1                    ] dbus: exported domain at /org/freedesktop/bolt/domains/41908780_9140_9078_ffff_ffffffffffff
+May 08 08:38:41 obpc boltd[1147]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] dbus: exported device at /org/freedesktop/bolt/devices/c4148780_00a9...
+May 08 08:38:41 obpc boltd[1147]: [80868780-001f-Gen14                      ] dbus: exported device at /org/freedesktop/bolt/devices/80868780_001f...
+May 08 08:38:41 obpc boltd[1147]: [41908780-9140-Gen14                      ] dbus: exported device at /org/freedesktop/bolt/devices/41908780_9140...
+May 08 08:38:41 obpc systemd[1]: Started bolt.service - Thunderbolt system service.
+May 08 08:38:41 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=bolt comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 08:38:43 obpc containerd[1347]: time="2026-05-08T08:38:43.230433520+10:00" level=info msg="loading plugin" id=io.containerd.metadata.v1.bolt type=io.containerd.metadata.v1
+May 08 08:38:43 obpc containerd[1347]: time="2026-05-08T08:38:43.232590705+10:00" level=info msg="loading plugin" id=io.containerd.mount-manager.v1.bolt type=io.containerd.mount-manager.v1
+May 08 08:38:45 obpc ModemManager[1146]: <msg> [base-manager] couldn't check support for device '/sys/devices/pci0000:00/0000:00:0d.0/usb2/2-3/2-3.4/2-3.4.4': not supported by any plugin

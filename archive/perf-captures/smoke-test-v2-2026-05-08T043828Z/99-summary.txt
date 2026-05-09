@@ -1,0 +1,31 @@
+=== perf-capture summary ===
+experiment:          smoke-test-v2
+workload:            mode-b-stress — nvbandwidth bidirectional + CE/SM mix; targets Mode B DMA-path silent freeze under TB tunnel + compute pressure
+duration:            161s (cap 90s)
+iterations completed: 2
+
+=== verdict: PASS ===
+verdict=PASS
+iterations_completed=2
+elapsed_seconds=161
+qwd_detections_delta=0
+lever_m_fires_delta=0
+gsp_lockdown_delta=0
+rminit_fail_delta=0
+
+=== metrics summary ===
+  host_to_device_bidirectional_memcpy_sm   n=2 mean=2.440 min=2.440 max=2.440
+  device_to_host_memcpy_sm                 n=2 mean=3.290 min=3.290 max=3.290
+  host_to_device_bidirectional_memcpy_ce   n=2 mean=2.470 min=2.470 max=2.470
+  device_to_host_memcpy_ce                 n=2 mean=3.290 min=3.290 max=3.290
+  host_to_device_memcpy_sm                 n=2 mean=2.805 min=2.800 max=2.810
+  host_to_device_memcpy_ce                 n=2 mean=2.810 min=2.810 max=2.810
+
+=== artifacts ===
+  pre-state:    /root/aorus-5090-gpu/archive/perf-captures/smoke-test-v2-2026-05-08T043828Z/10-pre-state
+  post-state:   /root/aorus-5090-gpu/archive/perf-captures/smoke-test-v2-2026-05-08T043828Z/11-post-state
+  event:        /root/aorus-5090-gpu/archive/perf-captures/smoke-test-v2-2026-05-08T043828Z/12-event-capture
+  iterations:   /root/aorus-5090-gpu/archive/perf-captures/smoke-test-v2-2026-05-08T043828Z/20-iterations/
+  metrics:      /root/aorus-5090-gpu/archive/perf-captures/smoke-test-v2-2026-05-08T043828Z/30-metrics.csv
+  sysfs sampler: /root/aorus-5090-gpu/archive/perf-captures/smoke-test-v2-2026-05-08T043828Z/31-sysfs-sampler.csv
+  reproduction: /root/aorus-5090-gpu/archive/perf-captures/smoke-test-v2-2026-05-08T043828Z/reproduction.sh

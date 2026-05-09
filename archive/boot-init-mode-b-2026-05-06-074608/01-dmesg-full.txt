@@ -1,0 +1,2 @@
+dmesg: unrecognized option '--no-pager'
+Try 'dmesg --help' for more information.

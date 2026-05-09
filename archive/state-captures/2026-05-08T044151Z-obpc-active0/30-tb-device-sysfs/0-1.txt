@@ -1,0 +1,13 @@
+authorized                     = 1 
+boot                           = 1 
+device                         = 0x41b6 
+device_name                    = AORUS RTX5090 AI BOX 
+generation                     = 4 
+nvm_version                    = 62.2 
+rx_lanes                       = 2 
+rx_speed                       = 20.0 Gb/s 
+tx_lanes                       = 2 
+tx_speed                       = 20.0 Gb/s 
+unique_id                      = c4148780-00a9-7ce8-ffff-ffffffffffff 
+vendor                         = 0xed 
+vendor_name                    = GIGABYTE 

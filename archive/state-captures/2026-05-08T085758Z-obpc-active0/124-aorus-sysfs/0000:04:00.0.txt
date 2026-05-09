@@ -1,0 +1,30 @@
+## 0000:04:00.0
+
+--- aorus_qwatchdog_cycles ---
+2287
+
+--- aorus_qwatchdog_detections ---
+0
+
+--- aorus_qwatchdog_last_aer_summary ---
+(no detection event yet — qwatchdog has run 2287 cycles)
+
+--- aorus_qwatchdog_last_detection_jiffies ---
+0
+
+--- aorus_qwatchdog_last_pmc_boot_0 ---
+0x00000000
+
+--- aorus_lever_m_fires ---
+0
+
+--- aorus_lever_m_force_trigger ---
+
+--- aorus_lever_m_last_fire_jiffies ---
+0
+
+--- aorus_lever_m_successes ---
+0
+
+--- aorus_lever_m_surrenders ---
+0

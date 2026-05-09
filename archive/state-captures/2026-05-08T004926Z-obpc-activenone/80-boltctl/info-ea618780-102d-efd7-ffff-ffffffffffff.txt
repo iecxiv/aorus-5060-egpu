@@ -1,0 +1,16 @@
+ * Intel Gen14
+   |- type:          host
+   |- name:          Gen14
+   |- vendor:        Intel
+   |- uuid:          ea618780-102d-efd7-ffff-ffffffffffff
+   |- dbus path:     /org/freedesktop/bolt/devices/ea618780_102d_efd7_ffff_ffffffffffff
+   |- generation:    USB4
+   |- status:        authorized
+   |  |- domain:     ea618780-102d-efd7-ffff-ffffffffffff
+   |  |- parent:     (null)
+   |  |- syspath:    /sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0
+   |  `- authflags:  none
+   |- authorized:    Fri 08 May 2026 10:48:18 AM UTC
+   |- connected:     Fri 08 May 2026 10:48:18 AM UTC
+   `- stored:        no
+

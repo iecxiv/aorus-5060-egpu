@@ -1,0 +1,10 @@
+Model: 		 NVIDIA GeForce RTX 5090
+IRQ:   		 16
+Video BIOS: 	 ??.??.??.??.??
+Bus Type: 	 PCI
+DMA Size: 	 52 bits
+DMA Mask: 	 0xfffffffffffff
+Bus Location: 	 0000:04:00.0
+Device Minor: 	 0
+GPU Firmware: 	 N/A
+GPU Excluded:	 No

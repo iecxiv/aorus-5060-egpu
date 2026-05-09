@@ -1,0 +1,147 @@
+May 07 01:47:28 obpc kernel: thunderbolt 0-1: GIGABYTE AORUS RTX5090 AI BOX
+May 06 15:47:32 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:47:32 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Wed May  6 03:44:52 PM AEST 2026
+May 06 15:47:33 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:47:33 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:47:34 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 06 15:47:34 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 06 15:47:34 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 06 15:47:34 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 06 15:47:34 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 06 15:47:34 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 06 15:47:34 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 06 15:47:34 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006511fb340ea5e 0x0000000000000000          y
+May 06 15:47:34 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006511fb340ea5c 0x0000000000000000           
+May 06 15:47:34 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 06 15:47:34 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 06 15:47:34 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb34b78ea 0x0006511fb34b78ea          y
+May 06 15:47:34 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb34b649e 0x0006511fb34b649e          y
+May 06 15:47:34 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb34b63a1 0x0006511fb34b63a1          y
+May 06 15:47:34 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb34b5ff1 0x0006511fb34b5ff1          y
+May 06 15:47:34 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb349f730 0x0006511fb349f730          y
+May 06 15:47:34 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb349f6a4 0x0006511fb349f6a4          y
+May 06 15:47:34 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb349e724 0x0006511fb349e724          y
+May 06 15:47:34 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb349cf25 0x0006511fb349cf25          y
+May 06 15:47:34 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 06 15:47:34 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 06 15:47:34 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 06 15:47:34 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 06 15:47:34 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 06 15:47:34 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 06 15:47:34 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 06 15:47:34 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x00000000 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:47:34 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 15:47:34 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:47:34 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:47:34 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 15:47:34 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 15:47:34 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 15:47:34 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 15:47:34 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 15:47:34 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 15:47:34 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 15:47:34 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:47:34 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 15:47:40 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:47:43 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Wed May  6 03:44:52 PM AEST 2026
+May 06 15:47:46 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:47:46 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:47:47 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 06 15:47:47 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 06 15:47:47 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 06 15:47:47 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 06 15:47:47 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 06 15:47:47 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 06 15:47:47 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 06 15:47:47 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006511fb407770f 0x0000000000000000          y
+May 06 15:47:47 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006511fb407770d 0x0000000000000000           
+May 06 15:47:47 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 06 15:47:47 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 06 15:47:47 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb413347d 0x0006511fb413347d          y
+May 06 15:47:47 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb4131e84 0x0006511fb4131e84          y
+May 06 15:47:47 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb4131d6b 0x0006511fb4131d6c      1us y
+May 06 15:47:47 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb413196c 0x0006511fb413196c          y
+May 06 15:47:47 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb4119262 0x0006511fb4119262          y
+May 06 15:47:47 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb41191cd 0x0006511fb41191cd          y
+May 06 15:47:47 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb41180fb 0x0006511fb41180fb          y
+May 06 15:47:47 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb41113ab 0x0006511fb41113ab          y
+May 06 15:47:47 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 06 15:47:47 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 06 15:47:47 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 06 15:47:47 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 06 15:47:47 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 06 15:47:47 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 06 15:47:47 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 06 15:47:47 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x00000000 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:47:47 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 15:47:47 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:47:47 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:47:47 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 15:47:47 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 15:47:47 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 15:47:47 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 15:47:47 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 15:47:47 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 15:47:47 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 15:47:47 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:47:47 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 15:47:59 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:48:01 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Wed May  6 03:44:52 PM AEST 2026
+May 06 15:48:02 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:48:02 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:48:03 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 06 15:48:03 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 06 15:48:03 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 06 15:48:03 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 06 15:48:03 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 06 15:48:03 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 06 15:48:03 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 06 15:48:03 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006511fb501f618 0x0000000000000000          y
+May 06 15:48:03 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006511fb501f617 0x0000000000000000           
+May 06 15:48:03 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 06 15:48:03 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 06 15:48:03 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb50cd680 0x0006511fb50cd680          y
+May 06 15:48:03 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb50cc22a 0x0006511fb50cc22a          y
+May 06 15:48:03 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb50cc12a 0x0006511fb50cc12a          y
+May 06 15:48:03 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb50cbd77 0x0006511fb50cbd78      1us y
+May 06 15:48:03 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb50b544d 0x0006511fb50b544d          y
+May 06 15:48:03 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb50b53c5 0x0006511fb50b53c5          y
+May 06 15:48:03 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006511fb50b4425 0x0006511fb50b4425          y
+May 06 15:48:03 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006511fb50adf3a 0x0006511fb50adf3a          y
+May 06 15:48:03 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 06 15:48:03 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 06 15:48:03 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 06 15:48:03 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 06 15:48:03 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 06 15:48:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever Q-watchdog: kthread DETECTED dead bus (PMC_BOOT_0=0xffffffff after 5 cycles).
+May 06 15:48:03 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 06 15:48:03 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 06 15:48:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:48:03 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:48:04 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 15:48:04 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 15:48:04 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 15:48:04 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 15:48:04 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 15:48:04 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:48:04 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 06 15:48:04 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 06 15:48:04 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 06 15:48:04 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 06 15:48:04 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 06 15:48:04 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0
+May 06 15:48:04 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 06 15:48:16 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:48:18 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Wed May  6 03:44:52 PM AEST 2026
+May 06 15:48:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:48:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x00000000 WPR2_VAL=0x00000000 WPR2_up=no parent_bridge=0000:03:00.0
+May 06 15:48:22 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-OK     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2_ADDR_HI=0x07f4a000 WPR2_VAL=0x07f4a000 WPR2_up=YES parent_bridge=0000:03:00.0

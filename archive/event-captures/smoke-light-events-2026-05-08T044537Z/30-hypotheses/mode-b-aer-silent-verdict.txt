@@ -1,0 +1,8 @@
+hypothesis_id=MODE-B-AER-SILENT
+hypothesis_desc=Mode B detected (qwatchdog or error_handler) but AER state empty — TB-tunneled silent failure
+hypothesis_ref=docs/mode-b-telemetry-patch-design.md
+hypothesis_subsystem=nvidia
+verdict=INCONCLUSIVE
+fired_hits=0
+negative_hits=0
+min_hits_fired=1

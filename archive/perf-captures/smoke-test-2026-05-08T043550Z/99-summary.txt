@@ -1,0 +1,26 @@
+=== perf-capture summary ===
+experiment:          smoke-test
+workload:            mode-b-stress — nvbandwidth bidirectional + CE/SM mix; targets Mode B DMA-path silent freeze under TB tunnel + compute pressure
+duration:            60s (cap 60s)
+iterations completed: 28523
+
+=== verdict: PASS ===
+verdict=PASS
+iterations_completed=28523
+elapsed_seconds=60
+qwd_detections_delta=0
+lever_m_fires_delta=0
+gsp_lockdown_delta=0
+rminit_fail_delta=0
+
+=== metrics summary ===
+  (no metrics extracted — workload metric regex may not match output)
+
+=== artifacts ===
+  pre-state:    /root/aorus-5090-gpu/archive/perf-captures/smoke-test-2026-05-08T043550Z/10-pre-state
+  post-state:   /root/aorus-5090-gpu/archive/perf-captures/smoke-test-2026-05-08T043550Z/11-post-state
+  event:        /root/aorus-5090-gpu/archive/perf-captures/smoke-test-2026-05-08T043550Z/12-event-capture
+  iterations:   /root/aorus-5090-gpu/archive/perf-captures/smoke-test-2026-05-08T043550Z/20-iterations/
+  metrics:      /root/aorus-5090-gpu/archive/perf-captures/smoke-test-2026-05-08T043550Z/30-metrics.csv
+  sysfs sampler: /root/aorus-5090-gpu/archive/perf-captures/smoke-test-2026-05-08T043550Z/31-sysfs-sampler.csv
+  reproduction: /root/aorus-5090-gpu/archive/perf-captures/smoke-test-2026-05-08T043550Z/reproduction.sh

@@ -1,0 +1,25 @@
+## iteration 3  start_epoch_utc=1778215705
+## cmd: /usr/local/bin/nvbandwidth -t 0
+
+nvbandwidth Version: v0.9
+Built from Git version: v0.9
+
+CUDA Runtime Version: 13020
+CUDA Driver Version: 13020
+Driver Version: 595.71.05
+
+obpc
+Device 0: NVIDIA GeForce RTX 5090 (00000000:04:00)
+
+Running host_to_device_memcpy_ce.
+memcpy CE CPU(row) -> GPU(column) bandwidth (GB/s)
+           0
+ 0      2.80
+
+SUM host_to_device_memcpy_ce 2.80
+
+NOTE: The reported results may not reflect the full capabilities of the platform.
+Performance can vary with software drivers, hardware clocks, and system topology.
+
+
+## exit_rc=0 end_epoch_utc=1778215718

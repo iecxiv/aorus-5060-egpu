@@ -1,0 +1,4 @@
+Boot ID: 7a1c0441-7237-4d1a-9c13-1ce124a118a2
+Captured: 2026-05-06T15:57:59+10:00
+Uptime:  15:57:59 up 10 min,  5 users,  load average: 0.35, 0.36, 0.25
+Module file: -rw-r--r--. 1 root root 9433112 May  6 15:45 /lib/modules/6.19.14-200.fc43.x86_64/extra/nvidia.ko.xz

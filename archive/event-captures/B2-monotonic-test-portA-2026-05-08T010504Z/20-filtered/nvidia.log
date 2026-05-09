@@ -1,0 +1,35 @@
+May 08 20:48:17 obpc systemd-udevd[428]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:19 Unknown group 'ollama', ignoring.
+May 08 20:48:17 obpc systemd-udevd[428]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:20 Unknown group 'ollama', ignoring.
+May 08 20:48:17 obpc systemd-udevd[428]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:21 Unknown group 'ollama', ignoring.
+May 08 20:48:17 obpc systemd-udevd[428]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:22 Unknown group 'ollama', ignoring.
+May 08 20:48:17 obpc systemd-udevd[428]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:23 Unknown group 'ollama', ignoring.
+May 08 10:48:20 obpc udevadm[711]: systemd-udev-settle.service is deprecated. Please fix aorus-5090-compute-load-nvidia.service, aorus-5090-bridge-link-cap.service not to pull it in.
+May 08 10:48:21 obpc systemd[1]: Starting aorus-5090-bridge-link-cap.service - AORUS RTX 5090 eGPU bridge link speed cap (H17 — cap at Gen1 before nvidia binds)...
+May 08 10:48:21 obpc systemd[1]: Finished aorus-5090-bridge-link-cap.service - AORUS RTX 5090 eGPU bridge link speed cap (H17 — cap at Gen1 before nvidia binds).
+May 08 10:48:21 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 10:48:21 obpc aorus-5090-compute-load-nvidia[1167]: AORUS RTX 5090 eGPU is not present on PCI.
+May 08 10:48:21 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Main process exited, code=exited, status=1/FAILURE
+May 08 10:48:21 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Failed with result 'exit-code'.
+May 08 10:48:21 obpc systemd[1]: Failed to start aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 10:48:21 obpc systemd[1]: Dependency failed for nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 08 10:48:21 obpc systemd[1]: nvidia-persistenced.service: Job nvidia-persistenced.service/start failed with result 'dependency'.
+May 08 10:48:21 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=failed'
+May 08 10:48:21 obpc systemd[1]: aorus-5090-wpr2-recovery.service - AORUS RTX 5090 eGPU WPR2-stuck recovery (Lever R Tier 1 v3) skipped, unmet condition check ConditionPathExists=/sys/bus/pci/devices/0000:04:00.0
+May 08 10:48:30 obpc dockerd[1343]: time="2026-05-08T10:48:30.175196600+10:00" level=warning msg="Failed to run [nvidia-container-runtime features]: \"\"" error="exec: \"nvidia-container-runtime\": executable file not found in $PATH"
+May 08 10:51:18 obpc sudo[12637]:     root : PWD=/root ; USER=root ; COMMAND=/usr/sbin/modprobe nvidia
+May 08 10:51:37 obpc sudo[13067]:     root : PWD=/root ; USER=root ; COMMAND=/usr/sbin/grep -rE install\\s+nvidia.*false|blacklist\\s+nvidia /etc/modprobe.d/ /usr/lib/modprobe.d/ /run/modprobe.d/
+May 08 10:51:48 obpc sudo[13488]:     root : PWD=/root ; USER=root ; COMMAND=/usr/sbin/grep -rl 'modprobe.*ignore-install\\|insmod nvidia\\|nvidia.ko' /etc/systemd/ /usr/local/sbin/
+May 08 10:52:37 obpc sudo[13946]:     root : PWD=/root ; USER=root ; COMMAND=/usr/sbin/systemctl start aorus-5090-compute-load-nvidia.service
+May 08 10:52:37 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 10:52:37 obpc aorus-5090-compute-load-nvidia[13950]: RTX 5090 BAR1 is smaller than 32 GiB; refusing to load NVIDIA.
+May 08 10:52:37 obpc aorus-5090-compute-load-nvidia[13950]: Confirm thunderbolt.host_reset=false is in /proc/cmdline and cold boot with the eGPU connected.
+May 08 10:52:37 obpc aorus-5090-compute-load-nvidia[13950]: Current BAR1: 0x0000004000000000-0x000000400fffffff (268435456 bytes)
+May 08 10:52:37 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Main process exited, code=exited, status=6/NOTCONFIGURED
+May 08 10:52:37 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Failed with result 'exit-code'.
+May 08 10:52:37 obpc systemd[1]: Failed to start aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 10:52:37 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=failed'
+May 08 10:52:37 obpc sudo[13963]:     root : PWD=/root ; USER=root ; COMMAND=/usr/sbin/systemctl status aorus-5090-compute-load-nvidia.service --no-pager
+May 08 10:53:02 obpc sudo[14405]:     root : PWD=/root ; USER=root ; COMMAND=/usr/sbin/head -60 /usr/local/sbin/aorus-5090-compute-load-nvidia
+May 08 10:53:02 obpc sudo[14408]:     root : PWD=/root ; USER=root ; COMMAND=/usr/local/sbin/aorus-5090-compute-load-nvidia
+May 08 10:53:02 obpc audit[14408]: AUDIT1123 pid=14408 uid=0 auid=1000 ses=4 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 msg='cwd="/root" cmd="/usr/local/sbin/aorus-5090-compute-load-nvidia" exe="/usr/bin/sudo" terminal=? res=success'
+May 08 11:00:36 obpc sudo[16483]:     root : PWD=/root ; USER=root ; COMMAND=/usr/sbin/modinfo nvidia

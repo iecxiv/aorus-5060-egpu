@@ -1,0 +1,4 @@
+Evidence for CLOSE-PATH-WEDGE (Close-path wedge cycle (nvidia-smi or similar bouncing /dev/nvidia0))
+=== Verdict: INCONCLUSIVE (0 fired hits, 0 negative hits) ===
+
+=== FIRED-signature matches: NONE ===

@@ -1,0 +1,23 @@
+filename:       /lib/modules/6.19.14-200.fc43.x86_64/kernel/drivers/thunderbolt/thunderbolt.ko.xz
+parm:           clx:allow low power states on the high-speed lanes (default: true) (bool)
+parm:           xdomain:allow XDomain protocol (default: true) (bool)
+parm:           start_icm:start ICM firmware if it is not running (default: false) (bool)
+parm:           dprx_timeout:DPRX capability read timeout in ms, -1 waits forever (default: 12000) (int)
+parm:           dma_credits:specify custom credits for DMA tunnels (default: 14) (uint)
+parm:           bw_alloc_mode:enable bandwidth allocation mode if supported (default: true) (bool)
+parm:           asym_threshold:threshold (Mb/s) when to Gen 4 switch link symmetry. 0 disables. (default: 45000) (uint)
+parm:           host_reset:reset USB4 host router (default: true) (bool)
+
+--- /sys/module/thunderbolt/parameters/* ---
+asym_threshold            = 45000
+bw_alloc_mode             = Y
+clx                       = N
+dma_credits               = 14
+dprx_timeout              = 12000
+host_reset                = N
+start_icm                 = N
+xdomain                   = Y
+
+--- Kernel CONFIG_USB4_*/CONFIG_THUNDERBOLT_* ---
+CONFIG_USB4_NET=m
+CONFIG_USB4=m

@@ -1,0 +1,141 @@
+
+== 1. Boot arguments (/proc/cmdline) ==
+  [OK]   thunderbolt.host_reset=false
+  [OK]   pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0
+  [OK]   module_blacklist=nouveau,nova_core
+  [OK]   rd.driver.blacklist=nouveau,nova_core
+  [OK]   modprobe.blacklist=nouveau,nova_core
+  [OK]   iommu=pt
+  [OK]   pcie_aspm.policy=performance
+  [OK]   thunderbolt.clx=0
+  [OK]   pcie_port_pm=off
+  [INFO] IOMMU default domain: line)
+  [OK]   thunderbolt host_reset runtime: N (matches boot arg)
+
+== 2. Kernel modules ==
+  [OK]   nouveau: unloaded
+  [OK]   nova_core: unloaded
+  [OK]   nvidia: loaded (refcount=1)
+  [OK]   nvidia_drm: unloaded (compute-only)
+  [OK]   nvidia_modeset: unloaded
+  [OK]   nvidia_uvm: loaded (pre-staged for CUDA)
+
+== 3. Configuration files (content match against repo) ==
+  [OK]   /etc/udev/rules.d/79-aorus-5090-no-autoload.rules
+  [OK]   /etc/udev/rules.d/81-aorus-5090-compute-power.rules
+  [OK]   /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules
+  [OK]   /etc/modprobe.d/aorus-5090-compute-only.conf
+  [OK]   /etc/modprobe.d/blacklist-nouveau.conf
+  [OK]   /etc/modprobe.d/nvidia-power-management.conf
+  [OK]   /etc/modprobe.d/nvidia.conf
+  [OK]   /etc/systemd/system/aorus-5090-compute-load-nvidia.service
+  [OK]   /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf
+  [OK]   /etc/systemd/system/aorus-5090-uvm-keepalive.service
+
+== 4. Scripts ==
+  [OK]   /usr/local/sbin/aorus-5090-compute-load-nvidia
+  [OK]   /usr/local/sbin/aorus-5090-disable-audio
+  [OK]   /usr/local/sbin/aorus-5090-status
+  [OK]   /usr/local/sbin/aorus-5090-uvm-keepalive
+
+== 5. systemd units ==
+  [OK]   aorus-5090-compute-load-nvidia.service: enabled
+  [OK]   nvidia-persistenced.service: enabled
+  [OK]   aorus-5090-uvm-keepalive.service: enabled
+  [OK]   nvidia-fallback.service: masked
+  [OK]   nvidia-powerd.service: not installed (compute-only does not ship it)
+  [OK]   switcheroo-control.service: masked
+  [OK]   nvidia-cdi-refresh.path: not installed (compute-only does not ship it)
+  [OK]   nvidia-cdi-refresh.service: not installed (compute-only does not ship it)
+  [OK]   aorus-5090-compute-load-nvidia.service active state: active
+  [OK]   nvidia-persistenced.service active state: active
+  [OK]   persistenced drop-in: /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf
+  [OK]   aorus-5090-uvm-keepalive.service active state: active
+
+== 6. PCI device state ==
+  [OK]   GPU present: 0000:04:00.0
+  [OK]   GPU bound to: nvidia
+  [OK]   GPU power_state: D0
+  [OK]   GPU power/control: on
+  [OK]   GPU d3cold_allowed: 0
+  [OK]   GPU driver_override: aorus_5090_manual
+  [OK]   BAR0: 0x0000000080000000-0x0000000083ffffff
+  [OK]   BAR1: 0x0000004000000000-0x00000047ffffffff (32 GiB)
+  [WARN] HDMI audio bound to snd_hda_intel (compute-only expects unbound)
+  [WARN] HDMI audio driver_override: '(null)'
+
+== 7. Thunderbolt ==
+  [OK]   bolt.service: active
+  [OK]   AORUS device boltctl status: authorized
+  [INFO] AORUS rx speed: 40 Gb/s = 2 lanes * 20 Gb/s
+
+== 8. nvidia-persistenced ==
+  [OK]   persistenced running via systemd (pid=1268, 0 fds on /dev/nvidia0, 0 on /dev/nvidiactl)
+  [FAIL] persistenced is not holding /dev/nvidia0 - close-reopen wedge unguarded
+
+== 8b. UVM keep-alive (complementary to persistenced) ==
+  [OK]   keep-alive holding 1 fd on /dev/nvidia-uvm, 1 on /dev/nvidia-uvm-tools (pid=1332)
+
+== 8c. NVIDIA Vulkan / EGL / OpenCL loader entries (compute-only mode) ==
+  [OK]   Vulkan ICD: disabled (/usr/share/vulkan/icd.d/nvidia_icd.x86_64.json.aorus-disabled)
+  [OK]   Vulkan implicit layer: disabled (/usr/share/vulkan/implicit_layer.d/nvidia_layers.json.aorus-disabled)
+  [OK]   EGL vendor: disabled (/usr/share/glvnd/egl_vendor.d/10_nvidia.json.aorus-disabled)
+  [OK]   OpenCL ICD: disabled (/etc/OpenCL/vendors/nvidia.icd.aorus-disabled)
+
+== 8d. /dev/nvidia* device-file permissions ==
+  [OK]   NVreg_DeviceFileGID=968 matches ollama group GID
+  [OK]   nvidia-persistenced is in ollama group (can open /dev/nvidia0 + nvidiactl)
+  [OK]   /dev/nvidia0: 0660 root:ollama
+  [OK]   /dev/nvidiactl: 0660 root:ollama
+  [WARN] /dev/nvidia-uvm: 0666 root:root (no NVreg-equivalent for nvidia_uvm; resets after every nvidia-modprobe; Layer 4 8e is the real safety check)
+  [WARN] /dev/nvidia-uvm-tools: 0666 root:root (no NVreg-equivalent for nvidia_uvm; resets after every nvidia-modprobe; Layer 4 8e is the real safety check)
+  [WARN] /dev/nvidia-caps/nvidia-cap1: 0400 root:root (no NVreg-equivalent for nvidia_uvm; resets after every nvidia-modprobe; Layer 4 8e is the real safety check)
+  [WARN] /dev/nvidia-caps/nvidia-cap2: 0444 root:root (no NVreg-equivalent for nvidia_uvm; resets after every nvidia-modprobe; Layer 4 8e is the real safety check)
+
+== 8f. NVIDIA driver module parameters (runtime vs configured) ==
+  [OK]   NVreg_DeviceFileMode = 432 (matches conf 0660)
+  [OK]   NVreg_DeviceFileUID = 0 (matches conf 0)
+  [OK]   NVreg_DeviceFileGID = 968 (matches conf 968)
+  [OK]   NVreg_DynamicPowerManagement = 0 (matches conf 0x00)
+  [OK]   NVreg_PreserveVideoMemoryAllocations = 0 (matches conf 0)
+  [OK]   NVreg_EnableS0ixPowerManagement = 0 (matches conf 0)
+  [OK]   NVreg_RestrictProfilingToAdminUsers = 1 (matches conf 1)
+  [OK]   NVreg_RegistryDwords = "RmForceExternalGpu=1" (matches conf "RmForceExternalGpu=1")
+
+== 8g. nvidia-drm autoload prevention (softdep + install) ==
+  [OK]   softdep on nvidia-drm absent + install /bin/false in place (autoload blocked)
+  [OK]   modprobe nvidia-drm directly resolves to install /bin/false
+
+== 8e. /dev/nvidia* exclusivity (only authorised processes holding) ==
+  [OK]   no unauthorised holders of /dev/nvidia*
+
+== 9. DRM ownership ==
+  [OK]   card1: i915 (Intel GPU, correct)
+
+== 10. Driver and kernel versions ==
+  [INFO] kernel: 6.19.14-200.fc43.x86_64
+  [INFO] nvidia: Module for x86_64  595.71.05  Release Build  (root@obpc)  Tue May  5 06:06:42 PM AEST 2026
+  [INFO] rpm: nvidia-persistenced-595.71.05-1.fc43.x86_64
+  [OK]   DKMS-built nvidia module installed for running kernel (6.19.14-200.fc43.x86_64)
+
+== 11. Recent kernel error signals (last 24h) ==
+  [FAIL] kernel error signals found:
+        May 06 07:46:14 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+        May 06 07:46:14 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+        May 06 07:46:14 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+        May 06 07:46:20 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+        May 06 07:46:20 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+        May 06 07:46:20 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+        May 06 07:46:20 obpc kernel: NVRM: nvAssertFailedNoLog: Assertion failed: rmapiLockIsOwner() && rmGpuLockIsOwner() @ conf_compute_api.c:81
+        May 06 07:46:21 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+        May 06 07:46:21 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+        May 06 07:46:21 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+  [INFO] (truncated; see 'journalctl -k --since 24 hours ago' for full)
+
+== 12. nvidia-smi smoke test ==
+  [FAIL] nvidia-smi failed or timed out
+
+== Summary ==
+  75 OK, 6 WARN, 3 FAIL (of 84 checks)
+
+Status: DEGRADED - see FAIL items above. The system may be freeze-prone.

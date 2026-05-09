@@ -1,0 +1,8 @@
+hypothesis_id=CLOSE-PATH-WEDGE
+hypothesis_desc=Close-path wedge cycle (nvidia-smi or similar bouncing /dev/nvidia0)
+hypothesis_ref=memory/feedback_avoid_nvidia_smi_for_state_checks.md
+hypothesis_subsystem=nvidia
+verdict=NOT-FIRED
+fired_hits=0
+negative_hits=2
+min_hits_fired=2

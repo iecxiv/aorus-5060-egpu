@@ -1,0 +1,58 @@
+timestamp_utc=2026-05-08T011622Z
+hostname=obpc
+kernel=6.19.14-200.fc43.x86_64
+kernel_full=Linux obpc 6.19.14-200.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC Thu Apr 23 17:34:07 UTC 2026 x86_64 GNU/Linux
+os_release=PRETTY_NAME="Fedora Linux 43 (Workstation Edition)"
+cpu=Intel(R) Core(TM) Ultra 9 285H
+active_tb_domains=1
+
+--- dmidecode system info (first lines) ---
+# dmidecode 3.6
+Getting SMBIOS data from sysfs.
+SMBIOS 3.8.0 present.
+# SMBIOS implementations newer than version 3.7.0 are not
+# fully supported by this version of dmidecode.
+
+Handle 0x0001, DMI type 1, 27 bytes
+System Information
+	Manufacturer: ASUSTeK COMPUTER INC.
+	Product Name: NUC15CRSU9
+	Version: 90AR00P3-M000Z0
+	Serial Number: T7ARYZ01Z678R26
+	UUID: 191a04db-9d50-a61a-9451-88aedd695858
+	Wake-up Type: Power Switch
+	SKU Number: RNUC15CRSU900004
+	Family: CR
+
+Handle 0x001A, DMI type 32, 11 bytes
+System Boot Information
+	Status: No errors detected
+
+--- dmidecode chassis info ---
+# dmidecode 3.6
+Getting SMBIOS data from sysfs.
+SMBIOS 3.8.0 present.
+# SMBIOS implementations newer than version 3.7.0 are not
+# fully supported by this version of dmidecode.
+
+Handle 0x0003, DMI type 3, 22 bytes
+Chassis Information
+	Manufacturer: ASUSTeK COMPUTER INC.
+	Type: Mini PC
+
+--- dmidecode bios info ---
+# dmidecode 3.6
+Getting SMBIOS data from sysfs.
+SMBIOS 3.8.0 present.
+# SMBIOS implementations newer than version 3.7.0 are not
+# fully supported by this version of dmidecode.
+
+Handle 0x0000, DMI type 0, 26 bytes
+BIOS Information
+	Vendor: ASUSTeK COMPUTER INC.
+	Version: CRARL579.0029.2026.0115.1719
+	Release Date: 01/15/2026
+	Address: 0xF0000
+	Runtime Size: 64 kB
+	ROM Size: 0 MB
+	Characteristics:

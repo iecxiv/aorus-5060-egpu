@@ -1,0 +1,11 @@
+## RAPL energy counters at moment of capture (uJ) ##
+## Diff this against another dossier or take two captures ##
+## with a known time delta in between to estimate watts.
+
+domain=intel-rapl:0(package-0) energy_uj=2182082243           max_energy_range_uj=262143328850
+domain=intel-rapl:1(psys)   energy_uj=4186037684           max_energy_range_uj=262143328850
+domain=power()              energy_uj=                     max_energy_range_uj=
+domain=subsystem()          energy_uj=                     max_energy_range_uj=
+
+## Capture timestamp (epoch ns) ##
+1778204765273586101

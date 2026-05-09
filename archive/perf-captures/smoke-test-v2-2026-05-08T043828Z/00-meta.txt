@@ -1,0 +1,16 @@
+experiment_name=smoke-test-v2
+workload=mode-b-stress
+workload_desc=nvbandwidth bidirectional + CE/SM mix; targets Mode B DMA-path silent freeze under TB tunnel + compute pressure
+workload_cmd=/usr/local/bin/nvbandwidth -t 0 -t 1 -t 2 -t 16 -t 17 -t 18
+workload_iteration_timeout=120
+duration_cap=90
+samples_interval=10
+timestamp_utc=2026-05-08T043828Z
+hostname=obpc
+kernel=6.19.14-200.fc43.x86_64
+cmdline=BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off thunderbolt.dyndbg=+pflm thunderbolt.host_reset=false
+nvidia_srcversion=86134BFCA6328D4D110DADC
+nvidia_version=595.71.05-aorus.5
+
+--- changes vs baseline ---
+smoke=true

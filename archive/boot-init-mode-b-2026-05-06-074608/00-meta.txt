@@ -1,0 +1,6 @@
+boot_id_now=05c57db1-95e2-479c-ac9d-dcadcfa54463
+boot_time_wall=Wed May  6 07:46:07 AM AEST 2026
+uptime_sec=505.89
+kernel=6.19.14-200.fc43.x86_64
+nvidia_driver=595.71.05-aorus.3
+capture_ts=2026-05-06 07:54:33.490

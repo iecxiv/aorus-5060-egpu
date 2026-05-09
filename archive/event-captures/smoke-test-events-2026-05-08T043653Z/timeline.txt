@@ -1,0 +1,51 @@
+# Timeline — extracted from /root/aorus-5090-gpu/archive/event-captures/smoke-test-events-2026-05-08T043653Z/10-raw/full-kernel.log
+# Generated: 2026-05-08T04:36:54Z
+# Timestamp format: monotonic
+
+== Landmarks (first occurrence) ==
+EVENT                           TIME            Δ-prev     
+----------------------------------------------------------------------
+kernel_boot_start               1.170087        (start)     
+tb_acpi_register                1.390013        +0.220s     
+tb_nhi0_probe                   1.390057        +0.000s     
+tb_nhi1_probe                   2.172093        +0.782s     
+tb_acpi_link_created            1.391529        +-0.781s    
+tb_domain_added                 1.391581        +0.000s     
+tb_security_set                 1.392105        +0.001s     
+tb_first_device_found           1.482009        +0.090s     
+tb_aorus_named                  1.482134        +0.000s     
+tb_retimer_found                1.732186        +0.250s     
+tb_wait_for_port_first          1.434011        +-0.298s    
+tb_unplugged_first              2.156016        +0.722s     
+tb_switch_reset                 —             —         
+pcieport_aer_enabled            1.193644        +-0.962s    
+pci_bridge_03_probe             1.180026        +-0.014s    
+pci_gpu_enumerated              1.182209        +0.002s     
+nvidia_module_load              —             —         
+nvrm_first_diag                 5.700304        +4.518s     
+nvrm_startdev_first             6.224005        +0.524s     
+nvrm_pre_rminit_first           6.225003        +0.001s     
+nvrm_post_rminit_first          7.566184        +1.341s     
+gsp_first_lockdown              —             —         
+gsp_init_done                   —             —         
+rminit_failed_first             —             —         
+link_demote_to_gen1             —             —         
+link_at_gen3                    5.700304        +-1.866s    
+wpr2_set                        7.566184        +1.866s     
+uvm_loaded                      —             —         
+
+== Counters ==
+EVENT                           COUNT
+--------------------------------------------------
+gsp_lockdown_count              0
+rminit_fail_count               0
+rminit_ok_count                 2
+tb_wait_for_port_calls          7
+aer_corrected_count             0
+tb_unplugged_count              6
+rminit_failed_msg_count         0
+
+== Notable derived deltas ==
+TB_ACPI_register → TB_device_found           0.092s
+tb_acpi_register → first_NVRM_DIAG           4.310s
+kernel_boot → first_NVRM_DIAG                4.530s

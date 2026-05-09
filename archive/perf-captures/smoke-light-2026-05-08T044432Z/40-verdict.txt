@@ -1,0 +1,7 @@
+verdict=PASS
+iterations_completed=3
+elapsed_seconds=60
+qwd_detections_delta=0
+lever_m_fires_delta=0
+gsp_lockdown_delta=0
+rminit_fail_delta=0

@@ -1,0 +1,84 @@
+### ps aux | nvidia | aorus | ollama ###
+root        1175  0.0  0.0      0     0 ?        S    07:46   0:00 [aorus-qwd-0400]
+nvidia-+    1268  0.1  0.0  11112  3460 ?        Ss   07:46   0:00 /usr/bin/nvidia-persistenced
+ollama      1398  0.0  0.0 2081184 40636 ?       Ssl  07:46   0:00 /usr/local/bin/ollama serve
+
+### Q-watchdog kthread ###
+Name:	aorus-qwd-0400
+Umask:	0000
+State:	S (sleeping)
+Tgid:	1175
+Ngid:	0
+Pid:	1175
+PPid:	2
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	 
+NStgid:	1175
+NSpid:	1175
+NSpgid:	0
+NSsid:	0
+Kthread:	1
+Threads:	1
+SigQ:	41/511178
+SigPnd:	0000000000000000
+## stack:
+[<0>] msleep_interruptible+0x2d/0x70
+[<0>] aorus_qwatchdog_thread+0x7c/0x170 [nvidia]
+[<0>] kthread+0xfc/0x240
+[<0>] ret_from_fork+0x130/0x1a0
+[<0>] ret_from_fork_asm+0x1a/0x30
+
+### systemd units ###
+● aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver
+     Loaded: loaded (/etc/systemd/system/aorus-5090-compute-load-nvidia.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (exited) since Wed 2026-05-06 07:46:13 AEST; 9min ago
+ Invocation: c9e0540a20c140a19b0616e854aa6726
+       Docs: file:///root/aorus-5090-gpu/README.md
+    Process: 1144 ExecStart=/usr/local/sbin/aorus-5090-compute-load-nvidia (code=exited, status=0/SUCCESS)
+   Main PID: 1144 (code=exited, status=0/SUCCESS)
+   Mem peak: 20.2M
+● nvidia-persistenced.service - NVIDIA Persistence Daemon
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-persistenced.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+             /etc/systemd/system/nvidia-persistenced.service.d
+             └─aorus-egpu.conf
+     Active: active (running) since Wed 2026-05-06 07:46:14 AEST; 9min ago
+ Invocation: 14e9e35659a6414cbb5a398d2064cea2
+    Process: 1255 ExecStart=/usr/bin/nvidia-persistenced (code=exited, status=0/SUCCESS)
+   Main PID: 1268 (nvidia-persiste)
+● aorus-5090-uvm-keepalive.service - AORUS RTX 5090 eGPU UVM keep-alive (close-path bug mitigation)
+     Loaded: loaded (/etc/systemd/system/aorus-5090-uvm-keepalive.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (running) since Wed 2026-05-06 07:46:14 AEST; 9min ago
+ Invocation: 05267ed58d0148f5b13e4d2e308970ff
+       Docs: file:///root/aorus-5090-gpu/docs/architecture.md
+             file:///root/ollama/docs/freeze-2026-05-02-1032.md
+   Main PID: 1332 (sleep)
+      Tasks: 1 (limit: 153353)
+● aorus-5090-pcie-tune.service - AORUS RTX 5090 eGPU PCIe Completion Timeout tuning (H9a)
+     Loaded: loaded (/etc/systemd/system/aorus-5090-pcie-tune.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (exited) since Wed 2026-05-06 07:46:13 AEST; 9min ago
+ Invocation: 5d2ae9d025c14a16b6619abfbe7fec6d
+       Docs: file:///root/aorus-5090-gpu/docs/reliability-hypothesis-ledger.md
+             file:///root/aorus-5090-gpu/docs/stability-roadmap.md
+    Process: 1254 ExecStart=/usr/local/sbin/aorus-5090-pcie-tune apply (code=exited, status=0/SUCCESS)
+   Main PID: 1254 (code=exited, status=0/SUCCESS)
+● ollama.service - Ollama Service
+     Loaded: loaded (/etc/systemd/system/ollama.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+             /etc/systemd/system/ollama.service.d
+             └─aorus-egpu.conf, aorus-trace.conf
+     Active: active (running) since Wed 2026-05-06 07:46:20 AEST; 9min ago
+ Invocation: e237bbb4568b40e0a4366d60b55533ce
+   Main PID: 1398 (ollama)
+      Tasks: 19 (limit: 153353)

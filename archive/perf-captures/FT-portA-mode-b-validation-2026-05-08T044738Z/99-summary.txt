@@ -1,0 +1,26 @@
+=== perf-capture summary ===
+experiment:          FT-portA-mode-b-validation
+workload:            mode-b-stress-light — nvbandwidth H2D CE only with cooling delays; thermally-friendly Mode B trigger
+duration:            306s (cap 300s)
+iterations completed: 14
+
+=== verdict: PASS ===
+verdict=PASS
+iterations_completed=14
+elapsed_seconds=306
+qwd_detections_delta=0
+lever_m_fires_delta=0
+gsp_lockdown_delta=0
+rminit_fail_delta=0
+
+=== metrics summary ===
+  host_to_device_memcpy_ce                 n=14 mean=2.800 min=2.800 max=2.800
+
+=== artifacts ===
+  pre-state:    /root/aorus-5090-gpu/archive/perf-captures/FT-portA-mode-b-validation-2026-05-08T044738Z/10-pre-state
+  post-state:   /root/aorus-5090-gpu/archive/perf-captures/FT-portA-mode-b-validation-2026-05-08T044738Z/11-post-state
+  event:        /root/aorus-5090-gpu/archive/perf-captures/FT-portA-mode-b-validation-2026-05-08T044738Z/12-event-capture
+  iterations:   /root/aorus-5090-gpu/archive/perf-captures/FT-portA-mode-b-validation-2026-05-08T044738Z/20-iterations/
+  metrics:      /root/aorus-5090-gpu/archive/perf-captures/FT-portA-mode-b-validation-2026-05-08T044738Z/30-metrics.csv
+  sysfs sampler: /root/aorus-5090-gpu/archive/perf-captures/FT-portA-mode-b-validation-2026-05-08T044738Z/31-sysfs-sampler.csv
+  reproduction: /root/aorus-5090-gpu/archive/perf-captures/FT-portA-mode-b-validation-2026-05-08T044738Z/reproduction.sh

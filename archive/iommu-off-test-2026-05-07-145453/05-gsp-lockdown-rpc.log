@@ -1,0 +1,26 @@
+May 07 14:54:59 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 07 14:54:59 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 07 14:54:59 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 07 14:54:59 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133151c10ed 0x00065133151c10ed          y
+May 07 14:54:59 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133151bfcbd 0x00065133151bfcbd          y
+May 07 14:54:59 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133151bfbb8 0x00065133151bfbb8          y
+May 07 14:54:59 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133151bf80a 0x00065133151bf80a          y
+May 07 14:54:59 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133151a8df0 0x00065133151a8df1      1us y
+May 07 14:54:59 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133151a8d66 0x00065133151a8d66          y
+May 07 14:54:59 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065133151a7deb 0x00065133151a7deb          y
+May 07 14:54:59 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065133151a65ea 0x00065133151a65ea          y
+May 07 14:54:59 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 07 14:54:59 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 07 14:55:12 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 07 14:55:12 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 07 14:55:12 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 07 14:55:12 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513315e55ed1 0x0006513315e55ed1          y
+May 07 14:55:12 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513315e54c79 0x0006513315e54c79          y
+May 07 14:55:12 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513315e54b8c 0x0006513315e54b8c          y
+May 07 14:55:12 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513315e54832 0x0006513315e54832          y
+May 07 14:55:12 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513315e3fc2a 0x0006513315e3fc2a          y
+May 07 14:55:12 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513315e3fba1 0x0006513315e3fba2      1us y
+May 07 14:55:12 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006513315e3ed66 0x0006513315e3ed66          y
+May 07 14:55:12 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006513315e390e1 0x0006513315e390e1          y
+May 07 14:55:12 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 07 14:55:12 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107

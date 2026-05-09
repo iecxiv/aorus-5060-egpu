@@ -1,0 +1,4 @@
+Evidence for GSP-LOCKDOWN (NVIDIA GSP firmware boot returns LOCKDOWN_NOTICE (rate mismatch))
+=== Verdict: INCONCLUSIVE (0 fired hits, 0 negative hits) ===
+
+=== FIRED-signature matches: NONE ===

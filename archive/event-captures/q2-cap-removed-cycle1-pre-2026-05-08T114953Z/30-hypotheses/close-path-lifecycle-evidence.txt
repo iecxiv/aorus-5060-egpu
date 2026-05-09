@@ -1,0 +1,4 @@
+Evidence for CLOSE-PATH-LIFECYCLE (Last-close transition observed (open->work->close->reopen instrumentation fired))
+=== Verdict: INCONCLUSIVE (0 fired hits, 0 negative hits) ===
+
+=== FIRED-signature matches: NONE ===

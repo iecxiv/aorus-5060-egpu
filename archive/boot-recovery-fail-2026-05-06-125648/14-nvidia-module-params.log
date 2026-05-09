@@ -1,0 +1,5 @@
+=== /sys/module/nvidia/parameters/ ===
+NVreg_AorusWatchdogEnable                                         = 1
+
+NVreg_AorusWatchdogIntervalMs                                     = 200
+

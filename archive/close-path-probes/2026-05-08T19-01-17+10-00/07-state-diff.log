@@ -1,0 +1,51 @@
+=== State Capture Diff ===
+  A: 2026-05-08T090117Z-obpc-active0
+  B: 2026-05-08T090142Z-obpc-active0
+
+=== 00-meta.txt diff ===
+1c1
+< timestamp_utc=2026-05-08T090117Z
+---
+> timestamp_utc=2026-05-08T090142Z
+
+=== 01-summary.txt diff ===
+275c275
+< 1.2M	/root/aorus-5090-gpu/archive/state-captures/2026-05-08T090117Z-obpc-active0
+---
+> 1.2M	/root/aorus-5090-gpu/archive/state-captures/2026-05-08T090142Z-obpc-active0
+
+=== 12-nhi-sysfs/ — per-NHI sysfs attributes ===
+  0000:00:0d.2.txt: identical
+  0000:00:0d.3.txt: identical
+
+=== 20-domain-sysfs/ — TB domain attributes ===
+  domain0.txt: identical
+  domain1.txt: identical
+
+=== 30-tb-device-sysfs/ — TB device presence ===
+  Files only in A:
+  Files only in B:
+
+=== 41-debugfs-drom-*.bin — DROM byte-level comparison ===
+  41-debugfs-drom-0-0.bin: BIT-IDENTICAL
+  41-debugfs-drom-0-1.bin: BIT-IDENTICAL
+  41-debugfs-drom-1-0.bin: BIT-IDENTICAL
+
+=== 50-acpi-paths.txt diff ===
+
+=== 60-module-params.txt diff ===
+
+=== 61-cmdline.txt diff ===
+
+=== 80-boltctl/ summary ===
+  list.txt: identical
+  domains.txt: identical
+
+=== Summary ===
+Sections that DIFFER materially:
+  - meta
+  - topology-summary
+
+Deep-dive command suggestions:
+  diff -r /root/aorus-5090-gpu/archive/state-captures/2026-05-08T090117Z-obpc-active0 /root/aorus-5090-gpu/archive/state-captures/2026-05-08T090142Z-obpc-active0 | less
+  cmp -l /root/aorus-5090-gpu/archive/state-captures/2026-05-08T090117Z-obpc-active0/41-debugfs-drom-0-0.bin /root/aorus-5090-gpu/archive/state-captures/2026-05-08T090142Z-obpc-active0/41-debugfs-drom-0-0.bin

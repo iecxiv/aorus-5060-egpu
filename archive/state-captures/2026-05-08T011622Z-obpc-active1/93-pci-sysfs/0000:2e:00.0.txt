@@ -1,0 +1,116 @@
+## 0000:2e:00.0
+vendor                    = 0x10de
+device                    = 0x2b85
+subsystem_vendor          = 0x1458
+subsystem_device          = 0x41b6
+class                     = 0x030000
+revision                  = 0xa1
+current_link_speed        = 2.5 GT/s PCIe
+current_link_width        = 4
+max_link_speed            = 32.0 GT/s PCIe
+max_link_width            = 16
+enable                    = 1
+msi_bus                   = 1
+numa_node                 = -1
+local_cpus                = ffff
+irq                       = 16
+d3cold_allowed            = 0
+
+--- resource (BAR map) ---
+0x0000000080000000 0x0000000083ffffff 0x0000000000040200
+0x0000004000000000 0x00000047ffffffff 0x000000000014220c
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000004812000000 0x0000004813ffffff 0x000000000014220c
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000003000 0x000000000000307f 0x0000000000040101
+0x0000000084000000 0x000000008407ffff 0x0000000000046200
+0x0000004814000000 0x000000481403ffff 0x000000000014220c
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000004800000000 0x000000480fffffff 0x000000000014220c
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000004810000000 0x0000004811ffffff 0x000000000014220c
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+
+--- power/* ---
+power/autosuspend_delay_ms     = 
+power/control                  = on
+power/runtime_active_time      = 301486
+power/runtime_status           = active
+power/runtime_suspended_time   = 0
+power/wakeup                   = disabled
+power/wakeup_abort_count       = 
+power/wakeup_active            = 
+power/wakeup_active_count      = 
+power/wakeup_count             = 
+power/wakeup_expire_count      = 
+power/wakeup_last_time_ms      = 
+power/wakeup_max_time_ms       = 
+power/wakeup_total_time_ms     = 
+
+--- driver bound ---
+driver = nvidia
+
+--- aer_dev_correctable / aer_dev_fatal / aer_dev_nonfatal ---
+## aer_dev_correctable ##
+RxErr 0
+BadTLP 0
+BadDLLP 0
+Rollover 0
+Timeout 0
+NonFatalErr 0
+CorrIntErr 0
+HeaderOF 0
+TOTAL_ERR_COR 0
+
+## aer_dev_fatal ##
+Undefined 0
+DLP 0
+SDES 0
+TLP 0
+FCP 0
+CmpltTO 0
+CmpltAbrt 0
+UnxCmplt 0
+RxOF 0
+MalfTLP 0
+ECRC 0
+UnsupReq 0
+ACSViol 0
+UncorrIntErr 0
+BlockedTLP 0
+AtomicOpBlocked 0
+TLPBlockedErr 0
+PoisonTLPBlocked 0
+DMWrReqBlocked 0
+IDECheck 0
+MisIDETLP 0
+PCRC_CHECK 0
+TLPXlatBlocked 0
+TOTAL_ERR_FATAL 0
+
+## aer_dev_nonfatal ##
+Undefined 0
+DLP 0
+SDES 0
+TLP 0
+FCP 0
+CmpltTO 0
+CmpltAbrt 0
+UnxCmplt 0
+RxOF 0
+MalfTLP 0
+ECRC 0
+UnsupReq 0
+ACSViol 0
+UncorrIntErr 0
+BlockedTLP 0
+AtomicOpBlocked 0
+TLPBlockedErr 0
+PoisonTLPBlocked 0
+DMWrReqBlocked 0
+IDECheck 0
+MisIDETLP 0
+PCRC_CHECK 0
+TLPXlatBlocked 0
+TOTAL_ERR_NONFATAL 0
+

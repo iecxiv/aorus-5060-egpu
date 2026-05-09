@@ -1,0 +1,16 @@
+ * Intel Gen14
+   |- type:          host
+   |- name:          Gen14
+   |- vendor:        Intel
+   |- uuid:          aea98780-1021-faab-ffff-ffffffffffff
+   |- dbus path:     /org/freedesktop/bolt/devices/aea98780_1021_faab_ffff_ffffffffffff
+   |- generation:    USB4
+   |- status:        authorized
+   |  |- domain:     aea98780-1021-faab-ffff-ffffffffffff
+   |  |- parent:     (null)
+   |  |- syspath:    /sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0
+   |  `- authflags:  none
+   |- authorized:    Fri 08 May 2026 09:48:21 PM UTC
+   |- connected:     Fri 08 May 2026 09:48:21 PM UTC
+   `- stored:        no
+

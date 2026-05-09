@@ -1,0 +1,4 @@
+iteration,epoch_utc,metric_name,value,unit
+1,1778215475,host_to_device_memcpy_ce,2.81,GB/s
+2,1778215497,host_to_device_memcpy_ce,2.80,GB/s
+3,1778215520,host_to_device_memcpy_ce,2.80,GB/s

@@ -1,0 +1,11 @@
+Model: 		 NVIDIA GeForce RTX 5090
+IRQ:   		 16
+GPU UUID: 	 GPU-90b9424e-7236-fd4d-d903-44e565e1bd42
+Video BIOS: 	 98.02.2e.80.5d
+Bus Type: 	 PCIe
+DMA Size: 	 52 bits
+DMA Mask: 	 0xfffffffffffff
+Bus Location: 	 0000:04:00.0
+Device Minor: 	 0
+GPU Firmware: 	 595.71.05
+GPU Excluded:	 No

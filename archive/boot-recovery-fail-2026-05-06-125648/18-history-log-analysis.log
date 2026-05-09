@@ -1,0 +1,28 @@
+=== history log all entries ===
+2026-05-06T12:04:59+1000,f6bd94db-e747-4c95-a952-72605630deff,no-op,GPU healthy
+2026-05-06T12:32:59+1000,85bf9c35-385e-4a18-9af8-131afec76a86,started,WPR2-stuck detected, sequence beginning
+2026-05-06T12:33:12+1000,85bf9c35-385e-4a18-9af8-131afec76a86,recovery-failed,duration_ms=13039,nvsmi_output=No devices found.
+2026-05-06T12:36:42+1000,85bf9c35-385e-4a18-9af8-131afec76a86,started,WPR2-stuck detected, sequence beginning
+2026-05-06T12:36:56+1000,85bf9c35-385e-4a18-9af8-131afec76a86,recovery-success,duration_ms=13344
+2026-05-06T12:48:04+1000,85bf9c35-385e-4a18-9af8-131afec76a86,no-op,GPU healthy
+2026-05-06T12:56:48+1000,435f2183-81aa-406e-86e1-985987c367b2,started,WPR2-stuck detected, max_attempts=3
+2026-05-06T12:56:48+1000,435f2183-81aa-406e-86e1-985987c367b2,attempt-started,attempt=1
+2026-05-06T12:57:01+1000,435f2183-81aa-406e-86e1-985987c367b2,attempt-failed,attempt=1,duration_ms=13018
+2026-05-06T12:57:06+1000,435f2183-81aa-406e-86e1-985987c367b2,attempt-started,attempt=2
+2026-05-06T12:57:18+1000,435f2183-81aa-406e-86e1-985987c367b2,attempt-failed,attempt=2,duration_ms=11849
+2026-05-06T12:57:23+1000,435f2183-81aa-406e-86e1-985987c367b2,attempt-started,attempt=3
+2026-05-06T12:57:35+1000,435f2183-81aa-406e-86e1-985987c367b2,attempt-failed,attempt=3,duration_ms=12709
+2026-05-06T12:57:35+1000,435f2183-81aa-406e-86e1-985987c367b2,recovery-failed,attempts=3,duration_ms=47730,nvsmi_output=No devices found.
+
+=== summary by event ===
+      3 attempt-failed
+      3 attempt-started
+      2 no-op
+      2 recovery-failed
+      1 recovery-success
+      3 started
+
+=== summary by boot_id ===
+      8 435f2183-81aa-406e-86e1-985987c367b2
+      5 85bf9c35-385e-4a18-9af8-131afec76a86
+      1 f6bd94db-e747-4c95-a952-72605630deff

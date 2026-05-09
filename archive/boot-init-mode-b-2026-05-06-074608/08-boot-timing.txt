@@ -1,0 +1,34 @@
+### systemd-analyze ###
+Startup finished in 7.113s (firmware) + 6.031s (loader) + 969ms (kernel) + 2.138s (initrd) + 11.746s (userspace) = 28.000s 
+graphical.target reached after 11.745s in userspace.
+
+### key services with timestamps ###
+--- aorus-5090-compute-load-nvidia.service ---
+ActiveEnterTimestamp=Wed 2026-05-06 07:46:13 AEST
+Result=success
+ExecMainStartTimestamp=Wed 2026-05-06 07:46:12 AEST
+ExecMainExitTimestamp=Wed 2026-05-06 07:46:13 AEST
+--- nvidia-persistenced.service ---
+ActiveEnterTimestamp=Wed 2026-05-06 07:46:14 AEST
+Result=success
+ExecMainStartTimestamp=Wed 2026-05-06 07:46:13 AEST
+ExecMainExitTimestamp=
+--- aorus-5090-pcie-tune.service ---
+ActiveEnterTimestamp=Wed 2026-05-06 07:46:13 AEST
+Result=success
+ExecMainStartTimestamp=Wed 2026-05-06 07:46:13 AEST
+ExecMainExitTimestamp=Wed 2026-05-06 07:46:13 AEST
+--- aorus-5090-uvm-keepalive.service ---
+ActiveEnterTimestamp=Wed 2026-05-06 07:46:14 AEST
+Result=success
+ExecMainStartTimestamp=Wed 2026-05-06 07:46:14 AEST
+ExecMainExitTimestamp=
+--- ollama.service ---
+ActiveEnterTimestamp=Wed 2026-05-06 07:46:20 AEST
+Result=success
+ExecMainStartTimestamp=Wed 2026-05-06 07:46:20 AEST
+ExecMainExitTimestamp=
+
+### nvidia.ko load timestamp ###
+
+### NVRM ALL LINES with timestamps ###

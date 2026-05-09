@@ -1,0 +1,524 @@
+May 07 02:14:23 obpc kernel: DMAR: Host address width 42
+May 07 02:14:23 obpc kernel: DMAR: DRHD base: 0x000000fc800000 flags: 0x0
+May 07 02:14:23 obpc kernel: DMAR: dmar0: reg_base_addr fc800000 ver 7:0 cap c9de008cee690462 ecap 12ca9a00f0ef5e
+May 07 02:14:23 obpc kernel: DMAR: DRHD base: 0x000000fc801000 flags: 0x1
+May 07 02:14:23 obpc kernel: DMAR: dmar1: reg_base_addr fc801000 ver 7:0 cap c9de008cee690462 ecap 12ca9a00f0efde
+May 07 02:14:23 obpc kernel: DMAR: SATC flags: 0x1
+May 07 02:14:23 obpc kernel: pci 0000:00:02.0: DMAR: Skip IOMMU disabling for graphics
+May 07 02:14:23 obpc kernel: DMAR: Intel-IOMMU force enabled due to platform opt in
+May 07 02:14:23 obpc kernel: DMAR: No RMRR found
+May 07 02:14:23 obpc kernel: DMAR: No ATSR found
+May 07 02:14:23 obpc kernel: DMAR: dmar0: Using Queued invalidation
+May 07 02:14:23 obpc kernel: DMAR: dmar1: Using Queued invalidation
+May 07 02:14:23 obpc kernel: DMAR: Intel(R) Virtualization Technology for Directed I/O
+May 06 16:14:29 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:14:29 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf7fd0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:29 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:14:29 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfff53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:29 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:14:29 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xfff01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:29 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:14:37 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:14:37 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf7fc0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:37 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:14:37 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfff53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:37 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:14:37 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xfff01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:37 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:14:50 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:14:50 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfb5d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:50 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:14:50 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xfff01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:50 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:14:50 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xfff01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:14:50 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:01 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:01 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xefde0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:01 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:01 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xfff01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:01 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:01 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xfff01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:01 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:12 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:12 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfb1d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:12 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:12 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:12 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:23 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:23 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xefd60000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:23 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:23 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:23 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:23 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:23 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:34 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:34 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfb150000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:34 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:34 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:34 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:34 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:34 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:45 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:45 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xefc50000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:45 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:45 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:45 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:45 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:45 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:56 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:15:56 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfb080000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:56 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:56 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:56 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:15:56 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:15:56 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:07 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:07 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xefbd0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:07 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:07 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:07 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:07 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:07 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:17 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:17 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfaf60000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:17 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:17 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:17 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:17 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:17 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:28 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:28 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xeff60000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:28 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:28 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:28 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:28 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:28 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:39 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:39 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfaee0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:39 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:39 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:39 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:39 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:39 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:50 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:50 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xefee0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:50 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:16:50 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:50 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:16:50 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:16:50 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:01 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:17:01 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfade0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:01 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:01 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:01 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:01 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:01 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:12 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:17:12 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xefb00000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:12 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:12 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:23 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:17:23 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xefdd0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:23 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:23 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:23 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:23 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:23 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:34 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:17:34 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef7d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:34 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:17:34 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:34 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:34 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:34 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:44 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:17:44 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa9d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:44 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:44 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:44 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:44 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:44 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:55 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:17:55 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef760000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:55 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:17:55 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:55 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:17:55 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:17:55 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:06 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:18:06 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa900000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:06 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:18:06 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:06 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:06 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:06 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:17 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:18:17 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef650000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:17 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:18:17 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:17 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:17 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:17 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:28 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:18:28 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa7e0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:28 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:28 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:28 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:28 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:28 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:39 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:18:39 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef5d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:39 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:39 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:39 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:39 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:39 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:50 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:18:50 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa760000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:50 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:18:50 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:50 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:18:50 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:18:50 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:01 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:01 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef500000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:01 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:01 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:01 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:01 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:01 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:11 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:11 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa650000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:11 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:11 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:11 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:11 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:11 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:22 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:22 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef3e0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:22 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:22 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:22 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:22 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:22 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:33 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:33 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa5d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:33 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:33 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:33 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:33 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:33 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:41 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:41 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef360000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:41 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:41 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:41 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:41 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:41 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:46 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:46 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xef2cf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:46 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:46 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xef2cf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:46 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:46 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xef2cf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:46 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:54 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:19:54 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef350000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:54 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:54 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:54 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:19:54 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:19:54 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:12 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:20:12 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa7d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:12 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:12 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:30 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:20:30 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa570000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:30 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:20:30 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:30 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:30 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:30 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:36 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:20:36 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa500000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:36 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:36 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:36 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:36 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:36 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:47 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:20:47 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa3e0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:47 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:20:47 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:47 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:47 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:47 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:58 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:20:58 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa2d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:58 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:20:58 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:58 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:20:58 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:20:58 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:09 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:09 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa160000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:09 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:09 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:09 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:09 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:09 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:14 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:14 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xfa0e0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:14 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:14 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:14 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:14 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:14 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:20 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:20 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9fd0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:20 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:20 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:20 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:20 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:20 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:30 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:30 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9f60000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:30 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:30 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:30 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:30 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:30 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:41 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:41 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9e50000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:41 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:41 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:41 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:41 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x41] SM: Present bit in Context Entry is clear
+May 06 16:21:41 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:47 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:47 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9dd0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:47 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:47 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:47 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:47 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:47 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:52 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:52 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9d10000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:52 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:21:52 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:52 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:21:52 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:21:52 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:03 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:03 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9c50000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:03 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:03 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:03 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:03 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:03 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:13 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:13 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xeffd0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:13 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:13 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:19 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:19 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9b80000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:19 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:19 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:19 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:19 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x41] SM: Present bit in Context Entry is clear
+May 06 16:22:19 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:25 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:25 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9a70000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:25 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:25 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:25 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:25 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:25 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:35 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:35 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xef3d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:35 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:35 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:35 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:35 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:35 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:46 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:46 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9970000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:46 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:46 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:46 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:46 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:46 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:51 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:51 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9860000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:51 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:22:51 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:51 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:51 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:51 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:57 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:57 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:57 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:57 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:57 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:22:57 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:22:57 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:08 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:08 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf96f0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:08 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:08 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:08 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:19 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:19 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9670000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:19 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:19 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:19 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:19 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:19 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:30 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:30 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9560000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:30 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:30 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:30 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:30 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:30 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:41 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:41 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf94e0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:41 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:41 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:41 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:41 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:41 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:51 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:51 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf93d0000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:51 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:23:51 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:51 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:23:51 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:23:51 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:02 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:24:02 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xf9350000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:02 obpc kernel: DMAR: DRHD: handling fault status reg 3
+May 06 16:24:02 obpc kernel: DMAR: [DMA Write NO_PASID] Request device [04:00.0] fault addr 0xffd53000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:02 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:02 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xffd01000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:02 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:07 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:07 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:08 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:08 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:12 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:12 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:13 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:13 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:17 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:17 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:18 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:18 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:18 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:18 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:18 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:22 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:22 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:23 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:23 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:23 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:23 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:23 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:27 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:27 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:28 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:28 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:28 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:28 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:28 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:32 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:32 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:33 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:33 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:33 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:33 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:33 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:37 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:37 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:38 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:38 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:38 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:38 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:38 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:42 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:42 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:43 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:43 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:43 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:43 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:43 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:47 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:47 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:48 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:48 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:48 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:48 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:48 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:53 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:53 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:53 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:53 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:53 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:53 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:53 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:58 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:58 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:58 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:58 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:58 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:24:58 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:24:58 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:03 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:03 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:03 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:03 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:03 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:03 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:03 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:08 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:08 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:08 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:08 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:13 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:13 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:13 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:13 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:18 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:18 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:18 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:18 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:18 obpc kernel: DMAR: DRHD: handling fault status reg 2
+May 06 16:25:18 obpc kernel: DMAR: [DMA Read NO_PASID] Request device [04:00.0] fault addr 0xf92bf000 [fault reason 0x71] SM: Present bit in first-level paging entry is clear
+May 06 16:25:18 obpc kernel: DMAR: DRHD: handling fault status reg 2

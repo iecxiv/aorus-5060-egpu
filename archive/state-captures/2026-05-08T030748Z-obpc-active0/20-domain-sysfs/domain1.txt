@@ -1,0 +1,3 @@
+deauthorization                = 1 
+iommu_dma_protection           = 0 
+security                       = user 

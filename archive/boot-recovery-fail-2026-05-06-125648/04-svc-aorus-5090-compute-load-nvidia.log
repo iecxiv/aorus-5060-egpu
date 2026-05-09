@@ -1,0 +1,25 @@
+May 06 12:56:46 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:56:47 obpc aorus-5090-compute-load-nvidia[1170]: RTX 5090 is bound to the base nvidia driver.
+May 06 12:56:47 obpc aorus-5090-compute-load-nvidia[1170]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 06 12:56:47 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 06 12:56:54 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Deactivated successfully.
+May 06 12:56:54 obpc systemd[1]: Stopped aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 06 12:56:54 obpc systemd[1]: Stopping aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:56:54 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:56:58 obpc aorus-5090-compute-load-nvidia[1505]: RTX 5090 is bound to the base nvidia driver.
+May 06 12:56:58 obpc aorus-5090-compute-load-nvidia[1505]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 06 12:56:58 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 06 12:57:12 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Deactivated successfully.
+May 06 12:57:12 obpc systemd[1]: Stopped aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 06 12:57:12 obpc systemd[1]: Stopping aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:57:12 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:57:15 obpc aorus-5090-compute-load-nvidia[4535]: RTX 5090 is bound to the base nvidia driver.
+May 06 12:57:15 obpc aorus-5090-compute-load-nvidia[4535]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 06 12:57:15 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 06 12:57:29 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Deactivated successfully.
+May 06 12:57:29 obpc systemd[1]: Stopped aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 06 12:57:29 obpc systemd[1]: Stopping aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:57:29 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:57:32 obpc aorus-5090-compute-load-nvidia[4742]: RTX 5090 is bound to the base nvidia driver.
+May 06 12:57:32 obpc aorus-5090-compute-load-nvidia[4742]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 06 12:57:32 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.

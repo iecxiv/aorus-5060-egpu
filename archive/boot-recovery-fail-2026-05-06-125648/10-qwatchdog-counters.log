@@ -1,0 +1,3 @@
+=== Q-watchdog cycles + detections ===
+/sys/bus/pci/devices/0000:04:00.0/aorus_qwatchdog_cycles          = 4
+/sys/bus/pci/devices/0000:04:00.0/aorus_qwatchdog_detections      = 0

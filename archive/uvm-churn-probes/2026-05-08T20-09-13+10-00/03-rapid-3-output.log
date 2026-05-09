@@ -1,0 +1,13 @@
+cuInit=0
+cuDeviceGet=0
+device=0
+cuCtxCreate=0
+cuMemAlloc=0
+cuMemsetD8=0
+cuCtxSynchronize=0
+cuMemcpyDtoH=0
+bytes_checked=4096
+mismatches=0
+cuMemFree=0
+cuCtxDestroy=0
+cuda_smoke=pass

@@ -1,0 +1,6 @@
+## modinfo (filename, version, parm) ##
+filename:       /lib/modules/6.19.14-200.fc43.x86_64/kernel/drivers/net/thunderbolt/thunderbolt_net.ko.xz
+parm:           e2e:USB4NET full end-to-end flow control (default: true) (bool)
+
+## /sys/module/thunderbolt_net/parameters/* ##
+(module thunderbolt_net not currently loaded)

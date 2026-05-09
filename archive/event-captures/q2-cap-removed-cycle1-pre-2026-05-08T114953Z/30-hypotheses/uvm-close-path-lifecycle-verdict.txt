@@ -1,0 +1,8 @@
+hypothesis_id=UVM-CLOSE-PATH-LIFECYCLE
+hypothesis_desc=UVM last-close transition observed (Patch 0030 close-path instrumentation fired)
+hypothesis_ref=docs/architecture.md#problem-4-the-close-path-bug-also-affects-devnvidia-uvm
+hypothesis_subsystem=nvidia
+verdict=FIRED
+fired_hits=46
+negative_hits=0
+min_hits_fired=1

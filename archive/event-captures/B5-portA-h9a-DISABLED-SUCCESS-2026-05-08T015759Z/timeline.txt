@@ -1,0 +1,51 @@
+# Timeline — extracted from /root/aorus-5090-gpu/archive/event-captures/B5-portA-h9a-DISABLED-SUCCESS-2026-05-08T015759Z/10-raw/full-kernel.log
+# Generated: 2026-05-08T01:57:59Z
+# Timestamp format: monotonic
+
+== Landmarks (first occurrence) ==
+EVENT                           TIME            Δ-prev     
+----------------------------------------------------------------------
+kernel_boot_start               1.106678        (start)     
+tb_acpi_register                1.357773        +0.251s     
+tb_nhi0_probe                   1.358011        +0.000s     
+tb_nhi1_probe                   2.138080        +0.780s     
+tb_acpi_link_created            1.360241        +-0.778s    
+tb_domain_added                 1.360325        +0.000s     
+tb_security_set                 1.360795        +0.000s     
+tb_first_device_found           1.441007        +0.080s     
+tb_aorus_named                  1.441134        +0.000s     
+tb_retimer_found                1.693103        +0.252s     
+tb_wait_for_port_first          1.394088        +-0.299s    
+tb_unplugged_first              2.121006        +0.727s     
+tb_switch_reset                 —             —         
+pcieport_aer_enabled            1.130502        +-0.991s    
+pci_bridge_03_probe             1.116617        +-0.014s    
+pci_gpu_enumerated              1.118834        +0.002s     
+nvidia_module_load              —             —         
+nvrm_first_diag                 6.481561        +5.363s     
+nvrm_startdev_first             6.995007        +0.513s     
+nvrm_pre_rminit_first           6.996004        +0.001s     
+nvrm_post_rminit_first          8.286142        +1.290s     
+gsp_first_lockdown              —             —         
+gsp_init_done                   —             —         
+rminit_failed_first             —             —         
+link_demote_to_gen1             —             —         
+link_at_gen3                    6.481561        +-1.805s    
+wpr2_set                        8.286142        +1.805s     
+uvm_loaded                      —             —         
+
+== Counters ==
+EVENT                           COUNT
+--------------------------------------------------
+gsp_lockdown_count              0
+rminit_fail_count               0
+rminit_ok_count                 1
+tb_wait_for_port_calls          7
+aer_corrected_count             0
+tb_unplugged_count              6
+rminit_failed_msg_count         0
+
+== Notable derived deltas ==
+TB_ACPI_register → TB_device_found           0.083s
+tb_acpi_register → first_NVRM_DIAG           5.124s
+kernel_boot → first_NVRM_DIAG                5.375s

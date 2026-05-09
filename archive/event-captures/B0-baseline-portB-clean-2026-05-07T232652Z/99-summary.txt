@@ -1,0 +1,28 @@
+=== Event Capture Summary ===
+Experiment: B0-baseline-portB-clean
+Captured:   2026-05-07T232652Z
+Host:       obpc / 6.19.14-200.fc43.x86_64
+Changes vs baseline:
+  port=B
+  cmdline=stock
+
+=== Hypothesis Verdicts ===
+ID      VERDICT       HITS     DESCRIPTION
+------  ------------  -------  -----------
+CLOSE-PATH-WEDGE  NOT-FIRED     0        Close-path wedge cycle (nvidia-smi or similar bouncing /dev/nvidia0)
+GSP-LOCKDOWN  NOT-FIRED     0        NVIDIA GSP firmware boot returns LOCKDOWN_NOTICE (rate mismatch)
+H19     INCONCLUSIVE  0        tb_wait_for_port 1s cap too short for cold-boot retimers
+H20     INCONCLUSIVE  0        usb4_switch_configuration_valid 50ms CR-bit wait too short
+H21     INCONCLUSIVE  0        Missing tb_native_add_links - ACPI device-link asymmetry per NHI
+
+=== Notable counts (auto-detected) ===
+GSP_LOCKDOWN_NOTICE: 0
+rmInit FAIL count:   0
+rmInit OK count:     8
+AER cor events:      26
+TB tunnel events:    0
+
+=== Cross-references ===
+Detail:    /root/aorus-5090-gpu/archive/event-captures/B0-baseline-portB-clean-2026-05-07T232652Z/30-hypotheses/<id>-evidence.txt
+Raw logs:  /root/aorus-5090-gpu/archive/event-captures/B0-baseline-portB-clean-2026-05-07T232652Z/10-raw/
+Filtered:  /root/aorus-5090-gpu/archive/event-captures/B0-baseline-portB-clean-2026-05-07T232652Z/20-filtered/

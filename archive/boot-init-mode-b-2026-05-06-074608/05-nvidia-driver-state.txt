@@ -1,0 +1,96 @@
+### modinfo ###
+filename:       /lib/modules/6.19.14-200.fc43.x86_64/extra/nvidia.ko.xz
+import_ns:      DMA_BUF
+alias:          char-major-195-*
+description:    NVIDIA core GPU kernel module
+version:        595.71.05-aorus.3
+supported:      external
+license:        Dual MIT/GPL
+firmware:       nvidia/595.71.05-aorus.3/gsp_tu10x.bin
+firmware:       nvidia/595.71.05-aorus.3/gsp_ga10x.bin
+softdep:        pre: ecdh_generic,ecdsa_generic
+srcversion:     BE840265E6BFF4266371365
+alias:          pci:v000010DEd*sv*sd*bc06sc80i00*
+alias:          pci:v000010DEd*sv*sd*bc03sc02i00*
+alias:          pci:v000010DEd*sv*sd*bc03sc00i00*
+alias:          of:N*T*Cnvidia,tegra264-displayC*
+alias:          of:N*T*Cnvidia,tegra264-display
+alias:          of:N*T*Cnvidia,tegra234-displayC*
+alias:          of:N*T*Cnvidia,tegra234-display
+depends:        
+name:           nvidia
+retpoline:      Y
+vermagic:       6.19.14-200.fc43.x86_64 SMP preempt mod_unload 
+parm:           NvSwitchRegDwords:NvSwitch regkey (charp)
+parm:           NvSwitchBlacklist:NvSwitchBlacklist=uuid[,uuid...] (charp)
+parm:           NVreg_ResmanDebugLevel:int
+parm:           NVreg_RmLogonRC:int
+parm:           NVreg_ModifyDeviceFiles:int
+parm:           NVreg_DeviceFileUID:int
+parm:           NVreg_DeviceFileGID:int
+parm:           NVreg_DeviceFileMode:int
+
+### lsmod nvidia* ###
+nvidia_uvm           2666496  4
+nvidia              16388096  1 nvidia_uvm
+
+### /sys/module/nvidia/parameters ###
+NVreg_AorusWatchdogEnable = 1
+NVreg_AorusWatchdogIntervalMs = 200
+
+### /proc/driver/nvidia ###
+/proc/driver/nvidia/params
+/proc/driver/nvidia/suspend
+/proc/driver/nvidia/version
+/proc/driver/nvidia/registry
+/proc/driver/nvidia/suspend_depth
+/proc/driver/nvidia/patches/README
+/proc/driver/nvidia/warnings/README
+/proc/driver/nvidia/capabilities/fabric-imex-mgmt
+/proc/driver/nvidia/gpus/0000:04:00.0/power
+/proc/driver/nvidia/gpus/0000:04:00.0/registry
+/proc/driver/nvidia/gpus/0000:04:00.0/information
+/proc/driver/nvidia/capabilities/mig/monitor
+/proc/driver/nvidia/capabilities/mig/config
+
+### nvidia ko params from etc/modprobe.d ###
+# Block all paths that would auto-load NVIDIA modules. The GPU is loaded
+# explicitly by aorus-5090-compute-load-nvidia.service, which uses
+# `modprobe --ignore-install` to bypass the install lines below.
+#
+# Why both blacklist and install:
+#   blacklist alone is honoured by udev/modalias autoload but ignored by
+#   explicit `modprobe nvidia` calls (e.g. by NVIDIA's own scriptlets).
+#   `install ... /bin/false` makes any explicit `modprobe nvidia` a no-op
+#   unless `--ignore-install` is passed.
+#
+# nvidia_drm is additionally pinned to no-modeset / no-fbdev so that, even if
+# something forces it loaded, it will not register a DRM/KMS device that GNOME
+# could try to use as a display output.
+
+blacklist nvidia
+blacklist nvidia_modeset
+blacklist nvidia_uvm
+blacklist nvidia_drm
+options nvidia_drm modeset=0 fbdev=0
+
+install nvidia /bin/false
+install nvidia_modeset /bin/false
+install nvidia_uvm /bin/false
+install nvidia_drm /bin/false
+
+# Set /dev/nvidia* permissions at module-load time so that nvidia-modprobe
+# (called implicitly by nvidia-smi and various libnvidia-ml callers) does
+# NOT reset our 0660 root:ollama back to its 0666 root:root default. The
+# loader's explicit chmod is belt-and-suspenders, but these options are
+# the load-bearing mechanism: they apply to every device-file creation
+# performed by nvidia-modprobe, not just the ones we do explicitly.
+#
+# Note: these only affect /dev/nvidia0 and /dev/nvidiactl (the nvidia
+# main module's devices). The nvidia_uvm submodule has no equivalent
+# parameters, so /dev/nvidia-uvm + -uvm-tools + nvidia-caps/* still get
+# reset to 0666 by nvidia-modprobe. status.sh sections 8d/8e document
+# and check for this; Layer 2 (ICD disable) is the actual safety.
+#
+# GID 968 == 'ollama' on this host (verified by `getent group ollama`).
+# If a fresh Fedora install assigns ollama a different GID, status.sh's

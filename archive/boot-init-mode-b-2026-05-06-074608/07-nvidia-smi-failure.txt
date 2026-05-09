@@ -1,0 +1,11 @@
+### nvidia-smi -L ###
+No devices found.
+exit=0
+
+### nvidia-smi -q ###
+No devices were found
+exit=0
+
+### nvidia-smi -x -q (XML) ###
+No devices were found
+exit=0

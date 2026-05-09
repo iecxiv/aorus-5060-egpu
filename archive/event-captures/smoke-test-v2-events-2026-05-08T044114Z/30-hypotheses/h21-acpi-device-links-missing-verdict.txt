@@ -1,0 +1,8 @@
+hypothesis_id=H21
+hypothesis_desc=Missing tb_native_add_links - ACPI device-link asymmetry per NHI
+hypothesis_ref=docs/reliability-hypothesis-ledger.md#h21
+hypothesis_subsystem=thunderbolt
+verdict=INCONCLUSIVE
+fired_hits=0
+negative_hits=0
+min_hits_fired=1

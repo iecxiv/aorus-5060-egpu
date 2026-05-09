@@ -1,0 +1,16 @@
+ * Intel Gen14
+   |- type:          host
+   |- name:          Gen14
+   |- vendor:        Intel
+   |- uuid:          b9408780-d0a9-2223-ffff-ffffffffffff
+   |- dbus path:     /org/freedesktop/bolt/devices/b9408780_d0a9_2223_ffff_ffffffffffff
+   |- generation:    USB4
+   |- status:        authorized
+   |  |- domain:     b9408780-d0a9-2223-ffff-ffffffffffff
+   |  |- parent:     (null)
+   |  |- syspath:    /sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0
+   |  `- authflags:  none
+   |- authorized:    Fri 08 May 2026 06:35:38 AM UTC
+   |- connected:     Fri 08 May 2026 06:35:38 AM UTC
+   `- stored:        no
+

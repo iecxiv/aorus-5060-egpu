@@ -1,0 +1,30 @@
+=== Event Capture Summary ===
+Experiment: smoke-light-events
+Captured:   2026-05-08T044537Z
+Host:       obpc / 6.19.14-200.fc43.x86_64
+Changes vs baseline:
+  perf-capture-parent=smoke-light-2026-05-08T044432Z
+  workload=mode-b-stress-light
+  smoke=true
+
+=== Hypothesis Verdicts ===
+ID      VERDICT       HITS     DESCRIPTION
+------  ------------  -------  -----------
+CLOSE-PATH-WEDGE  NOT-FIRED     0        Close-path wedge cycle (nvidia-smi or similar bouncing /dev/nvidia0)
+GSP-LOCKDOWN  NOT-FIRED     0        NVIDIA GSP firmware boot returns LOCKDOWN_NOTICE (rate mismatch)
+H19     INCONCLUSIVE  0        tb_wait_for_port 1s cap too short for cold-boot retimers
+H20     INCONCLUSIVE  0        usb4_switch_configuration_valid 50ms CR-bit wait too short
+H21     INCONCLUSIVE  0        Missing tb_native_add_links - ACPI device-link asymmetry per NHI
+MODE-B-AER-SILENT  INCONCLUSIVE  0        Mode B detected (qwatchdog or error_handler) but AER state empty — TB-tunneled silent failure
+
+=== Notable counts (auto-detected) ===
+GSP_LOCKDOWN_NOTICE: 0
+rmInit FAIL count:   0
+rmInit OK count:     2
+AER cor events:      0
+TB tunnel events:    3
+
+=== Cross-references ===
+Detail:    /root/aorus-5090-gpu/archive/event-captures/smoke-light-events-2026-05-08T044537Z/30-hypotheses/<id>-evidence.txt
+Raw logs:  /root/aorus-5090-gpu/archive/event-captures/smoke-light-events-2026-05-08T044537Z/10-raw/
+Filtered:  /root/aorus-5090-gpu/archive/event-captures/smoke-light-events-2026-05-08T044537Z/20-filtered/

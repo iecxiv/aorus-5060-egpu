@@ -1,0 +1,148 @@
+00000000-00000fff : Reserved
+00001000-0009efff : System RAM
+0009f000-000fffff : Reserved
+  000a0000-000bffff : PCI Bus 0000:00
+  000f0000-000fffff : System ROM
+00100000-483a1fff : System RAM
+  2d000000-3cffffff : Crash kernel
+483a2000-483d0fff : Reserved
+483d1000-50df0fff : System RAM
+50df1000-50df1fff : Reserved
+50df2000-545f1fff : System RAM
+545f2000-5e6b5fff : Reserved
+5e6b6000-5e7b7fff : ACPI Tables
+5e7b8000-5e93efff : ACPI Non-volatile Storage
+  5e807000-5e807fff : USBC000:00
+5e93f000-63ffefff : Reserved
+  62b4ef98-62b4ef98 : wdat_wdt
+    62b4ef98-62b4ef98 : wdat_wdt wdat_wdt
+63fff000-63ffffff : System RAM
+64000000-787fffff : Reserved
+80000000-bfffffff : PCI Bus 0000:00
+  80000000-89efffff : PCI Bus 0000:02
+    80000000-89efffff : PCI Bus 0000:03
+      80000000-840fffff : PCI Bus 0000:04
+        80000000-83ffffff : 0000:04:00.0
+          80000000-83ffffff : nvidia
+        84000000-8407ffff : 0000:04:00.0
+        84080000-84083fff : 0000:04:00.1
+          84080000-84083fff : ICH HD audio
+      84200000-860fffff : PCI Bus 0000:1f
+      86100000-87ffffff : PCI Bus 0000:12
+      88000000-89efffff : PCI Bus 0000:05
+  89f00000-89f00fff : 0000:00:1f.5
+    89f00000-89f00fff : spi_intel_pci
+  8a000000-8fffffff : PCI Bus 0000:2c
+  90000000-902fffff : PCI Bus 0000:56
+    90000000-900fffff : 0000:56:00.0
+    90100000-901fffff : 0000:56:00.0
+      90100000-901fffff : igc
+    90200000-90203fff : 0000:56:00.0
+      90200000-90203fff : igc
+  90300000-903fffff : PCI Bus 0000:01
+    90300000-90303fff : 0000:01:00.0
+      90300000-90303fff : nvme
+c0000000-cfffffff : PCI ECAM 0000 [bus 00-ff]
+  c0000000-cfffffff : pnp 00:03
+e0d10000-e0d1ffff : INTC105E:00
+  e0d10000-e0d1ffff : INTC105E:00 INTC105E:00
+e0d20000-e0d2ffff : INTC105E:00
+  e0d20000-e0d2ffff : INTC105E:00 INTC105E:00
+e0d30000-e0d3ffff : INTC105E:00
+  e0d30000-e0d3ffff : INTC105E:00 INTC105E:00
+e0d40000-e0d4ffff : INTC105E:00
+  e0d40000-e0d4ffff : INTC105E:00 INTC105E:00
+e0d50000-e0d5ffff : INTC105E:00
+  e0d50000-e0d5ffff : INTC105E:00 INTC105E:00
+fc800000-fc800fff : dmar0
+fc801000-fc801fff : dmar1
+fe000000-fe010fff : Reserved
+fe410000-fe410fff : Reserved
+fe420200-fe42045f : telem12
+fe420c80-fe420c8f : intel_vsec.telemetry.2
+fe420c90-fe420c9f : intel_vsec.telemetry.2
+fe420ca0-fe420caf : intel_vsec.telemetry.2
+fe420cb0-fe420cbf : intel_vsec.telemetry.2
+fe420cc0-fe420ccf : intel_vsec.telemetry.2
+fe420d10-fe42105b : telem9
+fe421068-fe421097 : telem10
+fe421200-fe42124f : telem11
+fe421400-fe421523 : telem13
+fec00000-fec00fff : Reserved
+  fec00000-fec003ff : IOAPIC 0
+fed00000-fed00fff : Reserved
+  fed00000-fed003ff : HPET 0
+    fed00000-fed003ff : PNP0103:00
+fed20000-fed7ffff : Reserved
+  fed40000-fed44fff : MSFT0101:00
+    fed40000-fed44fff : MSFT0101:00
+fedc0000-fedc7fff : pnp 00:03
+fee00000-fee00fff : Reserved
+100000000-207fffffff : System RAM
+  b35e00000-b374127c7 : Kernel code
+  b37600000-b3876efff : Kernel rodata
+  b38800000-b38c7b13f : Kernel data
+  b39859000-b39dfffff : Kernel bss
+4000000000-3ffbfffffff : PCI Bus 0000:00
+  4000000000-5013ffffff : PCI Bus 0000:02
+    4000000000-5013ffffff : PCI Bus 0000:03
+      4000000000-48140fffff : PCI Bus 0000:04
+        4000000000-47ffffffff : 0000:04:00.0
+        4800000000-480fffffff : 0000:04:00.0
+        4810000000-4811ffffff : 0000:04:00.0
+        4812000000-4813ffffff : 0000:04:00.0
+        4814000000-481403ffff : 0000:04:00.0
+      4814200000-4abebfffff : PCI Bus 0000:1f
+      4abec00000-4d695fffff : PCI Bus 0000:12
+      4d69600000-5013ffffff : PCI Bus 0000:05
+  5020000000-502fffffff : 0000:00:02.0
+  5030000000-582fffffff : PCI Bus 0000:2c
+  5830000000-5836ffffff : 0000:00:02.0
+  5837000000-5837ffffff : 0000:00:02.0
+  5838000000-583fffffff : 0000:00:0b.0
+    5838000000-583fffffff : 0000:00:0b.0 0000:00:0b.0
+  5840000000-58401fffff : 0000:00:1f.3
+  5840200000-584023ffff : 0000:00:0d.3
+    5840200000-584023ffff : thunderbolt
+  5840240000-584027ffff : 0000:00:0d.2
+    5840240000-584027ffff : thunderbolt
+  5840280000-58402bffff : 0000:00:0a.0
+    5840286000-5840286257 : telem3
+    58402862e8-5840286fff : telem1
+    5840289000-584028900f : intel_vsec.telemetry.0
+    5840289010-584028901f : intel_vsec.telemetry.0
+    5840289020-584028902f : intel_vsec.telemetry.0
+    5840289030-584028903f : intel_vsec.telemetry.0
+    5840296000-5840296087 : telem4
+    5840296200-58402973ff : telem2
+  58402c0000-58402dffff : 0000:00:04.0
+    58402c0000-58402dffff : proc_thermal
+  58402e0000-58402effff : 0000:00:14.0
+    58402e0000-58402effff : xhci-hcd
+  58402f0000-58402fffff : 0000:00:12.0
+    58402f0000-58402fffff : intel_ish_ipc
+  5840300000-584030ffff : 0000:00:0d.0
+    5840300000-584030ffff : xhci-hcd
+  5840310000-5840313fff : 0000:00:1f.3
+    5840310000-5840313fff : ICH HD audio
+  5840314000-5840317fff : 0000:00:14.3
+    5840314000-5840317fff : iwlwifi
+  5840318000-584031bfff : 0000:00:14.2
+    5840318400-58403187a3 : telem8
+    5840319e00-5840319ebb : telem7
+    584031ac00-584031ac0f : intel_vsec.telemetry.1
+    584031ac10-584031ac1f : intel_vsec.telemetry.1
+    584031ac20-584031ac2f : intel_vsec.telemetry.1
+    584031ac30-584031ac3f : intel_vsec.telemetry.1
+    584031ac80-584031b11b : telem5
+    584031b120-584031b1e3 : telem6
+  584031c000-584031c0ff : 0000:00:1f.4
+    584031c000-584031c0ff : i801_smbus
+  584031d000-584031dfff : 0000:00:16.0
+    584031d000-584031dfff : mei_me
+  584031e000-584031efff : 0000:00:14.2
+  584031f000-584031ffff : 0000:00:0d.3
+  5840320000-5840320fff : 0000:00:0d.2
+  5840321000-5840321fff : 0000:00:0b.0
+    5840321000-5840321fff : 0000:00:0b.0 0000:00:0b.0
+  5840322000-5840322fff : 0000:00:08.0

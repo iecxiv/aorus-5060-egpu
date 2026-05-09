@@ -1,0 +1,4 @@
+Evidence for H20 (usb4_switch_configuration_valid 50ms CR-bit wait too short)
+=== Verdict: INCONCLUSIVE (0 fired hits, 0 negative hits) ===
+
+=== FIRED-signature matches: NONE ===

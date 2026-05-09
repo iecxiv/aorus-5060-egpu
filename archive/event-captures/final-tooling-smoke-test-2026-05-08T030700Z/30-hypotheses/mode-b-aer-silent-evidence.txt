@@ -1,0 +1,4 @@
+Evidence for MODE-B-AER-SILENT (Mode B detected (qwatchdog or error_handler) but AER state empty — TB-tunneled silent failure)
+=== Verdict: INCONCLUSIVE (0 fired hits, 0 negative hits) ===
+
+=== FIRED-signature matches: NONE ===

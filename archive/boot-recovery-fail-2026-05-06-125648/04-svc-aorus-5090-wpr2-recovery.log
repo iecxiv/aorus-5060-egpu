@@ -1,0 +1,43 @@
+May 06 12:56:48 obpc systemd[1]: Starting aorus-5090-wpr2-recovery.service - AORUS RTX 5090 eGPU WPR2-stuck recovery (Lever R Tier 1 v3)...
+May 06 12:56:48 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] nvidia-smi shows no working GPU — checking for WPR2-stuck pattern
+May 06 12:56:48 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [err] WPR2-stuck detected — executing recovery sequence (Lever R Tier 1 v3 + Tier 2 retry budget)
+May 06 12:56:48 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] === recovery attempt 1/3 ===
+May 06 12:56:48 obpc aorus-wpr2-recover[1433]: step 1: stopping persistenced + uvm-keepalive
+May 06 12:56:48 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 1: stopping persistenced + uvm-keepalive
+May 06 12:56:48 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 2: modprobe -r
+May 06 12:56:48 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 3: PCI remove (0000:04:00.0)
+May 06 12:56:50 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 4: PCI rescan
+May 06 12:56:53 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 5: PCI reset (clears WPR2)
+May 06 12:56:54 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 6: restart aorus-5090-compute-load-nvidia.service
+May 06 12:57:00 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 7: starting persistenced + uvm-keepalive
+May 06 12:57:01 obpc aorus-wpr2-recover[4448]: step 8: verifying nvidia-smi
+May 06 12:57:01 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 8: verifying nvidia-smi
+May 06 12:57:01 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [warning] attempt 1 FAILED after 13018ms — nvidia-smi shows no working GPU
+May 06 12:57:01 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [warning] attempt 1 failed; retrying after 5s (2 attempts remaining)
+May 06 12:57:06 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] === recovery attempt 2/3 ===
+May 06 12:57:06 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 1: stopping persistenced + uvm-keepalive
+May 06 12:57:06 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 2: modprobe -r
+May 06 12:57:06 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 3: PCI remove (0000:04:00.0)
+May 06 12:57:08 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 4: PCI rescan
+May 06 12:57:11 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 5: PCI reset (clears WPR2)
+May 06 12:57:12 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 6: restart aorus-5090-compute-load-nvidia.service
+May 06 12:57:17 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 7: starting persistenced + uvm-keepalive
+May 06 12:57:18 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 8: verifying nvidia-smi
+May 06 12:57:18 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [warning] attempt 2 FAILED after 11849ms — nvidia-smi shows no working GPU
+May 06 12:57:18 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [warning] attempt 2 failed; retrying after 5s (1 attempts remaining)
+May 06 12:57:23 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] === recovery attempt 3/3 ===
+May 06 12:57:23 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 1: stopping persistenced + uvm-keepalive
+May 06 12:57:23 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 2: modprobe -r
+May 06 12:57:23 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 3: PCI remove (0000:04:00.0)
+May 06 12:57:25 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 4: PCI rescan
+May 06 12:57:28 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 5: PCI reset (clears WPR2)
+May 06 12:57:29 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 6: restart aorus-5090-compute-load-nvidia.service
+May 06 12:57:34 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 7: starting persistenced + uvm-keepalive
+May 06 12:57:35 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 8: verifying nvidia-smi
+May 06 12:57:35 obpc aorus-wpr2-recover[5372]: attempt 3 FAILED after 12709ms — nvidia-smi shows no working GPU
+May 06 12:57:35 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [warning] attempt 3 FAILED after 12709ms — nvidia-smi shows no working GPU
+May 06 12:57:35 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [err] RECOVERY FAILED — all 3 attempts exhausted in 47730ms
+May 06 12:57:35 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [err] final nvidia-smi output: No devices found.
+May 06 12:57:35 obpc systemd[1]: aorus-5090-wpr2-recovery.service: Main process exited, code=exited, status=1/FAILURE
+May 06 12:57:35 obpc systemd[1]: aorus-5090-wpr2-recovery.service: Failed with result 'exit-code'.
+May 06 12:57:35 obpc systemd[1]: Failed to start aorus-5090-wpr2-recovery.service - AORUS RTX 5090 eGPU WPR2-stuck recovery (Lever R Tier 1 v3).

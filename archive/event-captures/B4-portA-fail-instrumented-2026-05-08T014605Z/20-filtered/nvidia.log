@@ -1,0 +1,617 @@
+[    6.314024] obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+[    6.318051] obpc kernel: nvidia 0000:04:00.0: enabling device (0000 -> 0003)
+[    6.318317] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS UncMaskClear (G3-H): GPU AER UncMask 0x00400000 -> 0x00000000 (matching Windows; un-masks Internal Error so Unc Non-Fatal fires instead of Cor=0x2000 demotion)
+[    6.318325] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[    6.318331] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG-AER]: site=probe-end          GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+[    6.318337] obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+[    6.332025] obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 08:11:44 PM AEST 2026
+[    6.849006] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[    6.849029] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+[    6.849045] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[    6.849051] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+[    7.738095] obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+[    7.738177] obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+[    7.738184] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+[    7.738191] obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+[    7.738196] obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+[    7.738202] obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+[    7.738207] obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+[    7.738213] obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x000651448636d39a 0x0000000000000000          y
+[    7.738220] obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x000651448636d399 0x0000000000000000           
+[    7.738226] obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+[    7.738231] obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+[    7.738237] obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514486418576 0x0006514486418576          y
+[    7.738241] obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x000651448641713c 0x000651448641713c          y
+[    7.738247] obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514486417032 0x0006514486417032          y
+[    7.738251] obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514486416c81 0x0006514486416c81          y
+[    7.738256] obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144864001fe 0x00065144864001fe          y
+[    7.738263] obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514486400174 0x0006514486400174          y
+[    7.738271] obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144863ff209 0x00065144863ff209          y
+[    7.738276] obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144863fda08 0x00065144863fda08          y
+[    7.738281] obpc kernel: CPU: 2 UID: 967 PID: 1332 Comm: nvidia-persiste Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+[    7.738315] obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+[    7.738320] obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+[    7.738326] obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+[    7.738331] obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+[    7.738336] obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+[    7.738340] obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+[    7.738356] obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+[    7.738362] obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+[    7.738371] obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+[    7.738380] obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+[    7.738528] obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+[    7.738533] obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+[    7.738541] obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+[    7.738546] obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+[    7.738551] obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+[    7.742061] obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+[    7.742088] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+[    7.742095] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[    7.742112] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[    7.742118] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+[    7.781136] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[    7.781214] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[    7.782251] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[    7.782308] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[    7.813102] obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+[    7.813163] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+[    7.813180] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+[    7.813188] obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+[    7.813193] obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+[    7.813197] obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+[    7.813202] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+[    7.814092] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[    7.814145] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[    7.814162] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+[    7.943036] obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+[   14.511019] obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+[   14.515017] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   14.515061] obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+[   17.549135] obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 08:11:44 PM AEST 2026
+[   20.057089] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   20.058087] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   21.133020] obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+[   21.133123] obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+[   21.133139] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+[   21.133149] obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+[   21.133159] obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+[   21.133166] obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+[   21.133175] obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+[   21.133181] obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x00065144870017af 0x0000000000000000          y
+[   21.133187] obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x00065144870017ae 0x0000000000000000           
+[   21.133203] obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+[   21.133211] obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+[   21.133216] obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144870dd8c8 0x00065144870dd8c8          y
+[   21.133222] obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144870dc30a 0x00065144870dc30a          y
+[   21.133234] obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144870dc1f1 0x00065144870dc1f1          y
+[   21.133244] obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144870dbdf6 0x00065144870dbdf6          y
+[   21.133254] obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144870c364a 0x00065144870c364a          y
+[   21.133263] obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144870c35a7 0x00065144870c35a7          y
+[   21.133274] obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144870c24f1 0x00065144870c24f1          y
+[   21.133285] obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144870bb784 0x00065144870bb784          y
+[   21.133295] obpc kernel: CPU: 2 UID: 967 PID: 4449 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+[   21.133343] obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+[   21.133351] obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+[   21.133356] obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+[   21.133366] obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+[   21.133371] obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+[   21.133377] obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+[   21.133396] obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+[   21.133401] obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+[   21.133412] obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+[   21.133420] obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+[   21.133637] obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+[   21.133645] obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+[   21.133651] obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+[   21.133660] obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+[   21.133666] obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+[   21.135283] obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+[   21.135300] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+[   21.147126] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0xffffffff WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   21.147160] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   21.147167] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+[   21.178165] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   21.178236] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   21.179088] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   21.179117] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   21.213193] obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+[   21.213248] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+[   21.213254] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+[   21.213259] obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+[   21.213264] obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+[   21.213269] obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+[   21.213274] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+[   21.214180] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   21.214257] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   21.214271] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+[   26.367042] obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+[   32.927035] obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+[   32.932006] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   32.932057] obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+[   35.561036] obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 08:11:44 PM AEST 2026
+[   38.078004] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   38.079004] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   39.069826] obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+[   39.069897] obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+[   39.069913] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+[   39.069919] obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+[   39.069925] obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+[   39.069934] obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+[   39.069939] obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+[   39.069945] obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x000651448812e7c5 0x0000000000000000          y
+[   39.069950] obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x000651448812e7c3 0x0000000000000000           
+[   39.069965] obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+[   39.069971] obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+[   39.069977] obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144881f99a7 0x00065144881f99a7          y
+[   39.069982] obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144881f8591 0x00065144881f8591          y
+[   39.069993] obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144881f848e 0x00065144881f848e          y
+[   39.069999] obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144881f80dc 0x00065144881f80dd      1us y
+[   39.070012] obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144881e16fd 0x00065144881e16fd          y
+[   39.070022] obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144881e1666 0x00065144881e1666          y
+[   39.070027] obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144881e0700 0x00065144881e0701      1us y
+[   39.070037] obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144881da1f8 0x00065144881da1f8          y
+[   39.070042] obpc kernel: CPU: 3 UID: 967 PID: 4619 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+[   39.070078] obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+[   39.070084] obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+[   39.070095] obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+[   39.070102] obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+[   39.070111] obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+[   39.070119] obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+[   39.070136] obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+[   39.070141] obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+[   39.070146] obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+[   39.070152] obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+[   39.070337] obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+[   39.070345] obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+[   39.070351] obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+[   39.070359] obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+[   39.070364] obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+[   39.072240] obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+[   39.072283] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+[   39.083013] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x00000000 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   39.083068] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   39.083076] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+[   39.112004] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   39.112018] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   39.113003] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   39.113017] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   39.144011] obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+[   39.144050] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+[   39.144075] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+[   39.144095] obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+[   39.144102] obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+[   39.144108] obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+[   39.144124] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+[   39.145003] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   39.145014] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   39.145022] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+[   44.242051] obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+[   50.817016] obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+[   50.821010] obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   50.821047] obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+[   53.510074] obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 08:11:44 PM AEST 2026
+[   56.030006] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   56.034010] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[   57.020914] obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+[   57.021215] obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+[   57.021232] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+[   57.021247] obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+[   57.021262] obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+[   57.021274] obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+[   57.021281] obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+[   57.021291] obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x000651448924f087 0x0000000000000000          y
+[   57.021298] obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x000651448924f086 0x0000000000000000           
+[   57.021310] obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+[   57.021321] obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+[   57.021329] obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514489318337 0x0006514489318337          y
+[   57.021343] obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514489316f25 0x0006514489316f25          y
+[   57.021354] obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514489316e1b 0x0006514489316e1b          y
+[   57.021365] obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514489316a70 0x0006514489316a71      1us y
+[   57.021376] obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144893000c9 0x00065144893000c9          y
+[   57.021389] obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514489300030 0x0006514489300030          y
+[   57.021398] obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144892ff0c7 0x00065144892ff0c7          y
+[   57.021406] obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144892f8bdb 0x00065144892f8bdb          y
+[   57.021419] obpc kernel: CPU: 1 UID: 967 PID: 6737 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+[   57.021476] obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+[   57.021484] obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+[   57.021492] obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+[   57.021500] obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+[   57.021505] obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+[   57.021510] obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+[   57.021533] obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+[   57.021545] obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+[   57.021555] obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+[   57.021565] obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+[   57.021849] obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+[   57.021858] obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+[   57.021866] obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+[   57.021873] obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+[   57.021884] obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+[   57.024466] obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+[   57.024530] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+[   57.034022] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x00000000 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   57.034111] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   57.034127] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+[   57.064013] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   57.064053] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   57.066004] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   57.066023] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   57.098006] obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+[   57.098047] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+[   57.098057] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+[   57.098063] obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+[   57.098068] obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+[   57.098073] obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+[   57.098082] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+[   57.098092] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   57.098098] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   57.098104] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+[   57.111010] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   57.111059] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   57.112081] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   57.112111] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   57.143016] obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+[   57.143122] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+[   57.143138] obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+[   57.143148] obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+[   57.143153] obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+[   57.143159] obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+[   57.143166] obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+[   57.144014] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+[   57.144052] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+[   57.144060] obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 08 21:43:25 obpc systemd-udevd[427]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:19 Unknown group 'ollama', ignoring.
+May 08 21:43:25 obpc systemd-udevd[427]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:20 Unknown group 'ollama', ignoring.
+May 08 21:43:25 obpc systemd-udevd[427]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:21 Unknown group 'ollama', ignoring.
+May 08 21:43:25 obpc systemd-udevd[427]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:22 Unknown group 'ollama', ignoring.
+May 08 21:43:25 obpc systemd-udevd[427]: /etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules:23 Unknown group 'ollama', ignoring.
+May 08 11:43:29 obpc udevadm[699]: systemd-udev-settle.service is deprecated. Please fix aorus-5090-bridge-link-cap.service, aorus-5090-compute-load-nvidia.service not to pull it in.
+May 08 11:43:30 obpc systemd[1]: Starting aorus-5090-bridge-link-cap.service - AORUS RTX 5090 eGPU bridge link speed cap (H17 — cap at Gen1 before nvidia binds)...
+May 08 11:43:30 obpc systemd[1]: Finished aorus-5090-bridge-link-cap.service - AORUS RTX 5090 eGPU bridge link speed cap (H17 — cap at Gen1 before nvidia binds).
+May 08 11:43:30 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 11:43:30 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 08 11:43:30 obpc kernel: nvidia 0000:04:00.0: enabling device (0000 -> 0003)
+May 08 11:43:30 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS UncMaskClear (G3-H): GPU AER UncMask 0x00400000 -> 0x00000000 (matching Windows; un-masks Internal Error so Unc Non-Fatal fires instead of Cor=0x2000 demotion)
+May 08 11:43:30 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:30 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG-AER]: site=probe-end          GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+May 08 11:43:30 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 08 11:43:30 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 08:11:44 PM AEST 2026
+May 08 11:43:31 obpc aorus-5090-compute-load-nvidia[1211]: RTX 5090 is bound to the base nvidia driver.
+May 08 11:43:31 obpc aorus-5090-compute-load-nvidia[1211]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 08 11:43:31 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 11:43:31 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:31 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 08 11:43:31 obpc nvidia-persistenced[1332]: Started (1332)
+May 08 11:43:31 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:31 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+May 08 11:43:31 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00002000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:31 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0x00000000 CapCtl=0x000000a0 HdrLog=00000000_00000000_00000000_00000000 FirstErrPtr=0
+May 08 11:43:32 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 08 11:43:32 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 08 11:43:32 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 08 11:43:32 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 08 11:43:32 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 08 11:43:32 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 08 11:43:32 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 08 11:43:32 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x000651448636d39a 0x0000000000000000          y
+May 08 11:43:32 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x000651448636d399 0x0000000000000000           
+May 08 11:43:32 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 08 11:43:32 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 08 11:43:32 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514486418576 0x0006514486418576          y
+May 08 11:43:32 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x000651448641713c 0x000651448641713c          y
+May 08 11:43:32 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514486417032 0x0006514486417032          y
+May 08 11:43:32 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514486416c81 0x0006514486416c81          y
+May 08 11:43:32 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144864001fe 0x00065144864001fe          y
+May 08 11:43:32 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514486400174 0x0006514486400174          y
+May 08 11:43:32 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144863ff209 0x00065144863ff209          y
+May 08 11:43:32 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144863fda08 0x00065144863fda08          y
+May 08 11:43:32 obpc kernel: CPU: 2 UID: 967 PID: 1332 Comm: nvidia-persiste Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 08 11:43:32 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 08 11:43:32 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 08 11:43:32 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 08 11:43:32 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 08 11:43:32 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 08 11:43:32 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 08 11:43:32 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 08 11:43:32 obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+May 08 11:43:32 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 08 11:43:32 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 08 11:43:32 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 08 11:43:32 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 08 11:43:32 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 08 11:43:32 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 08 11:43:32 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 08 11:43:32 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 08 11:43:32 obpc nvidia-persistenced[1332]: device 0000:04:00.0 - failed to open.
+May 08 11:43:32 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=nvidia-persistenced comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:32 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 08 11:43:32 obpc aorus-5090-uvm-keepalive[1423]: aorus-5090-uvm-keepalive: holding fd 3 -> /dev/nvidia-uvm, fd 4 -> /dev/nvidia-uvm-tools
+May 08 11:43:32 obpc systemd[1]: Starting aorus-5090-wpr2-recovery.service - AORUS RTX 5090 eGPU WPR2-stuck recovery (Lever R Tier 1 v3)...
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:43:32 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 08 11:43:32 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 08 11:43:32 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 08 11:43:32 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 08 11:43:32 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 08 11:43:32 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 08 11:43:32 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:32 obpc aorus-wpr2-recover[1445]: nvidia-smi shows no working GPU — checking for WPR2-stuck pattern
+May 08 11:43:32 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] nvidia-smi shows no working GPU — checking for WPR2-stuck pattern
+May 08 11:43:32 obpc aorus-wpr2-recover[1448]: WPR2-stuck detected — executing recovery sequence (Lever R Tier 1 v3 + Tier 2 retry budget)
+May 08 11:43:32 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [err] WPR2-stuck detected — executing recovery sequence (Lever R Tier 1 v3 + Tier 2 retry budget)
+May 08 11:43:32 obpc systemd[1]: Stopping nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 08 11:43:32 obpc nvidia-persistenced[1332]: Shutdown (1332)
+May 08 11:43:32 obpc systemd[1]: nvidia-persistenced.service: Deactivated successfully.
+May 08 11:43:32 obpc systemd[1]: Stopped nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 08 11:43:32 obpc audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=nvidia-persistenced comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:32 obpc systemd[1]: nvidia-persistenced.service: Consumed 898ms CPU time, 72.1M memory peak.
+May 08 11:43:32 obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+May 08 11:43:37 obpc aorus-wpr2-recover[1479]: step 5: PCI reset (clears WPR2)
+May 08 11:43:37 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 5: PCI reset (clears WPR2)
+May 08 11:43:38 obpc aorus-wpr2-recover[1483]: step 6: restart aorus-5090-compute-load-nvidia.service
+May 08 11:43:38 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 6: restart aorus-5090-compute-load-nvidia.service
+May 08 11:43:38 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Deactivated successfully.
+May 08 11:43:38 obpc systemd[1]: Stopped aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 11:43:38 obpc systemd[1]: Stopping aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 11:43:38 obpc audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:38 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 11:43:39 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 08 11:43:39 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:39 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 08 11:43:39 obpc dockerd[1536]: time="2026-05-08T11:43:39.191083460+10:00" level=warning msg="Failed to run [nvidia-container-runtime features]: \"\"" error="exec: \"nvidia-container-runtime\": executable file not found in $PATH"
+May 08 11:43:42 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 08:11:44 PM AEST 2026
+May 08 11:43:42 obpc aorus-5090-compute-load-nvidia[1500]: RTX 5090 is bound to the base nvidia driver.
+May 08 11:43:42 obpc aorus-5090-compute-load-nvidia[1500]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 08 11:43:42 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 11:43:42 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:44 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 08 11:43:44 obpc nvidia-persistenced[4449]: Started (4449)
+May 08 11:43:44 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:44 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:45 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 08 11:43:45 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 08 11:43:45 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 08 11:43:45 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 08 11:43:45 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 08 11:43:45 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 08 11:43:45 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 08 11:43:45 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x00065144870017af 0x0000000000000000          y
+May 08 11:43:45 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x00065144870017ae 0x0000000000000000           
+May 08 11:43:45 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 08 11:43:45 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 08 11:43:45 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144870dd8c8 0x00065144870dd8c8          y
+May 08 11:43:45 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144870dc30a 0x00065144870dc30a          y
+May 08 11:43:45 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144870dc1f1 0x00065144870dc1f1          y
+May 08 11:43:45 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144870dbdf6 0x00065144870dbdf6          y
+May 08 11:43:45 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144870c364a 0x00065144870c364a          y
+May 08 11:43:45 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144870c35a7 0x00065144870c35a7          y
+May 08 11:43:45 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144870c24f1 0x00065144870c24f1          y
+May 08 11:43:45 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144870bb784 0x00065144870bb784          y
+May 08 11:43:45 obpc kernel: CPU: 2 UID: 967 PID: 4449 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 08 11:43:45 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 08 11:43:45 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 08 11:43:45 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 08 11:43:45 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 08 11:43:45 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 08 11:43:45 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 08 11:43:45 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 08 11:43:45 obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+May 08 11:43:45 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 08 11:43:45 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 08 11:43:45 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 08 11:43:45 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 08 11:43:45 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 08 11:43:45 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 08 11:43:45 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 08 11:43:45 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0xffffffff WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 08 11:43:45 obpc nvidia-persistenced[4449]: device 0000:04:00.0 - failed to open.
+May 08 11:43:45 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 08 11:43:45 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=nvidia-persistenced comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:45 obpc aorus-5090-uvm-keepalive[4463]: aorus-5090-uvm-keepalive: holding fd 3 -> /dev/nvidia-uvm, fd 4 -> /dev/nvidia-uvm-tools
+May 08 11:43:45 obpc aorus-wpr2-recover[4464]: step 8: verifying nvidia-smi
+May 08 11:43:45 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 8: verifying nvidia-smi
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:43:45 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 08 11:43:45 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 08 11:43:45 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 08 11:43:45 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 08 11:43:45 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 08 11:43:45 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 08 11:43:45 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:45 obpc aorus-wpr2-recover[4482]: attempt 1 FAILED after 13331ms — nvidia-smi shows no working GPU
+May 08 11:43:45 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [warning] attempt 1 FAILED after 13331ms — nvidia-smi shows no working GPU
+May 08 11:43:50 obpc systemd[1]: Stopping nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 08 11:43:50 obpc nvidia-persistenced[4449]: Shutdown (4449)
+May 08 11:43:50 obpc systemd[1]: nvidia-persistenced.service: Deactivated successfully.
+May 08 11:43:50 obpc systemd[1]: Stopped nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 08 11:43:50 obpc audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=nvidia-persistenced comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:50 obpc systemd[1]: nvidia-persistenced.service: Consumed 1.013s CPU time, 4.4M memory peak.
+May 08 11:43:51 obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+May 08 11:43:56 obpc aorus-wpr2-recover[4525]: step 5: PCI reset (clears WPR2)
+May 08 11:43:56 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 5: PCI reset (clears WPR2)
+May 08 11:43:57 obpc aorus-wpr2-recover[4529]: step 6: restart aorus-5090-compute-load-nvidia.service
+May 08 11:43:57 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 6: restart aorus-5090-compute-load-nvidia.service
+May 08 11:43:57 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Deactivated successfully.
+May 08 11:43:57 obpc systemd[1]: Stopped aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 11:43:57 obpc systemd[1]: Stopping aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 11:43:57 obpc audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:43:57 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 11:43:57 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 08 11:43:57 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:43:57 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 08 11:44:00 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 08:11:44 PM AEST 2026
+May 08 11:44:00 obpc aorus-5090-compute-load-nvidia[4546]: RTX 5090 is bound to the base nvidia driver.
+May 08 11:44:00 obpc aorus-5090-compute-load-nvidia[4546]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 08 11:44:00 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 11:44:00 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:44:02 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 08 11:44:02 obpc nvidia-persistenced[4619]: Started (4619)
+May 08 11:44:02 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:02 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:03 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 08 11:44:03 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 08 11:44:03 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 08 11:44:03 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 08 11:44:03 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 08 11:44:03 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 08 11:44:03 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 08 11:44:03 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x000651448812e7c5 0x0000000000000000          y
+May 08 11:44:03 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x000651448812e7c3 0x0000000000000000           
+May 08 11:44:03 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 08 11:44:03 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 08 11:44:03 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144881f99a7 0x00065144881f99a7          y
+May 08 11:44:03 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144881f8591 0x00065144881f8591          y
+May 08 11:44:03 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144881f848e 0x00065144881f848e          y
+May 08 11:44:03 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144881f80dc 0x00065144881f80dd      1us y
+May 08 11:44:03 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144881e16fd 0x00065144881e16fd          y
+May 08 11:44:03 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144881e1666 0x00065144881e1666          y
+May 08 11:44:03 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144881e0700 0x00065144881e0701      1us y
+May 08 11:44:03 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144881da1f8 0x00065144881da1f8          y
+May 08 11:44:03 obpc kernel: CPU: 3 UID: 967 PID: 4619 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 08 11:44:03 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 08 11:44:03 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 08 11:44:03 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 08 11:44:03 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 08 11:44:03 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 08 11:44:03 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 08 11:44:03 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 08 11:44:03 obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+May 08 11:44:03 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 08 11:44:03 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 08 11:44:03 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 08 11:44:03 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 08 11:44:03 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 08 11:44:03 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 08 11:44:03 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 08 11:44:03 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x00000000 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 08 11:44:03 obpc nvidia-persistenced[4619]: device 0000:04:00.0 - failed to open.
+May 08 11:44:03 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 08 11:44:03 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=nvidia-persistenced comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:44:03 obpc aorus-5090-uvm-keepalive[4633]: aorus-5090-uvm-keepalive: holding fd 3 -> /dev/nvidia-uvm, fd 4 -> /dev/nvidia-uvm-tools
+May 08 11:44:03 obpc aorus-wpr2-recover[4634]: step 8: verifying nvidia-smi
+May 08 11:44:03 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 8: verifying nvidia-smi
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:44:03 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 08 11:44:03 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 08 11:44:03 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 08 11:44:03 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 08 11:44:03 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 08 11:44:03 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 08 11:44:03 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:03 obpc aorus-wpr2-recover[4652]: attempt 2 FAILED after 12882ms — nvidia-smi shows no working GPU
+May 08 11:44:03 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [warning] attempt 2 FAILED after 12882ms — nvidia-smi shows no working GPU
+May 08 11:44:08 obpc systemd[1]: Stopping nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 08 11:44:08 obpc nvidia-persistenced[4619]: Shutdown (4619)
+May 08 11:44:08 obpc systemd[1]: nvidia-persistenced.service: Deactivated successfully.
+May 08 11:44:08 obpc systemd[1]: Stopped nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 08 11:44:08 obpc systemd[1]: nvidia-persistenced.service: Consumed 1.011s CPU time, 4.4M memory peak.
+May 08 11:44:08 obpc audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=nvidia-persistenced comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:44:08 obpc kernel: nvidia-nvlink: Unregistered Nvlink Core, major device number 510
+May 08 11:44:13 obpc aorus-wpr2-recover[4709]: step 5: PCI reset (clears WPR2)
+May 08 11:44:13 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 5: PCI reset (clears WPR2)
+May 08 11:44:15 obpc aorus-wpr2-recover[4713]: step 6: restart aorus-5090-compute-load-nvidia.service
+May 08 11:44:15 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 6: restart aorus-5090-compute-load-nvidia.service
+May 08 11:44:15 obpc systemd[1]: aorus-5090-compute-load-nvidia.service: Deactivated successfully.
+May 08 11:44:15 obpc audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:44:15 obpc systemd[1]: Stopped aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 11:44:15 obpc systemd[1]: Stopping aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 11:44:15 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 08 11:44:15 obpc kernel: nvidia-nvlink: Nvlink Core is being initialized, major device number 510
+May 08 11:44:15 obpc kernel: NVRM: GPU 0000:00:00.0: AORUS Lever M-recover [DIAG]: site=probe-end          bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:15 obpc kernel: nvidia 0000:04:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+May 08 11:44:18 obpc kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  595.71.05  Release Build  (root@obpc)  Thu May  7 08:11:44 PM AEST 2026
+May 08 11:44:18 obpc aorus-5090-compute-load-nvidia[4730]: RTX 5090 is bound to the base nvidia driver.
+May 08 11:44:18 obpc aorus-5090-compute-load-nvidia[4730]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 08 11:44:18 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+May 08 11:44:18 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=aorus-5090-compute-load-nvidia comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:44:20 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 08 11:44:20 obpc nvidia-persistenced[6737]: Started (6737)
+May 08 11:44:20 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:20 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:21 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+May 08 11:44:21 obpc kernel: NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+May 08 11:44:21 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+May 08 11:44:21 obpc kernel: NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+May 08 11:44:21 obpc kernel: NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+May 08 11:44:21 obpc kernel: NVRM: GPU0 RPC history (CPU -> GSP):
+May 08 11:44:21 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+May 08 11:44:21 obpc kernel: NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x000651448924f087 0x0000000000000000          y
+May 08 11:44:21 obpc kernel: NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x000651448924f086 0x0000000000000000           
+May 08 11:44:21 obpc kernel: NVRM: GPU0 RPC event history (CPU <- GSP):
+May 08 11:44:21 obpc kernel: NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+May 08 11:44:21 obpc kernel: NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514489318337 0x0006514489318337          y
+May 08 11:44:21 obpc kernel: NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514489316f25 0x0006514489316f25          y
+May 08 11:44:21 obpc kernel: NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514489316e1b 0x0006514489316e1b          y
+May 08 11:44:21 obpc kernel: NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514489316a70 0x0006514489316a71      1us y
+May 08 11:44:21 obpc kernel: NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144893000c9 0x00065144893000c9          y
+May 08 11:44:21 obpc kernel: NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514489300030 0x0006514489300030          y
+May 08 11:44:21 obpc kernel: NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x00065144892ff0c7 0x00065144892ff0c7          y
+May 08 11:44:21 obpc kernel: NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x00065144892f8bdb 0x00065144892f8bdb          y
+May 08 11:44:21 obpc kernel: CPU: 1 UID: 967 PID: 6737 Comm: nvidia-persiste Kdump: loaded Tainted: G           OE       6.19.14-200.fc43.x86_64 #1 PREEMPT(lazy) 
+May 08 11:44:21 obpc kernel:  _kgspRpcRecvPoll+0x743/0x1320 [nvidia]
+May 08 11:44:21 obpc kernel:  ? os_acquire_spinlock+0x12/0x30 [nvidia]
+May 08 11:44:21 obpc kernel:  kgspWaitForRmInitDone_IMPL+0x40/0x1a0 [nvidia]
+May 08 11:44:21 obpc kernel:  kgspBootstrap_GH100+0x3ca/0xbef [nvidia]
+May 08 11:44:21 obpc kernel:  kgspInitRm_IMPL+0x126b/0x2410 [nvidia]
+May 08 11:44:21 obpc kernel:  RmInitAdapter+0x11b2/0x21c0 [nvidia]
+May 08 11:44:21 obpc kernel:  rm_init_adapter+0x135/0x140 [nvidia]
+May 08 11:44:21 obpc kernel:  nv_start_device+0x270/0x860 [nvidia]
+May 08 11:44:21 obpc kernel:  nv_open_device+0x98/0x260 [nvidia]
+May 08 11:44:21 obpc kernel:  nvidia_open+0x22e/0x4d0 [nvidia]
+May 08 11:44:21 obpc kernel: NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+May 08 11:44:21 obpc kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+May 08 11:44:21 obpc kernel: NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+May 08 11:44:21 obpc kernel: NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+May 08 11:44:21 obpc kernel: NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+May 08 11:44:21 obpc kernel: NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x00000000 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+May 08 11:44:21 obpc nvidia-persistenced[6737]: device 0000:04:00.0 - failed to open.
+May 08 11:44:21 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+May 08 11:44:21 obpc audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=nvidia-persistenced comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+May 08 11:44:21 obpc aorus-5090-uvm-keepalive[6852]: aorus-5090-uvm-keepalive: holding fd 3 -> /dev/nvidia-uvm, fd 4 -> /dev/nvidia-uvm-tools
+May 08 11:44:21 obpc aorus-wpr2-recover[6853]: step 8: verifying nvidia-smi
+May 08 11:44:21 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [info] step 8: verifying nvidia-smi
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=startdev-entry     GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=pre-rmInit         GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+May 08 11:44:21 obpc kernel: NVRM: GPU0 confComputeConstructEngine_IMPL: CPU does not support confidential compute.
+May 08 11:44:21 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ conf_compute.c:162
+May 08 11:44:21 obpc kernel: NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: 0 @ gpu_device_mapping.c:277
+May 08 11:44:21 obpc kernel: NVRM: GPU0 gpuSanityCheck_IMPL: Failed test flags: 0x1
+May 08 11:44:21 obpc kernel: NVRM: osInitNvMapping: *** Cannot attach gpu
+May 08 11:44:21 obpc kernel: NVRM: RmInitAdapter: osInitNvMapping failed, bailing out of RmInitAdapter
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0x38:918)
+May 08 11:44:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 11:44:21 obpc aorus-wpr2-recover[6871]: attempt 3 FAILED after 12902ms — nvidia-smi shows no working GPU
+May 08 11:44:21 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [warning] attempt 3 FAILED after 12902ms — nvidia-smi shows no working GPU
+May 08 11:44:21 obpc aorus-wpr2-recover[6891]: final nvidia-smi output: No devices found.
+May 08 11:44:21 obpc aorus-5090-wpr2-recovery[1424]: [aorus-wpr2-recover] [err] final nvidia-smi output: No devices found.
+May 08 11:44:21 obpc systemd[1]: Failed to start aorus-5090-wpr2-recovery.service - AORUS RTX 5090 eGPU WPR2-stuck recovery (Lever R Tier 1 v3).

@@ -1,0 +1,55 @@
+> [  169.138787] nvidia-uvm: AORUS UVM [CLOSE]: site=uvm-open-entry     fd_count=1 (LAST-CLOSE)
+> [  169.139058] AORUS Lever M-recover [UVM-DIAG]: site=uvm-open-entry     pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+> [  169.139165] nvidia-uvm: AORUS UVM [CLOSE]: site=uvm-open-entry     fd_count=2
+> [  169.392589] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=19
+> [  169.392595] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=19
+> [  169.392596] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=18
+> [  169.392828] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=18
+> [  169.392830] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=18
+> [  169.392830] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=17
+> [  169.393073] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=17
+> [  169.393074] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=17
+> [  169.393074] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=16
+> [  169.393314] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=16
+> [  169.393316] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=16
+> [  169.393316] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=15
+> [  169.399924] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=15
+> [  169.399928] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=15
+> [  169.399929] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=14
+> [  169.412579] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=14
+> [  169.412585] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=14
+> [  169.412586] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=13
+> [  169.417678] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=13
+> [  169.417680] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=13
+> [  169.417681] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=12
+> [  169.424975] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=12
+> [  169.424979] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=12
+> [  169.424979] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=11
+> [  169.429673] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=11
+> [  169.429689] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=11
+> [  169.429691] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=10
+> [  169.429693] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=10
+> [  169.429694] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=10
+> [  169.429695] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=9
+> [  169.429697] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=9
+> [  169.429698] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=9
+> [  169.429699] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=8
+> [  169.429700] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=8
+> [  169.429701] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=8
+> [  169.429701] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=7
+> [  169.429704] nvidia-uvm: AORUS UVM [CLOSE]: site=uvm-release-entry  fd_count=2
+> [  169.430906] nvidia-uvm: AORUS UVM [CLOSE]: site=uvm-release-exit   fd_count=1
+> [  169.430921] nvidia-uvm: AORUS UVM [CLOSE]: site=uvm-release-entry  fd_count=1 (LAST-CLOSE)
+> [  169.430997] AORUS Lever M-recover [UVM-DIAG]: site=uvm-release-entry  pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+> [  169.431067] nvidia-uvm: AORUS UVM [CLOSE]: site=uvm-pre-destroy    fd_count=1 (LAST-CLOSE)
+> [  169.431115] AORUS Lever M-recover [UVM-DIAG]: site=uvm-pre-destroy    pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+> [  169.504805] nvidia-uvm: AORUS UVM [CLOSE]: site=uvm-post-destroy   fd_count=1 (LAST-CLOSE)
+> [  169.504878] AORUS Lever M-recover [UVM-DIAG]: site=uvm-post-destroy   pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+> [  169.504948] nvidia-uvm: AORUS UVM [CLOSE]: site=uvm-release-exit   fd_count=0 (LAST-CLOSE)
+> [  169.504992] AORUS Lever M-recover [UVM-DIAG]: site=uvm-release-exit   pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+> [  169.505074] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=6
+> [  169.505075] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=6
+> [  169.505081] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=5
+> [  169.505083] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=5
+> [  169.505083] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=5
+> [  169.505084] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=4

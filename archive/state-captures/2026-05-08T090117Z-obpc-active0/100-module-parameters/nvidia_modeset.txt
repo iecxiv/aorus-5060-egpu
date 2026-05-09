@@ -1,0 +1,19 @@
+## modinfo (filename, version, parm) ##
+filename:       /lib/modules/6.19.14-200.fc43.x86_64/extra/nvidia-modeset.ko.xz
+version:        595.71.05-aorus.11
+parm:           output_rounding_fix:bool
+parm:           disable_hdmi_frl:bool
+parm:           disable_vrr_memclk_switch:bool
+parm:           hdmi_deepcolor:bool
+parm:           opportunistic_display_sync:bool
+parm:           debug_force_color_space:uint
+parm:           enable_overlay_layers:bool
+parm:           fail_malloc:Fail the Nth call to nvkms_alloc (int)
+parm:           malloc_verbose:Report information about malloc calls on module unload (bool)
+parm:           conceal_vrr_caps:Conceal all display VRR capabilities (bool)
+parm:           fail_alloc_core_channel:Control testing for hardware core channel allocation failure (int)
+parm:           debug:Enable debug logging (int)
+parm:           config_file:Path to the nvidia-modeset configuration file (default: disabled) (charp)
+
+## /sys/module/nvidia_modeset/parameters/* ##
+(module nvidia_modeset not currently loaded)

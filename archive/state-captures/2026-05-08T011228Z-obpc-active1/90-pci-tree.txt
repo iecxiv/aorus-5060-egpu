@@ -1,0 +1,59 @@
+-[0000:00]-+-00.0  Intel Corporation Arrow Lake-H 6p+8e cores Host Bridge/DRAM Controller [8086:7d06]
+           +-01.0-[01]----00.0  Samsung Electronics Co Ltd NVMe SSD Controller S4LV008[Pascal] [144d:a80c]
+           +-02.0  Intel Corporation Arrow Lake-P [Arc Pro 130T/140T] [8086:7d51]
+           +-04.0  Intel Corporation Meteor Lake-P Dynamic Tuning Technology [8086:7d03]
+           +-07.0-[02-2b]--
+           +-07.2-[2c-55]----00.0-[2d-55]--+-00.0-[2e]--+-00.0  NVIDIA Corporation GB202 [GeForce RTX 5090] [10de:2b85]
+           |                               |            \-00.1  NVIDIA Corporation GB202 High Definition Audio Controller [10de:22e8]
+           |                               +-01.0-[2f-3b]--
+           |                               +-02.0-[3c-48]--
+           |                               \-03.0-[49-55]--
+           +-08.0  Intel Corporation Arrow Lake Gaussian & Neural Accelerator [8086:774c]
+           +-0a.0  Intel Corporation Meteor Lake-P Platform Monitoring Technology [8086:7d0d]
+           +-0b.0  Intel Corporation Meteor Lake NPU [8086:7d1d]
+           +-0d.0  Intel Corporation Meteor Lake-P Thunderbolt 4 USB Controller [8086:7ec0]
+           +-0d.2  Intel Corporation Meteor Lake-P Thunderbolt 4 NHI #0 [8086:7ec2]
+           +-0d.3  Intel Corporation Meteor Lake-P Thunderbolt 4 NHI #1 [8086:7ec3]
+           +-12.0  Intel Corporation Arrow Lake Integrated Sensor Hub [8086:7745]
+           +-14.0  Intel Corporation Arrow Lake USB 3.2 xHCI Controller [8086:777d]
+           +-14.2  Intel Corporation Arrow Lake Shared SRAM [8086:777f]
+           +-14.3  Intel Corporation Arrow Lake CNVi WiFi [8086:7740]
+           +-16.0  Intel Corporation Arrow Lake HECI Controller #1 [8086:7770]
+           +-1c.0-[56]----00.0  Intel Corporation Ethernet Controller I226-V [8086:125c]
+           +-1f.0  Intel Corporation Arrow Lake-H eSPI Controller [8086:7702]
+           +-1f.3  Intel Corporation Arrow Lake cAVS [8086:7728]
+           +-1f.4  Intel Corporation Arrow Lake SMBus Controller [8086:7722]
+           \-1f.5  Intel Corporation Arrow Lake SPI Controller [8086:7723]
+
+--- lspci -nn (flat) ---
+00:00.0 Host bridge [0600]: Intel Corporation Arrow Lake-H 6p+8e cores Host Bridge/DRAM Controller [8086:7d06] (rev 05)
+00:01.0 PCI bridge [0604]: Intel Corporation Meteor Lake-H PCIe Root Port #12 [8086:7ecc] (rev 10)
+00:02.0 VGA compatible controller [0300]: Intel Corporation Arrow Lake-P [Arc Pro 130T/140T] [8086:7d51] (rev 03)
+00:04.0 Signal processing controller [1180]: Intel Corporation Meteor Lake-P Dynamic Tuning Technology [8086:7d03] (rev 05)
+00:07.0 PCI bridge [0604]: Intel Corporation Meteor Lake-P Thunderbolt 4 PCI Express Root Port #0 [8086:7ec4] (rev 10)
+00:07.2 PCI bridge [0604]: Intel Corporation Meteor Lake-P Thunderbolt 4 PCI Express Root Port #2 [8086:7ec6] (rev 10)
+00:08.0 System peripheral [0880]: Intel Corporation Arrow Lake Gaussian & Neural Accelerator [8086:774c]
+00:0a.0 Signal processing controller [1180]: Intel Corporation Meteor Lake-P Platform Monitoring Technology [8086:7d0d] (rev 01)
+00:0b.0 Processing accelerators [1200]: Intel Corporation Meteor Lake NPU [8086:7d1d] (rev 05)
+00:0d.0 USB controller [0c03]: Intel Corporation Meteor Lake-P Thunderbolt 4 USB Controller [8086:7ec0] (rev 10)
+00:0d.2 USB controller [0c03]: Intel Corporation Meteor Lake-P Thunderbolt 4 NHI #0 [8086:7ec2] (rev 10)
+00:0d.3 USB controller [0c03]: Intel Corporation Meteor Lake-P Thunderbolt 4 NHI #1 [8086:7ec3] (rev 10)
+00:12.0 Serial controller [0700]: Intel Corporation Arrow Lake Integrated Sensor Hub [8086:7745]
+00:14.0 USB controller [0c03]: Intel Corporation Arrow Lake USB 3.2 xHCI Controller [8086:777d]
+00:14.2 RAM memory [0500]: Intel Corporation Arrow Lake Shared SRAM [8086:777f]
+00:14.3 Network controller [0280]: Intel Corporation Arrow Lake CNVi WiFi [8086:7740]
+00:16.0 Communication controller [0780]: Intel Corporation Arrow Lake HECI Controller #1 [8086:7770]
+00:1c.0 PCI bridge [0604]: Intel Corporation Arrow Lake-H/U PCIe Root Port #5 [8086:773c]
+00:1f.0 ISA bridge [0601]: Intel Corporation Arrow Lake-H eSPI Controller [8086:7702]
+00:1f.3 Multimedia audio controller [0401]: Intel Corporation Arrow Lake cAVS [8086:7728]
+00:1f.4 SMBus [0c05]: Intel Corporation Arrow Lake SMBus Controller [8086:7722]
+00:1f.5 Serial bus controller [0c80]: Intel Corporation Arrow Lake SPI Controller [8086:7723]
+01:00.0 Non-Volatile memory controller [0108]: Samsung Electronics Co Ltd NVMe SSD Controller S4LV008[Pascal] [144d:a80c]
+2c:00.0 PCI bridge [0604]: Intel Corporation JHL9480 Thunderbolt 5 80/120G Bridge [Barlow Ridge Hub 80G 2023] [8086:5786] (rev 85)
+2d:00.0 PCI bridge [0604]: Intel Corporation JHL9480 Thunderbolt 5 80/120G Bridge [Barlow Ridge Hub 80G 2023] [8086:5786] (rev 85)
+2d:01.0 PCI bridge [0604]: Intel Corporation JHL9480 Thunderbolt 5 80/120G Bridge [Barlow Ridge Hub 80G 2023] [8086:5786] (rev 85)
+2d:02.0 PCI bridge [0604]: Intel Corporation JHL9480 Thunderbolt 5 80/120G Bridge [Barlow Ridge Hub 80G 2023] [8086:5786] (rev 85)
+2d:03.0 PCI bridge [0604]: Intel Corporation JHL9480 Thunderbolt 5 80/120G Bridge [Barlow Ridge Hub 80G 2023] [8086:5786] (rev 85)
+2e:00.0 VGA compatible controller [0300]: NVIDIA Corporation GB202 [GeForce RTX 5090] [10de:2b85] (rev a1)
+2e:00.1 Audio device [0403]: NVIDIA Corporation GB202 High Definition Audio Controller [10de:22e8] (rev a1)
+56:00.0 Ethernet controller [0200]: Intel Corporation Ethernet Controller I226-V [8086:125c] (rev 04)

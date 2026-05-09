@@ -1,0 +1,82 @@
+=== /sys/bus/pci/devices/0000:04:00.0/ ===
+total 0
+drwxr-xr-x.  6 root root           0 May  6 13:02 .
+drwxr-xr-x. 10 root root           0 May  6  2026 ..
+drwxr-xr-x.  2 root root           0 May  6 13:02 aer
+-r--r--r--.  1 root root        4096 May  6 13:02 aer_dev_correctable
+-r--r--r--.  1 root root        4096 May  6 13:02 aer_dev_fatal
+-r--r--r--.  1 root root        4096 May  6 13:02 aer_dev_nonfatal
+-r--r--r--.  1 root root        4096 May  6 13:02 aorus_qwatchdog_cycles
+-r--r--r--.  1 root root        4096 May  6 13:02 aorus_qwatchdog_detections
+-r--r--r--.  1 root root        4096 May  6 13:02 ari_enabled
+-r--r--r--.  1 root root        4096 May  6 13:02 boot_vga
+-rw-r--r--.  1 root root        4096 May  6 13:02 broken_parity_status
+-r--r--r--.  1 root root        4096 May  6 12:57 class
+-rw-r--r--.  1 root root        4096 May  6 12:57 config
+-r--r--r--.  1 root root        4096 May  6 13:02 consistent_dma_mask_bits
+-r--r--r--.  1 root root        4096 May  6 13:02 current_link_speed
+-r--r--r--.  1 root root        4096 May  6 13:02 current_link_width
+-rw-r--r--.  1 root root        4096 May  6 12:57 d3cold_allowed
+-r--r--r--.  1 root root        4096 May  6 12:57 device
+-r--r--r--.  1 root root        4096 May  6 13:02 dma_mask_bits
+lrwxrwxrwx.  1 root root           0 May  6 12:58 driver -> ../../../../../../bus/pci/drivers/nvidia
+-rw-r--r--.  1 root root        4096 May  6 12:57 driver_override
+-rw-r--r--.  1 root root        4096 May  6 13:02 enable
+lrwxrwxrwx.  1 root root           0 May  6 13:02 iommu -> ../../../../../virtual/iommu/dmar1
+lrwxrwxrwx.  1 root root           0 May  6 13:02 iommu_group -> ../../../../../../kernel/iommu_groups/22
+-r--r--r--.  1 root root        4096 May  6 13:02 irq
+drwxr-xr-x.  2 root root           0 May  6 13:02 link
+-r--r--r--.  1 root root        4096 May  6 13:02 local_cpulist
+-r--r--r--.  1 root root        4096 May  6 13:02 local_cpus
+-r--r--r--.  1 root root        4096 May  6 13:02 max_link_speed
+-r--r--r--.  1 root root        4096 May  6 13:02 max_link_width
+-r--r--r--.  1 root root        4096 May  6 12:57 modalias
+-rw-r--r--.  1 root root        4096 May  6 13:02 msi_bus
+drwxr-xr-x.  2 root root           0 May  6 13:02 msi_irqs
+-rw-r--r--.  1 root root        4096 May  6 13:02 numa_node
+drwxr-xr-x.  2 root root           0 May  6 12:57 power
+-r--r--r--.  1 root root        4096 May  6 13:02 power_state
+-r--r--r--.  1 root root        4096 May  6 13:02 removable
+--w--w----.  1 root root        4096 May  6 13:02 remove
+--w-------.  1 root root        4096 May  6 13:02 rescan
+--w-------.  1 root root        4096 May  6 12:57 reset
+-rw-r--r--.  1 root root        4096 May  6 12:58 reset_method
+-r--r--r--.  1 root root        4096 May  6 12:57 resource
+-rw-------.  1 root root    67108864 May  6 13:02 resource0
+-rw-------.  1 root root 34359738368 May  6 13:02 resource1
+-rw-r--r--.  1 root root        4096 May  6 13:02 resource1_resize
+-rw-------.  1 root root 34359738368 May  6 13:02 resource1_wc
+-rw-------.  1 root root    33554432 May  6 13:02 resource3
+-rw-------.  1 root root    33554432 May  6 13:02 resource3_wc
+-rw-------.  1 root root         128 May  6 13:02 resource5
+-r--r--r--.  1 root root        4096 May  6 12:57 revision
+-rw-------.  1 root root      524288 May  6 13:02 rom
+-r--------.  1 root root        4096 May  6 13:02 serial_number
+-rw-r--r--.  1 root root        4096 May  6 13:02 sriov_drivers_autoprobe
+-rw-r--r--.  1 root root        4096 May  6 13:02 sriov_numvfs
+-r--r--r--.  1 root root        4096 May  6 13:02 sriov_offset
+-r--r--r--.  1 root root        4096 May  6 13:02 sriov_stride
+-r--r--r--.  1 root root        4096 May  6 13:02 sriov_totalvfs
+-r--r--r--.  1 root root        4096 May  6 13:02 sriov_vf_device
+-r--r--r--.  1 root root        4096 May  6 13:02 sriov_vf_total_msix
+lrwxrwxrwx.  1 root root           0 May  6 12:57 subsystem -> ../../../../../../bus/pci
+-r--r--r--.  1 root root        4096 May  6 12:57 subsystem_device
+-r--r--r--.  1 root root        4096 May  6 12:57 subsystem_vendor
+-rw-r--r--.  1 root root        4096 May  6 12:57 uevent
+-r--r--r--.  1 root root        4096 May  6 12:57 vendor
+
+vendor                    = 0x10de
+device                    = 0x2b85
+class                     = 0x030000
+driver                    = cat: '/sys/bus/pci/devices/0000:04:00.0/driver': Is a directory
+power_state               = D0
+d3cold_allowed            = 0
+reset_method              = flr
+enable                    = 1
+msi_irqs                  = cat: '/sys/bus/pci/devices/0000:04:00.0/msi_irqs': Is a directory
+current_link_speed        = cat: '/sys/bus/pci/devices/0000:04:00.0/current_link_speed': Invalid argument
+current_link_width        = cat: '/sys/bus/pci/devices/0000:04:00.0/current_link_width': Invalid argument
+max_link_speed            = 32.0 GT/s PCIe
+max_link_width            = 255
+subsystem_device          = 0x41b6
+subsystem_vendor          = 0x1458

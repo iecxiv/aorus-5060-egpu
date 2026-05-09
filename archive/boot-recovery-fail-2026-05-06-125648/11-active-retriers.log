@@ -1,0 +1,25 @@
+=== current processes touching nvidia ===
+root        4761  0.0  0.0      0     0 ?        S    12:57   0:00  \_ [aorus-qwd-0400]
+root        1053  0.0  0.0 232156  4060 ?        SNs  12:56   0:00 bash /usr/local/sbin/aorus-egpu-observability-watchdog
+nvidia-+    4997  0.2  0.0  11112  3456 ?        Ss   12:57   0:00 /usr/bin/nvidia-persistenced
+
+=== systemd timers/units in restart loop ===
+No jobs running.
+
+=== status of compute-load-nvidia (the bind retrier) ===
+● aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver
+     Loaded: loaded (/etc/systemd/system/aorus-5090-compute-load-nvidia.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (exited) since Wed 2026-05-06 12:57:32 AEST; 5min ago
+ Invocation: db24c1cbf51940d89268ce3cc184ab0f
+       Docs: file:///root/aorus-5090-gpu/README.md
+    Process: 4742 ExecStart=/usr/local/sbin/aorus-5090-compute-load-nvidia (code=exited, status=0/SUCCESS)
+   Main PID: 4742 (code=exited, status=0/SUCCESS)
+   Mem peak: 3.1M
+        CPU: 844ms
+
+May 06 12:57:29 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:57:32 obpc aorus-5090-compute-load-nvidia[4742]: RTX 5090 is bound to the base nvidia driver.
+May 06 12:57:32 obpc aorus-5090-compute-load-nvidia[4742]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 06 12:57:32 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.

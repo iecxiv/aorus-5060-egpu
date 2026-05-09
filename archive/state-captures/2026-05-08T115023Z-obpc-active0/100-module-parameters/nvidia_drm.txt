@@ -1,0 +1,8 @@
+## modinfo (filename, version, parm) ##
+filename:       /lib/modules/6.19.14-200.fc43.x86_64/extra/nvidia-drm.ko.xz
+version:        595.71.05-aorus.12
+parm:           modeset:Enable atomic kernel modesetting (1 = enable (default), 0 = disable) (bool)
+parm:           fbdev:Create a framebuffer device (1 = enable (default), 0 = disable) (bool)
+
+## /sys/module/nvidia_drm/parameters/* ##
+(module nvidia_drm not currently loaded)

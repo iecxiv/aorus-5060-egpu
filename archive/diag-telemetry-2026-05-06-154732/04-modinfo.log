@@ -1,0 +1,14 @@
+filename:       /lib/modules/6.19.14-200.fc43.x86_64/extra/nvidia.ko.xz
+import_ns:      DMA_BUF
+alias:          char-major-195-*
+description:    NVIDIA core GPU kernel module
+version:        595.71.05-aorus.5
+supported:      external
+license:        Dual MIT/GPL
+firmware:       nvidia/595.71.05-aorus.5/gsp_tu10x.bin
+firmware:       nvidia/595.71.05-aorus.5/gsp_ga10x.bin
+softdep:        pre: ecdh_generic,ecdsa_generic
+--- /sys/module/nvidia/parameters/ ---
+NVreg_AorusLeverMMaxAttempts: 3
+NVreg_AorusLeverMRecoverEnable: 1
+NVreg_AorusLeverMResetSettleMs: 500

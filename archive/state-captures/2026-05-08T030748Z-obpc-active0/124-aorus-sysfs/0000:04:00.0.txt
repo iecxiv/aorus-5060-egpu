@@ -1,0 +1,19 @@
+## 0000:04:00.0
+
+--- aorus_qwatchdog_cycles ---
+20835
+
+--- aorus_qwatchdog_detections ---
+0
+
+--- aorus_lever_m_fires ---
+0
+
+--- aorus_lever_m_last_fire_jiffies ---
+0
+
+--- aorus_lever_m_successes ---
+0
+
+--- aorus_lever_m_surrenders ---
+0

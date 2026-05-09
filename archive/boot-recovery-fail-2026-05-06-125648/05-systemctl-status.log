@@ -1,0 +1,126 @@
+● nvidia-persistenced.service - NVIDIA Persistence Daemon
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-persistenced.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+             /etc/systemd/system/nvidia-persistenced.service.d
+             └─aorus-egpu.conf
+     Active: active (running) since Wed 2026-05-06 12:57:35 AEST; 4min 51s ago
+ Invocation: 4b7295b016de40ae92c740526bba152d
+    Process: 4993 ExecStart=/usr/bin/nvidia-persistenced (code=exited, status=0/SUCCESS)
+   Main PID: 4997 (nvidia-persiste)
+      Tasks: 1 (limit: 153353)
+     Memory: 988K (peak: 4.1M)
+        CPU: 885ms
+     CGroup: /system.slice/nvidia-persistenced.service
+             └─4997 /usr/bin/nvidia-persistenced
+
+May 06 12:57:34 obpc nvidia-persistenced[4997]: Started (4997)
+May 06 12:57:34 obpc systemd[1]: Starting nvidia-persistenced.service - NVIDIA Persistence Daemon...
+May 06 12:57:35 obpc nvidia-persistenced[4997]: device 0000:04:00.0 - failed to open.
+May 06 12:57:35 obpc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+
+○ ollama.service - Ollama Service
+     Loaded: loaded (/etc/systemd/system/ollama.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+             /etc/systemd/system/ollama.service.d
+             └─aorus-egpu.conf, aorus-trace.conf
+     Active: inactive (dead)
+
+● aorus-egpu-observability-watchdog.service - AORUS eGPU observability watchdog (Mode B silent freeze SysRq capture)
+     Loaded: loaded (/etc/systemd/system/aorus-egpu-observability-watchdog.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (running) since Wed 2026-05-06 12:56:46 AEST; 5min ago
+ Invocation: 6142da6381ef41339413eb01448fbf24
+       Docs: file:///root/aorus-5090-gpu/docs/service-retirement-roadmap.md
+             file:///root/aorus-5090-gpu/docs/reliability-hypothesis-ledger.md
+   Main PID: 1053 (bash)
+      Tasks: 2 (limit: 153353)
+     Memory: 30.5M (peak: 47.8M)
+        CPU: 545ms
+     CGroup: /system.slice/aorus-egpu-observability-watchdog.service
+             ├─ 1053 bash /usr/local/sbin/aorus-egpu-observability-watchdog
+             └─11308 sleep 10
+
+May 06 12:56:46 obpc systemd[1]: Started aorus-egpu-observability-watchdog.service - AORUS eGPU observability watchdog (Mode B silent freeze SysRq capture).
+May 06 12:56:46 obpc aorus-egpu-observability-watchdog[1053]: [aorus-obs-wdog] [info] started: poll=10s, nvsmi_timeout=3s, progress_threshold=60s, cooldown=300s
+
+● aorus-5090-uvm-keepalive.service - AORUS RTX 5090 eGPU UVM keep-alive (close-path bug mitigation)
+     Loaded: loaded (/etc/systemd/system/aorus-5090-uvm-keepalive.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (running) since Wed 2026-05-06 12:57:35 AEST; 4min 51s ago
+ Invocation: 348c04bfab3d444a9451a8e140712b17
+       Docs: file:///root/aorus-5090-gpu/docs/architecture.md
+             file:///root/ollama/docs/freeze-2026-05-02-1032.md
+   Main PID: 5353 (sleep)
+      Tasks: 1 (limit: 153353)
+     Memory: 204K (peak: 1M)
+        CPU: 3ms
+     CGroup: /system.slice/aorus-5090-uvm-keepalive.service
+             └─5353 sleep infinity
+
+May 06 12:57:35 obpc systemd[1]: Starting aorus-5090-uvm-keepalive.service - AORUS RTX 5090 eGPU UVM keep-alive (close-path bug mitigation)...
+May 06 12:57:35 obpc systemd[1]: Started aorus-5090-uvm-keepalive.service - AORUS RTX 5090 eGPU UVM keep-alive (close-path bug mitigation).
+May 06 12:57:35 obpc aorus-5090-uvm-keepalive[5353]: aorus-5090-uvm-keepalive: holding fd 3 -> /dev/nvidia-uvm, fd 4 -> /dev/nvidia-uvm-tools
+
+● aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver
+     Loaded: loaded (/etc/systemd/system/aorus-5090-compute-load-nvidia.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (exited) since Wed 2026-05-06 12:57:32 AEST; 4min 54s ago
+ Invocation: db24c1cbf51940d89268ce3cc184ab0f
+       Docs: file:///root/aorus-5090-gpu/README.md
+    Process: 4742 ExecStart=/usr/local/sbin/aorus-5090-compute-load-nvidia (code=exited, status=0/SUCCESS)
+   Main PID: 4742 (code=exited, status=0/SUCCESS)
+   Mem peak: 3.1M
+        CPU: 844ms
+
+May 06 12:57:29 obpc systemd[1]: Starting aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver...
+May 06 12:57:32 obpc aorus-5090-compute-load-nvidia[4742]: RTX 5090 is bound to the base nvidia driver.
+May 06 12:57:32 obpc aorus-5090-compute-load-nvidia[4742]: nvidia_uvm is loaded (pre-staged for CUDA).
+May 06 12:57:32 obpc systemd[1]: Finished aorus-5090-compute-load-nvidia.service - Bind AORUS RTX 5090 eGPU to NVIDIA driver.
+
+● aorus-5090-pcie-tune.service - AORUS RTX 5090 eGPU PCIe Completion Timeout tuning (H9a)
+     Loaded: loaded (/etc/systemd/system/aorus-5090-pcie-tune.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (exited) since Wed 2026-05-06 12:57:32 AEST; 4min 54s ago
+ Invocation: 526a237e17f5453a9ee894e4a1536159
+       Docs: file:///root/aorus-5090-gpu/docs/reliability-hypothesis-ledger.md
+             file:///root/aorus-5090-gpu/docs/stability-roadmap.md
+    Process: 4899 ExecStart=/usr/local/sbin/aorus-5090-pcie-tune apply (code=exited, status=0/SUCCESS)
+   Main PID: 4899 (code=exited, status=0/SUCCESS)
+   Mem peak: 3.8M
+        CPU: 10ms
+
+May 06 12:57:32 obpc systemd[1]: Starting aorus-5090-pcie-tune.service - AORUS RTX 5090 eGPU PCIe Completion Timeout tuning (H9a)...
+May 06 12:57:32 obpc aorus-5090-pcie-tune[4899]: [aorus-pcie-tune] 0000:00:07.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 06 12:57:32 obpc aorus-5090-pcie-tune[4899]: [aorus-pcie-tune] 0000:04:00.0: DevCtl2 0x0400 -> 0x0402 (CTV 0 -> 2)
+May 06 12:57:32 obpc aorus-5090-pcie-tune[4899]: [aorus-pcie-tune] applied: state saved to /var/lib/aorus-egpu/pcie-tune-original.txt
+May 06 12:57:32 obpc systemd[1]: Finished aorus-5090-pcie-tune.service - AORUS RTX 5090 eGPU PCIe Completion Timeout tuning (H9a).
+
+× aorus-5090-wpr2-recovery.service - AORUS RTX 5090 eGPU WPR2-stuck recovery (Lever R Tier 1 v3)
+     Loaded: loaded (/etc/systemd/system/aorus-5090-wpr2-recovery.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: failed (Result: exit-code) since Wed 2026-05-06 12:57:35 AEST; 4min 51s ago
+ Invocation: db8e531f42cb4239aa24a27ee62f2c8e
+       Docs: file:///root/aorus-5090-gpu/docs/lever-R-design.md
+             file:///root/aorus-5090-gpu/docs/reliability-hypothesis-ledger.md
+    Process: 1397 ExecStart=/usr/local/sbin/aorus-5090-wpr2-recovery (code=exited, status=1/FAILURE)
+   Main PID: 1397 (code=exited, status=1/FAILURE)
+   Mem peak: 27.9M
+        CPU: 253ms
+
+May 06 12:57:29 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 6: restart aorus-5090-compute-load-nvidia.service
+May 06 12:57:34 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 7: starting persistenced + uvm-keepalive
+May 06 12:57:35 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [info] step 8: verifying nvidia-smi
+May 06 12:57:35 obpc aorus-wpr2-recover[5372]: attempt 3 FAILED after 12709ms — nvidia-smi shows no working GPU
+May 06 12:57:35 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [warning] attempt 3 FAILED after 12709ms — nvidia-smi shows no working GPU
+May 06 12:57:35 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [err] RECOVERY FAILED — all 3 attempts exhausted in 47730ms
+May 06 12:57:35 obpc aorus-5090-wpr2-recovery[1397]: [aorus-wpr2-recover] [err] final nvidia-smi output: No devices found.
+May 06 12:57:35 obpc systemd[1]: aorus-5090-wpr2-recovery.service: Main process exited, code=exited, status=1/FAILURE
+May 06 12:57:35 obpc systemd[1]: aorus-5090-wpr2-recovery.service: Failed with result 'exit-code'.
+May 06 12:57:35 obpc systemd[1]: Failed to start aorus-5090-wpr2-recovery.service - AORUS RTX 5090 eGPU WPR2-stuck recovery (Lever R Tier 1 v3).

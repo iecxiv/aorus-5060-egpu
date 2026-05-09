@@ -1,0 +1,59 @@
+# Timeline — extracted from /root/aorus-5090-gpu/archive/event-captures/B1-dyndbg-portA-2026-05-07T233951Z/10-raw/full-kernel.log
+# Generated: 2026-05-08T01:05:04Z
+# Timestamp format: wallclock
+
+# WARNING: legacy dossier with wall-clock timestamps. Deltas may
+#   show artifacts if the system clock jumped during boot (e.g.,
+#   NTP sync, RTC correction). Re-capture with newer event-capture.sh
+#   for monotonic timestamps if comparing closely.
+
+== Landmarks (first occurrence) ==
+EVENT                           TIME            Δ-prev     
+----------------------------------------------------------------------
+kernel_boot_start               70645.000000    (start)     
+tb_acpi_register                70646.000000    +1.000s     
+tb_nhi0_probe                   70646.000000    +0.000s     
+tb_nhi1_probe                   70646.000000    +0.000s     
+tb_acpi_link_created            70646.000000    +0.000s     
+tb_domain_added                 70646.000000    +0.000s     
+tb_security_set                 70646.000000    +0.000s     
+tb_first_device_found           70646.000000    +0.000s     
+tb_aorus_named                  70646.000000    +0.000s     
+tb_retimer_found                70646.000000    +0.000s     
+tb_wait_for_port_first          70646.000000    +0.000s     
+tb_unplugged_first              70646.000000    +0.000s     
+tb_switch_reset                 —             —         
+pcieport_aer_enabled            70645.000000    +-1.000s    
+pci_bridge_03_probe             70645.000000    +0.000s     
+pci_gpu_enumerated              70645.000000    +0.000s     
+nvidia_module_load              —             —         
+nvrm_first_diag                 34650.000000    +-35995.000s
+nvrm_startdev_first             34651.000000    +1.000s     
+nvrm_pre_rminit_first           34651.000000    +0.000s     
+nvrm_post_rminit_first          34652.000000    +1.000s     
+gsp_first_lockdown              34652.000000    +0.000s     
+gsp_init_done                   34652.000000    +0.000s     
+rminit_failed_first             34652.000000    +0.000s     
+link_demote_to_gen1             34652.000000    +0.000s     
+link_at_gen3                    34650.000000    +-2.000s    
+wpr2_set                        34652.000000    +2.000s     
+uvm_loaded                      —             —         
+
+== Counters ==
+EVENT                           COUNT
+--------------------------------------------------
+gsp_lockdown_count              36
+rminit_fail_count               18
+rminit_ok_count                 0
+tb_wait_for_port_calls          7
+aer_corrected_count             0
+tb_unplugged_count              6
+rminit_failed_msg_count         9
+
+== Notable derived deltas ==
+TB_ACPI_register → TB_device_found           0.000s
+TB_device_found → first_GSP_LOCKDOWN         -35994.000s
+tb_acpi_register → first_NVRM_DIAG           -35996.000s
+pre-rmInit → post-rmInit-FAIL                1.000s
+pre-rmInit → first GSP_LOCKDOWN              1.000s
+kernel_boot → first_NVRM_DIAG                -35995.000s

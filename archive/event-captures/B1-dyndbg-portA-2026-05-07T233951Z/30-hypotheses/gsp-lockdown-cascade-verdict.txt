@@ -1,0 +1,8 @@
+hypothesis_id=GSP-LOCKDOWN
+hypothesis_desc=NVIDIA GSP firmware boot returns LOCKDOWN_NOTICE (rate mismatch)
+hypothesis_ref=docs/iommu-gsp-lockdown-analysis.md
+hypothesis_subsystem=nvidia
+verdict=FIRED
+fired_hits=48
+negative_hits=4
+min_hits_fired=3

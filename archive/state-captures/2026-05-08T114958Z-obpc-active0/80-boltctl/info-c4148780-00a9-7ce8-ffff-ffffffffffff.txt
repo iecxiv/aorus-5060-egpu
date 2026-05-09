@@ -1,0 +1,20 @@
+ * GIGABYTE AORUS RTX5090 AI BOX
+   |- type:          peripheral
+   |- name:          AORUS RTX5090 AI BOX
+   |- vendor:        GIGABYTE
+   |- uuid:          c4148780-00a9-7ce8-ffff-ffffffffffff
+   |- dbus path:     /org/freedesktop/bolt/devices/c4148780_00a9_7ce8_ffff_ffffffffffff
+   |- generation:    USB4
+   |- status:        authorized
+   |  |- domain:     aea98780-1021-faab-ffff-ffffffffffff
+   |  |- parent:     aea98780-1021-faab-ffff-ffffffffffff
+   |  |- syspath:    /sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0/0-1
+   |  |- rx speed:   40 Gb/s = 2 lanes * 20 Gb/s
+   |  |- tx speed:   40 Gb/s = 2 lanes * 20 Gb/s
+   |  `- authflags:  boot
+   |- authorized:    Fri 08 May 2026 09:48:21 PM UTC
+   |- connected:     Fri 08 May 2026 09:48:21 PM UTC
+   `- stored:        Wed 29 Apr 2026 04:41:24 AM UTC
+      |- policy:     iommu
+      `- key:        no
+

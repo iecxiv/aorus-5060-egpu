@@ -1,0 +1,202 @@
+=== boot recovery sequence — what kernel actually did during each helper attempt ===
+Looking for: pci.*remove, pci.*rescan, FLR/reset, link state changes
+May 06 22:56:41 obpc kernel: Command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet iommu=pt thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M
+May 06 22:56:41 obpc kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet iommu=pt thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M
+May 06 22:56:41 obpc kernel: PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+May 06 22:56:41 obpc kernel: pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+May 06 22:56:41 obpc kernel: pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+May 06 22:56:41 obpc kernel: pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+May 06 22:56:41 obpc kernel: pci_bus 0000:00: root bus resource [mem 0x80000000-0xbfffffff window]
+May 06 22:56:41 obpc kernel: pci_bus 0000:00: root bus resource [mem 0x4000000000-0x3ffbfffffff window]
+May 06 22:56:41 obpc kernel: pci_bus 0000:00: root bus resource [bus 00-fe]
+May 06 22:56:41 obpc kernel: pci 0000:00:00.0: [8086:7d06] type 00 class 0x060000 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0: [8086:7ecc] type 01 class 0x060400 PCIe Root Port
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0:   bridge window [mem 0x90300000-0x903fffff]
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0: PME# supported from D0 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0: PTM enabled (root), 4ns granularity
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: [8086:7d51] type 00 class 0x030000 PCIe Root Complex Integrated Endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: BAR 0 [mem 0x5837000000-0x5837ffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: BAR 2 [mem 0x5020000000-0x502fffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: DMAR: Skip IOMMU disabling for graphics
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: PME# supported from D0 D3hot
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: VF BAR 0 [mem 0x5830000000-0x5830ffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: VF BAR 0 [mem 0x5830000000-0x5836ffffff 64bit pref]: contains BAR 0 for 7 VFs
+May 06 22:56:41 obpc kernel: pci 0000:00:04.0: [8086:7d03] type 00 class 0x118000 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:04.0: BAR 0 [mem 0x58402c0000-0x58402dffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0: [8086:7ec4] type 01 class 0x060400 PCIe Root Port
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0:   bridge window [io  0x3000-0x3fff]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x80000000-0x89efffff]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0: PME# supported from D0 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0: PTM enabled (root), 4ns granularity
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2: [8086:7ec6] type 01 class 0x060400 PCIe Root Port
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x8a000000-0x8fffffff]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2:   bridge window [mem 0x5030000000-0x582fffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2: PME# supported from D0 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2: PTM enabled (root), 4ns granularity
+May 06 22:56:41 obpc kernel: pci 0000:00:08.0: [8086:774c] type 00 class 0x088000 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:08.0: BAR 0 [mem 0x5840322000-0x5840322fff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0a.0: [8086:7d0d] type 00 class 0x118000 PCIe Root Complex Integrated Endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:0a.0: BAR 0 [mem 0x5840280000-0x58402bffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0a.0: enabling Extended Tags
+May 06 22:56:41 obpc kernel: pci 0000:00:0b.0: [8086:7d1d] type 00 class 0x120000 PCIe Root Complex Integrated Endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:0b.0: BAR 0 [mem 0x5838000000-0x583fffffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0b.0: BAR 4 [mem 0x5840321000-0x5840321fff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.0: [8086:7ec0] type 00 class 0x0c0330 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.0: BAR 0 [mem 0x5840300000-0x584030ffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.0: PME# supported from D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.2: [8086:7ec2] type 00 class 0x0c0340 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.2: BAR 0 [mem 0x5840240000-0x584027ffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.2: BAR 2 [mem 0x5840320000-0x5840320fff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.2: supports D1 D2
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.2: PME# supported from D0 D1 D2 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.3: [8086:7ec3] type 00 class 0x0c0340 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.3: BAR 0 [mem 0x5840200000-0x584023ffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.3: BAR 2 [mem 0x584031f000-0x584031ffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.3: supports D1 D2
+May 06 22:56:41 obpc kernel: pci 0000:00:0d.3: PME# supported from D0 D1 D2 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:12.0: [8086:7745] type 00 class 0x070000 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:12.0: BAR 0 [mem 0x58402f0000-0x58402fffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:12.0: PME# supported from D0 D3hot
+May 06 22:56:41 obpc kernel: pci 0000:00:14.0: [8086:777d] type 00 class 0x0c0330 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:14.0: BAR 0 [mem 0x58402e0000-0x58402effff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:14.0: PME# supported from D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:14.2: [8086:777f] type 00 class 0x050000 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:14.2: BAR 0 [mem 0x5840318000-0x584031bfff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:14.2: BAR 2 [mem 0x584031e000-0x584031efff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:14.3: [8086:7740] type 00 class 0x028000 PCIe Root Complex Integrated Endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:14.3: BAR 0 [mem 0x5840314000-0x5840317fff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:14.3: enabling Extended Tags
+May 06 22:56:41 obpc kernel: pci 0000:00:14.3: PME# supported from D0 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:16.0: [8086:7770] type 00 class 0x078000 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:16.0: BAR 0 [mem 0x584031d000-0x584031dfff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:16.0: PME# supported from D3hot
+May 06 22:56:41 obpc kernel: pci 0000:00:1c.0: [8086:773c] type 01 class 0x060400 PCIe Root Port
+May 06 22:56:41 obpc kernel: pci 0000:00:1c.0: PCI bridge to [bus 56]
+May 06 22:56:41 obpc kernel: pci 0000:00:1c.0:   bridge window [mem 0x90000000-0x902fffff]
+May 06 22:56:41 obpc kernel: pci 0000:00:1c.0: PME# supported from D0 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:1c.0: PTM enabled (root), 4ns granularity
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.0: [8086:7702] type 00 class 0x060100 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.3: [8086:7728] type 00 class 0x040100 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.3: BAR 0 [mem 0x5840310000-0x5840313fff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.3: BAR 4 [mem 0x5840000000-0x58401fffff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.3: PME# supported from D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.4: [8086:7722] type 00 class 0x0c0500 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.4: BAR 0 [mem 0x584031c000-0x584031c0ff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.4: BAR 4 [io  0xefa0-0xefbf]
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.5: [8086:7723] type 00 class 0x0c8000 conventional PCI endpoint
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0xfe010000-0xfe010fff]
+May 06 22:56:41 obpc kernel: pci 0000:01:00.0: [144d:a80c] type 00 class 0x010802 PCIe Endpoint
+May 06 22:56:41 obpc kernel: pci 0000:01:00.0: BAR 0 [mem 0x90300000-0x90303fff 64bit]
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0: [8086:5786] type 01 class 0x060400 PCIe Switch Upstream Port
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0: PCI bridge to [bus 03-2b]
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0:   bridge window [io  0x3000-0x3fff]
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x80000000-0x89efffff]
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0:   bridge window [mem 0x4000000000-0x5013ffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0: enabling Extended Tags
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0: supports D1 D2
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0: PTM enabled, 4ns granularity
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0: PCI bridge to [bus 02-2b]
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: PCI bridge to [bus 04]
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0:   bridge window [io  0x3000-0x3fff]
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x80000000-0x840fffff]
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0:   bridge window [mem 0x4000000000-0x48140fffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: enabling Extended Tags
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: supports D1 D2
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0: PCI bridge to [bus 05-11]
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x88000000-0x89efffff]
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0:   bridge window [mem 0x4d69600000-0x5013ffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0: enabling Extended Tags
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0: supports D1 D2
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0: PCI bridge to [bus 12-1e]
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x86100000-0x87ffffff]
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0:   bridge window [mem 0x4abec00000-0x4d695fffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0: enabling Extended Tags
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0: supports D1 D2
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0: [8086:5786] type 01 class 0x060400 PCIe Switch Downstream Port
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0: PCI bridge to [bus 1f-2b]
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x84200000-0x860fffff]
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0:   bridge window [mem 0x4814200000-0x4abebfffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0: enabling Extended Tags
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0: supports D1 D2
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0: PME# supported from D0 D1 D2 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0: PCI bridge to [bus 03-2b]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: [10de:2b85] type 00 class 0x030000 PCIe Legacy Endpoint
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4812000000-0x4813ffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: BAR 5 [io  0x3000-0x307f]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: Enabling HDA controller
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: PME# supported from D0 D3hot
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: contains BAR 0 for 1 VFs
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: contains BAR 2 for 1 VFs
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]: contains BAR 4 for 1 VFs
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:00:07.0 (capable of 504.112 Gb/s with 32.0 GT/s PCIe x16 link)
+May 06 22:56:41 obpc kernel: pci 0000:04:00.1: [10de:22e8] type 00 class 0x040300 PCIe Endpoint
+May 06 22:56:41 obpc kernel: pci 0000:04:00.1: BAR 0 [mem 0x84080000-0x84083fff]
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: PCI bridge to [bus 04]
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0: PCI bridge to [bus 05-11]
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0: PCI bridge to [bus 12-1e]
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0: PCI bridge to [bus 1f-2b]
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2: PCI bridge to [bus 2c-55]
+May 06 22:56:41 obpc kernel: pci 0000:56:00.0: [8086:125c] type 00 class 0x020000 PCIe Endpoint
+May 06 22:56:41 obpc kernel: pci 0000:56:00.0: BAR 0 [mem 0x90100000-0x901fffff]
+May 06 22:56:41 obpc kernel: pci 0000:56:00.0: BAR 3 [mem 0x90200000-0x90203fff]
+May 06 22:56:41 obpc kernel: pci 0000:56:00.0: ROM [mem 0x90000000-0x900fffff pref]
+May 06 22:56:41 obpc kernel: pci 0000:56:00.0: PME# supported from D0 D3hot D3cold
+May 06 22:56:41 obpc kernel: pci 0000:00:1c.0: PCI bridge to [bus 56]
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0: Max Payload Size set to  256/ 256 (was  256), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:01:00.0: Max Payload Size set to  256/ 512 (was  256), Max Read Rq  256
+May 06 22:56:41 obpc kernel: pci 0000:00:07.0: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:02:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:04:00.1: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0: Max Payload Size set to  128/ 256 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2: Max Payload Size set to  128/ 128 (was  128), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:00:1c.0: Max Payload Size set to  256/ 256 (was  256), Max Read Rq  128
+May 06 22:56:41 obpc kernel: pci 0000:56:00.0: Max Payload Size set to  256/ 512 (was  256), Max Read Rq  256
+May 06 22:56:41 obpc kernel: PCI: pci_cache_line_size set to 64 bytes
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0xfe010000-0xfe010fff]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: BAR 0 [mem 0x80000000-0x83ffffff]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: BAR 1 [mem 0x4000000000-0x47ffffffff 64bit pref]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: BAR 3 [mem 0x4812000000-0x4813ffffff 64bit pref]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 0 [mem 0x4814000000-0x481403ffff 64bit pref]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 2 [mem 0x4800000000-0x480fffffff 64bit pref]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: VF BAR 4 [mem 0x4810000000-0x4811ffffff 64bit pref]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:04:00.1: BAR 0 [mem 0x84080000-0x84083fff]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: vgaarb: setting as boot VGA device
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: vgaarb: bridge control possible
+May 06 22:56:41 obpc kernel: pci 0000:00:02.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: vgaarb: bridge control possible
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+May 06 22:56:41 obpc kernel: pci 0000:04:00.0: ROM [mem 0x84000000-0x8407ffff pref]: can't claim; no compatible bridge window
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: bridge window [mem 0x800000000-0x1001ffffff 64bit pref] to [bus 04] add_size 12100000 add_align 800000000
+May 06 22:56:41 obpc kernel: pci 0000:03:01.0: bridge window [io  0x1000-0x0fff] to [bus 05-11] add_size 1000
+May 06 22:56:41 obpc kernel: pci 0000:03:02.0: bridge window [io  0x1000-0x0fff] to [bus 12-1e] add_size 1000
+May 06 22:56:41 obpc kernel: pci 0000:03:03.0: bridge window [io  0x1000-0x0fff] to [bus 1f-2b] add_size 1000
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2: bridge window [io  0x1000-0x0fff] to [bus 2c-55] add_size 1000
+May 06 22:56:41 obpc kernel: pci 0000:00:07.2: bridge window [io  0x4000-0x4fff]: assigned
+May 06 22:56:41 obpc kernel: pci 0000:00:1f.5: BAR 0 [mem 0x89f00000-0x89f00fff]: assigned
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0: PCI bridge to [bus 01]
+May 06 22:56:41 obpc kernel: pci 0000:00:01.0:   bridge window [mem 0x90300000-0x903fffff]
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: bridge window [mem 0x4000000000-0x48140fffff 64bit pref]: assigned
+May 06 22:56:41 obpc kernel: pci 0000:03:00.0: bridge window [mem 0x80000000-0x840fffff]: assigned

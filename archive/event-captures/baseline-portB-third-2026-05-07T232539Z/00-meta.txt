@@ -1,0 +1,15 @@
+experiment_name=baseline-portB-third
+timestamp_utc=2026-05-07T232539Z
+hostname=obpc
+kernel=6.19.14-200.fc43.x86_64
+os_release=PRETTY_NAME="Fedora Linux 43 (Workstation Edition)"
+since=boot
+hypotheses_to_test=close-path-wedge-cycle,gsp-lockdown-cascade,h19-tb-port-wait-timeout,h20-usb4-cr-timeout,h21-acpi-device-links-missing
+subsystems_filtered=boltd,nvidia,pcie,thunderbolt
+active_tb_domains=1
+
+--- changes vs baseline ---
+port=B
+
+--- /proc/cmdline ---
+BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M iommu=off intel_iommu=off

@@ -1,0 +1,17 @@
+=== /proc/cmdline ===
+BOOT_IMAGE=(hd0,gpt5)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=34e34fc2-47b6-41bd-b739-8a1c79788cb2 ro rootflags=subvol=root rhgb quiet iommu=pt thunderbolt.host_reset=false module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 crashkernel=256M
+
+=== uname -r ===
+6.19.14-200.fc43.x86_64
+
+=== nvidia kmod info ===
+filename:       /lib/modules/6.19.14-200.fc43.x86_64/extra/nvidia.ko.xz
+import_ns:      DMA_BUF
+alias:          char-major-195-*
+description:    NVIDIA core GPU kernel module
+version:        595.71.05-aorus.5
+supported:      external
+license:        Dual MIT/GPL
+firmware:       nvidia/595.71.05-aorus.5/gsp_tu10x.bin
+firmware:       nvidia/595.71.05-aorus.5/gsp_ga10x.bin
+softdep:        pre: ecdh_generic,ecdsa_generic

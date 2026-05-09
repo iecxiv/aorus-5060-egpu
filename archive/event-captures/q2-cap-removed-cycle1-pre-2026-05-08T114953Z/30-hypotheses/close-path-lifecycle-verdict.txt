@@ -1,0 +1,8 @@
+hypothesis_id=CLOSE-PATH-LIFECYCLE
+hypothesis_desc=Last-close transition observed (open->work->close->reopen instrumentation fired)
+hypothesis_ref=docs/architecture.md#problem-2-second-open-of-devnvidia0-hard-freezes-the-host
+hypothesis_subsystem=nvidia
+verdict=INCONCLUSIVE
+fired_hits=0
+negative_hits=0
+min_hits_fired=1

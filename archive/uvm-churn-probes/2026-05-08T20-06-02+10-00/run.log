@@ -1,0 +1,61 @@
+
+=== preflight ===
+GPU BDF: 0000:04:00.0
+Run ID:  2026-05-08T20-06-02+10-00
+Output:  /root/aorus-5090-gpu/archive/uvm-churn-probes/2026-05-08T20-06-02+10-00
+Pattern: 4× rapid + 60s idle + 1× delayed
+
+Pre-trigger M-recover: fires=0 successes=0 surrenders=0
+
+=== step 1: drain UVM consumers ===
+remaining /dev/nvidia-uvm* holders:
+
+=== step 2: pre-trigger dmesg snapshot ===
+saved 2246 lines
+
+=== step 3: rapid-churn phase (4× cuda-smoke back-to-back) ===
+--- rapid run #1 ---
+rapid #1: rc=0 last_line="cuda_smoke=pass"
+--- rapid run #2 ---
+rapid #2: rc=0 last_line="cuda_smoke=pass"
+--- rapid run #3 ---
+rapid #3: rc=0 last_line="cuda_smoke=pass"
+--- rapid run #4 ---
+rapid #4: rc=0 last_line="cuda_smoke=pass"
+rapid phase counters: fires=0 successes=0 surrenders=0
+
+=== step 4: idle gap (60s) — mimics 2026-05-02 "unrelated process opens UVM minutes later" ===
+idle phase counters: fires=0 successes=0 surrenders=0
+
+=== step 5: delayed-reopen phase (1× cuda-smoke after idle) ===
+delayed: rc=0 last_line="cuda_smoke=pass"
+
+=== step 6: settle (20s) ===
+
+=== step 7: post-trigger dmesg snapshot ===
+delta: 455 new lines
+
+=== step 8: dmesg delta — UVM + close-path + M-recover events ===
+events captured: 275
+
+=== step 9: count UVM LAST-CLOSE events in delta ===
+LAST-CLOSE events: 25
+uvm-pre-destroy:   10
+uvm-post-destroy:  10
+
+=== step 10: WPR2 + LnkSta state across LAST-CLOSE events ===
+
+=== step 11: restore UVM consumers ===
+
+=== step 12: post-restore counters ===
+Final M-recover: fires=0 successes=0 surrenders=0
+
+=== summary ===
+Run dossier: /root/aorus-5090-gpu/archive/uvm-churn-probes/2026-05-08T20-06-02+10-00
+Pattern produced 25 UVM LAST-CLOSE events across 4+1=5 cuda-smoke invocations + 1 delayed reopen
+
+Inspect:
+  - 03-rapid-N-output.log      output of rapid phase runs
+  - 05-delayed-output.log      output of delayed-reopen run
+  - 08-dmesg-delta-relevant.log full event timeline
+  - 09-state-summary.log        WPR2/LnkSta state at each UVM-DIAG site

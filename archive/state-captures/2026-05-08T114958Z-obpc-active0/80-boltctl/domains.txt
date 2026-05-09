@@ -1,0 +1,8 @@
+ * domain0 aea98780-1021-faab-ffff-ffffffffffff
+   |- bootacl:  0/0
+   `- security: user
+
+ * domain1 53a28780-c106-97f7-ffff-ffffffffffff
+   |- bootacl:  0/0
+   `- security: user
+

@@ -1,0 +1,33 @@
+May 08 09:37:30 obpc boltd[1144]: bolt 0.9.11 starting up.
+May 08 09:37:30 obpc boltd[1144]: manager: initializing store
+May 08 09:37:30 obpc boltd[1144]: store: located at: /var/lib/boltd
+May 08 09:37:30 obpc boltd[1144]: config: loading user config
+May 08 09:37:30 obpc boltd[1144]: bouncer: initializing polkit
+May 08 09:37:30 obpc boltd[1144]: udev: initializing udev
+May 08 09:37:30 obpc boltd[1144]: store: loading domains
+May 08 09:37:30 obpc boltd[1144]: store: loading devices
+May 08 09:37:30 obpc boltd[1144]: [c4148780-00a9                            ] store: loading device
+May 08 09:37:30 obpc boltd[1144]: power: state located at: /run/boltd/power
+May 08 09:37:30 obpc boltd[1144]: power: force power support: no
+May 08 09:37:30 obpc boltd[1144]: udev: enumerating devices
+May 08 09:37:30 obpc boltd[1144]: [9c458780-00b1-domain0                    ] newly connected [user] (/sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0)
+May 08 09:37:30 obpc boltd[1144]: security level set to 'user'
+May 08 09:37:30 obpc boltd[1144]: [9c458780-00b1-domain0                    ] domain: registered (bootacl: 0/0)
+May 08 09:37:30 obpc boltd[1144]: [9c458780-00b1-domain0                    ] bootacl: bootacl not supported, no sync
+May 08 09:37:30 obpc boltd[1144]: [9c458780-00b1-domain0                    ] udev: uuid is stable: no (for NHI: 0x7ec2)
+May 08 09:37:30 obpc boltd[1144]: global 'generation' set to '4'
+May 08 09:37:30 obpc boltd[1144]: [9c458780-00b1-Gen14                      ] device added, status: authorized, at /sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0
+May 08 09:37:30 obpc boltd[1144]: [9c458780-00b1-Gen14                      ] labeling device: Intel Gen14
+May 08 09:37:30 obpc boltd[1144]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] parent is 9c458780-00b1...
+May 08 09:37:30 obpc boltd[1144]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] connected: authorized (/sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0/0-1)
+May 08 09:37:30 obpc boltd[1144]: [8e6c8780-1111-domain1                    ] newly connected [user] (/sys/devices/pci0000:00/0000:00:0d.3/domain1/1-0)
+May 08 09:37:30 obpc boltd[1144]: [8e6c8780-1111-domain1                    ] domain: registered (bootacl: 0/0)
+May 08 09:37:30 obpc boltd[1144]: [8e6c8780-1111-domain1                    ] bootacl: bootacl not supported, no sync
+May 08 09:37:30 obpc boltd[1144]: [8e6c8780-1111-domain1                    ] udev: uuid is stable: no (for NHI: 0x7ec3)
+May 08 09:37:30 obpc boltd[1144]: [8e6c8780-1111-Gen14                      ] device added, status: authorized, at /sys/devices/pci0000:00/0000:00:0d.3/domain1/1-0
+May 08 09:37:30 obpc boltd[1144]: [8e6c8780-1111-Gen14                      ] labeling device: Intel Gen14
+May 08 09:37:30 obpc boltd[1144]: [9c458780-00b1-domain0                    ] dbus: exported domain at /org/freedesktop/bolt/domains/9c458780_00b1_98ed_ffff_ffffffffffff
+May 08 09:37:30 obpc boltd[1144]: [8e6c8780-1111-domain1                    ] dbus: exported domain at /org/freedesktop/bolt/domains/8e6c8780_1111_924f_ffff_ffffffffffff
+May 08 09:37:30 obpc boltd[1144]: [c4148780-00a9-AORUS RTX5090 AI BOX       ] dbus: exported device at /org/freedesktop/bolt/devices/c4148780_00a9...
+May 08 09:37:30 obpc boltd[1144]: [9c458780-00b1-Gen14                      ] dbus: exported device at /org/freedesktop/bolt/devices/9c458780_00b1...
+May 08 09:37:30 obpc boltd[1144]: [8e6c8780-1111-Gen14                      ] dbus: exported device at /org/freedesktop/bolt/devices/8e6c8780_1111...

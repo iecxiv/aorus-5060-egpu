@@ -1,0 +1,8 @@
+May 07 16:51:57 obpc systemd[1]: /etc/systemd/system/aorus-5090-bridge-link-cap.service:7: Unknown key 'RequiredBy' in section [Unit], ignoring.
+May 07 16:51:58 obpc systemd[1]: Starting aorus-5090-bridge-link-cap.service - AORUS RTX 5090 eGPU bridge link speed cap (H17 — cap at Gen1 before nvidia binds)...
+May 07 16:51:58 obpc aorus-5090-bridge-link-cap[1153]: [aorus-bridge-link-cap] [info] saved original LnkCtl2 0x0044 to /var/lib/aorus-egpu/bridge-link-cap.original
+May 07 16:51:58 obpc aorus-5090-bridge-link-cap[1153]: [aorus-bridge-link-cap] [info] bridge 0000:03:00.0 LnkCtl2: 0x0044 -> 0x0043 (Target Link Speed = Gen3)
+May 07 16:51:58 obpc aorus-5090-bridge-link-cap[1153]: [aorus-bridge-link-cap] [info] bridge 0000:03:00.0 retrain link (LnkCtl: 0x0c40 -> 0x0c60)
+May 07 16:51:58 obpc aorus-5090-bridge-link-cap[1153]: [aorus-bridge-link-cap] [info] bridge 0000:03:00.0 post-retrain LnkCtl2=0x0043 LnkSta=0x7043
+May 07 16:51:58 obpc aorus-5090-bridge-link-cap[1153]: [aorus-bridge-link-cap] [info] bridge 0000:03:00.0 link confirmed at Gen3 (LnkCtl2 Target=Gen3)
+May 07 16:51:58 obpc systemd[1]: Finished aorus-5090-bridge-link-cap.service - AORUS RTX 5090 eGPU bridge link speed cap (H17 — cap at Gen1 before nvidia binds).

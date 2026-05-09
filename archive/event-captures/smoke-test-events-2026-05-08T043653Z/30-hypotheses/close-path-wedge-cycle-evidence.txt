@@ -1,0 +1,11 @@
+Evidence for CLOSE-PATH-WEDGE (Close-path wedge cycle (nvidia-smi or similar bouncing /dev/nvidia0))
+=== Verdict: NOT-FIRED (0 fired hits, 4 negative hits) ===
+
+=== FIRED-signature matches: NONE ===
+
+=== NEGATIVE-signature matches ===
+--- negative signature: site=post-rmInit-OK (4 hits) ---
+[    7.566184] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-OK     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+[    7.566224] obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER2]: site=post-rmInit-OK     Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00000000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent
+May 08 14:05:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-OK     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x1043(Speed=3 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7043(Speed=3 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000000
+May 08 14:05:21 obpc kernel: NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER2]: site=post-rmInit-OK     Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00000000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent

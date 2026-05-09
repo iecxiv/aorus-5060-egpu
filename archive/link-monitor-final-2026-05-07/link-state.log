@@ -1,0 +1,36 @@
+2026-05-07T16:29:10+10:00	bridge	init    	LnkCtl2=0x0041(target=Gen1)	LnkSta=0x7041(speed=Gen1 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T16:29:10+10:00	gpu	init    	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T16:52:00+10:00	bridge	init    	LnkCtl2=0x0043(target=Gen3)	LnkSta=0x7043(speed=Gen3 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T16:52:00+10:00	gpu	init    	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1043(speed=Gen3 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T16:52:00+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T16:52:01+10:00	bridge	delta   	LnkCtl2=0x0041(target=Gen1)	LnkSta=0x7041(speed=Gen1 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T16:52:01+10:00	gpu	delta	DEAD
+2026-05-07T16:52:03+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T16:52:19+10:00	gpu	delta	DEAD
+2026-05-07T16:52:21+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T16:52:36+10:00	gpu	delta	DEAD
+2026-05-07T16:52:38+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T17:38:15+10:00	bridge	init    	LnkCtl2=0x0042(target=Gen2)	LnkSta=0x7042(speed=Gen2 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T17:38:16+10:00	gpu	init    	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1042(speed=Gen2 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T17:38:29+10:00	bridge	delta   	LnkCtl2=0x0041(target=Gen1)	LnkSta=0x7041(speed=Gen1 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T17:38:29+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T17:49:18+10:00	bridge	init    	LnkCtl2=0x0063(target=Gen3)	LnkSta=0x7043(speed=Gen3 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T17:49:18+10:00	gpu	init    	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1043(speed=Gen3 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T17:49:19+10:00	bridge	delta   	LnkCtl2=0x0063(target=Gen3)	LnkSta=0x7041(speed=Gen1 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T17:49:19+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T17:49:20+10:00	bridge	delta   	LnkCtl2=0x0061(target=Gen1)	LnkSta=0x7041(speed=Gen1 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T17:49:20+10:00	gpu	delta	DEAD
+2026-05-07T17:49:22+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T17:49:38+10:00	gpu	delta	DEAD
+2026-05-07T17:49:40+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T17:49:55+10:00	gpu	delta	DEAD
+2026-05-07T17:49:56+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T18:30:55+10:00	bridge	init    	LnkCtl2=0x0063(target=Gen3)	LnkSta=0x7043(speed=Gen3 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T18:30:55+10:00	gpu	init    	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1043(speed=Gen3 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T18:30:56+10:00	bridge	delta   	LnkCtl2=0x0061(target=Gen1)	LnkSta=0x7041(speed=Gen1 training=0 BWMS=1 LABS=0)	LnkCtl=0x0c40(retrain=0)
+2026-05-07T18:30:56+10:00	gpu	delta	DEAD
+2026-05-07T18:30:58+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T18:31:14+10:00	gpu	delta	DEAD
+2026-05-07T18:31:16+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)
+2026-05-07T18:31:31+10:00	gpu	delta	DEAD
+2026-05-07T18:31:33+10:00	gpu	delta   	LnkCtl2=0x0005(target=Gen5)	LnkSta=0x1041(speed=Gen1 training=0 BWMS=0 LABS=0)	LnkCtl=0x0040(retrain=0)

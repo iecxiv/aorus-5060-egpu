@@ -1,0 +1,16 @@
+ * Intel Gen14
+   |- type:          host
+   |- name:          Gen14
+   |- vendor:        Intel
+   |- uuid:          a4bf8780-2057-e71c-ffff-ffffffffffff
+   |- dbus path:     /org/freedesktop/bolt/devices/a4bf8780_2057_e71c_ffff_ffffffffffff
+   |- generation:    USB4
+   |- status:        authorized
+   |  |- domain:     a4bf8780-2057-e71c-ffff-ffffffffffff
+   |  |- parent:     (null)
+   |  |- syspath:    /sys/devices/pci0000:00/0000:00:0d.2/domain0/0-0
+   |  `- authflags:  none
+   |- authorized:    Fri 08 May 2026 06:49:36 PM UTC
+   |- connected:     Fri 08 May 2026 06:49:36 PM UTC
+   `- stored:        no
+

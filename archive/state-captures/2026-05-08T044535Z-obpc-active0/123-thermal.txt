@@ -1,0 +1,12 @@
+## Thermal zones at moment of capture (millidegrees C) ##
+
+thermal_zone0          type=acpitz                    temp=40000 mC (40.0°C)
+thermal_zone1          type=acpitz                    temp=62000 mC (62.0°C)
+thermal_zone2          type=INT3400 Thermal           temp=20000 mC (20.0°C)
+thermal_zone3          type=TCPU                      temp=56050 mC (56.0°C)
+thermal_zone4          type=TCPU_PCI                  temp=58000 mC (58.0°C)
+thermal_zone5          type=x86_pkg_temp              temp=56000 mC (56.0°C)
+thermal_zone6          type=iwlwifi_1                 temp=47000 mC (47.0°C)
+
+## Capture timestamp (epoch ns) ##
+1778215537811632729

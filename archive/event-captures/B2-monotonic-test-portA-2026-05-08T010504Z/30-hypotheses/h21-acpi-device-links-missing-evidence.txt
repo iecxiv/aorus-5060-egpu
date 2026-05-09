@@ -1,0 +1,4 @@
+Evidence for H21 (Missing tb_native_add_links - ACPI device-link asymmetry per NHI)
+=== Verdict: INCONCLUSIVE (0 fired hits, 0 negative hits) ===
+
+=== FIRED-signature matches: NONE ===

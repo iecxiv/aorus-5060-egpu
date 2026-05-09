@@ -1,0 +1,4 @@
+Evidence for H19 (tb_wait_for_port 1s cap too short for cold-boot retimers)
+=== Verdict: INCONCLUSIVE (0 fired hits, 0 negative hits) ===
+
+=== FIRED-signature matches: NONE ===

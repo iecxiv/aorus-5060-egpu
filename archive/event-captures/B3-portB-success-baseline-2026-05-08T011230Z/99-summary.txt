@@ -1,0 +1,30 @@
+=== Event Capture Summary ===
+Experiment: B3-portB-success-baseline
+Captured:   2026-05-08T011230Z
+Host:       obpc / 6.19.14-200.fc43.x86_64
+Changes vs baseline:
+  port=B
+  cmdline=thunderbolt.dyndbg=+pflm,thunderbolt.host_reset=false
+  modopt=NVreg_RmMsg=*,NVreg_RmLogonRC=1
+  baseline-ref=B1-dyndbg-portA-2026-05-07T233951Z
+
+=== Hypothesis Verdicts ===
+ID      VERDICT       HITS     DESCRIPTION
+------  ------------  -------  -----------
+CLOSE-PATH-WEDGE  INCONCLUSIVE  0        Close-path wedge cycle (nvidia-smi or similar bouncing /dev/nvidia0)
+GSP-LOCKDOWN  INCONCLUSIVE  0        NVIDIA GSP firmware boot returns LOCKDOWN_NOTICE (rate mismatch)
+H19     INCONCLUSIVE  0        tb_wait_for_port 1s cap too short for cold-boot retimers
+H20     INCONCLUSIVE  0        usb4_switch_configuration_valid 50ms CR-bit wait too short
+H21     INCONCLUSIVE  0        Missing tb_native_add_links - ACPI device-link asymmetry per NHI
+
+=== Notable counts (auto-detected) ===
+GSP_LOCKDOWN_NOTICE: 0
+rmInit FAIL count:   0
+rmInit OK count:     0
+AER cor events:      0
+TB tunnel events:    3
+
+=== Cross-references ===
+Detail:    /root/aorus-5090-gpu/archive/event-captures/B3-portB-success-baseline-2026-05-08T011230Z/30-hypotheses/<id>-evidence.txt
+Raw logs:  /root/aorus-5090-gpu/archive/event-captures/B3-portB-success-baseline-2026-05-08T011230Z/10-raw/
+Filtered:  /root/aorus-5090-gpu/archive/event-captures/B3-portB-success-baseline-2026-05-08T011230Z/20-filtered/

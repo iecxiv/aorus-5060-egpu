@@ -1,0 +1,44 @@
+# Lever M-recover Phase 5 evidence snapshot
+snapshot_time: 2026-05-08T18:45:47+10:00
+boot_time:     2026-05-08T18:12:59+10:00
+uptime_s:      1968
+kernel:        6.19.14-200.fc43.x86_64
+
+## Module identity
+version:        595.71.05-aorus.11
+srcversion:     4298F9B58C66AD1B0B825F6
+
+## Kill-switch state (H3)
+file:    1
+runtime: 1
+
+## M-recover counters
+fires:        0
+successes:    0
+surrenders:   0
+last_fire_jf: 0
+
+## post-rmInit-{OK,FAIL} count this boot
+post-rmInit-OK:   2
+post-rmInit-FAIL: 0
+
+## Close-path activity this boot (Patch 0029)
+close-entry:           0
+pre-stop:              0
+post-shutdown:         0
+close-exit:            0
+last-close events:     0  (full DIAG+AER snapshot fired)
+mmio_enabled callback: 0
+cor_error_detected:    0
+
+## M-recover dmesg events (this boot, chronological)
+  (no M-recover events this boot)
+
+## L4 helper events for this boot (from wpr2-recoveries.log)
+  2026-05-08T18:13:08+1000,f75c4ba9-0af7-42f2-a16f-2e8f0a98516d,no-op,GPU healthy
+
+## GPU functional check
+  GPU 0: NVIDIA GeForce RTX 5090 (UUID: GPU-90b9424e-7236-fd4d-d903-44e565e1bd42)
+
+## Verdict
+M-RECOVER-NOT-FIRED: no recovery needed this boot (clean cold-cold)

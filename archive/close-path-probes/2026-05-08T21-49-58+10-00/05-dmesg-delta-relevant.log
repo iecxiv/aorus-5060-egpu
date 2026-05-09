@@ -1,0 +1,45 @@
+> [  103.430681] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=startdev-entry     bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+> [  103.430701] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER2]: site=startdev-entry     Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00000000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent
+> [  103.432586] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=pre-rmInit         bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x00000000 WPR2_up=no parent=0000:03:00.0 GPU_LnkSta=0x1041(Speed=1 Width=x4 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0040(ASPM=0 ClkPM=0) Br_LnkSta=0x7041(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00000001
+> [  103.432602] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER2]: site=pre-rmInit         Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00000000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent
+> [  104.444937] NVRM: GPU0 osDevReadReg032: AORUS Lever Q-active: dead-bus DETECTED via post-read sanity check
+> [  104.444944] NVRM: GPU0 osDevReadReg032: AORUS Lever Q-passive: dead-bus state detected at offset 0x00000000; source: os_pci_disconnected=1, gpu_is_lost=1; short-circuiting subsequent MMIO reads with 0xFFFFFFFF
+> [  104.444946] NVRM: GPU0 nvAssertFailedNoLog: Assertion failed: expectedFunc == pHistoryEntry->function @ kernel_gsp.c:2447
+> [  104.444950] NVRM: GPU0 _kgspLogRpcSanityCheckFailure: GPU0 sanity check failed 0xf waiting for RPC response from GSP. Expected function 4097 (GSP_INIT_DONE) sequence 0 (0x0 0x0).
+> [  104.444950] NVRM: GPU0 GSP RPC buffer contains function 4124 (GSP_LOCKDOWN_NOTICE) sequence 0 and data 0x0000000000000000 0x0000000000000000.
+> [  104.444952] NVRM: GPU0 RPC history (CPU -> GSP):
+> [  104.444952] NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration actively_polling
+> [  104.444953] NVRM:      0    73   SET_REGISTRY                   0 0x0000000000000000 0x0000000000000000 0x0006514cff4e38c3 0x0000000000000000          y
+> [  104.444955] NVRM:     -1    72   GSP_SET_SYSTEM_INFO            0 0x0000000000000000 0x0000000000000000 0x0006514cff4e38c2 0x0000000000000000           
+> [  104.444957] NVRM: GPU0 RPC event history (CPU <- GSP):
+> [  104.444958] NVRM:     entry function                     sequence data0              data1              ts_start           ts_end             duration during_incomplete_rpc
+> [  104.444958] NVRM:      0    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514cff5abd15 0x0006514cff5abd15          y
+> [  104.444959] NVRM:     -1    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514cff5aa910 0x0006514cff5aa910          y
+> [  104.444960] NVRM:     -2    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514cff5aa7f6 0x0006514cff5aa7f6          y
+> [  104.444961] NVRM:     -3    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514cff5aa447 0x0006514cff5aa447          y
+> [  104.444961] NVRM:     -4    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514cff5934b6 0x0006514cff5934b6          y
+> [  104.444962] NVRM:     -5    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514cff593422 0x0006514cff593422          y
+> [  104.444963] NVRM:     -6    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000000 0x0000000000000000 0x0006514cff59294a 0x0006514cff59294b      1us y
+> [  104.444964] NVRM:     -7    4124 GSP_LOCKDOWN_NOTICE            0 0x0000000000000001 0x0000000000000000 0x0006514cff58ed78 0x0006514cff58ed78          y
+> [  104.446112] NVRM: GPU0 nvCheckOkFailedNoLog: Check failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from rpcRecvPoll(pGpu, pRpc, NV_VGPU_MSG_EVENT_GSP_INIT_DONE, 0) @ kernel_gsp.c:6104
+> [  104.446113] NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: GPU lost from the bus [NV_ERR_GPU_IS_LOST] (0x0000000F) returned from kgspWaitForRmInitDone(pGpu, pKernelGsp) @ kernel_gsp_gh100.c:1107
+> [  104.446129] NVRM: GPU0 _kgspBootGspRm: unexpected WPR2 already up, cannot proceed with booting GSP
+> [  104.446130] NVRM: GPU0 _kgspBootGspRm: (the GPU is likely in a bad state and may need to be reset)
+> [  104.446164] NVRM: GPU0 RmInitAdapter: Cannot initialize GSP firmware RM
+> [  104.449096] NVRM: GPU0 iovaspaceDestruct_IMPL: 1 left-over mappings in IOVAS 0x400
+> [  104.449104] NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x62:0x40:2192)
+> [  104.449967] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG]: site=post-rmInit-FAIL   bar0=0x80000000 PMC_BOOT_0=0x1b2000a1 WPR2=0x07f4a000 WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N LBMS=0 LABS=0) GPU_LnkCtl=0x0000(ASPM=0 ClkPM=0) Br_LnkSta=0x7841(Speed=1 Width=x4 Active=Y LBMS=1 LABS=0) Br_LnkCtl=0x0c40(ASPM=0 ClkPM=0) GPU_AER_Unc=0xffffffff Cor=0xffffffff Br_AER_Unc=0x00000000 Cor=0x00000001
+> [  104.449971] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER]: site=post-rmInit-FAIL   GPU_AER_UncMsk=0xffffffff CapCtl=0xffffffff HdrLog=ffffffff_ffffffff_ffffffff_ffffffff FirstErrPtr=31
+> [  104.449983] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [DIAG-AER2]: site=post-rmInit-FAIL   Br_UncMsk=0x00000000 Br_CorMsk=0x00002000 Root=0000:00:07.0 Root_LnkSta=0x3041 Root_UESta=0x00000000 Root_UEMsk=0x00000000 Root_CESta=0x00002000 Root_CEMsk=0x00002000 Root_RootSta=0x00000000 DPC=absent
+> [  104.449985] NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 0
+> [  104.449999] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover: scheduling recovery (attempt=1/3, WPR2=0x07f4a000, ForceTrigger=0, fires=1)
+> [  104.450042] AORUS Lever M-recover: bus-reset starting on bridge 0000:03:00.0 (GPU=0000:04:00.0; attempt=1/3; settle=500ms)
+> [  104.450204] nvidia 0000:04:00.0: resetting
+> [  104.454532] AORUS Lever M-recover [UVM-DIAG]: site=uvm-open-entry     pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0xffffffff WPR2=0xffffffff WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x5041(Speed=1 Width=x4 Active=N) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00100000 Cor=0x00002001
+> [  104.456325] AORUS Lever M-recover [UVM-DIAG]: site=uvm-release-entry  pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0xffffffff WPR2=0xffffffff WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x5041(Speed=1 Width=x4 Active=N) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00002000
+> [  104.457815] AORUS Lever M-recover [UVM-DIAG]: site=uvm-pre-destroy    pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0xffffffff WPR2=0xffffffff WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x5041(Speed=1 Width=x4 Active=N) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00002000
+> [  104.459330] AORUS Lever M-recover [UVM-DIAG]: site=uvm-post-destroy   pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0xffffffff WPR2=0xffffffff WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x5041(Speed=1 Width=x4 Active=N) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00002000
+> [  104.460824] AORUS Lever M-recover [UVM-DIAG]: site=uvm-release-exit   pdev=0000:04:00.0 bar0=0x80000000 PMC_BOOT_0=0xffffffff WPR2=0xffffffff WPR2_up=YES parent=0000:03:00.0 GPU_LnkSta=0x0000(Speed=0 Width=x0 Active=N) Br_LnkSta=0x5041(Speed=1 Width=x4 Active=N) GPU_AER_Unc=0x00000000 Cor=0x00000000 Br_AER_Unc=0x00000000 Cor=0x00002000
+> [  104.626034] nvidia 0000:04:00.0: reset done
+> [  105.129493] AORUS Lever M-recover: pci_reset_bus(0000:03:00.0) OK; dispatching slot_reset + resume helpers explicitly
+> [  105.129529] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover: slot_reset — PMC_BOOT_0=0xffffffff (bus still down); DISCONNECT
