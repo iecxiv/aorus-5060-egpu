@@ -195,8 +195,36 @@ probe() {
         recommend_level=$((recommend_level > 1 ? recommend_level : 1))
     fi
 
-    # ----- Layer 6: nvidia-smi smoke test (only if module loaded + GPU bound) -----
-    if [[ $verdict -eq 0 ]] || ((VERBOSE)); then
+    # ----- Layer 6: Lever M-recover counters (read FIRST — gates Layer 7) -----
+    # Read M-recover state BEFORE attempting nvidia-smi. If M-recover has
+    # surrendered this boot, the driver's view of the GPU is "lost" and
+    # opening /dev/nvidia0 (which nvidia-smi does) can escalate the wedge
+    # into host-level instability. Empirically validated 2026-05-09 (force-
+    # triggered M-recover surrendered → probe's unconditional nvidia-smi
+    # call escalated to host wedge).
+    local mr_fires=0 mr_surrenders=0 mr_safe_for_smi=1
+    if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires" ]]; then
+        mr_fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
+        local mr_successes mr_last_jf
+        mr_successes=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_successes")
+        mr_surrenders=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_surrenders")
+        mr_last_jf=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_last_fire_jiffies")
+        info "Lever M-recover: fires=$mr_fires successes=$mr_successes surrenders=$mr_surrenders"
+        if [[ $mr_surrenders -gt 0 ]]; then
+            warn "M-recover has surrendered $mr_surrenders time(s) — driver in lost state; nvidia-smi will be skipped"
+            mr_safe_for_smi=0
+            verdict=$((verdict > 1 ? verdict : 1))
+        fi
+    else
+        debug "M-recover sysfs absent (driver not loaded, or pre-Lever-M build)"
+    fi
+
+    # ----- Layer 7: nvidia-smi smoke test (gated on M-recover safety) -----
+    # NOTE: a complementary direct PMC_BOOT_0 BAR0 read would be ideal but
+    # sysfs resourceN files for non-prefetchable BARs require mmap (not dd).
+    # The M-recover surrender counter above is the load-bearing safety; it
+    # captures the same state ("driver lost the GPU") more cheaply.
+    if [[ $mr_safe_for_smi -eq 1 ]] && { [[ $verdict -eq 0 ]] || ((VERBOSE)); }; then
         local smi_out
         smi_out=$(timeout 5 nvidia-smi -L 2>&1)
         if echo "$smi_out" | grep -qE '^GPU [0-9]+:'; then
@@ -206,20 +234,8 @@ probe() {
             verdict=$((verdict > 1 ? verdict : 1))
             recommend_level=$((recommend_level > 1 ? recommend_level : 1))
         fi
-    fi
-
-    # ----- Layer 7: Lever M-recover counters (info only) -----
-    if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires" ]]; then
-        local fires successes surrenders
-        fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
-        successes=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_successes")
-        surrenders=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_surrenders")
-        info "Lever M-recover: fires=$fires successes=$successes surrenders=$surrenders"
-        if [[ $surrenders -gt 0 ]]; then
-            warn "M-recover has surrendered $surrenders time(s) this boot — may be rate-limited"
-        fi
-    else
-        debug "M-recover sysfs absent (driver not loaded, or pre-Lever-M build)"
+    elif [[ $mr_safe_for_smi -eq 0 ]]; then
+        info "nvidia-smi smoke test skipped (driver in lost state; would escalate wedge)"
     fi
 
     # ----- Verdict summary -----
@@ -328,21 +344,49 @@ recover_l3_bus_reset() {
 
 # L4 — Lever M-recover force-trigger. Invokes the in-driver recovery state
 # machine. Honours its own rate-limit (H2) and MaxAttempts (H1) gates.
+#
+# WARNING: this triggers a real pci_reset_bus on the parent bridge. On
+# TB-tunneled hardware, ~25% of force-fires on a healthy GPU end with the
+# bus link not coming back (PMC_BOOT_0=0xffffffff post-reset → M-recover
+# surrenders). When that happens, the GPU is in a "lost" state until the
+# next reboot. L4 is therefore appropriate ONLY when:
+#   (a) the GPU is already wedged (recovery scenario), or
+#   (b) the user has explicitly accepted the reset risk (manual --level 4)
+# In --auto mode, L4 only fires after L1/L2/L3 have failed.
 recover_l4_m_recover_force() {
-    section "L4 — Lever M-recover force-trigger"
+    section "L4 — Lever M-recover force-trigger (INVASIVE — does pci_reset_bus)"
     local trigger_path="/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_force_trigger"
     if [[ ! -e "$trigger_path" ]]; then
         warn "M-recover sysfs not available (driver not loaded?); skipping L4"
         return 1
     fi
-    info "writing 1 to $trigger_path"
+    # Capture pre-fire counters so we can detect successful fire vs surrender
+    local pre_fires pre_surrenders
+    pre_fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
+    pre_surrenders=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_surrenders")
+    info "writing 1 to $trigger_path (pre: fires=$pre_fires surrenders=$pre_surrenders)"
     if echo 1 > "$trigger_path" 2>/dev/null; then
         ok "M-recover triggered"
     else
         warn "M-recover trigger write failed (rate-limited or kill-switch engaged)"
         return 1
     fi
-    sleep 3
+    # M-recover full cycle: settle (500ms default) + pci_reset_bus (~500ms) +
+    # slot_reset + resume + driver re-init. Total can be 5-30 seconds. Wait
+    # up to 30s, polling counters to detect completion.
+    info "waiting for M-recover cycle to complete (up to 30s)..."
+    local i
+    for ((i=1; i<=30; i++)); do
+        sleep 1
+        local now_fires now_surrenders
+        now_fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
+        now_surrenders=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_surrenders")
+        if [[ $now_fires -gt $pre_fires || $now_surrenders -gt $pre_surrenders ]]; then
+            debug "M-recover cycle observed at +${i}s (fires=$now_fires surrenders=$now_surrenders)"
+            sleep 2  # extra settle before probe
+            break
+        fi
+    done
     return 0
 }
 
@@ -362,15 +406,18 @@ run_recovery() {
     if [[ -n "$LEVEL_FILTER" ]]; then
         levels_to_try=("$LEVEL_FILTER")
     elif [[ "$MODE" == "auto" ]]; then
-        # Use probe's recommendation as starting point; escalate if needed
-        if [[ "${PROBE_RECOMMEND_LEVEL:-0}" -gt 0 ]]; then
-            local start=$PROBE_RECOMMEND_LEVEL
-            for ((l=start; l<=4; l++)); do levels_to_try+=("$l"); done
-        else
-            levels_to_try=(1 2 3 4)
-        fi
+        # Auto mode: try gentle levels first, then escalate. L4 (M-recover
+        # force-trigger → real pci_reset_bus) only fires as a LAST resort
+        # because force-fire on a healthy-ish GPU has ~25% chance of leaving
+        # the bus link down. Probe's recommend_level hints which level to
+        # PRIORITISE but auto always tries safer levels first.
+        case "${PROBE_RECOMMEND_LEVEL:-0}" in
+            2) levels_to_try=(2 1 3 4) ;;     # BAR1 issue: try resize first
+            3) levels_to_try=(1 3 4) ;;       # link issue: skip L2 (irrelevant)
+            *) levels_to_try=(1 2 3 4) ;;     # default escalation
+        esac
     else
-        # --recover with no --level: try all in order
+        # --recover with no --level: try all in order, gentlest first
         levels_to_try=(1 2 3 4)
     fi
 
