@@ -29,7 +29,7 @@
 | `aorus-egpu-bridge-link-cap.service` | Active (Gen3+bit5 cap) | — |
 | `aorus-egpu-uvm-keepalive.service` | **RETIRED** ✓ | 2026-05-08 — Patch 0030 UVM-side instrumentation + n=3 single-shot probes + n=3 churn probes (6 total UVM close-path reproductions) all benign; UVM `uvm_va_space_destroy` doesn't touch GSP/WPR2/link, qualitatively different from /dev/nvidia0's close-path teardown. Binary + unit preserved as documented archive. |
 | `nvidia-persistenced.service` (load-bearing role) | **RECLASSIFIED 2026-05-08** — close-path bug class empirically mitigated on current driver stack (n=3 close-path-probe runs 2026-05-08, host stable, fires=0). No longer load-bearing for stability. Remains load-bearing for **warmup latency** (~1.3s GSP-boot tax per first-open after LAST-CLOSE). Keep as performance optimization, not retire. | Architecturally optional |
-| `aorus-egpu-wpr2-recovery.service` | **Pending n≥10 clean-boot gate (REVISED 2026-05-08 evening).** Lever M-recover Commit 3 hardening LANDED 2026-05-08 (patches 0024 + 0026 + 0027 + 0028; Phase 1-4 PASS). After H9a retirement on 2026-05-08 ~11:55 AEST, GSP_LOCKDOWN events have ceased to occur in normal boots (9 consecutive `no-op,GPU healthy` L4 records since). Original retirement criterion ("n≥10 `M-RECOVER-FIRED-OK`") is unreachable because WPR2-stuck no longer naturally occurs. **Revised criterion:** n≥10 consecutive cold-cold-boots where (a) `archive/phase5-evidence/<boot-iso>.log` records verdict `M-RECOVER-NOT-FIRED`, AND (b) `wpr2-recoveries.log` for the same boot is `no-op,GPU healthy`. M-recover remains in driver as insurance against future regressions; the L4 helper is dead code if criterion is met. Currently at 9/10. See [H15](./reliability-hypothesis-ledger.md#h15) (resolved) and [Lever M-recover](./lever-catalog.md#lever-m-recover--in-driver-recovery-state-machine-landed-2026-05-08-phase-1-4-pass-phase-5-in-progress). | 9/10 clean boots |
+| `aorus-egpu-wpr2-recovery.service` | **RETIRED** ✓ | 2026-05-09 — Phase 5 evidence gate met (10/10 clean cold-cold-boots with verdict `M-RECOVER-NOT-FIRED` AND `wpr2-recoveries.log` `no-op,GPU healthy`). Lever M-recover (in-driver, patches 0024 + 0026 + 0027 + 0028) is the sole recovery mechanism going forward. L4 helper preserved as documented archive. |
 | `aorus-egpu-compute-load-nvidia.service` | Active (driver bind helper; architectural, not reliability) | — |
 
 ---
@@ -247,38 +247,71 @@ internal indefinitely.
 
 ---
 
-### `aorus-egpu-wpr2-recovery.service` (NEW — Lever R Tier 1 v3)
+### `aorus-egpu-wpr2-recovery.service` — RETIRED 2026-05-09
 
-**Why it exists:** Detects boot-time WPR2-stuck condition and executes
-the validated `remove + rescan + reset` sequence to recover. Bridges
-the gap until in-driver async recovery is implemented.
+**Why it existed:** Detected boot-time WPR2-stuck condition (failed
+first `rm_init_adapter` leaving WPR2 register set, blocking driver
+init) and executed the validated `remove + rescan + reset` sequence
+to recover. The primary mitigation for cold-cold-boot WPR2-stuck
+failures from 2026-05-06 (Lever R Tier 1 v3 era) until in-driver
+recovery landed.
 
 **Layer:** L4 (helper at `usr/local/sbin/aorus-egpu-wpr2-recovery`) +
 L5 (systemd unit)
 
-**What driver work would retire it:**
-- **Phase 4 / Lever M-recover (#62)** — in-driver recovery state machine
-  via `pci_error_handlers` framework + upstream-bridge bus reset (see
-  [`lever-M-recover-design.md`](./lever-M-recover-design.md)). 2026-05-06
-  forensic dossier proved that Tier 3's previously-distinct scope is
-  actually identical to M-recover's — same engineering, two trigger paths
-  (boot-time WPR2 + runtime AER), one state machine. They converge into
-  a single patch.
+**Why it retired:** Phase 5 evidence gate met 2026-05-09:
 
-**Retirement status:** ACTIVE — bridge measure pending M-recover
-**Tracked work:** #62 (Phase 4 / Lever M-recover); #98 deleted as
-duplicate (formerly Lever R Tier 3, now part of M-recover scope).
-**Validation criterion for retirement:** M-recover PROVEN at n≥10
-cold-cold-boot cycles via in-driver path (no L4 helper firing — verify
-via history-log being empty across those boots); disable
-wpr2-recovery.service for n≥3 additional cycles; confirm zero functional
-regression. Helper code remains in `usr/local/sbin/` as documented
-archive of the workaround era; systemd unit disabled by post-install
-hook in driver package.
-**Path:** This is the FRESHEST workaround service and 2026-05-06
-empirical evidence (race with `nvidia-persistenced` in clean boot
-conditions) confirmed it cannot reach the reliability target as a
-userspace component. Highest-priority driver work.
+1. **Lever M-recover Commit 3 LANDED 2026-05-08** — patches 0024 +
+   0026 + 0027 + 0028 implement an in-driver recovery state machine
+   via `pci_error_handlers` framework with H1 MaxAttempts gate / H2
+   rate-limit / H3 kill-switch persistence / H4 smarter error_detected.
+   Phase 1-4 testing PASS on landing day; production-validated via
+   Q2's natural fire (cap-removed cold-boot, 2026-05-08 evening).
+2. **H9a service retirement 2026-05-08** — `aorus-egpu-pcie-tune.service`
+   was the dominant Port A boot-failure trigger. After retirement,
+   GSP_LOCKDOWN events have ceased to occur in normal boots; WPR2-stuck
+   no longer naturally happens.
+3. **Phase 5 evidence gate met (10/10):** ten consecutive cold-cold-boots
+   where `archive/phase5-evidence/<boot-iso>.log` records verdict
+   `M-RECOVER-NOT-FIRED` AND `wpr2-recoveries.log` for the same boot is
+   `no-op,GPU healthy`. The L4 helper has been dead code (always-no-op)
+   for the last 10 boots.
+
+**Retirement actions taken 2026-05-09:**
+- `systemctl disable --now aorus-egpu-wpr2-recovery.service` on
+  production
+- `lib/install-manifest.sh` updated: moved from `EGPU_SERVICES_ACTIVE`
+  to `EGPU_SERVICES_RETIRED`. apply.sh now installs the unit file but
+  leaves it disabled (preserves the documented-archive pattern).
+- Binary at `usr/local/sbin/aorus-egpu-wpr2-recovery` and unit at
+  `etc/systemd/system/aorus-egpu-wpr2-recovery.service` PRESERVED as
+  documented archive of the workaround era. Same pattern as
+  `aorus-egpu-uvm-keepalive.service` and `aorus-egpu-link-monitor.service`
+  retirements.
+
+**Resurrection criterion:** if a future regression observably
+reproduces WPR2-stuck on cold-cold-boot AND M-recover fails to handle
+it (verifiable via Phase 5 snapshot showing `M-RECOVER-FIRED-FAIL` or
+`SURRENDER` verdicts), `systemctl enable --now aorus-egpu-wpr2-recovery.service`
+restores the L4 backup path. The kill-switch (`aorus-egpu-lever-m disable`)
+can also force the older code path while M-recover is debugged.
+
+**What this means architecturally:** Lever M-recover is now the sole
+mitigation for the Mode A graceful failure class (post-rmInit-FAIL,
+WPR2-stuck, AER NEED_RESET). The recovery surface is fully in-driver,
+matching the project's "perfect end state is zero workaround services"
+target. Four userspace service retirements in ~10 days (link-monitor,
+pcie-tune, uvm-keepalive, wpr2-recovery); one reclassification
+(persistenced as warmup-latency optimisation, not stability load-bearing).
+
+**Cross-references:** `archive/phase5-evidence/` (10 datapoints from
+2026-05-08 → 2026-05-09); `archive/cutover-2026-05-09/` (Stage C
+cutover dossier including `08-reboot2-final-status.log` showing the
+gate-met boot); patches `0024-Lever-M-recover-Commit3-hardening.patch`
+through `0028-Lever-M-recover-attempt-count-reset-at-post-rmInit-OK.patch`;
+[H15 ledger entry](./reliability-hypothesis-ledger.md#h15) (resolved);
+[Lever M-recover](./lever-catalog.md#lever-m-recover) catalog entry;
+memory `project_lever_m_recover_landed_2026_05_08.md`.
 
 ---
 

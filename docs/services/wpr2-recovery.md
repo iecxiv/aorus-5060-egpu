@@ -1,14 +1,24 @@
 # Service: aorus-egpu-wpr2-recovery.service
 
-**Status:** PENDING RETIREMENT — Phase 5 evidence gate (5/10 as of 2026-05-08)
-**Layer:** L4 (helper at `usr/local/sbin/aorus-egpu-wpr2-recovery`) + L5 (systemd unit)
-**Lifecycle since:** 2026-05-06 (Lever R Tier 1 v3 era)
+**Status:** **RETIRED 2026-05-09** — Phase 5 evidence gate met (10/10 clean cold-cold-boots; M-RECOVER-NOT-FIRED AND `wpr2-recoveries.log` `no-op,GPU healthy` for all). Lever M-recover (in-driver) is the sole recovery mechanism going forward.
+**Layer:** L4 (helper at `usr/local/sbin/aorus-egpu-wpr2-recovery`) + L5 (systemd unit) — both PRESERVED in repo + on disk as documented archive
+**Lifecycle:** 2026-05-06 (Lever R Tier 1 v3 era) → 2026-05-09 (retirement)
 
-## Purpose
+## Purpose (historical)
 
-Detects boot-time WPR2-stuck condition and executes the validated PCI `remove + rescan + reset` sequence from userspace to recover a GPU that's bound but failed GSP init. Was the **primary mitigation** for cold-cold-boot WPR2-stuck failures before Lever M-recover landed in-driver (patches 0024 + 0026 + 0027 + 0028, 2026-05-08).
+Detected boot-time WPR2-stuck condition and executed the validated PCI `remove + rescan + reset` sequence from userspace to recover a GPU that's bound but failed GSP init. Was the **primary mitigation** for cold-cold-boot WPR2-stuck failures before Lever M-recover landed in-driver (patches 0024 + 0026 + 0027 + 0028, 2026-05-08).
 
-Currently active as **belt-and-braces backup** during Phase 5 evidence collection. Once retirement gate met, M-recover is the sole mitigation; this L4 helper retires.
+After M-recover landed, the service was kept **active as belt-and-braces backup** during Phase 5 evidence collection. Phase 5 evaluated whether M-recover handles the WPR2-stuck failure class without the L4 helper firing. After 10 consecutive clean cold-cold-boots (2026-05-08 → 2026-05-09), M-recover was confirmed to be the sole necessary mitigation; this L4 helper retired.
+
+## Resurrection (if a future regression breaks M-recover)
+
+```bash
+sudo systemctl enable --now aorus-egpu-wpr2-recovery.service
+```
+
+Resurrection criteria: a future regression observably reproduces WPR2-stuck on cold-cold-boot AND M-recover fails to handle it (verifiable via `archive/phase5-evidence/<boot-iso>.log` showing `M-RECOVER-FIRED-FAIL` or `SURRENDER` verdicts). The kill-switch (`aorus-egpu-lever-m disable`) can also force the older code path while M-recover is debugged.
+
+See [`docs/service-retirement-roadmap.md`](../service-retirement-roadmap.md#aorus-egpu-wpr2-recoveryservice--retired-2026-05-09) for the full retirement record.
 
 ## Mechanism
 
