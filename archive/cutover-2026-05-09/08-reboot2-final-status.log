@@ -1,0 +1,154 @@
+
+== 1. Boot arguments (/proc/cmdline) ==
+  [OK]   thunderbolt.host_reset=false
+  [OK]   pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0
+  [OK]   module_blacklist=nouveau,nova_core
+  [OK]   rd.driver.blacklist=nouveau,nova_core
+  [OK]   modprobe.blacklist=nouveau,nova_core
+  [OK]   iommu=off
+  [OK]   intel_iommu=off
+  [OK]   pcie_aspm.policy=performance
+  [OK]   thunderbolt.clx=0
+  [OK]   pcie_port_pm=off
+  [OK]   IOMMU disabled (no /sys/class/iommu/dmar0; matches iommu=off cmdline)
+  [OK]   thunderbolt host_reset runtime: N (matches boot arg)
+
+== 2. Kernel modules ==
+  [OK]   nouveau: unloaded
+  [OK]   nova_core: unloaded
+  [OK]   nvidia: loaded (refcount=6)
+  [OK]   nvidia_drm: unloaded (compute-only)
+  [OK]   nvidia_modeset: unloaded
+  [OK]   nvidia_uvm: loaded (pre-staged for CUDA)
+
+== 3. Configuration files (content match against repo) ==
+  [OK]   /etc/udev/rules.d/79-aorus-egpu-no-autoload.rules (rendered from template)
+  [OK]   /etc/udev/rules.d/81-aorus-egpu-compute-power.rules (rendered from template)
+  [OK]   /etc/udev/rules.d/82-aorus-egpu-nvidia-permissions.rules
+  [OK]   /etc/udev/rules.d/82-aorus-egpu-lever-m-killswitch.rules
+  [OK]   /etc/modprobe.d/aorus-egpu-compute-only.conf
+  [OK]   /etc/modprobe.d/aorus-egpu-lever-m.conf
+  [OK]   /etc/modprobe.d/blacklist-nouveau.conf
+  [OK]   /etc/modprobe.d/nvidia-power-management.conf
+  [OK]   /etc/modprobe.d/nvidia.conf
+  [OK]   /etc/sysctl.d/aorus-egpu-watchdog.conf
+  [OK]   /etc/systemd/system/aorus-egpu-compute-load-nvidia.service
+  [OK]   /etc/systemd/system/aorus-egpu-bridge-link-cap.service
+  [OK]   /etc/systemd/system/aorus-egpu-wpr2-recovery.service
+  [OK]   /etc/systemd/system/aorus-egpu-observability-watchdog.service
+  [OK]   /etc/systemd/system/aorus-egpu-lever-m-phase5-snapshot.service
+  [OK]   /etc/systemd/system/aorus-egpu-uvm-keepalive.service
+  [OK]   /etc/systemd/system/aorus-egpu-link-monitor.service
+  [OK]   /etc/systemd/system/aorus-egpu-pcie-tune.service
+  [OK]   /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf
+  [OK]   /etc/systemd/system/ollama.service.d/aorus-egpu.conf
+
+== 4. Scripts ==
+  [OK]   /usr/local/sbin/aorus-egpu-detect-config
+  [OK]   /usr/local/sbin/aorus-egpu-compute-load-nvidia
+  [OK]   /usr/local/sbin/aorus-egpu-disable-audio
+  [OK]   /usr/local/sbin/aorus-egpu-status
+  [OK]   /usr/local/sbin/aorus-egpu-bridge-link-cap
+  [OK]   /usr/local/sbin/aorus-egpu-wpr2-recovery
+  [OK]   /usr/local/sbin/aorus-egpu-observability-watchdog
+  [OK]   /usr/local/sbin/aorus-egpu-uvm-keepalive
+  [OK]   /usr/local/sbin/aorus-egpu-link-monitor
+  [OK]   /usr/local/sbin/aorus-egpu-pcie-tune
+  [OK]   /usr/local/sbin/aorus-egpu-lever-m
+  [OK]   /usr/local/sbin/aorus-egpu-lever-m-killswitch-restore
+  [OK]   /usr/local/sbin/aorus-egpu-lever-m-phase5-snapshot
+
+== 5. systemd units ==
+  [OK]   aorus-egpu-compute-load-nvidia.service: enabled
+  [OK]   aorus-egpu-bridge-link-cap.service: enabled
+  [OK]   aorus-egpu-wpr2-recovery.service: enabled
+  [OK]   aorus-egpu-observability-watchdog.service: enabled
+  [OK]   aorus-egpu-lever-m-phase5-snapshot.service: enabled
+  [OK]   nvidia-persistenced.service: enabled
+  [OK]   aorus-egpu-uvm-keepalive.service: disabled
+  [OK]   aorus-egpu-link-monitor.service: disabled
+  [OK]   aorus-egpu-pcie-tune.service: disabled
+  [OK]   nvidia-fallback.service: not installed (compute-only does not ship it)
+  [OK]   nvidia-powerd.service: not installed (compute-only does not ship it)
+  [OK]   switcheroo-control.service: masked
+  [OK]   nvidia-cdi-refresh.path: not installed (compute-only does not ship it)
+  [OK]   nvidia-cdi-refresh.service: not installed (compute-only does not ship it)
+  [OK]   aorus-egpu-compute-load-nvidia.service active state: active
+  [OK]   nvidia-persistenced.service active state: active
+  [OK]   persistenced drop-in: /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf
+
+== 6. PCI device state ==
+  [OK]   GPU present: 0000:04:00.0
+  [OK]   GPU bound to: nvidia
+  [OK]   GPU power_state: D0
+  [OK]   GPU power/control: on
+  [OK]   GPU d3cold_allowed: 0
+  [OK]   Intel-root-port 0000:02:00.0: power/control=on d3cold_allowed=0
+  [OK]   Intel-TB-upstream 0000:00:07.0: power/control=on d3cold_allowed=0
+  [OK]   eGPU-audio-function 0000:04:00.1: power/control=on d3cold_allowed=0
+  [OK]   GPU driver_override: aorus_egpu_manual
+  [OK]   BAR0: 0x0000000080000000-0x0000000083ffffff
+  [OK]   BAR1: 0x0000004000000000-0x00000047ffffffff (32 GiB)
+  [OK]   HDMI audio: present, unbound (correct)
+  [OK]   HDMI audio driver_override: aorus_egpu_disabled
+
+== 7. Thunderbolt ==
+  [OK]   bolt.service: active
+  [OK]   AORUS device boltctl status: authorized
+  [INFO] AORUS rx speed: 40 Gb/s = 2 lanes * 20 Gb/s
+
+== 8. nvidia-persistenced ==
+  [OK]   persistenced running via systemd (pid=1305, 4 fds on /dev/nvidia0, 1 on /dev/nvidiactl)
+
+== 8c. NVIDIA Vulkan / EGL / OpenCL loader entries (compute-only mode) ==
+  [OK]   Vulkan ICD: disabled (/usr/share/vulkan/icd.d/nvidia_icd.x86_64.json.aorus-disabled)
+  [OK]   Vulkan implicit layer: disabled (/usr/share/vulkan/implicit_layer.d/nvidia_layers.json.aorus-disabled)
+  [OK]   EGL vendor: disabled (/usr/share/glvnd/egl_vendor.d/10_nvidia.json.aorus-disabled)
+  [OK]   OpenCL ICD: disabled (/etc/OpenCL/vendors/nvidia.icd.aorus-disabled)
+
+== 8d. /dev/nvidia* device-file permissions ==
+  [OK]   NVreg_DeviceFileGID=968 matches ollama group GID
+  [OK]   nvidia-persistenced is in ollama group (can open /dev/nvidia0 + nvidiactl)
+  [OK]   /dev/nvidia0: 0660 root:ollama
+  [OK]   /dev/nvidiactl: 0660 root:ollama
+  [WARN] /dev/nvidia-uvm: 0666 root:root (no NVreg-equivalent for nvidia_uvm; resets after every nvidia-modprobe; Layer 4 8e is the real safety check)
+  [WARN] /dev/nvidia-uvm-tools: 0666 root:root (no NVreg-equivalent for nvidia_uvm; resets after every nvidia-modprobe; Layer 4 8e is the real safety check)
+  [WARN] /dev/nvidia-caps/nvidia-cap1: 0400 root:root (no NVreg-equivalent for nvidia_uvm; resets after every nvidia-modprobe; Layer 4 8e is the real safety check)
+  [WARN] /dev/nvidia-caps/nvidia-cap2: 0444 root:root (no NVreg-equivalent for nvidia_uvm; resets after every nvidia-modprobe; Layer 4 8e is the real safety check)
+
+== 8f. NVIDIA driver module parameters (runtime vs configured) ==
+  [OK]   NVreg_DeviceFileMode = 432 (matches conf 0660)
+  [OK]   NVreg_DeviceFileUID = 0 (matches conf 0)
+  [OK]   NVreg_DeviceFileGID = 968 (matches conf 968)
+  [OK]   NVreg_DynamicPowerManagement = 0 (matches conf 0x00)
+  [OK]   NVreg_PreserveVideoMemoryAllocations = 0 (matches conf 0)
+  [OK]   NVreg_EnableS0ixPowerManagement = 0 (matches conf 0)
+  [OK]   NVreg_RestrictProfilingToAdminUsers = 1 (matches conf 1)
+  [OK]   NVreg_RegistryDwords = "RmForceExternalGpu=1" (matches conf "RmForceExternalGpu=1")
+
+== 8g. nvidia-drm autoload prevention (softdep + install) ==
+  [OK]   softdep on nvidia-drm absent + install /bin/false in place (autoload blocked)
+  [OK]   modprobe nvidia-drm directly resolves to install /bin/false
+
+== 8e. /dev/nvidia* exclusivity (only authorised processes holding) ==
+  [OK]   no unauthorised holders of /dev/nvidia*
+
+== 9. DRM ownership ==
+  [OK]   card1: i915 (Intel GPU, correct)
+
+== 10. Driver and kernel versions ==
+  [INFO] kernel: 6.19.14-200.fc43.x86_64
+  [INFO] nvidia: Module for x86_64  595.71.05  Release Build  (root@obpc)  Sat May  9 11:38:37 AM AEST 2026
+  [INFO] rpm: nvidia-persistenced-595.71.05-1.fc43.x86_64
+  [OK]   DKMS-built nvidia module installed for running kernel (6.19.14-200.fc43.x86_64)
+
+== 11. Recent kernel error signals (last 24h) ==
+  [OK]   no Xid / fallen-off-bus / uncorrectable AER / NVRM Failed in last 24h
+
+== 12. nvidia-smi smoke test ==
+  [OK]   nvidia-smi: NVIDIA GeForce RTX 5090, 33, 30 %, 18.39 W, P8
+
+== Summary ==
+  107 OK, 4 WARN, 0 FAIL (of 111 checks)
+
+Status: HEALTHY WITH WARNINGS - functional, see WARN items.

@@ -1,0 +1,52 @@
+# Lever M-recover Phase 5 evidence snapshot
+snapshot_time: 2026-05-09T11:46:39+10:00
+boot_time:     2026-05-09T11:46:31+10:00 (btime=1778291191)
+uptime_s:      8
+kernel:        6.19.14-200.fc43.x86_64
+
+## Module identity
+version:        595.71.05-aorus.12
+srcversion:     B57421AF4EBED5910AB74D5
+
+## Kill-switch state (H3)
+file:    -
+runtime: 1
+
+## M-recover counters
+fires:        -
+successes:    -
+surrenders:   -
+last_fire_jf: -
+
+## post-rmInit-{OK,FAIL} count this boot
+post-rmInit-OK:   2
+post-rmInit-FAIL: 0
+
+## Close-path activity this boot (Patch 0029)
+close-entry:           3
+pre-stop:              3
+post-shutdown:         0
+close-exit:            3
+last-close events:     5  (full DIAG+AER snapshot fired)
+mmio_enabled callback: 0
+cor_error_detected:    0
+
+## M-recover dmesg events (this boot, chronological)
+  [    8.137169] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=7
+  [    8.137170] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=7
+  [    8.137171] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=6
+  [    8.137669] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=6
+  [    8.137669] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=6
+  [    8.137670] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=5
+  [    8.137674] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-entry     usage_count=5
+  [    8.137674] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=pre-stop        usage_count=5
+  [    8.137675] NVRM: GPU 0000:04:00.0: AORUS Lever M-recover [CLOSE]: site=close-exit      usage_count=4
+
+## L4 helper events for this boot (from wpr2-recoveries.log)
+  2026-05-09T11:46:39+1000,725ade28-54f7-4f8c-8675-f72eaf596bae,no-op,GPU healthy
+
+## GPU functional check
+  GPU 0: NVIDIA GeForce RTX 5090 (UUID: GPU-90b9424e-7236-fd4d-d903-44e565e1bd42)
+
+## Verdict
+M-RECOVER-NOT-FIRED: no recovery needed this boot (clean cold-cold)
