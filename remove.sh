@@ -192,21 +192,41 @@ unmask_unit_robust switcheroo-control.service
 unmask_unit_robust nvidia-cdi-refresh.path
 unmask_unit_robust nvidia-cdi-refresh.service
 
-# ------------------------------------------ restore disabled loader entries --
-step "restore NVIDIA Vulkan / EGL / OpenCL loader entries"
+# ------------------------------------------ NVIDIA loader entries (KEEP DISABLED) --
+step "leave NVIDIA Vulkan / EGL / OpenCL loader entries disabled"
 
-restore_loader_entry() {
-    local dst="$1"
-    if [[ -f "$dst.aorus-disabled" ]]; then
-        mv "$dst.aorus-disabled" "$dst"
-        printf '  restored: %s\n' "$dst"
+# DO NOT restore the loader entries. apply.sh disabled them by renaming
+# to *.aorus-disabled because GDM/mutter dlopens libEGL_nvidia.so during
+# Wayland GPU enumeration, which calls the setuid `nvidia-modprobe` binary
+# which uses `insmod` directly (bypassing /etc/modprobe.d/ blacklist).
+# Even with our protective blacklist stub in place, restoring these entries
+# triggers nvidia load at GDM startup.
+#
+# To revert to vanilla NVIDIA after `remove.sh`:
+#   sudo rm /etc/modprobe.d/zz-aorus-egpu-blacklist.conf
+#   for f in /usr/share/vulkan/icd.d/nvidia_icd.x86_64.json \
+#            /usr/share/vulkan/implicit_layer.d/nvidia_layers.json \
+#            /usr/share/glvnd/egl_vendor.d/10_nvidia.json \
+#            /etc/OpenCL/vendors/nvidia.icd; do
+#       [[ -f "$f.aorus-disabled" ]] && sudo mv "$f.aorus-disabled" "$f"
+#   done
+#   sudo reboot
+#
+# History: this step USED to call restore_loader_entry. Removed 2026-05-09
+# after the end-to-end remove → reboot → apply test caught the dlopen-based
+# load path bypassing modprobe blacklist.
+for entry in /usr/share/vulkan/icd.d/nvidia_icd.x86_64.json \
+             /usr/share/vulkan/implicit_layer.d/nvidia_layers.json \
+             /usr/share/glvnd/egl_vendor.d/10_nvidia.json \
+             /etc/OpenCL/vendors/nvidia.icd; do
+    if [[ -f "$entry" ]]; then
+        # Re-disable in case the user (or a previous remove.sh) had restored them
+        mv "$entry" "$entry.aorus-disabled"
+        printf '  re-disabled: %s\n' "$entry"
+    elif [[ -f "$entry.aorus-disabled" ]]; then
+        printf '  already disabled: %s\n' "$entry"
     fi
-}
-
-restore_loader_entry /usr/share/vulkan/icd.d/nvidia_icd.x86_64.json
-restore_loader_entry /usr/share/vulkan/implicit_layer.d/nvidia_layers.json
-restore_loader_entry /usr/share/glvnd/egl_vendor.d/10_nvidia.json
-restore_loader_entry /etc/OpenCL/vendors/nvidia.icd
+done
 
 # --------------------------------------------- remove unit files + drop-ins --
 step "remove systemd units + drop-ins"
