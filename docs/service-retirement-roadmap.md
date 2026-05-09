@@ -32,6 +32,7 @@
 | `aorus-egpu-wpr2-recovery.service` | **RETIRED** ✓ | 2026-05-09 — Phase 5 evidence gate met (10/10 clean cold-cold-boots with verdict `M-RECOVER-NOT-FIRED` AND `wpr2-recoveries.log` `no-op,GPU healthy`). Lever M-recover (in-driver, patches 0024 + 0026 + 0027 + 0028) is the sole recovery mechanism going forward. L4 helper preserved as documented archive. |
 | `aorus-egpu-lever-m-phase5-snapshot.service` | **RETIRED** ✓ | 2026-05-09 — primary purpose (gather n=10 Phase 5 evidence for `wpr2-recovery` retirement) objectively complete on the same day. Per-boot snapshot script + unit preserved as documented archive; resurrect via `systemctl enable --now` if a future Phase-5-style retirement cycle needs the same evidence-collection pattern. |
 | `aorus-egpu-compute-load-nvidia.service` | Active (driver bind helper; architectural, not reliability) | — |
+| `aorus-egpu-trust` (kernel module) | **RETIRED** ✓ | 2026-05-09 — superseded by Lever T (`iommu=off` cmdline, 2026-05-07). With IOMMU disabled, `pci_dev->untrusted` is consulted by nothing. Module loaded but fixups never fired on TB-late-enumeration path (self-acknowledged in module init log). Source moved to `archive/retired-kernel-modules-aorus-egpu-trust/`; resurrection if `iommu=pt` ever re-adopted. 7th retirement — first kernel-module retirement. |
 
 ---
 
