@@ -12,6 +12,7 @@ modprobe.blacklist=nouveau,nova_core
 pci=realloc,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0
 thunderbolt.host_reset=false
 iommu=pt
+crashkernel=256M
 
 # Why each is needed:
 #
@@ -58,3 +59,16 @@ iommu=pt
 #
 #   Layer-2 hardening complementary to BIOS PCIe ASPM disabled (Layer 1)
 #   and our driver-side tuning (Layer 3).
+#
+# crashkernel=256M  (added 2026-05-05, Phase 1c B2)
+#   Reserves 256 MiB at boot for the kdump crash kernel. When a kernel
+#   panic fires (e.g. NMI watchdog hardlockup detection per
+#   etc/sysctl.d/aorus-egpu-watchdog.conf), the kernel kexec's into
+#   the reserved crash kernel and dumps /proc/vmcore to /var/crash on
+#   next boot. Without this reservation, kdump.service cannot arm and
+#   panics produce no forensic data — exactly the gap exposed by the
+#   2026-05-05 Mode B silent freeze.
+#
+#   256 MiB is Fedora's recommended size for systems with <64 GiB RAM.
+#   Reservation lives in physical low-memory; does not reduce usable
+#   workload RAM on a 32 GiB system meaningfully.

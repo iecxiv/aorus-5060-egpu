@@ -28,7 +28,7 @@ The freeze fingerprint on this hardware is: full system lock, fans ramp to full,
 4. Inspect the previous boot:
 
    ```bash
-   sudo aorus-5090-status
+   sudo aorus-egpu-status
    journalctl -k -b -1 --no-pager | tail -200
    journalctl -b -1 --no-pager -g 'nvidia|NVRM|Xid|AER|fallen off|nvidia-persistenced|aorus' | tail -200
    ```
@@ -36,11 +36,11 @@ The freeze fingerprint on this hardware is: full system lock, fans ramp to full,
 5. If you need to come up without the eGPU stack while you investigate:
 
    ```bash
-   sudo systemctl disable aorus-5090-compute-load-nvidia.service nvidia-persistenced.service
+   sudo systemctl disable aorus-egpu-compute-load-nvidia.service nvidia-persistenced.service
    sudo reboot
    ```
 
-   Re-enable later with `sudo systemctl enable aorus-5090-compute-load-nvidia.service nvidia-persistenced.service`.
+   Re-enable later with `sudo systemctl enable aorus-egpu-compute-load-nvidia.service nvidia-persistenced.service`.
 
 ## Diagnostic (host is responsive)
 
@@ -60,11 +60,11 @@ If you see this:
    If absent, that is the cause. The loader is supposed to pre-load it at boot.
 
 3. Reboot. Do not try to fix it live - the partial-init state may already have set up a panic trigger.
-4. After reboot, run `sudo aorus-5090-status` and confirm `nvidia_uvm: loaded`. If it is not, the loader did not run or did not get past binding. Check the bind service:
+4. After reboot, run `sudo aorus-egpu-status` and confirm `nvidia_uvm: loaded`. If it is not, the loader did not run or did not get past binding. Check the bind service:
 
    ```bash
-   sudo systemctl status aorus-5090-compute-load-nvidia.service
-   sudo journalctl -u aorus-5090-compute-load-nvidia.service -b
+   sudo systemctl status aorus-egpu-compute-load-nvidia.service
+   sudo journalctl -u aorus-egpu-compute-load-nvidia.service -b
    ```
 
 5. If diagnostic CUDA runs need to happen even with `nvidia_uvm` somehow not loaded, use `tools/tty-cuda-test.sh` which refuses to start without the precondition met.
@@ -91,7 +91,7 @@ Do not try to restart persistenced while `nvidia` is loaded; restart triggers th
 Run the status check:
 
 ```bash
-sudo aorus-5090-status
+sudo aorus-egpu-status
 ```
 
 Read the output:
@@ -100,18 +100,18 @@ Read the output:
 |---|---|---|
 | `thunderbolt.host_reset: NOT disabled` | Boot args lost | `sudo grubby --update-kernel=ALL --args="thunderbolt.host_reset=false"`, reboot |
 | `GPU: not present` | eGPU disconnected, powered off, or TB authorization failed | Power-cycle the eGPU, check Thunderbolt cable, reboot |
-| `GPU driver: none` | compute-load service did not run, or failed | `sudo systemctl status aorus-5090-compute-load-nvidia.service`, check journal |
+| `GPU driver: none` | compute-load service did not run, or failed | `sudo systemctl status aorus-egpu-compute-load-nvidia.service`, check journal |
 | `BAR1: ... (less than 32 GiB)` | Thunderbolt host-router reset trashed the layout | Should not happen with `host_reset=false`. Verify boot args, cold boot with eGPU connected |
 | `nvidia-persistenced: NOT running` | Persistenced did not start, or died | `sudo systemctl status nvidia-persistenced.service`, check journal. If it's dead and `nvidia` is loaded, reboot rather than restart |
-| `nvidia_uvm: NOT loaded` | Loader did not pre-stage uvm, or it was unloaded | Reboot. Loader should re-stage on boot. If persistent, check loader output via `journalctl -u aorus-5090-compute-load-nvidia.service`. Do NOT run CUDA programs in this state |
-| `card2: nvidia` (or similar) under `drm_cards` | `nvidia_drm` loaded; this should never happen | Reboot; if persistent, check that `aorus-5090-compute-only.conf` is in place |
+| `nvidia_uvm: NOT loaded` | Loader did not pre-stage uvm, or it was unloaded | Reboot. Loader should re-stage on boot. If persistent, check loader output via `journalctl -u aorus-egpu-compute-load-nvidia.service`. Do NOT run CUDA programs in this state |
+| `card2: nvidia` (or similar) under `drm_cards` | `nvidia_drm` loaded; this should never happen | Reboot; if persistent, check that `aorus-egpu-compute-only.conf` is in place |
 
 ### Fan stops, GPU heats up
 
 The driver provides thermal control. If `nvidia` unloads or the GPU unbinds, fan / pump stop. Get the driver loaded again immediately:
 
 ```bash
-sudo systemctl restart aorus-5090-compute-load-nvidia.service
+sudo systemctl restart aorus-egpu-compute-load-nvidia.service
 sudo systemctl restart nvidia-persistenced.service
 ```
 
@@ -180,7 +180,7 @@ If the system is repeatedly unbootable to the point that even the multi-user.tar
 3. Disable services:
 
    ```bash
-   systemctl disable aorus-5090-compute-load-nvidia.service nvidia-persistenced.service
+   systemctl disable aorus-egpu-compute-load-nvidia.service nvidia-persistenced.service
    ```
 
 4. Optional: remove the boot args:
@@ -191,4 +191,4 @@ If the system is repeatedly unbootable to the point that even the multi-user.tar
 
 5. Reboot to the host system.
 
-The Git repo at `/root/aorus-5090-gpu/` is the source of truth for the configuration; you can re-apply with `apply.sh` once you have a stable boot.
+The Git repo at `/root/aorus-5090-egpu/` is the source of truth for the configuration; you can re-apply with `apply.sh` once you have a stable boot.

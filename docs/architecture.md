@@ -2,6 +2,11 @@
 
 This document explains why each piece of the configuration exists. Read this if you want to understand the system, change it safely, or escalate a bug upstream.
 
+> For the **active stability roadmap** (layer model, phased plan, lever
+> status, completion criteria) see [`stability-roadmap.md`](./stability-roadmap.md).
+> For the **historical investigation log** (lever origins, source review)
+> see [`freeze-investigation-plan.md`](./freeze-investigation-plan.md).
+
 ## The three core problems
 
 ### Problem 1: BAR1 collapses during Thunderbolt authorization
@@ -16,22 +21,28 @@ Supporting boot args to keep the BAR allocation healthy:
 - `hpmmioprefsize=256M` - cap empty hotplug bridge prefetchable windows at 256 MiB so they do not starve the actual GPU's bridge.
 - `resource_alignment=35@0000:03:00.0` - force the occupied bridge to be aligned for 32 GiB (= 2^35).
 
-### Problem 2: Second open of `/dev/nvidia0` hard-freezes the host
+### Problem 2: Second open of `/dev/nvidia0` (historically hard-freezes the host; now mitigated by the cumulative driver stack)
 
-On Blackwell over Thunderbolt with the open kernel module 580.142, the first open+close of `/dev/nvidia0` works. The second open in the same module-load session hangs in the kernel's `open()` syscall and locks up the host. No flushed kernel logs; forced reboot is the only recovery.
+**Historical (2026-05-01 era, open kernel module 580.142):** the first open+close of `/dev/nvidia0` works; the second open in the same module-load session hangs in the kernel's `open()` syscall and locks up the host. No flushed kernel logs; forced reboot is the only recovery.
 
-The boundary was confirmed with an `LD_PRELOAD` ioctl tracer:
+The boundary was originally confirmed with an `LD_PRELOAD` ioctl tracer:
 
 ```
 open64_enter dirfd=-100 path=/dev/nvidia0 flags=0x80802 mode=00
    (no matching open64_exit)
 ```
 
-The bug persists across `modprobe -r nvidia ; modprobe nvidia` - so the wedge state lives below the kernel module, in GPU/GSP firmware state or a per-PCI-device kernel structure. Setting `NVreg_EnableNonblockingOpen=0` only relocates the hang from `NV_ESC_WAIT_OPEN_COMPLETE` ioctl into `open()` itself; it is not a fix.
+The bug originally persisted across `modprobe -r nvidia ; modprobe nvidia` — so the wedge state lived below the kernel module, in GPU/GSP firmware state or a per-PCI-device kernel structure. Setting `NVreg_EnableNonblockingOpen=0` only relocated the hang from `NV_ESC_WAIT_OPEN_COMPLETE` ioctl into `open()` itself; not a fix.
 
-**Workaround:** `nvidia-persistenced`. The daemon opens `/dev/nvidiactl` once and `/dev/nvidia0` four times at startup and holds them for its lifetime. Every subsequent `nvidia-smi` (or any NVML caller) is therefore an "additional open alongside an existing one", never a "first open after last close". The close-side teardown that wedges the next open never runs because the open count never drops to zero.
+**Status update 2026-05-08 — empirically mitigated by the cumulative driver stack.** The `tools/close-path-probe.sh` instrumented experiment (Patch 0029 close-path DIAG sites + state-capture + 20s settle window) ran the exact "stop persistenced, open via `nvidia-smi -L`, close, observe next open" sequence three times back-to-back. **n=3 reproductions: identical outcome — the second open succeeds in ~1.3s with no host wedge.** The close path mutates real state (WPR2 cleared 0x07f4a000 → 0; PCIe link demoted Gen3 → Gen1; PMC_BOOT_0 stays healthy; zero AER), and the next `rm_init_adapter` cycles the link Gen1 → Gen3 and re-establishes WPR2 cleanly. Lever M-recover never had to fire (`fires=0` across all 3 probes). Forensic dossiers in `archive/close-path-probes/2026-05-08T1*-*+10-00/`.
 
-This is a vendor-supported configuration. It is not a hack. It is, however, **load-bearing** on this hardware in a way it is not on normal NVIDIA setups: stopping persistenced re-exposes the freeze.
+**Why it doesn't reproduce now:** the bug class was multi-cause; we cumulatively eliminated each cause. Likely contributors in order: H9a retirement (was the dominant Port A trigger — `aorus-egpu-pcie-tune.service` tightening DevCtl2 Range B too tight on Port A, retired 2026-05-08); Lever T cmdline (`iommu=off intel_iommu=off`, eliminates IOMMU rejection of GSP DMA); recovery levers I/J-2/N/O (convert "GPU lost ⇒ deadlock" into "GPU lost ⇒ clean error"); G3-H UncMaskClear (Internal Error fires through AER instead of Cor=0x2000 demotion); Lever M-recover (last-line bus-reset insurance). Single-cause explanation never fit; all of these together are why.
+
+**Reclassified workaround:** `nvidia-persistenced` is **no longer required for stability** on this stack. It is now a **performance optimization**: by holding `/dev/nvidiactl` once and `/dev/nvidia0` four times for its lifetime, every subsequent open is "additional open alongside existing", never "first open after last close" — so the ~1.3s GSP-boot tax for re-establishing rm_init from a torn-down state is paid once at boot, not on every consumer warmup.
+
+**Operational cost of retiring it (measured 2026-05-08):** ~1.3s GSP-boot per first-open after any LAST-CLOSE. For workloads with frequent gaps between GPU consumers (e.g. ollama daemon spawning runners with idle gaps in between, periodic `nvidia-smi` from monitoring), this tax compounds; for workloads that hold continuous open (long-running CUDA apps), the cost is paid once.
+
+This is a vendor-supported configuration. It is not a hack. It is no longer load-bearing for stability; it remains load-bearing for warmup latency on this hardware.
 
 ### Problem 3: Failed `cuInit` causes delayed kernel panics
 
@@ -45,9 +56,9 @@ A separate failure mode, identified on 2026-05-01:
 
 Validated 2026-05-01: with `nvidia_uvm` pre-staged, the CUDA Driver API smoke test (`cuInit -> cuMemAlloc -> cuMemcpyDtoH`) passes end-to-end, returns 0 MiB used after cleanup (no leak), and the host survives the 30 s post-test idle window without any delayed panic. See `archive/cuda-validation-2026-05-01/` for evidence.
 
-The install lines in `etc/modprobe.d/aorus-5090-compute-only.conf` remain because they still serve their original purpose — preventing arbitrary processes from triggering an `nvidia` or `nvidia_uvm` load before our service has bound them. We just route around them at boot via the loader's `--ignore-install`.
+The install lines in `etc/modprobe.d/aorus-egpu-compute-only.conf` remain because they still serve their original purpose — preventing arbitrary processes from triggering an `nvidia` or `nvidia_uvm` load before our service has bound them. We just route around them at boot via the loader's `--ignore-install`.
 
-### Problem 4: The close-path bug also affects `/dev/nvidia-uvm`
+### Problem 4: The close-path bug also affects `/dev/nvidia-uvm` (RESOLVED 2026-05-08 — UVM-side bug class empirically does not reproduce; uvm-keepalive retired)
 
 A delayed-discovery extension of Problem 2, identified on 2026-05-02 during the ollama bring-up that followed the validated `cuInit` work above. Full evidence at `/root/ollama/docs/freeze-2026-05-02-1032.md` and the forensic snapshot at `/root/ollama/archive/freeze-2026-05-02-1032/`.
 
@@ -57,11 +68,24 @@ CUDA processes (vLLM, ollama, anything that calls `cuInit`) open `/dev/nvidia-uv
 
 The bug is probabilistic: not every CUDA-process exit triggers the wedge, and the wedge often manifests minutes later when an unrelated background process (e.g. PackageKit during `dnf-makecache`) makes the next UVM open. ollama amplifies the exposure because its daemon spawns short-lived `ollama runner` subprocesses for discovery (4 runners on startup) and one per inference; every runner exit is a potential UVM close-path event.
 
-**Fix:** `aorus-5090-uvm-keepalive.service` — a small shell helper that opens `/dev/nvidia-uvm` and `/dev/nvidia-uvm-tools` read-write, `echo`'s a status line, and `exec sleep infinity`. With the helper held open, the open-count on each UVM device file never drops below 1, the close-side teardown never runs, and subsequent opens always succeed. Same shape of mitigation as persistenced for `/dev/nvidia0`.
+**Status update 2026-05-08 — UVM bug class empirically does not reproduce; original framing was inaccurate.** Patch 0030 added UVM close-path DIAG instrumentation analogous to Patch 0029. n=3 single-shot probes (`tools/uvm-close-path-probe.sh`) plus n=3 churn probes (`tools/uvm-churn-probe.sh` mimicking the 2026-05-02 ollama-runner-churn pattern: 4× rapid cuda-smoke + 60s idle + 1× delayed cuda-smoke) — **6 total reproductions, all benign.** UVM `uvm_va_space_destroy` only does UVM-internal cleanup (page tables, channels, mappings); it does **not** touch GSP, WPR2, or PCIe link state. WPR2 stays at `0x07f4a000` (UP), link stays Gen3, no AER signals, Lever M-recover never fires. The original Problem 4 framing — "the kernel/GSP runs the same close-side teardown that Problem 2 documents — but on UVM" — was a pattern-matched inference that does not match what UVM's close-path actually does on this driver build.
 
-**Boot-time prerequisite (discovered 2026-05-02 the hard way):** `modprobe nvidia_uvm` only creates `/dev/nvidia-uvm` via devtmpfs — it does **NOT** create `/dev/nvidia-uvm-tools`. The `-tools` device file gets materialised lazily, by the first userspace caller to invoke `nvidia-modprobe -u -c 0` (or by a CUDA process triggering the same path internally). Without an explicit creation step, the keep-alive's `ConditionPathExists=/dev/nvidia-uvm-tools` fails at boot, the unit skips, and the system runs unprotected. The aorus-5090-compute-load-nvidia loader script invokes `nvidia-modprobe -u -c 0` immediately after `modprobe --ignore-install nvidia_uvm` to materialise both UVM device files before the keep-alive's condition check runs. The bare invocation `nvidia-modprobe -u` (without `-c 0`) is a no-op; `-u -c 0 -c 1` is destructive (creates additional UVM devices at minors 1 and 2 that overwrite the canonical files). `-u -c 0` is the only correct form.
+**Original fix (2026-05-02 → 2026-05-08, now retired):** `aorus-egpu-uvm-keepalive.service` — a small shell helper that opens `/dev/nvidia-uvm` and `/dev/nvidia-uvm-tools` read-write, `echo`'s a status line, and `exec sleep infinity`. With the helper held open, the open-count on each UVM device file never drops below 1, the close-side teardown never runs, and subsequent opens always succeed. Same shape of mitigation as persistenced for `/dev/nvidia0`.
+
+**Retirement 2026-05-08:** `aorus-egpu-uvm-keepalive.service` retired (`systemctl disable --now`; `apply.sh` updated to disable on apply). Binary + unit preserved as documented archive of the workaround era. UVM teardown duration (~74ms) plus light next-open re-init give the keepalive negligible warmup-latency value — qualitatively different from persistenced's case where the /dev/nvidia0 close-path costs ~1.3s GSP-boot per cycle. See `docs/service-retirement-roadmap.md` for the retirement record + resurrection criteria.
+
+**Boot-time prerequisite (discovered 2026-05-02 the hard way):** `modprobe nvidia_uvm` only creates `/dev/nvidia-uvm` via devtmpfs — it does **NOT** create `/dev/nvidia-uvm-tools`. The `-tools` device file gets materialised lazily, by the first userspace caller to invoke `nvidia-modprobe -u -c 0` (or by a CUDA process triggering the same path internally). Without an explicit creation step, the keep-alive's `ConditionPathExists=/dev/nvidia-uvm-tools` fails at boot, the unit skips, and the system runs unprotected. The aorus-egpu-compute-load-nvidia loader script invokes `nvidia-modprobe -u -c 0` immediately after `modprobe --ignore-install nvidia_uvm` to materialise both UVM device files before the keep-alive's condition check runs. The bare invocation `nvidia-modprobe -u` (without `-c 0`) is a no-op; `-u -c 0 -c 1` is destructive (creates additional UVM devices at minors 1 and 2 that overwrite the canonical files). `-u -c 0` is the only correct form.
 
 ## How the configuration enforces this
+
+> **Status note 2026-05-08:** this section describes the live system as
+> currently deployed. Three userspace workaround services have retired
+> this week; their entries below are marked **RETIRED** with the date
+> and the binary/unit preservation policy. Per project pattern, retired
+> services keep their helper script in `usr/local/sbin/` and unit file
+> in `etc/systemd/system/` as documented archive of the workaround era,
+> with `enabled=disabled` in systemd. Resurrection (if a regression ever
+> reproduces the original failure) is `systemctl enable --now`.
 
 ### Boot args
 
@@ -69,19 +93,19 @@ See `etc/kernel/cmdline.txt`. Kernel-level fixes for problem 1 plus defence-in-d
 
 ### udev rules
 
-`79-aorus-5090-no-autoload.rules`:
+`79-aorus-egpu-no-autoload.rules`:
 
 - Sets `driver_override=aorus_5090_manual` on the GPU. PCI's `drivers_autoprobe` will not auto-bind any registered driver to a device with a `driver_override` that does not match. `aorus_5090_manual` is a fictitious driver name, so nothing binds.
 - Clears `ENV{MODALIAS}` before systemd-udevd's `80-drivers.rules` matcher runs. This stops `kmod` from loading `nvidia` from a generic PCI modalias autoload event. (Just having `driver_override` is not enough, because the module would still load by alias even without binding.)
-- Mirror behaviour for the HDMI audio function (`10de:22e8`), with a `RUN+=` calling `aorus-5090-disable-audio` to actively unbind it from `snd_hda_intel` if it ever did bind.
+- Mirror behaviour for the HDMI audio function (`10de:22e8`), with a `RUN+=` calling `aorus-egpu-disable-audio` to actively unbind it from `snd_hda_intel` if it ever did bind.
 
-`81-aorus-5090-compute-power.rules`:
+`81-aorus-egpu-compute-power.rules`:
 
 - For each device on the eGPU PCI path (TB controller, bridge, GPU, audio), forces `power/control=on` (no autosuspend) and `d3cold_allowed=0` (no D3cold). Without this, runtime PM can put the path into D3cold; coming back out over the TB tunnel is unreliable.
 
 ### modprobe configs
 
-`aorus-5090-compute-only.conf`:
+`aorus-egpu-compute-only.conf`:
 
 - `blacklist nvidia / nvidia_modeset / nvidia_uvm / nvidia_drm` - blocks udev/modalias autoload.
 - `install nvidia /bin/false` - and equivalents - turns explicit `modprobe nvidia` calls (e.g. by NVIDIA's RPM scriptlets, by `nvidia-modprobe`, by other tools) into no-ops.
@@ -93,26 +117,51 @@ The loader script bypasses these blocks with `modprobe --ignore-install nvidia`.
 
 ### systemd
 
-`aorus-5090-compute-load-nvidia.service`:
+`aorus-egpu-compute-load-nvidia.service`:
 
 - `After=systemd-udev-settle.service bolt.service`, `Before=graphical.target`. The eGPU must be enumerated and authorized before this runs; persistenced and GDM must come after.
 - `ConditionPathExists=/sys/bus/pci/devices/0000:04:00.0` - skip cleanly if the eGPU is not connected.
 - `Type=oneshot, RemainAfterExit=yes` - one-shot bind, then stays "active (exited)" so dependents (persistenced) can `Requires=` it.
-- Calls `/usr/local/sbin/aorus-5090-compute-load-nvidia`, which: applies upstream PM policy; verifies BAR0 and BAR1; clears `driver_override`; `modprobe --ignore-install nvidia`; pokes `drivers_probe`; restores `driver_override` to prevent any future auto-rebind to a wrong driver; `modprobe --ignore-install nvidia_uvm`; runs `nvidia-modprobe -u -c 0` to materialise both `/dev/nvidia-uvm` and `/dev/nvidia-uvm-tools` (see Problem 4).
+- Calls `/usr/local/sbin/aorus-egpu-compute-load-nvidia`, which: applies upstream PM policy; verifies BAR0 and BAR1; clears `driver_override`; `modprobe --ignore-install nvidia`; pokes `drivers_probe`; restores `driver_override` to prevent any future auto-rebind to a wrong driver; `modprobe --ignore-install nvidia_uvm`; runs `nvidia-modprobe -u -c 0` to materialise both `/dev/nvidia-uvm` and `/dev/nvidia-uvm-tools` (see Problem 4).
 
 `nvidia-persistenced.service.d/aorus-egpu.conf` (drop-in):
 
-- `After=` and `Requires=aorus-5090-compute-load-nvidia.service` - persistenced will only start if the GPU is bound, and it will start after the bind.
+- `After=` and `Requires=aorus-egpu-compute-load-nvidia.service` - persistenced will only start if the GPU is bound, and it will start after the bind.
 - `ConditionPathExists=/sys/bus/pci/devices/0000:04:00.0` - skip cleanly with eGPU disconnected (mirrors the bind service).
 - `Restart=no` - explicitly disable systemd auto-restart. If persistenced dies while `nvidia` is loaded, restarting it would close+reopen device files and freeze the host. Better to fail loud.
 
-`aorus-5090-uvm-keepalive.service`:
+`aorus-egpu-uvm-keepalive.service` — **RETIRED 2026-05-08 evening:**
 
-- Complements persistenced for `/dev/nvidia-uvm` + `/dev/nvidia-uvm-tools`. See Problem 4 above for why this is needed.
-- `After=` and `Requires=aorus-5090-compute-load-nvidia.service nvidia-persistenced.service` - starts only after the loader has pre-staged `nvidia_uvm` (creating the UVM device files) and persistenced is up.
-- `WantedBy=multi-user.target` plus the After-chain places this before user-session CUDA services, so it wins the race to first-open of `/dev/nvidia-uvm` after boot.
-- `Restart=no` for the same reason as persistenced: a restart is a close+reopen, which IS the 1->0->1 transition we are preventing.
-- Calls `/usr/local/sbin/aorus-5090-uvm-keepalive`, which checks the device files exist, opens them read-write on fds 3 and 4, and execs `sleep infinity`. The sleep process inherits the fds and holds them for the lifetime of the unit.
+- Originally complemented persistenced for `/dev/nvidia-uvm` + `/dev/nvidia-uvm-tools` (see Problem 4 above for original rationale).
+- Retirement evidence: Patch 0030 instrumentation + n=3 single-shot probes + n=3 churn probes (6 total UVM close-path reproductions, all benign). UVM teardown duration ~74ms, doesn't touch GSP/WPR2/link state — qualitatively different from /dev/nvidia0's close-path. See [`service-retirement-roadmap.md`](./service-retirement-roadmap.md) for full retirement record + resurrection criteria, [H22 ledger](./reliability-hypothesis-ledger.md#h22) for the empirical work.
+- Binary at `usr/local/sbin/aorus-egpu-uvm-keepalive` and unit at `etc/systemd/system/aorus-egpu-uvm-keepalive.service` preserved as documented archive.
+- Note: prior to 2026-05-08 this service was kept alive by a `Requires=` in `ollama.service.d/aorus-egpu.conf` even after `systemctl disable`; that dependency was also removed.
+
+`aorus-egpu-pcie-tune.service` (Lever H9a) — **RETIRED 2026-05-08 morning:**
+
+- Originally applied CTV=2 (1-10ms range A2) on TB host port (0000:00:07.0) and GPU (0000:04:00.0) via setpci writes to DevCtl2 register. Intended as defensive measure pending H9a resolution.
+- Retirement reason: H9a investigation 2026-05-08 identified this service as the *cause* of 100% Port A boot failures. Tight DevCtl2 timeout caused TB-tunneled config reads to time out → driver classified GPU as PCI-not-PCIe → rm_init failed. Disabling the service restored Port A boot reliability.
+- See [`reliability-hypothesis-ledger.md`](./reliability-hypothesis-ledger.md) and project memory `project_port_a_h9a_root_cause_2026_05_08.md`.
+
+`aorus-egpu-wpr2-recovery.service` (Lever R Tier 1 v3) — **PENDING RETIREMENT (5/10 Phase 5 evidence):**
+
+- Detects boot-time WPR2-stuck condition and executes the validated PCI `remove + rescan + reset` sequence to recover a GPU that's bound but failed GSP init.
+- Currently active as belt-and-braces backup during Phase 5 evidence collection. With Lever M-recover patches landed (0024 + 0026 + 0027 + 0028) the in-driver recovery path is the primary mitigation; the L4 helper is now redundant on every boot since H9a retirement (no GSP_LOCKDOWN events occurring).
+- Retirement gate: n≥10 cold-cold-boots with verdict `M-RECOVER-NOT-FIRED` in `archive/phase5-evidence/` AND `no-op,GPU healthy` in `wpr2-recoveries.log` for the same boot. See [`service-retirement-roadmap.md`](./service-retirement-roadmap.md).
+- Idempotent: if `nvidia-smi` shows a working GPU at start, exits 0 immediately (no-op).
+- See [`lever-R-design.md`](./lever-R-design.md) for full three-tier strategy.
+
+`aorus-egpu-lever-m-phase5-snapshot.service` (added 2026-05-08, Phase 5 evidence collector):
+
+- One-shot oneshot post-boot snapshot of M-recover state, kill-switch state, post-rmInit-{OK,FAIL} count, close-path event counts, L4 helper records this boot, GPU functional check, and a `## Verdict` line.
+- Writes `archive/phase5-evidence/<boot-iso>.log` (one file per boot, idempotent via /proc/stat btime).
+- Used to track Phase 5 evidence progress toward the wpr2-recovery retirement gate (n≥10 above).
+
+`aorus-egpu-observability-watchdog.service` (redesigned 2026-05-07, passive):
+
+- Detects Mode B silent freeze candidates via passive sysfs reads (no `/dev/nvidia*` opens).
+- Triggers SysRq dumps (`l`/`t`/`w`/`m`) on detection — captures per-CPU backtraces, blocked tasks, memory state into dmesg for forensic analysis post-reboot.
+- Original 10s `nvidia-smi -L` poll (close-path triggering) was replaced with sysfs-only checks 2026-05-07 task #108.
 
 ### Other state
 

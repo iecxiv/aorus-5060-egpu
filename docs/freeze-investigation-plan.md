@@ -1,5 +1,32 @@
 # CUDA-workload freeze investigation plan
 
+> **Status: HISTORICAL (2026-05-08).** This document captures the
+> investigation arc from 2026-05-03 through 2026-05-08, including Lever
+> taxonomy A–K, three-layer reliability model, source-review passes, and
+> the evidence catalogue from upstream issue #979. **The investigation
+> has converged.** The CUDA-workload host freeze is empirically mitigated
+> on the current driver stack (see [H22 ledger entry](./reliability-hypothesis-ledger.md#h22)).
+> Decode at WSL2 parity for llama3.1:8b; no host wedge under realistic
+> load (verified via cold-cold-boot loop tests + close-path probes 2026-05-08).
+>
+> For current state, read in this order:
+> 1. [`architecture.md`](./architecture.md)
+> 2. [`lever-catalog.md`](./lever-catalog.md)
+> 3. [`service-retirement-roadmap.md`](./service-retirement-roadmap.md)
+> 4. [`reliability-hypothesis-ledger.md`](./reliability-hypothesis-ledger.md)
+>
+> This document remains valuable as: (a) the methodology record showing
+> how the investigation was structured, (b) the evidence catalogue for
+> upstream issue #979, (c) a context-restore handoff for future regression
+> work if the bug class ever reproduces.
+
+> **Original framing 2026-05-04.** As of 2026-05-04, the canonical roadmap (layer
+> model, phase plan, lever status, completion criteria) lives in
+> [`stability-roadmap.md`](./stability-roadmap.md). This document remains
+> the **historical investigation log** — origins of each lever, source
+> review passes, evidence catalogue. Use the roadmap to plan the next
+> step; use this doc to understand how we got here.
+
 Working document for the active investigation into the silent host hang on
 first CUDA write op (e.g. `cuCtxCreate_v2`, ollama inference, PyTorch
 `torch.zeros(.., device='cuda')`) on this stack:
@@ -432,10 +459,26 @@ parameters, available Tier-1/2/3 escalation flags, and the
 investigation method that derived them, see
 [`pcie-kernel-cmdline-options.md`](./pcie-kernel-cmdline-options.md).
 
-Currently applied: `pci=...,noaer` (Lever L). Available escalations
-documented include `pcie_aspm=off`, `pcie_pme=off`, `pcie_ports=compat`,
-`pci=...,nomsi`. Each should be motivated by a specific dmesg signal,
-not added preemptively.
+Currently applied: none from the AER-suppression family.
+
+**Lever L (`pci=...,noaer`) was tried and reverted on 2026-05-04**
+after one test cycle. The flag worked at the kernel level (verified
+via _OSC negotiation losing AER from the OS-controlled service list)
+but produced a strictly worse, fully-silent failure mode where the
+PCIe-error signal never reached the NVIDIA driver. As a result,
+`PDB_PROP_GPU_IS_LOST` was never set, our Lever I/J-2/N recovery
+patches never engaged, and the freeze left zero diagnostic trace.
+See `pcie-kernel-cmdline-options.md` "Why Lever L was reverted" for
+the comparison table and rationale.
+
+Tier-2 escalation `pcie_ports=compat` is also off the table for the
+same reason — both flags suppress the error signal our patches need
+to fire. The path forward is Lever M (register `pci_error_handlers`
+in `nv-pci.c`) so the AER signal has a structured place to land.
+
+Other escalations from the catalogue (`pcie_aspm=off`, `pcie_pme=off`,
+`pci=...,nomsi`) remain *available* but should each be motivated by a
+specific dmesg signal, not added preemptively.
 
 ### Lever-by-lever empirical results (2026-05-03 late update)
 
@@ -443,11 +486,75 @@ not added preemptively.
 |---|---|---|
 | A | DONE | confirmed negative; freeze identical on Lever-A-only |
 | G | DONE | confirmed positive (control); WSL2 = 45-iteration ladder up to 27B clean |
-| H | **DONE — confirmed negative** | freeze identical with Lever H active; predicted by Pass-3 source review (sync sanity-check, not timeout-bounded) |
+| H | **DONE — confirmed negative + reverted** | RmOverrideInternalTimeoutsMs caused a 39 s heartbeat wait that produced MCE broadcast panic; reverted on 2026-05-04 |
 | K | **DONE — not statistically distinguishable** | freeze still occurs; single-sample, can't claim rate change either way |
-| I | not yet executed | most promising remaining lever; addresses trigger directly |
+| L | **DONE — confirmed negative + reverted** | `pci=...,noaer` worked at kernel level but produced a worse, silent freeze where our patches couldn't engage (no GPU-lost path entered, no AORUS markers, no NVRM activity); reverted on 2026-05-04 |
+| I | EXECUTED + VERIFIED RAN 2026-05-04 | osHandleGpuLost retry with 10x100us; in test lite-2026-05-04-153940 the retry exhausted (all 10 reads returned bad value, GPU genuinely down) and fall-through to gpuSetDisconnectedProperties worked correctly (Xid 79 fired). No marker print on retry-exhaustion path (only prints on retry-success). |
 | J-1 | not yet executed | gated on Lever I outcome |
-| J-2 | not yet executed | patch surface expanded — see source-review-notes Pass 5 |
+| J-2 | EXECUTED + VERIFIED FIRED 2026-05-04 | rcdbAddRmGpuDump shortcircuit fired in lite-2026-05-04-145232 and lite-2026-05-04-153940; deadlock locus successfully avoided |
+| N | EXECUTED + VERIFIED FIRED 2026-05-04 | rpcRmApiFree_GSP shortcircuit; collapses 107-assertion cleanup surface; AORUS marker fired in tests lite-2026-05-04-145232 and lite-2026-05-04-153940 |
+| O | EXECUTED 2026-05-04, NOT YET FIRED | _issueRpcAndWait shortcircuit on PDB_PROP_GPU_IS_LOST. In test lite-2026-05-04-153940 the cleanup completed within 250ms after Xid 79 and the system died <50ms later — no second wave of RPCs was attempted, so Lever O had no work to short-circuit. Correctly placed but pre-empted by the new freeze locus. |
+| M-base | EXECUTED 2026-05-04, NOT YET FIRED | patch 0007 built/installed; registers pci_error_handlers with error_detected returning DISCONNECT. Hypothesis was that Lever O would unblock the AER recovery dispatch, but post-cleanup freeze hits before AER subsystem can dispatch. Possibility: should change return to PCI_ERS_RESULT_NONE to avoid kernel-level disconnect that may itself contribute to wedge. |
+| M-recover | pending | next stage: implement `mmio_enabled` / `slot_reset` / `resume`; gated on M-base test results |
+| M-preserve | pending | future stage: state preservation across slot reset (the actual "PEX Reset and Recovery" NVIDIA's roadmap calls out) |
+| P (proposed) | pending | UVM-side _issueRpcAndWait analogue; UVM has its own RPC infrastructure that may not funnel through Lever O; needs investigation if c (ollama respawn) doesn't fully resolve |
+
+### 2026-05-04 evening: cleanup chain works end-to-end (test lite-153940)
+
+**Major milestone.** For the first time, a CUDA workload failed *gracefully*
+on this hardware:
+
+1. AER fires (Multiple Uncorrectable Non-Fatal from 0000:04:00.0)
+2. Driver detects GPU lost via sanity check → Xid 79 logged
+3. `gpuSetDisconnectedProperties` sets `PDB_PROP_GPU_IS_LOST = TRUE`
+4. AORUS Lever J-2 fires — `rcdbAddRmGpuDump` skipped (deadlock locus avoided)
+5. Xid 154 — "GPU recovery action: Node Reboot Required"
+6. AORUS Lever N fires — `rpcRmApiFree_GSP` returns NV_OK silently for cleanup
+7. **`cudaMalloc` returns proper error to userspace**:
+   `"CUDA-capable device(s) is/are busy or unavailable"`
+8. ollama propagates the error up through llama_model_load
+9. **ollama panics with a stack trace** instead of hanging in the poll loop
+
+This is the architectural goal of Levers I/J-2/N realised. The driver
+fail-fast path returns proper errors. The workload exits cleanly with a
+diagnostic stack trace. Three months of diagnostic / source-review work
+made this possible.
+
+### Remaining issue: post-cleanup host wedge (50ms after panic)
+
+Despite the clean failure path:
+- Cleanup completed in 250ms (Xid 79 → Lever N)
+- ollama got CUDA error and started panicking
+- **Within ~50ms of ollama's last journal line, the kernel stops logging entirely**
+- No panic, oops, BUG, RCU stall — just abrupt silence
+- System remained frozen until manual power-cycle 2:17 later
+
+Hypotheses for the new freeze locus, in order of likelihood:
+
+1. ~~**ollama serve respawns the runner in a tight loop** after panic.~~
+   **REFUTED 2026-05-04** by inspection of test lite-153940's
+   pidstat-ollama.csv: only 2 PIDs across the whole test (ollama serve
+   1393, runner 9514). No new runner PID appeared post-panic. Single
+   panic, single exit, no respawn loop.
+2. **UVM cleanup deadlock on process exit.** When ollama runner dies,
+   the kernel runs `__exit_files` which calls UVM's release fop. UVM
+   was already in fatal state ("global fatal error 0x60") and may hang
+   in this path. Would need a Lever P (UVM-side fail-fast). **NOW
+   PROMOTED TO #1 candidate.**
+3. **`nv_pci_remove` triggered by Lever M-base DISCONNECT runs and
+   hangs on an unpatched cleanup site.** Mitigation: change M-base to
+   return `PCI_ERS_RESULT_NONE` to avoid kernel-level disconnect, OR
+   patch the unpatched site. **Promoted to #2 candidate.**
+4. **AER continues firing below logging rate-limit threshold**, and
+   the AER irq handler keeps consuming CPU. Eventually wedges system.
+   Mitigation: post-Xid-79, programmatically clear AER status from the
+   driver.
+
+Investigation order: pivot to (2) UVM-side investigation. Pull the
+UVM release-fop call chain from the open-gpu-kernel-modules source,
+identify any GPU-communication paths that lack a `GPU_IS_LOST` early
+exit. Likely lever P will be a small patch in `uvm_va_space_destroy`
+or a similar exit-time release path.
 
 The lite test on 2026-05-03 evening (Lever A+H+K stacked) captured a
 new deadlock locus: kernel hangs at `journal.c:2239` after a 14-iteration
@@ -539,7 +646,7 @@ change** (not counting comments). All defensive. All conditional on
 To run the build-and-test pass when ready:
 
 ```bash
-sudo /root/aorus-5090-gpu/tools/build-patched-driver.sh
+sudo /root/aorus-5090-egpu/tools/build-patched-driver.sh
 sudo reboot
 # verify per docs/patched-driver-runbook.md
 ```

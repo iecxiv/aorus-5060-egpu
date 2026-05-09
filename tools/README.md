@@ -42,7 +42,7 @@ Output: `/root/aorus-cuda-tty-test/` — overwritten each run.
 To launch (drops you to a TTY for ~60-90 seconds, then GNOME returns):
 
 ```bash
-nohup setsid /root/aorus-5090-gpu/tools/tty-cuda-test.sh </dev/null >/dev/null 2>&1 &
+nohup setsid /root/aorus-5090-egpu/tools/tty-cuda-test.sh </dev/null >/dev/null 2>&1 &
 disown
 sleep 1
 sudo systemctl isolate multi-user.target
@@ -98,7 +98,7 @@ Output: `/root/aorus-pytorch-tty-test/`.
 To launch:
 
 ```bash
-nohup setsid /root/aorus-5090-gpu/tools/tty-pytorch-test.sh </dev/null >/dev/null 2>&1 &
+nohup setsid /root/aorus-5090-egpu/tools/tty-pytorch-test.sh </dev/null >/dev/null 2>&1 &
 disown
 sleep 1
 sudo systemctl isolate multi-user.target
@@ -107,7 +107,7 @@ sudo systemctl isolate multi-user.target
 Configurable via env vars:
 
 - `VENV_PATH` (default `/root/torch-test`)
-- `TEST_SCRIPT` (default `/root/aorus-5090-gpu/tools/pytorch-cuda-smoke-test.py`)
+- `TEST_SCRIPT` (default `/root/aorus-5090-egpu/tools/pytorch-cuda-smoke-test.py`)
 - `OUT` (default `/root/aorus-pytorch-tty-test`)
 
 ## Future tools

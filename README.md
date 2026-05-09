@@ -1,27 +1,66 @@
 # AORUS RTX 5090 AI Box on NUC 15 Pro+
 
-> **⚠ Active investigation in progress (2026-05-03 onwards)** — see
-> **[`docs/freeze-investigation-plan.md`](docs/freeze-investigation-plan.md)**
-> for the current state, lever taxonomy A–K, three-layer reliability
-> model, and decision tree. **[`docs/source-review-notes.md`](docs/source-review-notes.md)**
-> has the source-review work (six passes) including the smoking-gun
-> NVIDIA comment, the failure model, and the concrete patch surface
-> (~13 lines across 5 sites). Read those two docs first.
+> **Is your symptom in scope?** See [`docs/failure-modes-index.md`](docs/failure-modes-index.md)
+> for the master matrix of every failure mode this stack addresses
+> (host freezes on first CUDA op, cold-cold-boot WPR2-stuck, GSP_LOCKDOWN
+> cascades, close-path bugs, recovery storms, …) mapped to the specific
+> levers / patches / services that resolved each. If your hardware is
+> similar (Intel TB4 host + AORUS RTX 5090 AI Box), this is the fastest
+> way to tell whether the project applies to you.
+
+> **Status as of 2026-05-08 — reliability frontier converged.**
+> The CUDA-workload host freeze documented at NVIDIA/open-gpu-kernel-modules#979
+> is **empirically mitigated** on this stack. The mitigation has multiple
+> contributors landed across the past two weeks; details in
+> [`docs/lever-catalog.md`](docs/lever-catalog.md) and
+> [`docs/reliability-hypothesis-ledger.md`](docs/reliability-hypothesis-ledger.md)
+> (H22 — close-path bug class proven mitigated).
 >
-> The CUDA-workload host freeze is a Linux-open-kernel-module bug
-> upstream at NVIDIA/open-gpu-kernel-modules#979, structurally — the
-> open module commits to permanent GPU-lost state on a single transient
-> PCIe register-read failure (NVIDIA's own comment: *"This doesn't
-> support PEX Reset and Recovery yet."*). 3DMark Nomad on Windows runs
-> cleanly on the same hardware; WSL2 ran a 45-iteration LLM benchmark
-> ladder up to 27B-parameter models cleanly via the Windows driver path.
-> The patch surface is localised and fixable.
+> **Current platform**: Fedora 43 + patched build of NVIDIA open kernel
+> module **595.71.05-aorus.12** (30-patch series in [`patches/`](patches/),
+> built via [`tools/build-patched-driver.sh`](tools/build-patched-driver.sh)
+> against the upstream `NVIDIA/open-gpu-kernel-modules` source tree).
+> Decode at WSL2 parity for llama3.1:8b (~256 tok/s); cold-load gap
+> (~3.95 s vs ~30 ms WSL2) is the only remaining Path A non-parity item.
 >
-> **Current platform**: Fedora 43 + open kernel module **595.71.05** from
-> the official NVIDIA-CUDA repo (`nvidia-driver-cuda` +
-> `kmod-nvidia-open-dkms`). The historical content below predates the
-> investigation and refers to the older F42 + RPMFusion 580.142 stack.
-> Kept for reference / archive value; **not the current state**.
+> **Reading order for new sessions:**
+> 1. [`docs/failure-modes-index.md`](docs/failure-modes-index.md) — **start here.**
+>    Master index mapping every observed failure mode to the levers /
+>    patches / services that resolved it. Tells you in one page whether
+>    your symptom is in scope and what fixed it.
+> 2. [`docs/architecture.md`](docs/architecture.md) — what the system
+>    is and how it's structured today.
+> 3. [`docs/lever-catalog.md`](docs/lever-catalog.md) — every reliability
+>    lever, current status, code surface.
+> 4. [`docs/services/`](docs/services/) — **per-service canonical docs**.
+>    For any individual service, this is the entry point: purpose,
+>    configuration knobs, retirement criteria + procedure, resurrection
+>    procedure. Use [`docs/service-retirement-roadmap.md`](docs/service-retirement-roadmap.md)
+>    for the cross-cutting status table.
+> 5. [`docs/reliability-hypothesis-ledger.md`](docs/reliability-hypothesis-ledger.md) —
+>    every hypothesis with status (PROVEN / FALSIFIED / OPEN).
+>
+> The historical content below describes the older Fedora 42 + RPMFusion
+> 580.142 / persistenced-as-load-bearing-stability era. Kept for archive
+> value. **Not the current state.**
+
+## What changed (concise summary 2026-05-08)
+
+- 30-patch series landed in `patches/` (Lever I, J-2, M-base, M-recover,
+  Q-watchdog, M-recover Commit 3 hardened, close-path DIAG instrumentation
+  + UVM analogue).
+- Three userspace services retired this week:
+  `aorus-egpu-link-monitor.service` (2026-05-07),
+  `aorus-egpu-pcie-tune.service` (Lever H9a, 2026-05-08),
+  `aorus-egpu-uvm-keepalive.service` (2026-05-08 evening).
+- `nvidia-persistenced.service` reclassified from "load-bearing for
+  stability" to "load-bearing for warmup latency" — kept as performance
+  optimisation.
+- `aorus-egpu-wpr2-recovery.service` pending Phase 5 retirement gate
+  (5/10 clean cold-cold-boots).
+- Phase 5 evidence collection auto-runs per boot
+  (`aorus-egpu-lever-m-phase5-snapshot.service` writes
+  `archive/phase5-evidence/<boot-iso>.log`).
 
 ---
 
@@ -77,7 +116,7 @@ nvidia-persistenced-580.142-1.fc42.x86_64
 From this repository directory:
 
 ```bash
-cd /root/aorus-5090-gpu
+cd /root/aorus-5090-egpu
 sudo ./apply.sh
 ```
 
@@ -87,7 +126,7 @@ sudo ./apply.sh
 2. Restores SELinux contexts on copied files.
 3. Reloads systemd.
 4. Removes vestigial debug tooling (collect-pci-layout service, latch files, duplicates in `/usr/local/bin`).
-5. Enables `aorus-5090-compute-load-nvidia.service` and `nvidia-persistenced.service`.
+5. Enables `aorus-egpu-compute-load-nvidia.service` and `nvidia-persistenced.service`.
 6. Reports what it did.
 
 It does NOT:
@@ -99,7 +138,7 @@ It does NOT:
 After running:
 
 ```bash
-sudo aorus-5090-status
+sudo aorus-egpu-status
 ```
 
 This must show: `host_reset: disabled`, `nvidia: loaded`, `nvidia_drm: unloaded`, GPU bound to `nvidia` driver, BAR1 = 32 GiB, persistenced running with fds on `/dev/nvidia0`, DRM only `i915`.
@@ -123,7 +162,7 @@ sudo ./status.sh
 Or for a quick operational check (single-page output):
 
 ```bash
-sudo aorus-5090-status
+sudo aorus-egpu-status
 ```
 
 Manual smoke test:
@@ -137,10 +176,10 @@ nvidia-smi
 All three must show the RTX 5090 with consistent telemetry. Fan should be running at 30%; idle temperature 45-50C; P8 power state.
 
 ```bash
-systemctl status aorus-5090-compute-load-nvidia.service nvidia-persistenced.service
+systemctl status aorus-egpu-compute-load-nvidia.service nvidia-persistenced.service
 ```
 
-Both `active`. `aorus-5090-compute-load-nvidia.service` will be `active (exited)` because it is `Type=oneshot, RemainAfterExit=yes`.
+Both `active`. `aorus-egpu-compute-load-nvidia.service` will be `active (exited)` because it is `Type=oneshot, RemainAfterExit=yes`.
 
 ## Reboot test
 
@@ -148,9 +187,9 @@ Both `active`. `aorus-5090-compute-load-nvidia.service` will be `active (exited)
 sudo reboot
 ```
 
-After login, run `aorus-5090-status` and a few `nvidia-smi` invocations. Expected: same state as before reboot, no manual intervention.
+After login, run `aorus-egpu-status` and a few `nvidia-smi` invocations. Expected: same state as before reboot, no manual intervention.
 
-If GNOME freezes during boot or login: forced reboot (hold power), then at GRUB add `systemd.unit=multi-user.target` to boot to TTY-only mode. Login at the TTY, run `sudo aorus-5090-status` and `journalctl -k -b -1` to see what happened, then `sudo systemctl disable aorus-5090-compute-load-nvidia.service nvidia-persistenced.service` to come up without the eGPU stack while you investigate. See `docs/recovery.md`.
+If GNOME freezes during boot or login: forced reboot (hold power), then at GRUB add `systemd.unit=multi-user.target` to boot to TTY-only mode. Login at the TTY, run `sudo aorus-egpu-status` and `journalctl -k -b -1` to see what happened, then `sudo systemctl disable aorus-egpu-compute-load-nvidia.service nvidia-persistenced.service` to come up without the eGPU stack while you investigate. See `docs/recovery.md`.
 
 ## Day-to-day operation
 
@@ -158,16 +197,16 @@ You normally do not need to touch anything.
 
 ```bash
 # Status
-sudo aorus-5090-status
+sudo aorus-egpu-status
 
 # Routine query
 nvidia-smi
 
 # Boot without the eGPU (e.g. travel)
-sudo systemctl disable aorus-5090-compute-load-nvidia.service nvidia-persistenced.service
+sudo systemctl disable aorus-egpu-compute-load-nvidia.service nvidia-persistenced.service
 sudo reboot
 # Re-enable later:
-sudo systemctl enable aorus-5090-compute-load-nvidia.service nvidia-persistenced.service
+sudo systemctl enable aorus-egpu-compute-load-nvidia.service nvidia-persistenced.service
 sudo reboot
 
 # Boot with eGPU disconnected: nothing to do. Both services have
@@ -204,7 +243,7 @@ If a kernel update changes `/etc/kernel/cmdline`, re-run `apply.sh` to regenerat
 
 ## What the loader does at boot
 
-`aorus-5090-compute-load-nvidia.service` runs after `bolt.service` and `systemd-udev-settle.service`, before `graphical.target`. The script:
+`aorus-egpu-compute-load-nvidia.service` runs after `bolt.service` and `systemd-udev-settle.service`, before `graphical.target`. The script:
 
 1. Verifies the eGPU is on PCI; exits cleanly if not.
 2. Applies upstream PM policy on the TB -> bridge -> GPU path (`power/control=on`, `d3cold_allowed=0`).
@@ -219,15 +258,15 @@ If a kernel update changes `/etc/kernel/cmdline`, re-run `apply.sh` to regenerat
 
 | Path | Purpose |
 |---|---|
-| `/etc/udev/rules.d/79-aorus-5090-no-autoload.rules` | Block auto-bind / auto-load of the eGPU |
-| `/etc/udev/rules.d/81-aorus-5090-compute-power.rules` | Pin TB / GPU path out of D3cold |
-| `/etc/modprobe.d/aorus-5090-compute-only.conf` | Block automatic and explicit nvidia module loads |
+| `/etc/udev/rules.d/79-aorus-egpu-no-autoload.rules` | Block auto-bind / auto-load of the eGPU |
+| `/etc/udev/rules.d/81-aorus-egpu-compute-power.rules` | Pin TB / GPU path out of D3cold |
+| `/etc/modprobe.d/aorus-egpu-compute-only.conf` | Block automatic and explicit nvidia module loads |
 | `/etc/modprobe.d/blacklist-nouveau.conf` | Defence-in-depth nouveau blacklist |
-| `/etc/systemd/system/aorus-5090-compute-load-nvidia.service` | Bind the eGPU at boot, pre-load nvidia_uvm |
+| `/etc/systemd/system/aorus-egpu-compute-load-nvidia.service` | Bind the eGPU at boot, pre-load nvidia_uvm |
 | `/etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf` | Order persistenced after the bind step |
-| `/usr/local/sbin/aorus-5090-compute-load-nvidia` | Loader implementation |
-| `/usr/local/sbin/aorus-5090-disable-audio` | HDMI audio function unbinder |
-| `/usr/local/sbin/aorus-5090-status` | Health check |
+| `/usr/local/sbin/aorus-egpu-compute-load-nvidia` | Loader implementation |
+| `/usr/local/sbin/aorus-egpu-disable-audio` | HDMI audio function unbinder |
+| `/usr/local/sbin/aorus-egpu-status` | Health check |
 
 Kernel boot args (managed via `grubby` / `/etc/kernel/cmdline`, see `etc/kernel/cmdline.txt`):
 

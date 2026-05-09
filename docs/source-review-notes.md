@@ -638,7 +638,7 @@ The high-level scope and decision tree live in
 **Build mechanics:**
 
 - Maintain patch series in this repo or a sibling repo
-  (e.g. `aorus-5090-nvidia-open-patches/`)
+  (e.g. `aorus-egpu-nvidia-open-patches/`)
 - Build via DKMS using a `dkms.conf` that points at the cloned source
   with patches applied
 - Install to `/lib/modules/$(uname -r)/extra/` (highest precedence)

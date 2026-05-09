@@ -45,7 +45,7 @@ option`.)
 | `pcie_bus_perf` | MaxPayloadSize policy = performance | ✅ | Set as part of original config. |
 | `hpmmioprefsize=256M` | Reserve 256 MB prefetchable MMIO per hotplug bridge | ✅ | Sized for our BAR1 + BAR3 |
 | `resource_alignment=...` | Force BAR alignment for our specific GPU device | ✅ | Already applied |
-| `noaer` | Disable AER (Advanced Error Reporting) | ✅ Lever L | Disables the AER infrastructure that without `pci_error_handlers` registered cannot dispatch recovery cleanly |
+| `noaer` | Disable AER (Advanced Error Reporting) | ❌ Lever L (REVERTED 2026-05-04) | See "Why Lever L was reverted" section below |
 | `noats` | Disable Address Translation Services | ❌ | Unlikely to help — our hardware doesn't use ATS for the GPU |
 | `noari` | Disable Alternative Routing-ID Interpretation | ❌ | Not relevant; ARI is for VFs which we don't use |
 | `nomsi` | **Disable MSI interrupts globally, fall back to INTx** | ❌ | **Heavy** — affects all PCI devices. Could help IF MSI delivery itself stalls on the dying TB tunnel. Try only after other levers fail. |
@@ -159,8 +159,52 @@ recovery path.
   `pci=noaer`.
 - `status.sh` — checks for the canonical cmdline form.
 
+## Why Lever L was reverted (2026-05-04)
+
+`pci=...,noaer` was correctly applied (verified via /proc/cmdline + the
+ACPI _OSC line dropping AER from the OS-controlled service list) but
+the next test still froze — and the failure mode was qualitatively
+worse than the AER-on baseline:
+
+| Aspect | AER on (default) | AER off (Lever L active) |
+|---|---|---|
+| Bus error → driver | propagated via PCIe error path | swallowed by kernel |
+| `PDB_PROP_GPU_IS_LOST` set | yes | **never** |
+| AORUS-marker patches activate | yes | **no — driver doesn't enter the GPU-lost path** |
+| Failure trace | Xid + cleanup chain in dmesg | **silent kernel hang** |
+| Recovery patches (I, J-2, N) | exercised | **dormant** |
+
+The novel-mode freeze on test `lite-2026-05-04-113350` showed:
+- Zero NVRM activity beyond module-load message
+- Zero AORUS markers across all boots (-3, -2, -1, 0)
+- No panic, no MCE, no RCU stall, no hung_task — completely silent
+- Last journal entry was ollama at the model-mmap step (CUDA
+  initialisation, before any GPU register work)
+
+Conclusion: with AER suppressed, a transient PCIe link failure during
+`cuInit` register probing does not generate any kernel-side error
+event. The driver thread blocks forever on the dead register read. No
+watchdog fires loud enough to leave a trace. The host wedges
+silently, and our recovery patches never get a chance to engage —
+they are gated on the GPU-lost path the kernel never enters.
+
+The "real fix" remains Lever M (register `pci_error_handlers` in
+`nv-pci.c`) so the AER signal has a structured place to land. Until
+that's implemented, AER must remain enabled so the existing recovery
+chain stays diagnosable.
+
+`pci=...,noaer` will only be re-considered AFTER Lever M lands.
+
 ## Update log
 
 - **2026-05-04**: created. Initial sweep of pci= and pcie_* options on
   Linux 6.19.14-200.fc43. Identified `pcie_ports=compat` as the most
   likely Tier-2 escalation if `pci=noaer` proves insufficient.
+- **2026-05-04 (later)**: Lever L (`pci=noaer`) reverted after one
+  test cycle. The flag worked as documented at the kernel level
+  (AER infrastructure disabled, _OSC negotiation lost AER) but
+  produced a worse, fully-silent failure mode where our patches
+  could not engage. Catalogue entry updated to mark REVERTED with
+  rationale. Tier-2 escalation (`pcie_ports=compat`) is now also
+  off the table for the same reason — both flags suppress the very
+  signal our patches require.

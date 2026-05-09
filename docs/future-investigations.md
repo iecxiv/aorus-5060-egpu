@@ -1,5 +1,17 @@
 # Future investigations
 
+> **Status: HISTORICAL (2026-05-08).** This document is a historical
+> archive of bug filings (Bugs A/B/C/D) and investigation handoffs from
+> the 2026-05-01 → 2026-05-03 era. The CUDA-workload host freeze
+> documented herein has **converged** — see
+> [H22 ledger entry](./reliability-hypothesis-ledger.md#h22) for the
+> current state. Specific recommendations below (e.g., DPM=0 in section 1)
+> are now either redundant or already deployed (DPM=0 is set via
+> `etc/modprobe.d/aorus-egpu-compute-only.conf` and has been since
+> early in the project). Preserved for archive value; current state
+> lives in [`architecture.md`](./architecture.md), [`lever-catalog.md`](./lever-catalog.md),
+> [`service-retirement-roadmap.md`](./service-retirement-roadmap.md).
+
 > **Note (2026-05-03):** the active investigation into the CUDA-workload host
 > freeze has moved to `freeze-investigation-plan.md`. That doc has the
 > Lever A–G framework, the decision tree pivoting on the WSL2 gate (Lever G),
@@ -51,7 +63,7 @@ The current configuration works but masks rather than fixes two real bugs. This 
 4. Bind with the variable:
 
    ```bash
-   sudo /usr/local/sbin/aorus-5090-compute-load-nvidia
+   sudo /usr/local/sbin/aorus-egpu-compute-load-nvidia
    # The loader does not currently expose this env var; either:
    #   a) edit the loader to accept AORUS_5090_DISABLE_DYNAMIC_PM=1
    #      and pass NVreg_DynamicPowerManagement=0 to modprobe; or
@@ -60,7 +72,7 @@ The current configuration works but masks rather than fixes two real bugs. This 
    ```
 
 5. Without persistenced running, run `nvidia-smi` twice in succession.
-6. If both succeed: the parameter is the fix. Persist by adding the option to `/etc/modprobe.d/aorus-5090-compute-only.conf` (alongside the existing options). The compute-load loader can then drop persistenced from the requirement chain.
+6. If both succeed: the parameter is the fix. Persist by adding the option to `/etc/modprobe.d/aorus-egpu-compute-only.conf` (alongside the existing options). The compute-load loader can then drop persistenced from the requirement chain.
 7. If the second `nvidia-smi` freezes: revert. Persistence-mode remains the only known mitigation.
 
 The loader script already has `AORUS_5090_DISABLE_NONBLOCKING_OPEN` and `AORUS_5090_DISABLE_GSP` env-var hooks; adding `AORUS_5090_DISABLE_DYNAMIC_PM` is a few lines.
@@ -186,11 +198,11 @@ ls /sys/class/drm/card*
 # Expected: card1: i915 only
 ```
 
-If an NVIDIA DRM card appears, GNOME may still freeze on login. Re-check that `aorus-5090-compute-only.conf` is in place and effective.
+If an NVIDIA DRM card appears, GNOME may still freeze on login. Re-check that `aorus-egpu-compute-only.conf` is in place and effective.
 
 ## 5. CUDA workload close-path stress
 
-We have validated `nvidia-smi` (NVML) repeatability AND a one-shot CUDA Driver API smoke (`archive/cuda-validation-2026-05-01/`), but not long-running CUDA workloads. A real vLLM or PyTorch run that hot-loads / unloads models may exercise a different close path. If you observe freezes during normal CUDA use, capture an ioctl trace of the workload using `archive/diagnostic-tests/aorus-5090-nvml-ioctl-trace.so` to identify the close boundary.
+We have validated `nvidia-smi` (NVML) repeatability AND a one-shot CUDA Driver API smoke (`archive/cuda-validation-2026-05-01/`), but not long-running CUDA workloads. A real vLLM or PyTorch run that hot-loads / unloads models may exercise a different close path. If you observe freezes during normal CUDA use, capture an ioctl trace of the workload using `archive/diagnostic-tests/aorus-egpu-nvml-ioctl-trace.so` to identify the close boundary.
 
 ## 6. PyTorch tensor-op smoke (next planned step)
 
@@ -257,13 +269,13 @@ which is what this host runs. Two paths forward:
 
 - Boot args (`pci=realloc...`, `thunderbolt.host_reset=false`, `iommu=pt`,
   nouveau blacklisting). Layer 2, hardware-specific.
-- Loader script (`aorus-5090-compute-load-nvidia`). Binds the GPU explicitly
+- Loader script (`aorus-egpu-compute-load-nvidia`). Binds the GPU explicitly
   through the manual override and pre-stages `nvidia_uvm`. Hardware-specific.
-- udev rules for power state pinning (`81-aorus-5090-compute-power.rules`)
-  and driver_override (`79-aorus-5090-no-autoload.rules`). Layer 1/2.
+- udev rules for power state pinning (`81-aorus-egpu-compute-power.rules`)
+  and driver_override (`79-aorus-egpu-no-autoload.rules`). Layer 1/2.
 - `nvidia-persistenced` drop-in (Restart=no, depends on loader). Workaround
   for the close-path bug.
-- `aorus-5090-uvm-keepalive.service`. Same workaround for /dev/nvidia-uvm.
+- `aorus-egpu-uvm-keepalive.service`. Same workaround for /dev/nvidia-uvm.
 - NVreg options in modprobe.d (DeviceFile{UID,GID,Mode}, DynamicPowerManagement,
   PreserveVideoMemoryAllocations, S0ix, RestrictProfilingToAdminUsers).
   Driver-tuning, applies regardless of install path.
@@ -278,7 +290,7 @@ which is what this host runs. Two paths forward:
 - Mask of `nvidia-cdi-refresh.path` and `.service`. May or may not be
   installed depending on whether nvidia-container-toolkit is pulled in;
   re-evaluate post-migration.
-- `82-aorus-5090-nvidia-permissions.rules`. NVIDIA's compute-only install
+- `82-aorus-egpu-nvidia-permissions.rules`. NVIDIA's compute-only install
   may already set restrictive perms; verify and remove if redundant.
 
 **Migration plan (to be executed in a dedicated session):**
@@ -431,7 +443,7 @@ be there.
 
 - Multiple silent-hang freezes with consistent fingerprint
 - One captured Xid 79 with full RPC error chain
-  (`/root/aorus-5090-gpu/archive/xid79-disconnect-2026-05-02/`)
+  (`/root/aorus-5090-egpu/archive/xid79-disconnect-2026-05-02/`)
 - Reproduces on F42 + 580.142 RPMFusion
 - Reproduces on F43 + 595.71.05 NVIDIA-CUDA-repo open kernel module
 - All known peripheral mitigations applied (compute-only install,

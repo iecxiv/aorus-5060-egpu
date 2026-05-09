@@ -2,21 +2,26 @@
 
 The clean / minimal / happy-path configuration for running an AORUS GeForce
 RTX 5090 AI Box (GB202, Blackwell) over Thunderbolt 4 on a Fedora 43 host
-as a CUDA-only inference accelerator. Synthesised from the NVIDIA Tesla
-Driver Installation Guide, distilled against this hardware's quirks.
+as a CUDA-only inference accelerator.
 
 This document is **the canonical "if you were starting over" recipe**.
 It is not the literal sequence of operations executed on this host (that
-sequence is captured in `future-investigations.md` section 8 and the git
-history); rather, it is the cleaned-up procedure we *would* follow next
-time on a new host.
+sequence is captured in git history); rather, it is the cleaned-up
+procedure to follow next time on a new host.
 
-The freeze bug (silent hang after sustained CUDA work, captured Xid 79
-"GPU has fallen off the bus", manifests in vLLM and ollama) is **not
-solved by this path**. It is documented in `architecture.md` and the
-GitHub-investigation section of `future-investigations.md`. The
-recommended path *minimises* the freeze trigger surface but does not
-eliminate the underlying driver/firmware bug.
+> **Status update 2026-05-08.** The freeze bug class is now **empirically
+> mitigated** on this stack via the cumulative effect of:
+> - Lever T cmdline `iommu=off intel_iommu=off`
+> - 30-patch driver series (Lever I/J-2/N/O/Q/M-base/M-recover) built via
+>   `tools/build-patched-driver.sh`
+> - H9a fix (retired the `aorus-egpu-pcie-tune.service` that was actively
+>   harming Port A boots)
+>
+> See [`reliability-hypothesis-ledger.md` H22](./reliability-hypothesis-ledger.md#h22)
+> and [`lever-catalog.md`](./lever-catalog.md) for current state.
+> Three userspace workaround services have retired this week
+> (link-monitor, pcie-tune, uvm-keepalive); a fourth (wpr2-recovery)
+> is in Phase 5 evidence-collection and pending retirement.
 
 ## Prerequisites
 
@@ -51,13 +56,23 @@ and `dmar1`).
 ## Layer 2 - kernel command-line arguments
 
 ```
-pci=realloc,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0
+pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0
 thunderbolt.host_reset=false
-iommu=pt
+iommu=off
+intel_iommu=off
 module_blacklist=nouveau,nova_core
 rd.driver.blacklist=nouveau,nova_core
 modprobe.blacklist=nouveau,nova_core
+pcie_aspm.policy=performance
+thunderbolt.clx=0
+pcie_port_pm=off
 ```
+
+**Updated 2026-05-08:** the `iommu=off intel_iommu=off` pair (Lever T) is
+empirically required — `iommu=pt` does NOT work for TB-tunneled devices
+because TB devices are marked "untrusted" by kernel security policy and
+still go through IOMMU translation regardless of the cmdline pt setting.
+The full hypothesis chain is documented in [`iommu-gsp-lockdown-analysis.md`](./iommu-gsp-lockdown-analysis.md).
 
 Apply with both:
 ```bash
@@ -198,15 +213,15 @@ The eGPU's PCI device must be bound to the nvidia driver explicitly,
 not by udev modalias autoload. This is hardware-specific to this
 chassis-over-Thunderbolt setup. Components:
 
-- `etc/udev/rules.d/79-aorus-5090-no-autoload.rules` -
+- `etc/udev/rules.d/79-aorus-egpu-no-autoload.rules` -
   `driver_override=aorus_5090_manual` so PCI does not auto-bind
-- `etc/udev/rules.d/81-aorus-5090-compute-power.rules` -
+- `etc/udev/rules.d/81-aorus-egpu-compute-power.rules` -
   `power/control=on`, `d3cold_allowed=0` along the eGPU's PCI path
-- `etc/udev/rules.d/82-aorus-5090-nvidia-permissions.rules` -
+- `etc/udev/rules.d/82-aorus-egpu-nvidia-permissions.rules` -
   `/dev/nvidia*` to `0660 root:ollama` (defence in depth alongside
   NVreg_DeviceFile* options)
-- `etc/systemd/system/aorus-5090-compute-load-nvidia.service` +
-  `usr/local/sbin/aorus-5090-compute-load-nvidia` -
+- `etc/systemd/system/aorus-egpu-compute-load-nvidia.service` +
+  `usr/local/sbin/aorus-egpu-compute-load-nvidia` -
   validates BAR0/BAR1, modprobes nvidia + nvidia_uvm with
   `--ignore-install`, runs `nvidia-modprobe -u -c 0` to materialise
   /dev/nvidia-uvm-tools, chmod/chgrp for user/group convergence
@@ -219,7 +234,7 @@ close-side teardown bug from firing on `/dev/nvidia0` and
 
 - `nvidia-persistenced.service` (vendor-shipped, our drop-in adds
   `Requires=` + `Restart=no`)
-- `aorus-5090-uvm-keepalive.service` (this repo, holds /dev/nvidia-uvm
+- `aorus-egpu-uvm-keepalive.service` (this repo, holds /dev/nvidia-uvm
   + /dev/nvidia-uvm-tools open via `exec sleep infinity`)
 
 Both **must** be members of the `ollama` group so they can open the
@@ -237,7 +252,7 @@ to /dev/nvidia0 it fails to start, leaving /dev/nvidia0 unprotected.
 
 ## Layer 3 - NVreg module options
 
-`etc/modprobe.d/aorus-5090-compute-only.conf` contains the NVreg tuning:
+`etc/modprobe.d/aorus-egpu-compute-only.conf` contains the NVreg tuning:
 
 ```
 options nvidia NVreg_DeviceFileMode=0660
@@ -258,7 +273,7 @@ headless compute box never exercises.
 
 ## Layer 3 - blacklist nouveau / install /bin/false
 
-`etc/modprobe.d/aorus-5090-compute-only.conf` also defines:
+`etc/modprobe.d/aorus-egpu-compute-only.conf` also defines:
 
 ```
 blacklist nvidia
@@ -300,7 +315,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 ## Validation: status.sh should report green
 
-`/root/aorus-5090-gpu/status.sh` walks every layer of the above and
+`/root/aorus-5090-egpu/status.sh` walks every layer of the above and
 reports OK / WARN / FAIL per check. On a healthy compute-only F43 +
 595 install with this repo applied, expect:
 

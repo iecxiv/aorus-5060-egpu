@@ -77,7 +77,7 @@ them out of `patches/`.
 ## Build + install
 
 ```bash
-sudo /root/aorus-5090-gpu/tools/build-patched-driver.sh
+sudo /root/aorus-5090-egpu/tools/build-patched-driver.sh
 ```
 
 What the script does (concretely):
@@ -122,7 +122,7 @@ dmesg | grep -i 'NVRM: loading'
 # (Should show 595.71.05 Release Build, same as stock.)
 
 # 3. Confirm baseline platform health:
-sudo /usr/local/sbin/aorus-5090-status
+sudo /usr/local/sbin/aorus-egpu-status
 # Expected: all green; same 77 OK / 6 WARN / 0 FAIL as before.
 
 # 4. eGPU operations should be functional at idle:
