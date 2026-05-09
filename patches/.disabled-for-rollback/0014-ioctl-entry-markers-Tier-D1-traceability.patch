@@ -1,0 +1,35 @@
+diff --git a/kernel-open/nvidia/nv.c b/kernel-open/nvidia/nv.c
+index c27955fb..65849947 100644
+--- a/kernel-open/nvidia/nv.c
++++ b/kernel-open/nvidia/nv.c
+@@ -2529,6 +2529,30 @@ nvidia_ioctl(
+         }
+     }
+ 
++    //
++    // AORUS Phase-1c ioctl-trace (2026-05-04, Tier-D1 from lever-Q-design):
++    // Log every ioctl entry post-XFER-unwrap. arg_cmd here is the REAL
++    // command code (NV_ESC_*) that the caller intended, regardless of
++    // whether the kernel-side ioctl was wrapped in IOCTL_XFER_CMD.
++    //
++    // Purpose: gives us millisecond-precision visibility into "what was
++    // the runner doing at the moment of failure" via dmesg, integrated
++    // into the same timeline as our other AORUS markers (Q-active,
++    // Q-passive, N, O, etc.). Critical for engineering Phase 4 (M-recover):
++    // tells us exactly which ioctl path was last entered before the GPU
++    // went lost.
++    //
++    // Format chosen for easy grepping: "AORUS ioctl-trace pid=N cmd=0xXX size=N"
++    //
++    // NOTE: this is verbose during normal operation (ollama startup
++    // generates 1000s of ioctls). Acceptable for the Step A test loop
++    // (~20 iterations); the dmesg buffer holds plenty. Snapshot dmesg
++    // per iter so volume isn't a problem.
++    //
++    nv_printf(NV_DBG_ERRORS,
++              "AORUS ioctl-trace: pid=%d cmd=0x%02x size=%u\n",
++              (int)current->pid, arg_cmd, arg_size);
++
+     NV_KMALLOC(arg_copy, arg_size);
+     if (arg_copy == NULL)
+     {

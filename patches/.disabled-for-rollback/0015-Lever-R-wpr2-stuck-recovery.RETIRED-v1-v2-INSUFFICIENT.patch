@@ -1,0 +1,177 @@
+diff --git a/kernel-open/common/inc/os-interface.h b/kernel-open/common/inc/os-interface.h
+index 07280570..40525bf0 100644
+--- a/kernel-open/common/inc/os-interface.h
++++ b/kernel-open/common/inc/os-interface.h
+@@ -116,6 +116,17 @@ void        NV_API_CALL  os_pci_remove                    (void *);
+ //
+ NvBool      NV_API_CALL  os_pci_is_disconnected           (void *);
+ void        NV_API_CALL  os_pci_set_disconnected          (void *);
++//
++// AORUS Lever R (Tier 1 v2, 2026-05-06): wrapper around the kernel's
++// pci_reset_function() — which tries FLR, then PM reset, then slot
++// reset, then bus reset in sequence. Used by _kgspBootGspRm to clear
++// WPR2 stuck state. Distinct from os_pci_trigger_flr() which uses the
++// FLR-only pcie_reset_flr() — empirically validated 2026-05-06 09:00
++// that pcie_reset_flr is insufficient on this hardware (forced FLR did
++// not clear WPR2). pci_reset_function escalates through reset
++// mechanisms automatically. See docs/lever-R-design.md.
++//
++NV_STATUS   NV_API_CALL  os_pci_reset_function            (void *);
+ void*       NV_API_CALL  os_map_kernel_space              (NvU64, NvU64, NvU32);
+ void        NV_API_CALL  os_unmap_kernel_space            (void *, NvU64);
+ #if defined(NV_VMWARE)
+diff --git a/kernel-open/nvidia/os-pci.c b/kernel-open/nvidia/os-pci.c
+index 46f459a8..b8224b76 100644
+--- a/kernel-open/nvidia/os-pci.c
++++ b/kernel-open/nvidia/os-pci.c
+@@ -188,6 +188,52 @@ void NV_API_CALL os_pci_set_disconnected(
+     WRITE_ONCE(pdev->error_state, pci_channel_io_perm_failure);
+ }
+ 
++//
++// AORUS Lever R (Tier 1 v2, 2026-05-06): wrapper around the kernel's
++// pci_reset_function() exposing it to RM-side code. _kgspBootGspRm
++// calls this when WPR2 is detected stuck at probe.
++//
++// Why pci_reset_function instead of pcie_reset_flr (which NVIDIA's
++// existing os_pci_trigger_flr uses)?
++//
++// Empirical evidence 2026-05-06 09:00 (boot-init-mode-b dossier):
++// pcie_reset_flr was forced (despite pending transactions) but did
++// NOT clear WPR2. The kernel logged "PCI FLR might have failed."
++//
++// pci_reset_function is the kernel's escalating-reset wrapper:
++//   1. Try FLR
++//   2. Try PM reset (if device supports)
++//   3. Try slot reset (PCIe bus-level)
++//   4. Try bus reset
++//
++// recovery-mechanism-findings.md validated that
++// `echo 1 > /sys/.../reset` clears WPR2 — and that sysfs entry maps
++// to pci_reset_function, not pcie_reset_flr. Our Lever R primitive
++// must match what worked empirically.
++//
++// Returns NV_OK on success, NV_ERR_GENERIC on failure.
++//
++NV_STATUS NV_API_CALL os_pci_reset_function(
++    void *handle
++)
++{
++    struct pci_dev *pdev = (struct pci_dev *) handle;
++    int err;
++
++    if (!pdev)
++        return NV_ERR_INVALID_ARGUMENT;
++
++    err = pci_reset_function(pdev);
++    if (err != 0)
++    {
++        printk(KERN_ERR
++            "NVRM: AORUS Lever R: pci_reset_function returned %d\n", err);
++        return NV_ERR_GENERIC;
++    }
++
++    return NV_OK;
++}
++
+ NV_STATUS NV_API_CALL
+ os_enable_pci_req_atomics(
+     void *handle,
+diff --git a/src/nvidia/arch/nvalloc/unix/include/os-interface.h b/src/nvidia/arch/nvalloc/unix/include/os-interface.h
+index f9e0ec04..dbb0d020 100644
+--- a/src/nvidia/arch/nvalloc/unix/include/os-interface.h
++++ b/src/nvidia/arch/nvalloc/unix/include/os-interface.h
+@@ -116,6 +116,14 @@ void        NV_API_CALL  os_pci_remove                    (void *);
+ //
+ NvBool      NV_API_CALL  os_pci_is_disconnected           (void *);
+ void        NV_API_CALL  os_pci_set_disconnected          (void *);
++//
++// AORUS Lever R (Tier 1 v2, 2026-05-06): RM-side declaration of the
++// pci_reset_function wrapper. Distinct from os_pci_trigger_flr (which
++// uses pcie_reset_flr only, validated insufficient on this hardware
++// 2026-05-06 09:00). pci_reset_function tries FLR → PM → slot → bus
++// reset in sequence. See docs/lever-R-design.md.
++//
++NV_STATUS   NV_API_CALL  os_pci_reset_function            (void *);
+ void*       NV_API_CALL  os_map_kernel_space              (NvU64, NvU64, NvU32);
+ void        NV_API_CALL  os_unmap_kernel_space            (void *, NvU64);
+ NV_STATUS   NV_API_CALL  os_flush_cpu_cache_all           (void);
+diff --git a/src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c b/src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c
+index ab1c3695..9f5f1126 100644
+--- a/src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c
++++ b/src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c
+@@ -22,6 +22,7 @@
+  */
+ 
+ #include "resserv/rs_server.h"
++#include <nv.h>                     // AORUS Lever R: NV_GET_NV_STATE for os_pci_reset_function call
+ 
+ #include "gpu/gsp/kernel_gsp.h"
+ #include "gpu/falcon/kernel_falcon.h"
+@@ -4717,9 +4718,63 @@ _kgspBootGspRm(OBJGPU *pGpu, KernelGsp *pKernelGsp, GSP_FIRMWARE *pGspFw, GPU_MA
+     if (kgspIsWpr2Up_HAL(pGpu, pKernelGsp) &&
+         (!pGpu->getProperty(pGpu, PDB_PROP_GPU_PREINITIALIZED_WPR_REGION)))
+     {
+-        NV_PRINTF(LEVEL_ERROR, "unexpected WPR2 already up, cannot proceed with booting GSP\n");
+-        NV_PRINTF(LEVEL_ERROR, "(the GPU is likely in a bad state and may need to be reset)\n");
+-        return NV_ERR_INVALID_STATE;
++        //
++        // AORUS Lever R (Tier 1 v2, 2026-05-06): WPR2 left over from a
++        // prior session blocks GSP boot here. On this hardware, WPR2
++        // can persist across host poweroff/poweron and even multi-minute
++        // eGPU AC disconnect (validated 2026-05-06).
++        //
++        // Mechanism: log + call os_pci_reset_function() (kernel-open
++        // wrapper around pci_reset_function which escalates through
++        // FLR → PM → slot → bus reset) + brief settle delay + re-check
++        // WPR2. On success, fall through to normal GSP boot. On failure,
++        // surrender to the original error path.
++        //
++        // v2 specifically uses os_pci_reset_function (pci_reset_function)
++        // rather than os_pci_trigger_flr (pcie_reset_flr) because the
++        // 2026-05-06 09:00 boot-init failure showed pcie_reset_flr alone
++        // does not clear WPR2 on this hardware ("PCI FLR might have
++        // failed" + WPR2 still up). pci_reset_function escalates to
++        // additional reset mechanisms automatically.
++        //
++        // See docs/lever-R-design.md for the full three-tier strategy.
++        // Hypothesis H13 in docs/reliability-hypothesis-ledger.md.
++        //
++        nv_state_t *nv = NV_GET_NV_STATE(pGpu);
++
++        NV_PRINTF(LEVEL_ERROR,
++                  "AORUS Lever R: WPR2-stuck detected at probe — attempting reset (pci_reset_function)\n");
++
++        if (nv != NULL && os_pci_reset_function(nv->handle) == NV_OK)
++        {
++            // pci_reset_function takes ~100-500ms depending on which
++            // reset mechanism succeeded. 500ms safety margin.
++            os_delay(500);
++
++            if (!kgspIsWpr2Up_HAL(pGpu, pKernelGsp))
++            {
++                NV_PRINTF(LEVEL_ERROR,
++                          "AORUS Lever R: WPR2 cleared by reset — proceeding with GSP boot\n");
++                // Fall through to normal GSP init below.
++            }
++            else
++            {
++                NV_PRINTF(LEVEL_ERROR,
++                          "AORUS Lever R: reset completed but WPR2 still up — surrendering\n");
++                NV_PRINTF(LEVEL_ERROR, "unexpected WPR2 already up, cannot proceed with booting GSP\n");
++                NV_PRINTF(LEVEL_ERROR, "(the GPU is likely in a bad state and may need to be reset)\n");
++                return NV_ERR_INVALID_STATE;
++            }
++        }
++        else
++        {
++            NV_PRINTF(LEVEL_ERROR,
++                      "AORUS Lever R: os_pci_reset_function failed (nv=%p) — surrendering\n",
++                      nv);
++            NV_PRINTF(LEVEL_ERROR, "unexpected WPR2 already up, cannot proceed with booting GSP\n");
++            NV_PRINTF(LEVEL_ERROR, "(the GPU is likely in a bad state and may need to be reset)\n");
++            return NV_ERR_INVALID_STATE;
++        }
+     }
+ 
+     // Populate WPR meta structure (requires knowing FB size on dGPU, which depends on GFW_BOOT)
