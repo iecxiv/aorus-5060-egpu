@@ -70,14 +70,16 @@ drift detection across the install surface.
 - **OS:** Fedora 43, kernel `6.19.14-200.fc43.x86_64`
 - **Driver:** NVIDIA open kernel modules 595.71.05 + 30 project patches
   (`595.71.05-aorus.12`)
-- **Service stack as of 2026-05-09:** 2 active services (`compute-load-nvidia`,
+- **Active stack as of 2026-05-09:** 2 services (`compute-load-nvidia`,
   `bridge-link-cap`) + `nvidia-persistenced` (warmup-latency optimisation; no
-  longer load-bearing for stability).
-  6 retired services preserved as historical archive:
-  `link-monitor`, `pcie-tune`, `uvm-keepalive`, `wpr2-recovery`,
-  `lever-m-phase5-snapshot`, `observability-watchdog`.
-  Workaround-services debt essentially settled — recovery + Mode B detection
-  surface fully in-driver.
+  longer load-bearing for stability) + patched NVIDIA driver (5 modules, version
+  `595.71.05-aorus.12`).
+- **Retired (preserved as documented archive):** 6 services (`link-monitor`,
+  `pcie-tune`, `uvm-keepalive`, `wpr2-recovery`, `lever-m-phase5-snapshot`,
+  `observability-watchdog`) + 1 sovereign kernel module (`aorus-egpu-trust` —
+  redundant under `iommu=off`).
+  Workaround-services debt essentially settled — recovery, Mode B detection, and
+  IOMMU-trust mitigation all fully in-driver.
 
 ---
 
@@ -138,6 +140,9 @@ drift detection across the install surface.
   10/10), `aorus-egpu-lever-m-phase5-snapshot.service` (2026-05-09,
   mission-complete), `aorus-egpu-observability-watchdog.service` (2026-05-09,
   n=5 retire-safe gate).
+- Sovereign kernel module `aorus-egpu-trust` retired (2026-05-09, dead code
+  under `iommu=off` cmdline since 2026-05-07).
+  Source archived; resurrection path documented if `iommu=pt` ever readopted.
 - `nvidia-persistenced.service` reclassified from "load-bearing for stability"
   to "load-bearing for warmup latency" — kept as performance optimisation.
 - Phase 5 evidence collection (now retired) auto-ran per boot
