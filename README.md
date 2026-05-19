@@ -22,6 +22,7 @@ Fork of [apnex/aorus-5090-egpu](https://github.com/apnex/aorus-5090-egpu), adapt
 - eGPU connected **before** power-on (cold boot)
 - `passim` group: add your user (`sudo usermod -aG passim $USER`) — Fedora assigns `/dev/nvidia*` to group `passim` via udev
 - `ollama` group: required for Ollama GPU access
+- **Suspend disabled** — see troubleshooting below
 
 ## Quick start
 
@@ -62,4 +63,30 @@ sudo ./reset.sh --auto
 sudo usermod -aG passim ollama
 sudo systemctl restart ollama
 sudo journalctl -u ollama -n 10 --no-pager | grep library
+```
+
+**`nvidia-smi: No devices were found` after suspend/resume** — the Thunderbolt
+tunnel breaks on suspend and the NVIDIA driver cannot re-probe the device.
+Recovery without reboot is not reliable on this hardware. Full recovery procedure:
+
+1. Disconnect the eGPU from the Thunderbolt port
+2. Reboot the host
+3. Reconnect the eGPU **before** or immediately after power-on
+4. Run `sudo ./apply.sh` if the stack services did not start automatically
+5. Verify with `nvidia-smi`
+
+Root cause: `aorus-egpu-compute-only.conf` (placed by the stack to sequence
+driver load at boot) is not cleaned up when the system suspends mid-session.
+After resume, `modprobe nvidia` fails with `No such device` because the PCIe
+bridge secondary bus reset is unavailable on this hardware
+(`/sys/bus/pci/devices/0000:03:00.0/reset` is not writable post-resume).
+
+**Recommended: disable suspend permanently** while the eGPU is in use:
+```bash
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+```
+
+To re-enable (e.g. when using the machine without the eGPU):
+```bash
+sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
 ```
