@@ -100,18 +100,11 @@ info()  { printf '  %s[INFO]%s %s\n'   "$C_INFO" "$C_RESET" "$*"; }
 debug() { ((VERBOSE)) && printf '  [DBG]  %s\n' "$*" || true; }
 section() { printf '\n%s== %s ==%s\n' "$C_BOLD" "$*" "$C_RESET"; }
 
-# ========================================================================
-# PROBE — read-only health check.
-# Returns 0 (healthy), 1 (degraded), 2 (wedged).
-# Sets globals: PROBE_VERDICT, PROBE_RECOMMEND_LEVEL.
-# ========================================================================
-
 probe() {
     section "Probe — eGPU health check"
     local verdict=0
     local recommend_level=0
 
-    # ----- Layer 1: PCI device exists and config space responds -----
     if [[ ! -e "/sys/bus/pci/devices/$EGPU_BDF" ]]; then
         fail "GPU not present at $EGPU_BDF — TB tunnel may be down. Reboot or power-cycle eGPU."
         verdict=2
@@ -133,7 +126,6 @@ probe() {
         return $verdict
     fi
 
-    # ----- Layer 2: link active on parent bridge -----
     local lnksta_hex lnksta active speed width
     lnksta_hex=$(setpci -s "$EGPU_BRIDGE_BDF" CAP_EXP+0x12.W 2>/dev/null)
     if [[ -n "$lnksta_hex" ]]; then
@@ -149,7 +141,6 @@ probe() {
         fi
     fi
 
-    # ----- Layer 3: BAR1 size -----
     local bar1_start bar1_end bar1_size
     read -r bar1_start bar1_end _ < <(awk 'NR==2 {print $1, $2}' "/sys/bus/pci/devices/$EGPU_BDF/resource")
     if [[ -n "${bar1_start:-}" && -n "${bar1_end:-}" ]]; then
@@ -171,7 +162,6 @@ probe() {
         warn "could not read BAR1 from $EGPU_BDF/resource"
     fi
 
-    # ----- Layer 4: GPU bound to nvidia driver -----
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/driver" ]]; then
         local drv
         drv=$(basename "$(readlink "/sys/bus/pci/devices/$EGPU_BDF/driver")")
@@ -188,7 +178,6 @@ probe() {
         recommend_level=$((recommend_level > 1 ? recommend_level : 1))
     fi
 
-    # ----- Layer 5: nvidia kernel module loaded -----
     if lsmod | awk '{print $1}' | grep -qx nvidia; then
         ok "nvidia kernel module loaded ($(cat /sys/module/nvidia/version 2>/dev/null))"
     else
@@ -197,7 +186,6 @@ probe() {
         recommend_level=$((recommend_level > 1 ? recommend_level : 1))
     fi
 
-    # ----- Layer 6: Lever M-recover counters -----
     local mr_fires=0 mr_surrenders=0 mr_safe_for_smi=1
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires" ]]; then
         mr_fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
@@ -215,7 +203,6 @@ probe() {
         debug "M-recover sysfs absent (driver not loaded, or pre-Lever-M build)"
     fi
 
-    # ----- Layer 7: nvidia-smi smoke test -----
     if [[ $mr_safe_for_smi -eq 1 ]] && { [[ $verdict -eq 0 ]] || ((VERBOSE)); }; then
         local smi_out
         smi_out=$(timeout 5 nvidia-smi -L 2>&1)
@@ -240,10 +227,6 @@ probe() {
     return $verdict
 }
 
-# ========================================================================
-# RECOVERY LEVELS
-# ========================================================================
-
 recover_l1_service_reload() {
     section "L1 — module reload via aorus-egpu-compute-load-nvidia"
     systemctl stop nvidia-persistenced.service 2>/dev/null || true
@@ -255,6 +238,7 @@ recover_l1_service_reload() {
     if systemctl restart aorus-egpu-compute-load-nvidia.service 2>&1; then
         ok "compute-load-nvidia.service restarted"
         systemctl restart nvidia-persistenced.service 2>/dev/null || true
+        systemctl restart ollama.service 2>/dev/null || true
         sleep 1
         return 0
     else
@@ -272,6 +256,7 @@ recover_l2_bar1_resize() {
     fi
     systemctl stop nvidia-persistenced.service 2>/dev/null || true
     systemctl stop aorus-egpu-uvm-keepalive.service 2>/dev/null || true
+    systemctl stop ollama.service 2>/dev/null || true
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/driver" ]]; then
         echo "$EGPU_BDF" > "/sys/bus/pci/drivers/nvidia/unbind" 2>/dev/null || true
     fi
@@ -288,6 +273,7 @@ recover_l2_bar1_resize() {
     sleep 1
     if systemctl restart aorus-egpu-compute-load-nvidia.service 2>&1; then
         systemctl restart nvidia-persistenced.service 2>/dev/null || true
+        systemctl restart ollama.service 2>/dev/null || true
         sleep 1
         return 0
     fi
@@ -303,6 +289,7 @@ recover_l3_bus_reset() {
     fi
     systemctl stop nvidia-persistenced.service 2>/dev/null || true
     systemctl stop aorus-egpu-uvm-keepalive.service 2>/dev/null || true
+    systemctl stop ollama.service 2>/dev/null || true
     modprobe -r nvidia_uvm 2>/dev/null || true
     modprobe -r nvidia 2>/dev/null || true
     info "issuing bus reset on $EGPU_BRIDGE_BDF"
@@ -315,6 +302,7 @@ recover_l3_bus_reset() {
     sleep 2
     if systemctl restart aorus-egpu-compute-load-nvidia.service 2>&1; then
         systemctl restart nvidia-persistenced.service 2>/dev/null || true
+        systemctl restart ollama.service 2>/dev/null || true
         sleep 1
         return 0
     fi
