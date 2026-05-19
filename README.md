@@ -11,6 +11,7 @@ Fork of [apnex/aorus-5090-egpu](https://github.com/apnex/aorus-5090-egpu), adapt
 
 | File | Change |
 |---|---|
+| `apply.sh` | Installer user detected dynamically via `SUDO_USER`/`logname` — no hardcoded username |
 | `usr/local/sbin/aorus-egpu-compute-load-nvidia` | BAR1 minimum `32 GiB → 16 GiB`; all labels `RTX 5090 → RTX 5060 Ti` |
 | `usr/local/sbin/aorus-egpu-status` | Sources `common.sh` for device IDs; fallback IDs updated to 5060 Ti |
 | `usr/local/lib/aorus-egpu/common.sh` | Fallback device IDs `0x2b85/0x22e8 → 0x2d04/0x22eb` |
@@ -21,7 +22,7 @@ Fork of [apnex/aorus-5090-egpu](https://github.com/apnex/aorus-5090-egpu), adapt
 - `thunderbolt.host_reset=false` in kernel boot args
 - eGPU connected **before** power-on (cold boot)
 - `passim` group: add your user (`sudo usermod -aG passim $USER`) — Fedora assigns `/dev/nvidia*` to group `passim` via udev
-- `ollama` group: required for Ollama GPU access
+- `ollama` group: handled automatically by `apply.sh`
 - **Suspend disabled** — see troubleshooting below
 
 ## Quick start
@@ -32,6 +33,13 @@ cd aorus-5090-egpu
 sudo ./apply.sh
 sudo aorus-egpu-status
 nvidia-smi
+```
+
+`apply.sh` automatically detects the invoking user via `SUDO_USER` and adds
+them to the `ollama` group. To override:
+
+```bash
+sudo INSTALL_USER=otherusername ./apply.sh
 ```
 
 ## Verify GPU in Ollama

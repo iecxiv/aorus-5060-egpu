@@ -15,6 +15,16 @@ if [[ "$EUID" -ne 0 ]]; then
     exit 1
 fi
 
+# Detect the human user who invoked sudo. SUDO_USER is set by sudo; logname
+# is a POSIX fallback for interactive sessions without sudo. Override with:
+#   sudo INSTALL_USER=otheruser ./apply.sh
+INSTALL_USER="${INSTALL_USER:-${SUDO_USER:-$(logname 2>/dev/null || true)}}"
+
+if [[ -z "${INSTALL_USER}" || "${INSTALL_USER}" == "root" ]]; then
+    echo "Could not detect installer user. Re-run with sudo or set INSTALL_USER=<user>." >&2
+    exit 1
+fi
+
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$repo_root"
 
@@ -342,21 +352,24 @@ disable_loader_entry /etc/OpenCL/vendors/nvidia.icd
 # ----------------------------------------------- ollama group membership ---
 step "ollama group membership"
 
+# INSTALL_USER is resolved at the top of this script from SUDO_USER (set by
+# sudo) or logname, so this block works correctly regardless of who runs
+# `sudo ./apply.sh` without any hardcoded username.
+#
 # The 82-aorus-egpu-nvidia-permissions.rules udev rule restricts /dev/nvidia*
-# to root and the 'ollama' group. Add the human admin user (iecxiv) to this
-# group so unprivileged 'nvidia-smi' continues to work for diagnostics.
-# 'sudo nvidia-smi' will work regardless via root.
+# to root and the 'ollama' group. Adding the human admin user to this group
+# ensures unprivileged 'nvidia-smi' works for diagnostics.
+# 'sudo nvidia-smi' will always work via root regardless.
 #
 # Note: usermod -aG is APPENDING; existing groups are preserved. The change
 # only takes effect for NEW logins / shells; existing shells need 'newgrp
 # ollama' or relogin to see the new group.
-
-if id -u iecxiv >/dev/null 2>&1; then
-    if id -nG iecxiv | grep -qw ollama; then
-        printf '  iecxiv already in ollama group\n'
+if id -u "$INSTALL_USER" >/dev/null 2>&1; then
+    if id -nG "$INSTALL_USER" | grep -qw ollama; then
+        printf '  %s already in ollama group\n' "$INSTALL_USER"
     else
-        usermod -aG ollama iecxiv
-        yellow "  added iecxiv to ollama group; log out + back in to take effect"
+        usermod -aG ollama "$INSTALL_USER"
+        yellow "  added $INSTALL_USER to ollama group; log out + back in to take effect"
     fi
 fi
 
