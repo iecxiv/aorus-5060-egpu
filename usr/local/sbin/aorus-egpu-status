@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AORUS RTX 5090 eGPU operational health check.
+# AORUS RTX 5060 Ti eGPU operational health check.
 #
 # Reports everything load-bearing for the working state. Run any time to
 # confirm the eGPU stack is healthy:
@@ -8,22 +8,28 @@
 #   - PCI: GPU and HDMI audio functions present
 #   - Modules: nvidia loaded, nvidia_drm absent (compute-only)
 #   - Driver bind: GPU bound to nvidia
-#   - BAR1: 32 GiB
+#   - BAR1: 16 GiB
 #   - Power: D0, no D3cold
 #   - Persistenced: running and holding /dev/nvidia0
 #   - DRM: only i915 visible (no NVIDIA DRM device)
 
 set -euo pipefail
 
+# Source per-host config for correct device IDs
+[[ -r /usr/local/lib/aorus-egpu/common.sh ]] && source /usr/local/lib/aorus-egpu/common.sh
+: "${EGPU_VENDOR_ID:=0x10de}"
+: "${EGPU_DEVICE_ID:=0x2d04}"
+: "${EGPU_AUDIO_DEVICE_ID:=0x22eb}"
+
 gpu_dev=""
 audio_dev=""
 
 for dev in /sys/bus/pci/devices/*; do
     [[ -r "$dev/vendor" && -r "$dev/device" ]] || continue
-    if [[ "$(<"$dev/vendor")" == "0x10de" && "$(<"$dev/device")" == "0x2b85" ]]; then
+    if [[ "$(<"$dev/vendor")" == "$EGPU_VENDOR_ID" && "$(<"$dev/device")" == "$EGPU_DEVICE_ID" ]]; then
         gpu_dev="$dev"
     fi
-    if [[ "$(<"$dev/vendor")" == "0x10de" && "$(<"$dev/device")" == "0x22e8" ]]; then
+    if [[ "$(<"$dev/vendor")" == "$EGPU_VENDOR_ID" && "$(<"$dev/device")" == "$EGPU_AUDIO_DEVICE_ID" ]]; then
         audio_dev="$dev"
     fi
 done
@@ -107,9 +113,6 @@ done
 show_pci_function GPU "$gpu_dev"
 show_pci_function HDMI_audio "$audio_dev"
 
-# nvidia-persistenced status (load-bearing for repeatable nvidia-smi).
-# Use pidfile if present, fall back to pgrep so we still detect a
-# manually-started daemon even if its runtime directory was removed.
 printf 'nvidia-persistenced: '
 pid=""
 pid_file=/var/run/nvidia-persistenced/nvidia-persistenced.pid

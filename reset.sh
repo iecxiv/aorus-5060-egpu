@@ -50,8 +50,6 @@ cd "$repo_root"
 source "$repo_root/lib/install-manifest.sh"
 
 # Per-host topology (autodetected by aorus-egpu-detect-config + config.env).
-# Fallbacks for environments where config.env doesn't exist (e.g., right
-# after remove.sh — runtime dirs are gone but reset.sh should still work).
 if [[ -r /etc/aorus-egpu/config.env ]]; then
     # shellcheck source=/dev/null
     source /etc/aorus-egpu/config.env
@@ -110,8 +108,8 @@ section() { printf '\n%s== %s ==%s\n' "$C_BOLD" "$*" "$C_RESET"; }
 
 probe() {
     section "Probe — eGPU health check"
-    local verdict=0          # 0 healthy / 1 degraded / 2 wedged
-    local recommend_level=0  # 0 none / 1..4 escalation level
+    local verdict=0
+    local recommend_level=0
 
     # ----- Layer 1: PCI device exists and config space responds -----
     if [[ ! -e "/sys/bus/pci/devices/$EGPU_BDF" ]]; then
@@ -129,7 +127,6 @@ probe() {
         fi
     fi
 
-    # If config-space dead, can't do anything else
     if [[ $verdict -ge 2 ]]; then
         PROBE_VERDICT=$verdict
         PROBE_RECOMMEND_LEVEL=0
@@ -157,8 +154,6 @@ probe() {
     read -r bar1_start bar1_end _ < <(awk 'NR==2 {print $1, $2}' "/sys/bus/pci/devices/$EGPU_BDF/resource")
     if [[ -n "${bar1_start:-}" && -n "${bar1_end:-}" ]]; then
         bar1_size=$((bar1_end - bar1_start + 1))
-        # Format size: GiB if >= 1 GiB, otherwise MiB (small BARs after a shrink
-        # round to "0 GiB" otherwise — actively misleading)
         local bar1_human
         if [[ $bar1_size -ge 1073741824 ]]; then
             bar1_human="$((bar1_size / 1073741824)) GiB"
@@ -180,7 +175,7 @@ probe() {
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/driver" ]]; then
         local drv
         drv=$(basename "$(readlink "/sys/bus/pci/devices/$EGPU_BDF/driver")")
-        if [[ [[ "$drv" == "nvidia" ]]; then
+        if [[ "$drv" == "nvidia" ]]; then
             ok "GPU bound to nvidia driver"
         else
             warn "GPU bound to unexpected driver: $drv"
@@ -202,7 +197,7 @@ probe() {
         recommend_level=$((recommend_level > 1 ? recommend_level : 1))
     fi
 
-    # ----- Layer 6: Lever M-recover counters (read FIRST — gates Layer 7) -----
+    # ----- Layer 6: Lever M-recover counters -----
     local mr_fires=0 mr_surrenders=0 mr_safe_for_smi=1
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires" ]]; then
         mr_fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
@@ -220,7 +215,7 @@ probe() {
         debug "M-recover sysfs absent (driver not loaded, or pre-Lever-M build)"
     fi
 
-    # ----- Layer 7: nvidia-smi smoke test (gated on M-recover safety) -----
+    # ----- Layer 7: nvidia-smi smoke test -----
     if [[ $mr_safe_for_smi -eq 1 ]] && { [[ $verdict -eq 0 ]] || ((VERBOSE)); }; then
         local smi_out
         smi_out=$(timeout 5 nvidia-smi -L 2>&1)
@@ -235,7 +230,6 @@ probe() {
         info "nvidia-smi smoke test skipped (driver in lost state; would escalate wedge)"
     fi
 
-    # ----- Verdict summary -----
     PROBE_VERDICT=$verdict
     PROBE_RECOMMEND_LEVEL=$recommend_level
     case $verdict in
@@ -250,18 +244,14 @@ probe() {
 # RECOVERY LEVELS
 # ========================================================================
 
-# L1 — service reload. Cheapest; clears stuck-driver-state.
 recover_l1_service_reload() {
     section "L1 — module reload via aorus-egpu-compute-load-nvidia"
-    debug "stopping persistenced + uvm-keepalive (release fds)"
     systemctl stop nvidia-persistenced.service 2>/dev/null || true
     systemctl stop aorus-egpu-uvm-keepalive.service 2>/dev/null || true
     systemctl stop ollama.service 2>/dev/null || true
-    debug "unloading nvidia modules in dependency order"
     modprobe -r nvidia_uvm 2>/dev/null || true
     modprobe -r nvidia 2>/dev/null || true
     sleep 1
-    debug "restarting compute-load-nvidia.service (re-bind + re-load)"
     if systemctl restart aorus-egpu-compute-load-nvidia.service 2>&1; then
         ok "compute-load-nvidia.service restarted"
         systemctl restart nvidia-persistenced.service 2>/dev/null || true
@@ -273,7 +263,6 @@ recover_l1_service_reload() {
     fi
 }
 
-# L2 — BAR1 resize via resource1_resize.
 recover_l2_bar1_resize() {
     section "L2 — BAR1 resize via resource1_resize"
     local resize_path="/sys/bus/pci/devices/$EGPU_BDF/resource1_resize"
@@ -284,7 +273,6 @@ recover_l2_bar1_resize() {
     systemctl stop nvidia-persistenced.service 2>/dev/null || true
     systemctl stop aorus-egpu-uvm-keepalive.service 2>/dev/null || true
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/driver" ]]; then
-        debug "unbinding GPU from driver"
         echo "$EGPU_BDF" > "/sys/bus/pci/drivers/nvidia/unbind" 2>/dev/null || true
     fi
     modprobe -r nvidia_uvm 2>/dev/null || true
@@ -298,7 +286,6 @@ recover_l2_bar1_resize() {
         return 1
     fi
     sleep 1
-    debug "re-binding GPU + reloading nvidia via compute-load-nvidia.service"
     if systemctl restart aorus-egpu-compute-load-nvidia.service 2>&1; then
         systemctl restart nvidia-persistenced.service 2>/dev/null || true
         sleep 1
@@ -307,7 +294,6 @@ recover_l2_bar1_resize() {
     return 1
 }
 
-# L3 — secondary bus reset on parent bridge. Preserves BAR allocation.
 recover_l3_bus_reset() {
     section "L3 — secondary bus reset on parent bridge $EGPU_BRIDGE_BDF"
     local reset_path="/sys/bus/pci/devices/$EGPU_BRIDGE_BDF/reset"
@@ -335,7 +321,6 @@ recover_l3_bus_reset() {
     return 1
 }
 
-# L4 — Lever M-recover force-trigger.
 recover_l4_m_recover_force() {
     section "L4 — Lever M-recover force-trigger (INVASIVE — does pci_reset_bus)"
     local trigger_path="/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_force_trigger"
@@ -361,7 +346,7 @@ recover_l4_m_recover_force() {
         now_fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
         now_surrenders=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_surrenders")
         if [[ $now_fires -gt $pre_fires || $now_surrenders -gt $pre_surrenders ]]; then
-            debug "M-recover cycle observed at +${i}s (fires=$now_fires surrenders=$now_surrenders)"
+            debug "M-recover cycle observed at +${i}s"
             sleep 2
             break
         fi
@@ -374,10 +359,6 @@ verify_post_recovery() {
     probe
     return $?
 }
-
-# ========================================================================
-# DRIVER — main mode dispatcher.
-# ========================================================================
 
 run_recovery() {
     local levels_to_try=()
@@ -420,10 +401,6 @@ run_recovery() {
         "$C_FAIL" "$C_RESET"
     return 3
 }
-
-# ========================================================================
-# Mode dispatch
-# ========================================================================
 
 case "$MODE" in
     probe)
