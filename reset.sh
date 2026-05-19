@@ -31,7 +31,7 @@
 #                           rate-limit (H2) and MaxAttempts gate (H1).
 #
 # Hard guards (NEVER do):
-#   - PCI remove + rescan (loses 32 GiB BAR1 sizing on this hardware class —
+#   - PCI remove + rescan (loses 16 GiB BAR1 sizing on this hardware class —
 #     kernel runtime allocator can't restore firmware-sized prefetchable space)
 #   - boltctl power off/on (not supported on this hardware class)
 #   - TB tunnel deauthorize/authorize (drops the PCI device → same BAR1 issue)
@@ -57,15 +57,15 @@ if [[ -r /etc/aorus-egpu/config.env ]]; then
     source /etc/aorus-egpu/config.env
 fi
 : "${EGPU_VENDOR_ID:=0x10de}"
-: "${EGPU_DEVICE_ID:=0x2b85}"
+: "${EGPU_DEVICE_ID:=0x2d04}"
 : "${EGPU_BDF:=0000:04:00.0}"
 : "${EGPU_AUDIO_BDF:=0000:04:00.1}"
 : "${EGPU_BRIDGE_BDF:=0000:03:00.0}"
 
-# Expected BAR1 size for healthy state (32 GiB = 0x800000000 bytes).
-# Index is log2(MiB) — 32 GiB = 32768 MiB = 2^15.
-EXPECTED_BAR1_BYTES=34359738368
-EXPECTED_BAR1_SIZE_INDEX=15
+# Expected BAR1 size for healthy state (16 GiB = 0x400000000 bytes).
+# Index is log2(MiB) — 16 GiB = 16384 MiB = 2^14.
+EXPECTED_BAR1_BYTES=17179869184
+EXPECTED_BAR1_SIZE_INDEX=14
 
 # Mode + verbosity.
 MODE=""
@@ -166,9 +166,9 @@ probe() {
             bar1_human="$((bar1_size / 1048576)) MiB"
         fi
         if [[ $bar1_size -ge $EXPECTED_BAR1_BYTES ]]; then
-            ok "BAR1 size: $bar1_human (>= expected 32 GiB)"
+            ok "BAR1 size: $bar1_human (>= expected 16 GiB)"
         else
-            fail "BAR1 too small: $bar1_human (expected 32 GiB) — runtime ReBAR resize required"
+            fail "BAR1 too small: $bar1_human (expected 16 GiB) — runtime ReBAR resize required"
             verdict=$((verdict > 1 ? verdict : 1))
             recommend_level=2
         fi
@@ -180,7 +180,7 @@ probe() {
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/driver" ]]; then
         local drv
         drv=$(basename "$(readlink "/sys/bus/pci/devices/$EGPU_BDF/driver")")
-        if [[ "$drv" == "nvidia" ]]; then
+        if [[ [[ "$drv" == "nvidia" ]]; then
             ok "GPU bound to nvidia driver"
         else
             warn "GPU bound to unexpected driver: $drv"
@@ -203,12 +203,6 @@ probe() {
     fi
 
     # ----- Layer 6: Lever M-recover counters (read FIRST — gates Layer 7) -----
-    # Read M-recover state BEFORE attempting nvidia-smi. If M-recover has
-    # surrendered this boot, the driver's view of the GPU is "lost" and
-    # opening /dev/nvidia0 (which nvidia-smi does) can escalate the wedge
-    # into host-level instability. Empirically validated 2026-05-09 (force-
-    # triggered M-recover surrendered → probe's unconditional nvidia-smi
-    # call escalated to host wedge).
     local mr_fires=0 mr_surrenders=0 mr_safe_for_smi=1
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires" ]]; then
         mr_fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
@@ -227,10 +221,6 @@ probe() {
     fi
 
     # ----- Layer 7: nvidia-smi smoke test (gated on M-recover safety) -----
-    # NOTE: a complementary direct PMC_BOOT_0 BAR0 read would be ideal but
-    # sysfs resourceN files for non-prefetchable BARs require mmap (not dd).
-    # The M-recover surrender counter above is the load-bearing safety; it
-    # captures the same state ("driver lost the GPU") more cheaply.
     if [[ $mr_safe_for_smi -eq 1 ]] && { [[ $verdict -eq 0 ]] || ((VERBOSE)); }; then
         local smi_out
         smi_out=$(timeout 5 nvidia-smi -L 2>&1)
@@ -257,8 +247,7 @@ probe() {
 }
 
 # ========================================================================
-# RECOVERY LEVELS — each function returns 0 if it (re-)achieves healthy,
-# nonzero if it failed or didn't help.
+# RECOVERY LEVELS
 # ========================================================================
 
 # L1 — service reload. Cheapest; clears stuck-driver-state.
@@ -284,8 +273,7 @@ recover_l1_service_reload() {
     fi
 }
 
-# L2 — BAR1 resize via resource1_resize. Required after a remove+rescan
-# that shrunk BAR1 below 32 GiB.
+# L2 — BAR1 resize via resource1_resize.
 recover_l2_bar1_resize() {
     section "L2 — BAR1 resize via resource1_resize"
     local resize_path="/sys/bus/pci/devices/$EGPU_BDF/resource1_resize"
@@ -293,7 +281,6 @@ recover_l2_bar1_resize() {
         warn "resource1_resize not available (kernel < 6.0?); skipping L2"
         return 1
     fi
-    # Stop services + unbind + unload (resize requires device idle)
     systemctl stop nvidia-persistenced.service 2>/dev/null || true
     systemctl stop aorus-egpu-uvm-keepalive.service 2>/dev/null || true
     if [[ -e "/sys/bus/pci/devices/$EGPU_BDF/driver" ]]; then
@@ -311,7 +298,6 @@ recover_l2_bar1_resize() {
         return 1
     fi
     sleep 1
-    # Re-bind via the canonical orchestration service
     debug "re-binding GPU + reloading nvidia via compute-load-nvidia.service"
     if systemctl restart aorus-egpu-compute-load-nvidia.service 2>&1; then
         systemctl restart nvidia-persistenced.service 2>/dev/null || true
@@ -349,17 +335,7 @@ recover_l3_bus_reset() {
     return 1
 }
 
-# L4 — Lever M-recover force-trigger. Invokes the in-driver recovery state
-# machine. Honours its own rate-limit (H2) and MaxAttempts (H1) gates.
-#
-# WARNING: this triggers a real pci_reset_bus on the parent bridge. On
-# TB-tunneled hardware, ~25% of force-fires on a healthy GPU end with the
-# bus link not coming back (PMC_BOOT_0=0xffffffff post-reset → M-recover
-# surrenders). When that happens, the GPU is in a "lost" state until the
-# next reboot. L4 is therefore appropriate ONLY when:
-#   (a) the GPU is already wedged (recovery scenario), or
-#   (b) the user has explicitly accepted the reset risk (manual --level 4)
-# In --auto mode, L4 only fires after L1/L2/L3 have failed.
+# L4 — Lever M-recover force-trigger.
 recover_l4_m_recover_force() {
     section "L4 — Lever M-recover force-trigger (INVASIVE — does pci_reset_bus)"
     local trigger_path="/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_force_trigger"
@@ -367,7 +343,6 @@ recover_l4_m_recover_force() {
         warn "M-recover sysfs not available (driver not loaded?); skipping L4"
         return 1
     fi
-    # Capture pre-fire counters so we can detect successful fire vs surrender
     local pre_fires pre_surrenders
     pre_fires=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_fires")
     pre_surrenders=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_surrenders")
@@ -378,9 +353,6 @@ recover_l4_m_recover_force() {
         warn "M-recover trigger write failed (rate-limited or kill-switch engaged)"
         return 1
     fi
-    # M-recover full cycle: settle (500ms default) + pci_reset_bus (~500ms) +
-    # slot_reset + resume + driver re-init. Total can be 5-30 seconds. Wait
-    # up to 30s, polling counters to detect completion.
     info "waiting for M-recover cycle to complete (up to 30s)..."
     local i
     for ((i=1; i<=30; i++)); do
@@ -390,14 +362,13 @@ recover_l4_m_recover_force() {
         now_surrenders=$(<"/sys/bus/pci/devices/$EGPU_BDF/tb_egpu_lever_m_surrenders")
         if [[ $now_fires -gt $pre_fires || $now_surrenders -gt $pre_surrenders ]]; then
             debug "M-recover cycle observed at +${i}s (fires=$now_fires surrenders=$now_surrenders)"
-            sleep 2  # extra settle before probe
+            sleep 2
             break
         fi
     done
     return 0
 }
 
-# Verify after any recovery attempt
 verify_post_recovery() {
     section "Verify post-recovery state"
     probe
@@ -413,18 +384,12 @@ run_recovery() {
     if [[ -n "$LEVEL_FILTER" ]]; then
         levels_to_try=("$LEVEL_FILTER")
     elif [[ "$MODE" == "auto" ]]; then
-        # Auto mode: try gentle levels first, then escalate. L4 (M-recover
-        # force-trigger → real pci_reset_bus) only fires as a LAST resort
-        # because force-fire on a healthy-ish GPU has ~25% chance of leaving
-        # the bus link down. Probe's recommend_level hints which level to
-        # PRIORITISE but auto always tries safer levels first.
         case "${PROBE_RECOMMEND_LEVEL:-0}" in
-            2) levels_to_try=(2 1 3 4) ;;     # BAR1 issue: try resize first
-            3) levels_to_try=(1 3 4) ;;       # link issue: skip L2 (irrelevant)
-            *) levels_to_try=(1 2 3 4) ;;     # default escalation
+            2) levels_to_try=(2 1 3 4) ;;
+            3) levels_to_try=(1 3 4) ;;
+            *) levels_to_try=(1 2 3 4) ;;
         esac
     else
-        # --recover with no --level: try all in order, gentlest first
         levels_to_try=(1 2 3 4)
     fi
 
@@ -439,7 +404,6 @@ run_recovery() {
         esac
         debug "L$level returned $rc"
 
-        # Verify state after each attempt
         verify_post_recovery
         if [[ $PROBE_VERDICT -eq 0 ]]; then
             printf '\n%s✓ Recovery succeeded at L%d%s\n' "$C_OK" "$level" "$C_RESET"
