@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Comprehensive health check for the AORUS RTX 5090 eGPU stack.
+# Comprehensive health check for the AORUS RTX 5060 Ti eGPU stack.
 #
 # Verifies every load-bearing piece of the configuration: boot args, kernel
 # modules, udev rules, modprobe configs, scripts, systemd units, PCI device
@@ -49,9 +49,9 @@ check_arg_in_cmdline() {
 [[ -r /usr/local/lib/aorus-egpu/common.sh ]] && source /usr/local/lib/aorus-egpu/common.sh
 # Fallbacks for environment without common.sh deployed yet
 : "${EGPU_VENDOR_ID:=0x10de}"
-: "${EGPU_DEVICE_ID:=0x2b85}"
+: "${EGPU_DEVICE_ID:=0x2d04}"
 : "${EGPU_BDF:=0000:04:00.0}"
-: "${EGPU_AUDIO_DEVICE_ID:=0x22e8}"
+: "${EGPU_AUDIO_DEVICE_ID:=0x22eb}"
 : "${EGPU_AUDIO_BDF:=0000:04:00.1}"
 : "${EGPU_BRIDGE_BDF:=0000:03:00.0}"
 : "${TB_HOST_VENDOR_DEVICES:=0x8086:0x7ec4 0x8086:0x5786}"
@@ -61,61 +61,30 @@ TB_HOST_VENDOR_DEVICES_ARRAY=( ${TB_HOST_VENDOR_DEVICES[@]+"${TB_HOST_VENDOR_DEV
 section "1. Boot arguments (/proc/cmdline)"
 
 check_arg_in_cmdline 'thunderbolt.host_reset=false'
-check_arg_in_cmdline "pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@${EGPU_BRIDGE_BDF:-0000:03:00.0}"
-check_arg_in_cmdline 'module_blacklist=nouveau,nova_core'
-check_arg_in_cmdline 'rd.driver.blacklist=nouveau,nova_core'
-check_arg_in_cmdline 'modprobe.blacklist=nouveau,nova_core'
-# Lever T (2026-05-07): iommu=off intel_iommu=off — was iommu=pt
-# pre-Lever-T but pt mode doesn't help TB-tunneled (untrusted) devices.
-# See docs/iommu-gsp-lockdown-analysis.md.
-check_arg_in_cmdline 'iommu=off'
-check_arg_in_cmdline 'intel_iommu=off'
-
-# Lever K (Layer-1 prevention) boot args. Source: bilikaz's working
-# configuration in NVIDIA/open-gpu-kernel-modules#979 comment 9. These
-# pin PCIe / Thunderbolt power-state behaviour to reduce the rate of
-# transient register-read failures that trip the open module's
-# permanent-commit-on-first-failure path. See docs/source-review-notes.md
-# Pass 4 for the three-layer reliability framework.
+check_arg_in_cmdline "pci=realloc=off,pcie_bus_perf,hpmmioprefsize=128M,resource_alignment=34@${EGPU_BRIDGE_BDF:-0000:03:00.0}"
+check_arg_in_cmdline 'module_blacklist=nouveau'
+check_arg_in_cmdline 'rd.driver.blacklist=nouveau'
+check_arg_in_cmdline 'modprobe.blacklist=nouveau'
+# RTX 5060 Ti uses the standard open driver; iommu=pt is correct for
+# Thunderbolt-tunneled GPU (passthrough mode, not fully disabled).
+check_arg_in_cmdline 'iommu=pt'
 check_arg_in_cmdline 'pcie_aspm.policy=performance'
 check_arg_in_cmdline 'thunderbolt.clx=0'
 check_arg_in_cmdline 'pcie_port_pm=off'
 
-# Lever L (PCI AER disable) -- REVERTED 2026-05-04. The flag form
-# `pci=...,noaer` was correctly applied (verified via _OSC line losing
-# AER from the OS-controlled service list) but produced a WORSE
-# failure mode than leaving AER enabled: with AER suppressed, a
-# transient PCIe link failure no longer signals the NVIDIA driver, so
-# PDB_PROP_GPU_IS_LOST is never set, all our recovery patches (Levers
-# I, J-2, N) never engage, and the in-flight driver thread hangs
-# indefinitely on the dead register read. Result: silent kernel hang
-# with zero NVRM activity in dmesg, zero AORUS markers, no panic
-# trace.
-#
-# Decision: keep AER enabled so the driver still gets the bus-error
-# signal that our patches require. The MCE-broadcast-panic mode that
-# motivated Lever L is now contained by Lever H revert (timeout
-# rollback) + Lever N (rpcRmApiFree shortcircuit collapses the
-# 107-assertion cleanup surface).
-#
-# See docs/pcie-kernel-cmdline-options.md for the full sub-options
-# catalogue if a future test cycle needs to revisit this.
-
-# Lever T (2026-05-07): IOMMU must be DISABLED for TB-tunneled GPU. dmar0/dmar1
-# devices should be ABSENT under iommu=off; if present, the cmdline didn't take
-# effect. See docs/iommu-gsp-lockdown-analysis.md.
+# IOMMU check: iommu=pt keeps IOMMU active in passthrough mode.
+# dmar devices WILL be present (that is correct for iommu=pt).
 if [[ -d /sys/class/iommu/dmar0 ]]; then
-    fail "IOMMU device dmar0 present (expected absent under iommu=off; reboot after grubby update or check kernel cmdline)"
     iommu_default=$(dmesg 2>/dev/null | awk '/iommu: Default domain type:/ {print $NF; exit}')
     if [[ "$iommu_default" == "Passthrough" ]]; then
-        warn "IOMMU default domain: Passthrough (was iommu=pt era; expected disabled now)"
+        ok "IOMMU default domain: Passthrough (matches iommu=pt)"
     elif [[ "$iommu_default" == "Translated" ]]; then
-        fail "IOMMU default domain: Translated (cmdline not in effect)"
+        fail "IOMMU default domain: Translated (expected Passthrough via iommu=pt; cmdline may not be in effect)"
     else
         info "IOMMU default domain: ${iommu_default:-unknown}"
     fi
 else
-    ok "IOMMU disabled (no /sys/class/iommu/dmar0; matches iommu=off cmdline)"
+    warn "/sys/class/iommu/dmar0 not present (unexpected for iommu=pt; check cmdline took effect)"
 fi
 
 if [[ -r /sys/module/thunderbolt/parameters/host_reset ]]; then
@@ -185,10 +154,6 @@ check_file_match() {
     fi
 }
 
-# Iterate the manifest. Templated udev rules (79, 81) compare the rendered
-# /etc file against an existence-only check (the .template differs by design;
-# rendered output depends on config.env). Static rules + modprobe + sysctl +
-# unit files use byte-equal cmp against the repo source.
 check_file_present() {
     local sys_file="$1" label="${2:-$1}"
     if [[ -e "$sys_file" ]]; then
@@ -199,7 +164,6 @@ check_file_present() {
 }
 
 for name in "${EGPU_UDEV_TEMPLATED[@]}"; do
-    # Templates render at apply.sh time; can't byte-compare. Existence + reasonable size.
     sys_file="$(egpu_path_udev "$name")"
     if [[ -e "$sys_file" ]] && [[ "$(stat -c%s "$sys_file")" -gt 100 ]]; then
         ok "$sys_file (rendered from template)"
@@ -265,21 +229,10 @@ check_unit_state() {
     fi
 }
 
-# Active services from the manifest must all be enabled; persistenced too.
-# Retired services are intentionally NOT checked here — their unit files are
-# preserved on disk as documented archive but their state is not load-bearing
-# for system health. See docs/service-retirement-roadmap.md.
 for svc in "${EGPU_SERVICES_ACTIVE[@]}" nvidia-persistenced.service; do
     check_unit_state "$svc" enabled
 done
 
-# These units may not exist at all on a clean compute-only install via the
-# NVIDIA CUDA repo (the desktop meta-package nvidia-driver and the
-# nvidia-container-toolkit are not pulled in). Treat 'not-found' as a
-# valid state - it means there's nothing to mask, which is the desired
-# end state. The unit will exist if we accidentally re-pulled the desktop
-# meta-package or installed nvidia-container-toolkit; in that case mask
-# is the right enforcement.
 check_unit_state_or_absent() {
     local unit="$1" expected="$2"
     local actual
@@ -341,14 +294,11 @@ case "$a" in
     *) warn "nvidia-persistenced.service active state: $a" ;;
 esac
 
-# Drop-in for persistenced
 if [[ -f /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf ]]; then
     ok "persistenced drop-in: /etc/systemd/system/nvidia-persistenced.service.d/aorus-egpu.conf"
 else
     fail "persistenced drop-in missing"
 fi
-
-# aorus-egpu-uvm-keepalive RETIRED 2026-05-08 — not validated here.
 
 # ----------------------------------------------------- 6. PCI device state --
 section "6. PCI device state"
@@ -366,7 +316,7 @@ for dev in /sys/bus/pci/devices/*; do
 done
 
 if [[ -z "$gpu_dev" ]]; then
-    fail "RTX 5090 GPU not present on PCI"
+    fail "RTX 5060 Ti GPU not present on PCI"
 else
     ok "GPU present: ${gpu_dev##*/}"
 
@@ -401,14 +351,6 @@ else
         warn "GPU d3cold_allowed: $d3c (expected 0)"
     fi
 
-    # Verify PM policy on the upstream bridges + audio function — udev
-    # rule 81-aorus-egpu-compute-power.rules covers all four; this check
-    # ensures the rule actually fired for each. Source-of-truth shifted
-    # 2026-05-08 from the compute-load-nvidia script (which walked the
-    # path) to the udev rule alone; status.sh now enforces.
-    # Build PM-policy device list: TB_HOST_VENDOR_DEVICES (auto-detected
-    # upstream PCIe path) + the eGPU's audio function. Labels are derived
-    # from vendor:device (best-effort; specific names reserved for known IDs).
     pm_check_devs=()
     for vd in "${TB_HOST_VENDOR_DEVICES_ARRAY[@]}"; do
         case "$vd" in
@@ -459,15 +401,15 @@ else
     fi
     bar1_size=$((b1e - b1s + 1))
     bar1_gib=$((bar1_size / 1024 / 1024 / 1024))
-    if (( bar1_size >= 32 * 1024 * 1024 * 1024 )); then
+    if (( bar1_size >= 16 * 1024 * 1024 * 1024 )); then
         ok "BAR1: $b1s-$b1e (${bar1_gib} GiB)"
     else
-        fail "BAR1: ${bar1_gib} GiB (expected 32+ GiB; verify thunderbolt.host_reset=false took effect)"
+        fail "BAR1: ${bar1_gib} GiB (expected 16+ GiB; verify thunderbolt.host_reset=false took effect)"
     fi
 fi
 
 if [[ -z "$audio_dev" ]]; then
-    warn "RTX 5090 HDMI audio function not present"
+    warn "RTX 5060 Ti HDMI audio function not present"
 else
     drv=""
     [[ -L "$audio_dev/driver" ]] && drv="$(basename "$(readlink "$audio_dev/driver")")"
@@ -499,7 +441,6 @@ fi
 if command -v boltctl >/dev/null; then
     bolt_out=$(boltctl 2>/dev/null || true)
     if grep -qE 'AORUS|GIGABYTE' <<< "$bolt_out"; then
-        # Parse the `status:` field (NOT `authorized:` which is a timestamp).
         status=$(awk '/AORUS|GIGABYTE/ {flag=1} flag && /^[[:space:]]*\|- status:/ {print $3; exit}' <<< "$bolt_out")
         case "$status" in
             authorized)   ok "AORUS device boltctl status: authorized" ;;
@@ -507,7 +448,6 @@ if command -v boltctl >/dev/null; then
                 fail "AORUS device boltctl status: ${status:-unknown}" ;;
             *)            warn "AORUS device boltctl status: $status" ;;
         esac
-
         rx=$(awk '/AORUS|GIGABYTE/ {flag=1} flag && /rx speed:/ {sub(/.*rx speed:[[:space:]]*/,""); print; exit}' <<< "$bolt_out")
         [[ -n "$rx" ]] && info "AORUS rx speed: $rx"
     else
@@ -553,18 +493,9 @@ else
     fi
 fi
 
-# Section 8b (UVM keep-alive) removed: service RETIRED 2026-05-08;
-# UVM close-path bug class is empirically benign on the current driver
-# stack (H22 ledger, Patch 0030 + n=6 UVM probes). Retirement record
-# in docs/services/uvm-keepalive.md.
-
 # ----------------------------------------- 8c. NVIDIA loader entries disabled --
 section "8c. NVIDIA Vulkan / EGL / OpenCL loader entries (compute-only mode)"
 
-# Files that, if present, cause user-session apps (gnome-shell, ptyxis,
-# vulkan-using GUI apps) to dlopen NVIDIA libs and incidentally open
-# /dev/nvidia*. Disabled by renaming to .aorus-disabled. An RPM upgrade
-# will recreate them; this check catches that regression.
 check_loader_disabled() {
     local original="$1" label="$2"
     if [[ -f "$original" ]]; then
@@ -583,13 +514,6 @@ check_loader_disabled /etc/OpenCL/vendors/nvidia.icd                     "OpenCL
 # ------------------------------------------ 8d. /dev/nvidia* permissions ---
 section "8d. /dev/nvidia* device-file permissions"
 
-# Cross-check: the modprobe.conf's NVreg_DeviceFileGID must match the
-# actual ollama group's numeric GID. NVreg options are set at module-load
-# time and aren't exposed via /sys/module/nvidia/parameters/, so we can't
-# inspect the running value. Catching GID drift in the conf is the next
-# best signal: if ollama has GID 1234 on this system but NVreg points at
-# 968, every nvidia-modprobe call will reset perms to 0660 root:GID-968-
-# whatever-that-is, breaking Layer 1.
 ollama_gid=$(getent group ollama 2>/dev/null | cut -d: -f3)
 modconf=/etc/modprobe.d/aorus-egpu-compute-only.conf
 if [[ -r "$modconf" ]]; then
@@ -605,11 +529,6 @@ if [[ -r "$modconf" ]]; then
     fi
 fi
 
-# Confirm nvidia-persistenced (system user, runs the daemon on F43+CUDA-repo
-# install) is a member of the ollama group. Without this, persistenced can't
-# open /dev/nvidia0 + nvidiactl (0660 root:ollama), exits at startup, and the
-# close-path bug becomes triggerable on any nvidia-smi call. apply.sh should
-# add the membership; this check confirms it took effect.
 if id -u nvidia-persistenced >/dev/null 2>&1; then
     if id -nG nvidia-persistenced | grep -qw ollama; then
         ok "nvidia-persistenced is in ollama group (can open /dev/nvidia0 + nvidiactl)"
@@ -618,19 +537,6 @@ if id -u nvidia-persistenced >/dev/null 2>&1; then
     fi
 fi
 
-# check_dev_perms supports two severities:
-#   fail (default) - for nvidia0 / nvidiactl, where NVreg_DeviceFile* in
-#     modprobe.d makes perms persist through nvidia-modprobe re-runs.
-#     Loss-of-perms here means NVreg or apply.sh is broken.
-#   warn - for /dev/nvidia-uvm, -uvm-tools, and nvidia-caps/*. The
-#     nvidia_uvm module has NO equivalent of NVreg_DeviceFile* (verified
-#     via 'modinfo nvidia_uvm'), so nvidia-modprobe will reset their
-#     perms to 0666 root:root after every invocation (every nvidia-smi
-#     call, every libnvidia-ml init, etc.). Loader chmod converges them
-#     at boot but the next nvidia-modprobe wins. Layer 4 (8e exclusivity)
-#     is the actual safety net for these devices: lsof confirms nothing
-#     unauthorised is opening them, regardless of mode bits. The keep-
-#     alive holds them via fd, so kernel ref count stays >= 1.
 check_dev_perms() {
     local dev="$1"
     local severity="${2:-fail}"
@@ -662,20 +568,8 @@ fi
 # ---------------------------- 8f. NVreg runtime params vs configured -------
 section "8f. NVIDIA driver module parameters (runtime vs configured)"
 
-# NVreg_* options in modprobe.d are read by the nvidia kernel module at
-# insmod time. Most are exposed via /sys/module/nvidia/parameters/ so we
-# can verify the running driver actually picked them up. A few (like
-# NVreg_DeviceFile{UID,GID,Mode}) aren't exposed in sysfs - they are
-# consumed by libnvidia-modprobe-utils at file-creation time, not stored
-# as runtime state. We INFO those (cannot verify) rather than fail.
-#
-# Mismatch between conf and runtime usually means the conf changed but
-# the driver wasn't reloaded - i.e. reboot needed.
-
 modconf=/etc/modprobe.d/aorus-egpu-compute-only.conf
 if [[ -r "$modconf" ]]; then
-    # Extract every "options nvidia K=V K=V ..." pair. awk strips comments
-    # and prints one K=V token per line.
     nvreg_pairs=$(awk '
         /^[[:space:]]*#/ {next}
         /^[[:space:]]*options[[:space:]]+nvidia[[:space:]]/ {
@@ -683,12 +577,9 @@ if [[ -r "$modconf" ]]; then
         }
     ' "$modconf")
 
-    # Match conf value to runtime value: either equal as strings, or equal
-    # as integers (so 0x00 matches 0). Returns 0 on match, 1 otherwise.
     match_nvreg() {
         local actual="$1" expected="$2"
         [[ "$actual" == "$expected" ]] && return 0
-        # Only attempt arithmetic comparison if both look numeric
         if [[ "$actual" =~ ^-?(0x)?[0-9a-fA-F]+$ ]] \
                 && [[ "$expected" =~ ^-?(0x)?[0-9a-fA-F]+$ ]]; then
             (( actual == expected )) && return 0
@@ -696,11 +587,6 @@ if [[ -r "$modconf" ]]; then
         return 1
     }
 
-    # NVIDIA doesn't expose params via /sys/module/nvidia/parameters/ but
-    # mirrors them in /proc/driver/nvidia/params with the NVreg_ prefix
-    # stripped. A few have different internal names (e.g.,
-    # NVreg_RestrictProfilingToAdminUsers -> RmProfilingAdminOnly); for
-    # those we INFO that we can't directly verify.
     proc_params=/proc/driver/nvidia/params
 
     while IFS= read -r kv; do
@@ -708,8 +594,6 @@ if [[ -r "$modconf" ]]; then
         key="${kv%%=*}"
         val="${kv#*=}"
         [[ "$key" =~ ^NVreg_ ]] || continue
-        # Most NVreg_X are mirrored in /proc as plain X (no NVreg_ prefix).
-        # A few are renamed internally; map the known ones explicitly.
         case "$key" in
             NVreg_RestrictProfilingToAdminUsers) proc_key="RmProfilingAdminOnly" ;;
             *) proc_key="${key#NVreg_}" ;;
@@ -735,14 +619,6 @@ fi
 # ------------------ 8g. modprobe softdep on nvidia-drm absence -----------
 section "8g. nvidia-drm autoload prevention (softdep + install)"
 
-# The NVIDIA-CUDA-repo nvidia-driver RPM ships /usr/lib/modprobe.d/nvidia.conf
-# with a softdep on nvidia-drm:
-#   softdep nvidia post: nvidia-uvm nvidia-drm
-# Loading nvidia.ko via this softdep auto-loads nvidia-drm.ko, which creates
-# a /dev/dri/cardN entry. GNOME mutter picks it up as a display and the
-# Blackwell-over-Thunderbolt stack hard-freezes at GNOME login.
-#
-# Our /etc/modprobe.d/nvidia.conf SHADOW removes this softdep. Verify:
 softdep_resolved=$(modprobe --show-depends nvidia 2>&1)
 if grep -q 'nvidia-drm' <<<"$softdep_resolved"; then
     fail "modprobe still resolves nvidia-drm in nvidia's dep chain (shadow not effective; expect GNOME freeze)"
@@ -752,7 +628,6 @@ else
     warn "could not confirm nvidia-drm autoload prevention via modprobe --show-depends"
 fi
 
-# Belt-and-suspenders: directly resolve nvidia-drm and confirm install /bin/false
 drm_resolve=$(modprobe --show-depends nvidia-drm 2>&1)
 if grep -q 'install /bin/false' <<<"$drm_resolve"; then
     ok "modprobe nvidia-drm directly resolves to install /bin/false"
@@ -763,10 +638,6 @@ fi
 # --------------------------------------- 8e. exclusivity (lsof check) ------
 section "8e. /dev/nvidia* exclusivity (only authorised processes holding)"
 
-# The eGPU is supposed to be a CUDA-only accelerator. Anything other than
-# the expected compute-stack processes holding /dev/nvidia* is a regression
-# - usually a user-session app that dlopen'd NVIDIA libs and incidentally
-# opened the device. Causes close-path-bug exposure on its exit.
 authorised_re='^(nvidia-pe|sleep|ollama|ollama_llama_server)$'
 nvidia_files=(/dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools)
 unauthorised=$(lsof "${nvidia_files[@]}" 2>/dev/null \
@@ -819,10 +690,6 @@ if [[ -n "$nvidia_pkgs" ]]; then
     while IFS= read -r p; do info "rpm: $p"; done <<< "$nvidia_pkgs"
 fi
 
-# Verify the kernel module is built for the running kernel.
-# Two paths supported:
-#   - F43+ NVIDIA CUDA repo + DKMS: dkms status shows nvidia/<ver> for our kernel
-#   - F42 RPMFusion akmod: rpm -q kmod-nvidia-<kver>
 running_kver="$(uname -r)"
 if dkms status 2>/dev/null | grep -q "^nvidia.*${running_kver}.*installed"; then
     ok "DKMS-built nvidia module installed for running kernel ($running_kver)"
