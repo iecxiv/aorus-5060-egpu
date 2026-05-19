@@ -2,12 +2,12 @@
 #
 # Provides EGPU_* variables from /etc/aorus-egpu/config.env (written
 # by aorus-egpu-detect-config). Falls back to project-default values for
-# THIS hardware (NUC 15 Pro+ + AORUS RTX 5090) if the config file is
+# THIS hardware (NUC 15 Pro+ + AORUS RTX 5060 Ti 16GB) if the config file is
 # missing — on first install or before aorus-egpu-detect-config has run.
 #
 # Variables exported:
 #   EGPU_VENDOR_ID         (NVIDIA = 0x10de)
-#   EGPU_DEVICE_ID         (RTX 5090 = 0x2b85; varies by GPU model)
+#   EGPU_DEVICE_ID         (RTX 5060 Ti = 0x2d04; varies by GPU model)
 #   EGPU_BDF               (e.g. 0000:04:00.0)
 #   EGPU_AUDIO_DEVICE_ID   (HDMI audio function device ID)
 #   EGPU_AUDIO_BDF         (e.g. 0000:04:00.1)
@@ -25,9 +25,9 @@ else
     # Fallback for first install / pre-detection. Run aorus-egpu-detect-config
     # to refresh once the system is up.
     EGPU_VENDOR_ID="0x10de"
-    EGPU_DEVICE_ID="0x2b85"
+    EGPU_DEVICE_ID="0x2d04"
     EGPU_BDF="0000:04:00.0"
-    EGPU_AUDIO_DEVICE_ID="0x22e8"
+    EGPU_AUDIO_DEVICE_ID="0x22eb"
     EGPU_AUDIO_BDF="0000:04:00.1"
     EGPU_BRIDGE_BDF="0000:03:00.0"
     TB_HOST_VENDOR_DEVICES=("0x8086:0x7ec4" "0x8086:0x5786")
