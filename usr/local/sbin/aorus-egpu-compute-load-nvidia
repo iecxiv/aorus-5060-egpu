@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Bind the AORUS RTX 5090 eGPU to the NVIDIA driver.
+# Bind the AORUS RTX 5060 Ti eGPU to the NVIDIA driver.
 #
 # Run by aorus-egpu-compute-load-nvidia.service at boot, or manually for
 # diagnostics. Idempotent: if NVIDIA is already loaded and bound, this
 # script's bind step is a no-op.
 #
 # Diagnostic env vars (default off, leave alone for normal operation):
-#   AORUS_5090_DISABLE_GSP=1               -> NVreg_EnableGpuFirmware=0
+#   AORUS_EGPU_DISABLE_GSP=1               -> NVreg_EnableGpuFirmware=0
 #                                             (Blackwell requires GSP; this WILL
 #                                              fail to bind on this GPU. Diagnostic only.)
-#   AORUS_5090_DISABLE_NONBLOCKING_OPEN=1  -> NVreg_EnableNonblockingOpen=0
+#   AORUS_EGPU_DISABLE_NONBLOCKING_OPEN=1  -> NVreg_EnableNonblockingOpen=0
 #                                             (does not fix the close-path wedge
 #                                              on this stack; persistenced is the fix.)
 
@@ -63,11 +63,9 @@ trap restore_manual_override_on_exit EXIT
 # every relevant device on the eGPU PCI path:
 #   - Intel TB upstream (0x8086:0x7ec4)
 #   - Intel root port (0x8086:0x5786)
-#   - RTX 5090 (0x10de:0x2b85)
-#   - HDMI audio function (0x10de:0x22e8)
-# Previously this script also walked the path and re-applied the same
-# policy as defense-in-depth (~26 lines). Simplified 2026-05-08 — udev
-# is the single source of truth; status.sh verifies the policy on all
+#   - RTX 5060 Ti (0x10de:0x2d04)
+#   - HDMI audio function (0x10de:0x22eb)
+# udev is the single source of truth; status.sh verifies the policy on all
 # four devices.
 
 if [[ -n "$audio_dev" ]]; then
@@ -77,16 +75,16 @@ fi
 mapfile -t gpu_resources < "$gpu_dev/resource"
 read -r bar0_start bar0_end _ <<< "${gpu_resources[0]}"
 if [[ "$bar0_start" == "0x0000000000000000" && "$bar0_end" == "0x0000000000000000" ]]; then
-    echo "RTX 5090 BAR0 is unassigned; refusing to load NVIDIA." >&2
+    echo "RTX 5060 Ti BAR0 is unassigned; refusing to load NVIDIA." >&2
     echo "Cold boot with the eGPU connected so pci=realloc can allocate BAR0." >&2
     exit 3
 fi
 
 read -r bar1_start bar1_end _ <<< "${gpu_resources[1]}"
 bar1_size=$((bar1_end - bar1_start + 1))
-min_bar1_size=$((32 * 1024 * 1024 * 1024))
+min_bar1_size=$((16 * 1024 * 1024 * 1024))
 if (( bar1_size < min_bar1_size )); then
-    echo "RTX 5090 BAR1 is smaller than 32 GiB; refusing to load NVIDIA." >&2
+    echo "RTX 5060 Ti BAR1 is smaller than 16 GiB; refusing to load NVIDIA." >&2
     echo "Confirm thunderbolt.host_reset=false is in /proc/cmdline and cold boot with the eGPU connected." >&2
     printf 'Current BAR1: %s-%s (%s bytes)\n' "$bar1_start" "$bar1_end" "$bar1_size" >&2
     exit 6
@@ -96,10 +94,10 @@ fi
 set_attr "$gpu_dev/driver_override" ""
 
 modprobe_args=()
-if [[ "${AORUS_5090_DISABLE_GSP:-0}" == "1" ]]; then
+if [[ "${AORUS_EGPU_DISABLE_GSP:-0}" == "1" ]]; then
     modprobe_args+=(NVreg_EnableGpuFirmware=0)
 fi
-if [[ "${AORUS_5090_DISABLE_NONBLOCKING_OPEN:-0}" == "1" ]]; then
+if [[ "${AORUS_EGPU_DISABLE_NONBLOCKING_OPEN:-0}" == "1" ]]; then
     modprobe_args+=(NVreg_EnableNonblockingOpen=0)
 fi
 
@@ -115,13 +113,13 @@ if [[ -e /sys/module/nvidia_drm ]]; then
 fi
 
 if [[ ! -L "$gpu_dev/driver" ]]; then
-    echo "Base nvidia module loaded, but the RTX 5090 did not bind to it." >&2
+    echo "Base nvidia module loaded, but the RTX 5060 Ti did not bind to it." >&2
     exit 4
 fi
 
 bound_driver="$(basename "$(readlink "$gpu_dev/driver")")"
 if [[ "$bound_driver" != "nvidia" ]]; then
-    echo "RTX 5090 is bound to '$bound_driver', not 'nvidia'." >&2
+    echo "RTX 5060 Ti is bound to '$bound_driver', not 'nvidia'." >&2
     exit 5
 fi
 
@@ -137,35 +135,9 @@ fi
 modprobe --ignore-install nvidia_uvm
 
 # Materialise /dev/nvidia-uvm-tools alongside /dev/nvidia-uvm.
-#
-# `modprobe nvidia_uvm` creates /dev/nvidia-uvm via devtmpfs but does NOT
-# create /dev/nvidia-uvm-tools - that one only appears when a userspace
-# CUDA process triggers it (or when nvidia-modprobe is invoked correctly).
-#
-# Without /dev/nvidia-uvm-tools at boot, our aorus-egpu-uvm-keepalive.service
-# fails its ConditionPathExists check and skips. ollama (or any CUDA process)
-# then runs unprotected and the close-path-on-UVM bug refreezes the host -
-# observed 2026-05-02, multiple times, post-keepalive-deployment.
-#
-# `nvidia-modprobe -u -c 0` creates BOTH /dev/nvidia-uvm (minor 0) and
-# /dev/nvidia-uvm-tools (minor 1) via mknod. Idempotent - no-op if both
-# files are correct. This is the same canonical NVIDIA tool used elsewhere
-# in the stack; it is setuid root and does not require we know the dynamic
-# UVM major number ourselves.
-#
-# We tolerate failure here (|| true): if nvidia-modprobe is missing or fails,
-# the bind succeeded and we will report it; the keep-alive will fail noisily
-# at its ConditionPathExists check, which is the right escalation path.
 nvidia-modprobe -u -c 0 || echo "WARNING: nvidia-modprobe -u -c 0 failed; /dev/nvidia-uvm-tools may not exist" >&2
 
-# Tighten /dev/nvidia* permissions to 0660 root:ollama so user-session
-# processes (gnome-shell, ptyxis, etc.) cannot incidentally open them. Our
-# 82-aorus-egpu-nvidia-permissions.rules udev rule SHOULD do this, but
-# nvidia-modprobe creates the device files via mknod() which does NOT fire
-# udev events - the rule never gets a chance to match. Setting perms here
-# (immediately after creation, before any other process can open) is the
-# load-bearing convergence step. Tolerate failures: the ollama group might
-# not exist yet on a fresh Fedora install before our apply.sh ran.
+# Tighten /dev/nvidia* permissions to 0660 root:ollama.
 if getent group ollama >/dev/null 2>&1; then
     chgrp ollama /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools 2>/dev/null || true
     chmod 0660   /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools 2>/dev/null || true
@@ -175,41 +147,20 @@ if getent group ollama >/dev/null 2>&1; then
     fi
 fi
 
-# Restore the manual override now that we have bound on purpose; this prevents
-# any future udev re-add from auto-binding the device to a different driver.
+# Restore the manual override now that we have bound on purpose.
 set_attr "$gpu_dev/driver_override" aorus_egpu_manual
 trap - EXIT
 
 # Engage full hardware init + persistence mode.
-#
-# Why: nvidia.ko is bound, but the driver does LAZY hardware bringup -
-# GSP firmware, PMU, and the AORUS waterblock thermal subsystem only fully
-# engage when /dev/nvidia0 is first opened. Without this, the cooler sits
-# at floor RPM, idle power is ~63 W instead of ~22 W in P8, and silicon
-# idles at ~40 C instead of ~34 C (measured 2026-05-12 on the parallel
-# nvidia-driver-injector geometry; same patched driver, same hardware).
-#
-# The compute-only architecture does not run a session-opening client at
-# boot, so without this step the GPU stays in lazy state until the first
-# inference workload triggers it - potentially hours after boot.
-#
-# `nvidia-smi -pm 1` does two things in one call:
-#   1. Opens /dev/nvidia0 -> first-client bringup (GSP, PMU, thermal).
-#   2. Sets a driver sysfs flag so the GPU stays initialized after exit.
-# This is NOT the retired nvidia-persistenced daemon - it is a runtime
-# driver flag with no userspace process.
-#
-# Tolerate failure: the bind itself succeeded. Lazy state is suboptimal
-# but the GPU is still functional - the warning is the right escalation.
 nvidia-smi -pm 1 >/dev/null 2>&1 \
     || echo "WARNING: nvidia-smi -pm 1 failed; GPU may stay in lazy-init state (cooler at floor RPM, elevated idle power until first client open)" >&2
 
-echo "RTX 5090 is bound to the base nvidia driver."
+echo "RTX 5060 Ti is bound to the base nvidia driver."
 echo "nvidia_uvm is loaded (pre-staged for CUDA)."
 echo "Persistence mode enabled (GSP loaded, thermal subsystem engaged)."
-if [[ "${AORUS_5090_DISABLE_GSP:-0}" == "1" ]]; then
+if [[ "${AORUS_EGPU_DISABLE_GSP:-0}" == "1" ]]; then
     echo "NVIDIA GSP firmware was disabled for this bind attempt."
 fi
-if [[ "${AORUS_5090_DISABLE_NONBLOCKING_OPEN:-0}" == "1" ]]; then
+if [[ "${AORUS_EGPU_DISABLE_NONBLOCKING_OPEN:-0}" == "1" ]]; then
     echo "NVIDIA nonblocking open was disabled for this bind attempt."
 fi
