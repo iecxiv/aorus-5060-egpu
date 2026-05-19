@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Idempotent installer for the AORUS RTX 5090 eGPU configuration.
+# Idempotent installer for the AORUS RTX 5060 Ti eGPU configuration.
 #
 # Run from the repo root:
 #   sudo ./apply.sh
@@ -32,9 +32,9 @@ step "preflight"
 
 if ! grep -q 'thunderbolt.host_reset=false' /proc/cmdline; then
     yellow "WARNING: 'thunderbolt.host_reset=false' is NOT in /proc/cmdline."
-    yellow "The eGPU likely has BAR1=256MiB rather than 32GiB. Boot args are required."
+    yellow "The eGPU likely has BAR1=256MiB rather than 16GiB. Boot args are required."
     yellow "After this script finishes, run:"
-    yellow "  sudo grubby --update-kernel=ALL --args=\"thunderbolt.host_reset=false pci=realloc=off,pcie_bus_perf,hpmmioprefsize=256M,resource_alignment=35@0000:03:00.0 module_blacklist=nouveau,nova_core rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core iommu=pt pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off\""
+    yellow "  sudo grubby --update-kernel=ALL --args=\"thunderbolt.host_reset=false pci=realloc=off,pcie_bus_perf,hpmmioprefsize=128M,resource_alignment=34@0000:04:00.0 module_blacklist=nouveau rd.driver.blacklist=nouveau modprobe.blacklist=nouveau iommu=pt pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off\""
     yellow "Then reboot before relying on the rest of the configuration."
 elif ! grep -q 'iommu=pt' /proc/cmdline; then
     yellow "NOTICE: 'iommu=pt' is NOT in /proc/cmdline."
@@ -147,9 +147,6 @@ if [[ -r /etc/aorus-egpu/config.env ]]; then
         gpu_block+="ACTION==\"add|bind|change\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"${EGPU_VENDOR_ID}\", ATTR{device}==\"${d}\", TEST==\"power/control\", ATTR{power/control}=\"on\""$'\n'
         gpu_block+="ACTION==\"add|bind|change\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"${EGPU_VENDOR_ID}\", ATTR{device}==\"${d}\", TEST==\"d3cold_allowed\", ATTR{d3cold_allowed}=\"0\""$'\n'
     done
-    # awk handles the multi-line substitution cleanly without sed escape pain.
-    # Anchored ^...$ so only standalone-placeholder lines match; placeholder
-    # references inside comment text are unaffected.
     awk -v tb="$tb_block" -v gpu="$gpu_block" '
         /^@@TB_HOST_PATH_RULES@@$/  { printf "%s",  tb;  next }
         /^@@EGPU_GPU_AUDIO_RULES@@$/ { printf "%s", gpu; next }
@@ -223,11 +220,6 @@ else
 fi
 
 # ----------------------------------------- aorus-5090-* → aorus-egpu-* rename --
-# Q3 Tier 2 rename pass (2026-05-09): drop the gpu-model suffix from userspace
-# names since most levers generalise across Blackwell + open driver. Old names
-# (LEGACY_* arrays in lib/install-manifest.sh) are aliased cleanup targets so
-# an existing install can migrate forward idempotently. Once an install has
-# run apply.sh post-rename, no aorus-5090-* unit / binary / config remains.
 step "migrate from aorus-5090-* / aorus-lever-m-* to aorus-egpu-*"
 
 for svc in "${LEGACY_SERVICES[@]}" "${LEGACY_VESTIGIAL_SERVICES[@]}"; do
@@ -263,8 +255,6 @@ for f in "${LEGACY_VESTIGIAL_FILES[@]}"; do
     remove_if_exists "$f"
 done
 
-# Protective blacklist stub written by remove.sh on graceful shutdown.
-# Removed here so our proper modprobe.d files take effect.
 remove_if_exists /etc/modprobe.d/zz-aorus-egpu-blacklist.conf
 
 # ---------------------------------------------------------------- services --
@@ -272,39 +262,23 @@ step "reload systemd, mask/disable/enable services"
 
 systemctl daemon-reload
 
-# Robust masker. Handles three cases:
-#   - already masked (no-op)
-#   - not installed at all (no-op; expected on compute-only when desktop
-#     meta-package or nvidia-container-toolkit are not present)
-#   - shipped from /etc/ as a regular file (rename + /dev/null symlink, since
-#     `systemctl mask` refuses "File already exists")
-#   - shipped from /usr/lib/ (standard mask works)
 mask_unit_robust() {
     local unit="$1"
     local etc_path="/etc/systemd/system/$unit"
     local enabled
-    # systemctl is-enabled returns non-zero for masked/disabled/not-found,
-    # which would trip set -e on the assignment. Suppress the rc; we read
-    # the captured output to dispatch.
     enabled=$(systemctl is-enabled "$unit" 2>&1) || true
     if [[ "$enabled" == "masked" ]]; then
         printf '  already masked: %s\n' "$unit"
         return 0
     fi
-    # Unit not installed at all (e.g., on a compute-only install where the
-    # nvidia-container-toolkit or desktop meta-package never landed). Nothing
-    # to mask; treat as success.
     if [[ "$enabled" =~ not-found ]] || [[ "$enabled" =~ "Failed to get unit" ]]; then
         printf '  not installed (compute-only): %s\n' "$unit"
         return 0
     fi
-    # Try standard masking first (works when unit is in /usr/lib/).
     if systemctl mask "$unit" >/dev/null 2>&1; then
         printf '  masked: %s\n' "$unit"
         return 0
     fi
-    # Standard mask refused: a regular file in /etc/ is blocking the
-    # /dev/null symlink. Rename it aside and create the mask symlink.
     if [[ -f "$etc_path" && ! -L "$etc_path" ]]; then
         mv "$etc_path" "$etc_path.aorus-disabled"
         ln -sf /dev/null "$etc_path"
@@ -315,36 +289,13 @@ mask_unit_robust() {
     return 1
 }
 
-# nvidia-fallback should be masked (loads nouveau on NVIDIA failure - fights us).
 mask_unit_robust nvidia-fallback.service
-
-# nvidia-powerd: opens/closes device files at runtime, which is exactly
-# the close-path-bug trigger we work hard to prevent. On a compute-only
-# install via the NVIDIA CUDA repo, nvidia-powerd is not installed at all
-# (the desktop meta-package nvidia-driver provided it) - mask_unit_robust
-# handles the 'not installed' case as a no-op.
 mask_unit_robust nvidia-powerd.service
-
-# Compute-only mode: mask GPU-touching system services that are pointless
-# on this host. Each is a potential close-path-bug trigger if it dlopens
-# libnvidia-ml or opens /dev/nvidia* during its lifecycle.
-#
-#   switcheroo-control.service - shipped in /usr/lib/, standard mask works.
-#                                Manages display GPU switching for laptops
-#                                with hybrid graphics; we are compute-only.
-#   nvidia-cdi-refresh.path    - shipped DIRECTLY in /etc/systemd/system/ by
-#                                nvidia-container-toolkit RPM. systemctl
-#                                mask refuses ("File already exists"); we
-#                                rename the original aside and symlink
-#                                /dev/null in its place. Same effect.
-#                                The .path watches modules.dep + nvidia-ctk
-#                                and triggers .service to dlopen libnvml.
 mask_unit_robust switcheroo-control.service
 mask_unit_robust nvidia-cdi-refresh.path
 mask_unit_robust nvidia-cdi-refresh.service
 systemctl daemon-reload
 
-# Enable every active service from the manifest (idempotent).
 for svc in "${EGPU_SERVICES_ACTIVE[@]}" nvidia-persistenced.service; do
     if ! systemctl is-enabled "$svc" >/dev/null 2>&1; then
         systemctl enable "$svc" >/dev/null 2>&1 && printf '  enabled: %s\n' "$svc" || \
@@ -354,9 +305,6 @@ for svc in "${EGPU_SERVICES_ACTIVE[@]}" nvidia-persistenced.service; do
     fi
 done
 
-# Disable every retired service (kept on disk as historical archive).
-# Resurrection: `sudo systemctl enable --now <service>` per
-# docs/service-retirement-roadmap.md.
 for svc in "${EGPU_SERVICES_RETIRED[@]}"; do
     if systemctl is-enabled "$svc" >/dev/null 2>&1; then
         systemctl disable --now "$svc" >/dev/null 2>&1 || true
@@ -366,7 +314,6 @@ for svc in "${EGPU_SERVICES_RETIRED[@]}"; do
     fi
 done
 
-# Disable the user's nvidia-settings autostart if not already disabled.
 autostart=/etc/xdg/autostart/nvidia-settings-user.desktop
 if [[ -f "$autostart" ]] && ! grep -q '^X-GNOME-Autostart-enabled=false' "$autostart"; then
     yellow "  WARNING: $autostart is not disabled; review it manually."
@@ -374,19 +321,6 @@ fi
 
 # ----------------------------------------------- compute-only ICD/loader disables -
 step "compute-only: disable NVIDIA Vulkan / EGL / OpenCL loader entries"
-
-# Compute-only mode means non-CUDA frameworks (Vulkan, EGL, OpenGL, OpenCL)
-# have no business loading NVIDIA drivers on this host. The NVIDIA loader-
-# registration files cause user-session apps (gnome-shell, mutter, ptyxis,
-# etc.) to dlopen NVIDIA libs and incidentally open /dev/nvidia0 + nvidiactl
-# during enumeration. Each such open + close is a close-path-bug trigger.
-#
-# We disable each entry by renaming to a non-matching extension (.aorus-disabled).
-# Vulkan and EGL loaders only consider files ending in .json; OpenCL loader
-# only considers .icd. The rename is reversible by undoing the suffix.
-#
-# CAVEAT: an nvidia-driver RPM upgrade will recreate these files. status.sh's
-# Layer-4 check will catch the regression; re-run apply.sh to re-disable.
 
 disable_loader_entry() {
     local src="$1"
@@ -409,7 +343,7 @@ disable_loader_entry /etc/OpenCL/vendors/nvidia.icd
 step "ollama group membership"
 
 # The 82-aorus-egpu-nvidia-permissions.rules udev rule restricts /dev/nvidia*
-# to root and the 'ollama' group. Add the human admin user (apnex) to this
+# to root and the 'ollama' group. Add the human admin user (iecxiv) to this
 # group so unprivileged 'nvidia-smi' continues to work for diagnostics.
 # 'sudo nvidia-smi' will work regardless via root.
 #
@@ -417,12 +351,12 @@ step "ollama group membership"
 # only takes effect for NEW logins / shells; existing shells need 'newgrp
 # ollama' or relogin to see the new group.
 
-if id -u apnex >/dev/null 2>&1; then
-    if id -nG apnex | grep -qw ollama; then
-        printf '  apnex already in ollama group\n'
+if id -u iecxiv >/dev/null 2>&1; then
+    if id -nG iecxiv | grep -qw ollama; then
+        printf '  iecxiv already in ollama group\n'
     else
-        usermod -aG ollama apnex
-        yellow "  added apnex to ollama group; log out + back in to take effect"
+        usermod -aG ollama iecxiv
+        yellow "  added iecxiv to ollama group; log out + back in to take effect"
     fi
 fi
 
@@ -445,14 +379,8 @@ fi
 # ---------------------------------------------------- live-state convergence -
 step "live state"
 
-# Apply current udev rules to already-enumerated devices (re-runs the
-# 81-aorus-egpu-compute-power.rules d3cold/power_control rewrites).
 udevadm trigger --subsystem-match=pci
 
-# Pre-flight: probe the GPU. If degraded, attempt recovery via reset.sh
-# (preserves BAR1 sizing — uses ReBAR resize / bus reset / M-recover, never
-# remove+rescan). If hard-wedged, skip live-state and let the user reboot;
-# files installed by apply.sh are durable and will pick up on next boot.
 if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]] && [[ -x "$repo_root/reset.sh" ]]; then
     if ! "$repo_root/reset.sh" --probe >/dev/null 2>&1; then
         yellow "  GPU in degraded state — attempting reset.sh --auto recovery..."
@@ -463,7 +391,7 @@ if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]] && [[ -x "$repo_root/reset.sh" ]];
             if [[ $rc -eq 2 ]]; then
                 yellow "  GPU is hard-wedged (link/config dead); skipping live-state."
                 yellow "  apply.sh files are installed; reboot to converge to live state."
-                exit 0  # files installed = success; live-state deferred
+                exit 0
             else
                 yellow "  recovery did not restore healthy state; continuing best-effort"
             fi
@@ -471,9 +399,6 @@ if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]] && [[ -x "$repo_root/reset.sh" ]];
     fi
 fi
 
-# If nvidia is already loaded and bound and persistenced is already running,
-# we are done and do not need to start anything. Otherwise, start the chain:
-# Read /proc/modules directly to avoid SIGPIPE on lsmod under pipefail.
 if ! grep -q '^nvidia ' /proc/modules; then
     if [[ -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
         printf '  starting aorus-egpu-compute-load-nvidia.service\n'
@@ -481,14 +406,8 @@ if ! grep -q '^nvidia ' /proc/modules; then
     fi
 fi
 
-# Persistenced may already be running outside systemd (manually started during
-# diagnostic work). Detect that and DO NOT try to start the systemd unit on top
-# of it: starting a second instance fails on the pid file lock, AND the unit's
-# default ExecStopPost wipes /var/run/nvidia-persistenced even on failure,
-# leaving the running daemon's runtime directory missing. Reboot is the clean
-# alignment - systemd takes over from boot.
 if [[ ! -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
-    : # eGPU not present; nothing to start
+    :
 elif pgrep -x nvidia-persiste >/dev/null \
         && ! systemctl is-active nvidia-persistenced.service >/dev/null 2>&1; then
     yellow "  nvidia-persistenced is running OUTSIDE systemd (manual start)."
@@ -501,12 +420,6 @@ else
     systemctl start nvidia-persistenced.service || true
 fi
 
-# Apply the new udev permissions to existing /dev/nvidia* device files. Without
-# this, the rule only fires on next boot. udev rules MODE/GROUP are evaluated
-# at device creation, so for already-created devices we converge by hand.
-# Note: changing perms on an open file does NOT close existing handles - any
-# process currently holding /dev/nvidia0 (e.g. ptyxis after a libGLX_nvidia
-# dlopen) keeps its access. Reboot to flush.
 if [[ -e /dev/nvidia0 ]]; then
     chgrp ollama /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools 2>/dev/null || true
     chmod 0660 /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools 2>/dev/null || true
@@ -517,16 +430,8 @@ if [[ -e /dev/nvidia0 ]]; then
     printf '  converged /dev/nvidia* perms to 0660 root:ollama (udev rule applies on next boot)\n'
 fi
 
-# Start the UVM keep-alive last in the chain. This is a freeze-risk event:
-# its first open() of /dev/nvidia-uvm runs against whatever the current
-# refcount is. If the device's count is 0 AND a prior CUDA process closed
-# UVM since boot, the close-side teardown may have already wedged the
-# kernel; the next open hangs the host. apply.sh has no way to prove a
-# fresh-boot refcount-was-never-nonzero state, so a freeze-prone window
-# exists during initial deployment. Once the keep-alive is up at boot
-# from this point forward, the window closes.
 if [[ ! -e /sys/bus/pci/devices/0000:04:00.0 ]]; then
-    : # eGPU not present; nothing to start
+    :
 elif systemctl is-active aorus-egpu-uvm-keepalive.service >/dev/null 2>&1; then
     printf '  aorus-egpu-uvm-keepalive.service is active\n'
 else
