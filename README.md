@@ -19,17 +19,73 @@ Fork of [apnex/aorus-5090-egpu](https://github.com/apnex/aorus-5090-egpu), adapt
 
 ## Requirements
 
-- `thunderbolt.host_reset=false` in kernel boot args
+- Kernel boot args applied — see section below
 - eGPU connected **before** power-on (cold boot)
 - `passim` group: add your user (`sudo usermod -aG passim $USER`) — Fedora assigns `/dev/nvidia*` to group `passim` via udev
 - `ollama` group: handled automatically by `apply.sh`
 - **Suspend disabled** — see troubleshooting below
 
+## Kernel boot args
+
+These args must be set before the first `apply.sh` run. Without
+`thunderbolt.host_reset=false` the eGPU BAR1 will be limited to 256 MiB
+instead of 16 GiB, causing CUDA to fail.
+
+```bash
+sudo grubby --update-kernel=ALL --args="\
+  thunderbolt.host_reset=false \
+  pci=realloc=off,pcie_bus_perf,hpmmioprefsize=128M,resource_alignment=34@0000:04:00.0 \
+  module_blacklist=nouveau \
+  rd.driver.blacklist=nouveau \
+  modprobe.blacklist=nouveau \
+  iommu=pt \
+  pcie_aspm.policy=performance \
+  thunderbolt.clx=0 \
+  pcie_port_pm=off"
+```
+
+Then reboot:
+
+```bash
+sudo reboot
+```
+
+### Arg reference
+
+| Arg | Purpose |
+|---|---|
+| `thunderbolt.host_reset=false` | Prevents the TB controller from resetting the tunnel on hotplug events; required for stable BAR1 |
+| `pci=realloc=off` | Disables BIOS BAR reallocation that can shrink BAR1 from 16 GiB to 256 MiB |
+| `pcie_bus_perf` | Sets PCIe bus to performance MPS/MRRS |
+| `hpmmioprefsize=128M` | Reserves prefetchable MMIO space for hotplug bridges |
+| `resource_alignment=34@0000:04:00.0` | Forces 16 GiB BAR1 alignment on the GPU (2^34 = 16 GiB) |
+| `module_blacklist=nouveau` / `rd.driver.blacklist=nouveau` / `modprobe.blacklist=nouveau` | Prevents the nouveau driver from claiming the GPU at initrd, early boot, and runtime |
+| `iommu=pt` | IOMMU passthrough — reduces DMA translation overhead for CUDA workloads |
+| `pcie_aspm.policy=performance` | Disables Active State Power Management on PCIe — prevents link retraining that freezes the TB tunnel |
+| `thunderbolt.clx=0` | Disables Thunderbolt CL states — prevents TB controller from entering low-power states mid-transfer |
+| `pcie_port_pm=off` | Disables PCIe port power management — stabilises the bridge during sustained CUDA loads |
+
+### Verify args are active after reboot
+
+```bash
+cat /proc/cmdline | tr ' ' '\n' | grep -E 'thunderbolt|pci|iommu|nouveau|aspm'
+```
+
+### Verify BAR1 is 16 GiB
+
+```bash
+nvidia-smi --query-gpu=bar1_memory.total --format=csv,noheader
+# Expected: 16384 MiB
+# If you see 256 MiB — boot args are not applied or not active
+```
+
 ## Quick start
 
 ```bash
-git clone https://github.com/iecxiv/aorus-5090-egpu.git
-cd aorus-5090-egpu
+git clone https://github.com/iecxiv/aorus-5060-egpu.git
+cd aorus-5060-egpu
+# 1. Apply boot args and reboot (see above)
+# 2. Run installer
 sudo ./apply.sh
 sudo aorus-egpu-status
 nvidia-smi
@@ -73,6 +129,12 @@ sudo systemctl restart ollama
 sudo journalctl -u ollama -n 10 --no-pager | grep library
 ```
 
+**BAR1 = 256 MiB instead of 16 GiB** — boot args not active. Verify:
+```bash
+cat /proc/cmdline | grep thunderbolt.host_reset
+```
+If missing, re-apply the boot args from the section above and reboot.
+
 **`nvidia-smi: No devices were found` after suspend/resume** — the Thunderbolt
 tunnel breaks on suspend and the NVIDIA driver cannot re-probe the device.
 Recovery without reboot is not reliable on this hardware. Full recovery procedure:
@@ -83,11 +145,10 @@ Recovery without reboot is not reliable on this hardware. Full recovery procedur
 4. Run `sudo ./apply.sh` if the stack services did not start automatically
 5. Verify with `nvidia-smi`
 
-Root cause: `aorus-egpu-compute-only.conf` (placed by the stack to sequence
-driver load at boot) is not cleaned up when the system suspends mid-session.
-After resume, `modprobe nvidia` fails with `No such device` because the PCIe
-bridge secondary bus reset is unavailable on this hardware
-(`/sys/bus/pci/devices/0000:03:00.0/reset` is not writable post-resume).
+Root cause: the Thunderbolt PCIe bridge (`0000:03:00.0`) cannot be reset
+post-resume, preventing re-enumeration of the downstream GPU (`0000:04:00.0`).
+After resume, `modprobe nvidia` fails with `No such device` because
+`/sys/bus/pci/devices/0000:03:00.0/reset` is not writable in this state.
 
 **Recommended: disable suspend permanently** while the eGPU is in use:
 ```bash
