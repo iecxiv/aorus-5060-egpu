@@ -19,11 +19,89 @@ Fork of [apnex/aorus-5090-egpu](https://github.com/apnex/aorus-5090-egpu), adapt
 
 ## Requirements
 
+- NVIDIA driver installed — see section below
 - Kernel boot args applied — see section below
 - eGPU connected **before** power-on (cold boot)
 - `passim` group: add your user (`sudo usermod -aG passim $USER`) — Fedora assigns `/dev/nvidia*` to group `passim` via udev
 - `ollama` group: handled automatically by `apply.sh`
 - **Suspend disabled** — see troubleshooting below
+
+## NVIDIA driver installation (Fedora)
+
+This stack requires `akmod-nvidia` from RPM Fusion. The proprietary driver is
+mandatory — the open `nvidia-open` kmod is **not** used because it lacks the
+persistence daemon integration needed for compute-only eGPU operation.
+
+### 1. Enable RPM Fusion repositories
+
+```bash
+sudo dnf install -y \
+  https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+```
+
+### 2. Install akmod-nvidia and CUDA
+
+```bash
+# Driver (akmod rebuilds the kernel module automatically on kernel updates)
+sudo dnf install -y akmod-nvidia
+
+# CUDA userspace libraries (required for Ollama GPU inference)
+sudo dnf install -y xorg-x11-drv-nvidia-cuda
+
+# Optional: CUDA toolkit (nvcc, headers — only if you compile CUDA code)
+sudo dnf install -y cuda-toolkit
+```
+
+> **Important:** after installing `akmod-nvidia`, wait for the kernel module
+> to finish building before rebooting. This can take 2–5 minutes. Check:
+>
+> ```bash
+> sudo akmods --force && sudo dracut --force
+> ```
+
+### 3. Reboot
+
+```bash
+sudo reboot
+```
+
+### 4. Verify driver is loaded
+
+```bash
+# Module loaded
+lsmod | grep nvidia
+
+# Driver version
+cat /proc/driver/nvidia/version
+
+# nvidia-smi (eGPU must be connected)
+nvidia-smi
+```
+
+Expected output from `nvidia-smi`:
+
+```
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.71.05    Driver Version: 595.71.05    CUDA Version: 12.x               |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+|   0  NVIDIA GeForce RTX 5060 Ti     On  | 00000000:04:00.0   Off |                  N/A |
++-----------------------------------------------------------------------------------------+
+```
+
+If `nvidia-smi` reports `No devices were found` at this point, the eGPU is
+not being enumerated — apply the kernel boot args below and reboot.
+
+### Kernel module notes
+
+`akmod-nvidia` rebuilds the `.ko` automatically after every kernel update via
+a systemd service (`akmods.service`). If a kernel update installs before the
+build finishes you may boot without the NVIDIA module. Verify any time with:
+
+```bash
+modinfo nvidia | grep ^version
+```
 
 ## Kernel boot args
 
@@ -84,8 +162,9 @@ nvidia-smi --query-gpu=bar1_memory.total --format=csv,noheader
 ```bash
 git clone https://github.com/iecxiv/aorus-5060-egpu.git
 cd aorus-5060-egpu
-# 1. Apply boot args and reboot (see above)
-# 2. Run installer
+# 1. Install NVIDIA driver (see above) and reboot
+# 2. Apply boot args (see above) and reboot
+# 3. Run installer
 sudo ./apply.sh
 sudo aorus-egpu-status
 nvidia-smi
