@@ -23,7 +23,7 @@ Fork of [apnex/aorus-5090-egpu](https://github.com/apnex/aorus-5090-egpu), adapt
 - Kernel boot args applied — see section below
 - eGPU connected **before** power-on (cold boot)
 - `passim` group: add your user (`sudo usermod -aG passim $USER`) — Fedora assigns `/dev/nvidia*` to group `passim` via udev
-- `ollama` group: handled automatically by `apply.sh`
+- `ollama` group: handled automatically by `apply.sh` (requires Ollama installed first)
 - **Suspend disabled** — see troubleshooting below
 
 ## NVIDIA driver installation (Fedora)
@@ -83,7 +83,7 @@ Expected output from `nvidia-smi`:
 
 ```
 +-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 595.71.05    Driver Version: 595.71.05    CUDA Version: 12.x               |
+| NVIDIA-SMI 595.71.05    Driver Version: 595.71.05    CUDA Version: 13.2               |
 |-----------------------------------------+------------------------+----------------------+
 | GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
 |   0  NVIDIA GeForce RTX 5060 Ti     On  | 00000000:04:00.0   Off |                  N/A |
@@ -105,14 +105,23 @@ modinfo nvidia | grep ^version
 
 ## Kernel boot args
 
-These args must be set before the first `apply.sh` run. Without
-`thunderbolt.host_reset=false` the eGPU BAR1 will be limited to 256 MiB
+These args must be set before the first `apply.sh` run.
+
+> **Critical:** use `pci=realloc` (without `=off`). Using `pci=realloc=off`
+> prevents the kernel from assigning BAR0 to the GPU over Thunderbolt, causing
+> `aorus-egpu-compute-load-nvidia.service` to fail at boot with:
+> `RTX 5060 Ti BAR0 is unassigned; refusing to load NVIDIA.`
+
+Without `thunderbolt.host_reset=false` the eGPU BAR1 will be limited to 256 MiB
 instead of 16 GiB, causing CUDA to fail.
 
 ```bash
 sudo grubby --update-kernel=ALL --args="\
   thunderbolt.host_reset=false \
-  pci=realloc=off,pcie_bus_perf,hpmmioprefsize=128M,resource_alignment=34@0000:04:00.0 \
+  pci=realloc \
+  pcie_bus_perf \
+  hpmmioprefsize=128M \
+  resource_alignment=34@0000:04:00.0 \
   module_blacklist=nouveau \
   rd.driver.blacklist=nouveau \
   modprobe.blacklist=nouveau \
@@ -133,7 +142,7 @@ sudo reboot
 | Arg | Purpose |
 |---|---|
 | `thunderbolt.host_reset=false` | Prevents the TB controller from resetting the tunnel on hotplug events; required for stable BAR1 |
-| `pci=realloc=off` | Disables BIOS BAR reallocation that can shrink BAR1 from 16 GiB to 256 MiB |
+| `pci=realloc` | Lets the kernel reassign PCIe BARs that the BIOS left unmapped — **required** for BAR0 allocation on this eGPU over Thunderbolt |
 | `pcie_bus_perf` | Sets PCIe bus to performance MPS/MRRS |
 | `hpmmioprefsize=128M` | Reserves prefetchable MMIO space for hotplug bridges |
 | `resource_alignment=34@0000:04:00.0` | Forces 16 GiB BAR1 alignment on the GPU (2^34 = 16 GiB) |
@@ -143,11 +152,24 @@ sudo reboot
 | `thunderbolt.clx=0` | Disables Thunderbolt CL states — prevents TB controller from entering low-power states mid-transfer |
 | `pcie_port_pm=off` | Disables PCIe port power management — stabilises the bridge during sustained CUDA loads |
 
+### Apply boot args on Fedora (UEFI)
+
+`grubby` is the preferred method on Fedora and handles both BIOS and UEFI
+automatically. If you edit `/etc/default/grub` manually, regenerate with:
+
+```bash
+# Do NOT write to /boot/efi/EFI/fedora/grub.cfg directly — it is a wrapper
+sudo grub2-mkconfig -o /etc/grub2-efi.cfg   # UEFI
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg  # BIOS (optional)
+```
+
 ### Verify args are active after reboot
 
 ```bash
 cat /proc/cmdline | tr ' ' '\n' | grep -E 'thunderbolt|pci|iommu|nouveau|aspm'
 ```
+
+Expected: `pci=realloc` present, `pci=realloc=off` **absent**.
 
 ### Verify BAR1 is 16 GiB
 
@@ -177,6 +199,11 @@ them to the `ollama` group. To override:
 sudo INSTALL_USER=otherusername ./apply.sh
 ```
 
+> **Note:** `apply.sh` will print `usermod: group 'ollama' does not exist` on a
+> clean install where Ollama has not been installed yet. This is harmless — install
+> Ollama afterwards and re-run `apply.sh`, or add the user manually:
+> `sudo usermod -aG ollama $USER`
+
 ## Verify GPU in Ollama
 
 ```bash
@@ -190,33 +217,69 @@ watch -n 1 nvidia-smi
 
 ## Troubleshooting
 
-**`nvidia-smi: Insufficient Permissions`** — add user to `passim` group:
+### `aorus-egpu-compute-load-nvidia.service` fails: BAR0 is unassigned
+
+Symptom at boot:
+```
+RTX 5060 Ti BAR0 is unassigned; refusing to load NVIDIA.
+Cold boot with the eGPU connected so pci=realloc can allocate BAR0.
+```
+
+This means the kernel has not allocated the PCIe BAR0 resource for the GPU.
+Root cause is usually one of:
+
+1. **`pci=realloc=off` present in kernel args** — this explicitly disables
+   reallocation. Remove it; only `pci=realloc` (without `=off`) should be set.
+2. **`pci=realloc` missing entirely** — add it as shown in the boot args section.
+3. **eGPU not connected before power-on** — connect the AORUS before pressing
+   the power button (cold boot), not after the OS has started.
+
+Verify the fix:
+```bash
+# Should show pci=realloc and NOT pci=realloc=off
+cat /proc/cmdline | grep realloc
+
+# Service should be active (exited) with status=0
+sudo systemctl status aorus-egpu-compute-load-nvidia.service
+```
+
+### `nvidia-smi: Insufficient Permissions`
+
+Add user to `passim` group:
 ```bash
 sudo usermod -aG passim $USER
 newgrp passim
 ```
 
-**`GPU: not present` after reboot** — run recovery:
+### `GPU: not present` after reboot
+
+Run recovery:
 ```bash
 sudo ./reset.sh --auto
 ```
 
-**Ollama uses CPU instead of CUDA** — `ollama` user needs `passim` group:
+### Ollama uses CPU instead of CUDA
+
+`ollama` user needs `passim` group:
 ```bash
 sudo usermod -aG passim ollama
 sudo systemctl restart ollama
 sudo journalctl -u ollama -n 10 --no-pager | grep library
 ```
 
-**BAR1 = 256 MiB instead of 16 GiB** — boot args not active. Verify:
+### BAR1 = 256 MiB instead of 16 GiB
+
+Boot args not active. Verify:
 ```bash
 cat /proc/cmdline | grep thunderbolt.host_reset
 ```
 If missing, re-apply the boot args from the section above and reboot.
 
-**`nvidia-smi: No devices were found` after suspend/resume** — the Thunderbolt
-tunnel breaks on suspend and the NVIDIA driver cannot re-probe the device.
-Recovery without reboot is not reliable on this hardware. Full recovery procedure:
+### `nvidia-smi: No devices were found` after suspend/resume
+
+The Thunderbolt tunnel breaks on suspend and the NVIDIA driver cannot re-probe
+the device. Recovery without reboot is not reliable on this hardware.
+Full recovery procedure:
 
 1. Disconnect the eGPU from the Thunderbolt port
 2. Reboot the host
