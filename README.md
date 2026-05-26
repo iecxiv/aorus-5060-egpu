@@ -22,7 +22,6 @@ Fork of [apnex/aorus-5090-egpu](https://github.com/apnex/aorus-5090-egpu), adapt
 - NVIDIA driver installed — see section below
 - Kernel boot args applied — see section below
 - eGPU connected **before** power-on (cold boot)
-- `passim` group: add your user (`sudo usermod -aG passim $USER`) — Fedora assigns `/dev/nvidia*` to group `passim` via udev
 - `ollama` group: handled automatically by `apply.sh` (requires Ollama installed first)
 - **Suspend disabled** — see troubleshooting below
 
@@ -186,7 +185,8 @@ git clone https://github.com/iecxiv/aorus-5060-egpu.git
 cd aorus-5060-egpu
 # 1. Install NVIDIA driver (see above) and reboot
 # 2. Apply boot args (see above) and reboot
-# 3. Run installer
+# 3. Install Ollama (see below)
+# 4. Run installer
 sudo ./apply.sh
 sudo aorus-egpu-status
 nvidia-smi
@@ -199,20 +199,73 @@ them to the `ollama` group. To override:
 sudo INSTALL_USER=otherusername ./apply.sh
 ```
 
-> **Note:** `apply.sh` will print `usermod: group 'ollama' does not exist` on a
-> clean install where Ollama has not been installed yet. This is harmless — install
-> Ollama afterwards and re-run `apply.sh`, or add the user manually:
-> `sudo usermod -aG ollama $USER`
+> **Note:** install Ollama **before** running `apply.sh` so that the `ollama`
+> group and user exist when the script runs. If you run `apply.sh` before
+> Ollama is installed, re-run it afterwards to pick up group membership.
 
-## Verify GPU in Ollama
+## Ollama installation and GPU setup
+
+Ollama must be installed **before** `apply.sh` so the `ollama` system user and
+group exist when the installer configures `/dev/nvidia*` permissions.
+
+### 1. Install Ollama
 
 ```bash
-# Terminal 1
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+This creates the `ollama` system user (uid~963) and group, and installs
+`/etc/systemd/system/ollama.service`.
+
+### 2. Run apply.sh (or re-run if already done)
+
+```bash
+sudo ./apply.sh
+```
+
+`apply.sh` will:
+- Add your user (`$SUDO_USER`) to the `ollama` group
+- Add `nvidia-persistenced` to the `ollama` group
+- Set `/dev/nvidia*` to `0660 root:ollama`
+- Disable `nvidia-settings-user.desktop` autostart (breaks headless GNOME sessions)
+
+### 3. Add your user to the ollama group
+
+`apply.sh` does this automatically, but the change only takes effect for new
+login sessions. After running `apply.sh`:
+
+```bash
+# Apply immediately in current shell (no relogin needed)
+newgrp ollama
+
+# Verify
+id | grep ollama
+```
+
+### 4. Verify Ollama uses the GPU
+
+```bash
+# Check what backend Ollama loaded at startup
+sudo journalctl -u ollama -n 50 --no-pager | grep -iE "cuda|gpu|cpu|library"
+```
+
+Expected: lines showing `cuda` library loaded and tensors on GPU, **not** CPU:
+```
+load_tensors: CUDA0 model buffer size = 1918.35 MiB
+llama_kv_cache: CUDA0 KV buffer size = 448.00 MiB
+```
+
+If you see `CPU model buffer size` instead — see troubleshooting below.
+
+### 5. Test GPU inference
+
+```bash
+# Terminal 1 — run a model
 ollama run llama3.2 "hola"
 
-# Terminal 2 — while model generates
+# Terminal 2 — watch GPU usage while the model generates
 watch -n 1 nvidia-smi
-# Expect: Memory-Usage > 0MiB, library=cuda in journalctl
+# Expect: Memory-Usage > 0 MiB, GPU-Util > 0%
 ```
 
 ## Troubleshooting
@@ -243,12 +296,65 @@ cat /proc/cmdline | grep realloc
 sudo systemctl status aorus-egpu-compute-load-nvidia.service
 ```
 
+### Ollama uses CPU instead of CUDA
+
+Symptom in `journalctl`:
+```
+load_tensors: CPU model buffer size = 1918.35 MiB
+llama_kv_cache: CPU KV buffer size = 448.00 MiB
+```
+
+Diagnose with:
+```bash
+id                          # check your groups
+id ollama                   # check ollama user groups
+ls -la /dev/nvidia*         # check device permissions
+sudo journalctl -u ollama -n 50 --no-pager | grep -iE "cuda|gpu|error|library"
+```
+
+**Root cause 1: your user is not in the `ollama` group** — this happens when
+`apply.sh` was run before Ollama was installed (the group did not exist yet):
+```bash
+sudo usermod -aG ollama $USER
+newgrp ollama
+```
+
+**Root cause 2: `ollama` user cannot open `/dev/nvidia*`** — check that
+`/dev/nvidia*` are owned `root:ollama` with `0660`:
+```bash
+ls -la /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm
+# Expected: crw-rw---- root ollama ...
+```
+If not, re-run `apply.sh` or set manually:
+```bash
+sudo chgrp ollama /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools
+sudo chmod 0660  /dev/nvidia0 /dev/nvidiactl /dev/nvidia-uvm /dev/nvidia-uvm-tools
+sudo systemctl restart ollama
+```
+
+**Root cause 3: Ollama was started before the NVIDIA driver loaded** — Ollama
+caches GPU detection at startup. If it started before the driver was ready
+(e.g. first boot after install), restart it:
+```bash
+sudo systemctl restart ollama
+sudo journalctl -u ollama -n 20 --no-pager | grep -iE "cuda|library"
+```
+
+**Root cause 4: CUDA libraries not found** — verify `xorg-x11-drv-nvidia-cuda`
+is installed and the libs are present:
+```bash
+sudo dnf install -y xorg-x11-drv-nvidia-cuda
+ldconfig -p | grep libcuda
+# Expected: libcuda.so.1 -> /usr/lib64/libcuda.so.1
+```
+
 ### `nvidia-smi: Insufficient Permissions`
 
-Add user to `passim` group:
+Add user to `ollama` group (Fedora assigns `/dev/nvidia*` to `root:ollama`
+via this stack's udev rules):
 ```bash
-sudo usermod -aG passim $USER
-newgrp passim
+sudo usermod -aG ollama $USER
+newgrp ollama
 ```
 
 ### `GPU: not present` after reboot
@@ -256,15 +362,6 @@ newgrp passim
 Run recovery:
 ```bash
 sudo ./reset.sh --auto
-```
-
-### Ollama uses CPU instead of CUDA
-
-`ollama` user needs `passim` group:
-```bash
-sudo usermod -aG passim ollama
-sudo systemctl restart ollama
-sudo journalctl -u ollama -n 10 --no-pager | grep library
 ```
 
 ### BAR1 = 256 MiB instead of 16 GiB
