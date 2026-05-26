@@ -44,8 +44,11 @@ if ! grep -q 'thunderbolt.host_reset=false' /proc/cmdline; then
     yellow "WARNING: 'thunderbolt.host_reset=false' is NOT in /proc/cmdline."
     yellow "The eGPU likely has BAR1=256MiB rather than 16GiB. Boot args are required."
     yellow "After this script finishes, run:"
-    yellow "  sudo grubby --update-kernel=ALL --args=\"thunderbolt.host_reset=false pci=realloc=off,pcie_bus_perf,hpmmioprefsize=128M,resource_alignment=34@0000:04:00.0 module_blacklist=nouveau rd.driver.blacklist=nouveau modprobe.blacklist=nouveau iommu=pt pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off\""
+    yellow "  sudo grubby --update-kernel=ALL --args=\"thunderbolt.host_reset=false pci=realloc pcie_bus_perf hpmmioprefsize=128M resource_alignment=34@0000:04:00.0 module_blacklist=nouveau rd.driver.blacklist=nouveau modprobe.blacklist=nouveau iommu=pt pcie_aspm.policy=performance thunderbolt.clx=0 pcie_port_pm=off\""
     yellow "Then reboot before relying on the rest of the configuration."
+    yellow "NOTE: use 'pci=realloc' (without '=off'). Using pci=realloc=off prevents"
+    yellow "BAR0 allocation for the GPU over Thunderbolt and will cause this service"
+    yellow "to fail at boot with: RTX 5060 Ti BAR0 is unassigned; refusing to load NVIDIA."
 elif ! grep -q 'iommu=pt' /proc/cmdline; then
     yellow "NOTICE: 'iommu=pt' is NOT in /proc/cmdline."
     yellow "Other boot args are present, but the IOMMU is in Translated mode rather"
@@ -324,9 +327,19 @@ for svc in "${EGPU_SERVICES_RETIRED[@]}"; do
     fi
 done
 
+# nvidia-settings-user.desktop launches the nvidia-settings GUI on login.
+# On a compute-only / headless eGPU setup this is unwanted: it tries to open
+# a display connection to the NVIDIA GPU, fails, and can delay or break the
+# GNOME session on systems where the GPU has no monitor attached.
+# Rename it to .bak so GNOME autostart ignores it. Idempotent.
 autostart=/etc/xdg/autostart/nvidia-settings-user.desktop
-if [[ -f "$autostart" ]] && ! grep -q '^X-GNOME-Autostart-enabled=false' "$autostart"; then
-    yellow "  WARNING: $autostart is not disabled; review it manually."
+if [[ -f "$autostart" ]]; then
+    mv "$autostart" "$autostart.bak"
+    printf '  disabled (renamed to .bak): %s\n' "$autostart"
+elif [[ -f "$autostart.bak" ]]; then
+    printf '  already disabled: %s.bak\n' "$autostart"
+else
+    printf '  absent (ok): %s\n' "$autostart"
 fi
 
 # ----------------------------------------------- compute-only ICD/loader disables -
@@ -368,8 +381,9 @@ if id -u "$INSTALL_USER" >/dev/null 2>&1; then
     if id -nG "$INSTALL_USER" | grep -qw ollama; then
         printf '  %s already in ollama group\n' "$INSTALL_USER"
     else
-        usermod -aG ollama "$INSTALL_USER"
-        yellow "  added $INSTALL_USER to ollama group; log out + back in to take effect"
+        usermod -aG ollama "$INSTALL_USER" 2>/dev/null && \
+            yellow "  added $INSTALL_USER to ollama group; log out + back in to take effect" || \
+            yellow "  ollama group does not exist yet (install Ollama first); skipping"
     fi
 fi
 
@@ -384,8 +398,9 @@ if id -u nvidia-persistenced >/dev/null 2>&1; then
     if id -nG nvidia-persistenced | grep -qw ollama; then
         printf '  nvidia-persistenced already in ollama group\n'
     else
-        usermod -aG ollama nvidia-persistenced
-        printf '  added nvidia-persistenced to ollama group\n'
+        usermod -aG ollama nvidia-persistenced 2>/dev/null && \
+            printf '  added nvidia-persistenced to ollama group\n' || \
+            yellow "  ollama group does not exist yet; nvidia-persistenced not added (re-run apply.sh after installing Ollama)"
     fi
 fi
 
